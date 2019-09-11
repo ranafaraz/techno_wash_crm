@@ -1,0 +1,79 @@
+<?php
+
+namespace common\models;
+
+use Yii;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use common\models\Stock;
+
+/**
+ * StockSearch represents the model behind the search form about `common\models\Stock`.
+ */
+class StockSearch extends Stock
+{
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['stock_id', 'branch_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
+            [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at'], 'safe'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params)
+    {
+        $query = Stock::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'stock_id' => $this->stock_id,
+            'branch_id' => $this->branch_id,
+            'stock_type_id' => $this->stock_type_id,
+            'purchase_invoice_id' => $this->purchase_invoice_id,
+            'manufacture_id' => $this->manufacture_id,
+            'expiry_date' => $this->expiry_date,
+            'purchase_price' => $this->purchase_price,
+            'selling_price' => $this->selling_price,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
+        ]);
+
+        $query->andFilterWhere(['like', 'barcode', $this->barcode])
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'status', $this->status]);
+
+        return $dataProvider;
+    }
+}

@@ -1,0 +1,11 @@
+.main-header{
+    background-color: #000000;
+    color: white;
+}
+.main-header a{
+    color: white;
+}
+.panel-heading{
+    background-color: #AA5397;
+    color: white;
+}
