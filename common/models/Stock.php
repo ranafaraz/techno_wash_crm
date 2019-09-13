@@ -63,8 +63,8 @@ class Stock extends \yii\db\ActiveRecord
     {
         return [
             'stock_id' => 'Stock ID',
-            'branch_id' => 'Branch ID',
-            'stock_type_id' => 'Stock Type ID',
+            'branch_id' => 'Branch Name',
+            'stock_type_id' => 'Stock Type Name',
             'purchase_invoice_id' => 'Purchase Invoice ID',
             'manufacture_id' => 'Manufacture ID',
             'barcode' => 'Barcode',

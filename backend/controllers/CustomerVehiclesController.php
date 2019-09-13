@@ -6,10 +6,12 @@ use Yii;
 use common\models\CustomerVehicles;
 use common\models\CustomerVehiclesSearch;
 use yii\web\Controller;
+use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+
 
 /**
  * CustomerVehiclesController implements the CRUD actions for CustomerVehicles model.
@@ -66,7 +68,7 @@ class CustomerVehiclesController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
-        }else{
+        }else{ 
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
@@ -99,7 +101,29 @@ class CustomerVehiclesController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->validate()){
+                $model->image = UploadedFile::getInstance($model,'image');
+
+                // checking the field
+                if(!empty($model->image)){
+                    // making the name of the image file
+                    $imageName = $model->registration_no.'_photo';
+                    // getting extension of the image file
+                    $imageExtension = $model->image->extension;
+                    // save the path of the image in backend/web/uploads 
+                    $model->image->saveAs('uploads/'.$imageName.'.'.$model->image->extension);
+                    //save the path in the db column
+                    $model->image = 'uploads/'.$imageName.'.'.$model->image->extension;
+                }
+                else {
+                   $model->image = 'uploads/'.'default-image-name.jpg'; 
+                }
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0';
+                print_r($model->image);
+                $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new CustomerVehicles",
@@ -160,7 +184,28 @@ class CustomerVehiclesController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->validate()){
+                $model->image = UploadedFile::getInstance($model,'image');
+
+                // checking the field
+                if(!empty($model->image)){
+                    // making the name of the image file
+                    $imageName = $model->registration_no.'_photo';
+                    // getting extension of the image file
+                    $imageExtension = $model->image->extension;
+                    // save the path of the image in backend/web/uploads 
+                    $model->image->saveAs('uploads/'.$imageName.'.'.$model->image->extension);
+                    //save the path in the db column
+                    $model->image = 'uploads/'.$imageName.'.'.$model->image->extension;
+                }
+                else {
+                   $model->image = 'uploads/'.'default-image-name.jpg'; 
+                }
+                $model->updated_by = Yii::$app->user->identity->id;
+                $model->updated_at = new \yii\db\Expression('NOW()');
+                $model->created_by = $model->created_by;
+                $model->created_at = $model->created_at;
+                $model->update();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "CustomerVehicles #".$id,

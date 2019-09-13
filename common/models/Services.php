@@ -18,6 +18,7 @@ use Yii;
  * @property string $updated_at
  *
  * @property SaleInvoiceServicesDetail[] $saleInvoiceServicesDetails
+ * @property Branches $branch
  */
 class Services extends \yii\db\ActiveRecord
 {
@@ -40,6 +41,7 @@ class Services extends \yii\db\ActiveRecord
             [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 200],
+            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
         ];
     }
 
@@ -50,8 +52,8 @@ class Services extends \yii\db\ActiveRecord
     {
         return [
             'services_id' => 'Services ID',
-            'branch_id' => 'Branch ID',
-            'name' => 'Name',
+            'branch_id' => 'Branch Name',
+            'name' => 'Service Name',
             'price' => 'Price',
             'description' => 'Description',
             'created_by' => 'Created By',
@@ -67,5 +69,13 @@ class Services extends \yii\db\ActiveRecord
     public function getSaleInvoiceServicesDetails()
     {
         return $this->hasMany(SaleInvoiceServicesDetail::className(), ['services_id' => 'services_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBranch()
+    {
+        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
     }
 }

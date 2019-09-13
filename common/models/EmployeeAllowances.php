@@ -50,7 +50,7 @@ class EmployeeAllowances extends \yii\db\ActiveRecord
     {
         return [
             'emp_allowance_id' => 'Emp Allowance ID',
-            'emp_id' => 'Emp ID',
+            'emp_id' => 'Employee Name',
             'allowance_type_id' => 'Allowance Type ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

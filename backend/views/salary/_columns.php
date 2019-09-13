@@ -17,6 +17,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_id',
+        'value' => 'emp.emp_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -25,6 +26,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'wage_type_id',
+        'value' => 'wageType.wage_name',        
     ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',

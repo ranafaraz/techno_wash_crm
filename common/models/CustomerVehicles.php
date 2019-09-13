@@ -57,7 +57,7 @@ class CustomerVehicles extends \yii\db\ActiveRecord
         return [
             'customer_vehicle_id' => 'Customer Vehicle ID',
             'customer_id' => 'Customer Name',
-            'vehicle_typ_sub_id' => 'Vehicle Typ Sub Name',
+            'vehicle_typ_sub_id' => 'Vehicle Sub Type Name',
             'registration_no' => 'Registration No',
             'color' => 'Color',
             'image' => 'Image',
@@ -74,7 +74,7 @@ class CustomerVehicles extends \yii\db\ActiveRecord
     public function getCustomer()
     {
         return $this->hasOne(Customer::className(), ['customer_id' => 'customer_id']);
-    }
+    } 
 
     /**
      * @return \yii\db\ActiveQuery
