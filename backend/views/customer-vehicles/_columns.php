@@ -10,17 +10,19 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'customer_vehicle_id',
-    ],
+    //     [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'customer_vehicle_id',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'customer_id',
+        'value'=>'customer.customer_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'vehicle_typ_sub_id',
+        'value'=>'vehicle_typ_sub_category.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

@@ -44,7 +44,7 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'customer_name', 'customer_gender', 'customer_cnic', 'customer_address', 'customer_contact_no', 'customer_registration_date', 'customer_age', 'customer_email', 'customer_image', 'customer_occupation', 'created_by', 'updated_by'], 'required'],
+            [['branch_id', 'customer_name', 'customer_gender', 'customer_cnic', 'customer_address', 'customer_contact_no', 'customer_registration_date', 'customer_age', 'customer_email', 'customer_image', 'customer_occupation'], 'required'],
             [['branch_id', 'customer_contact_no', 'customer_age', 'created_by', 'updated_by'], 'integer'],
             [['customer_gender'], 'string'],
             [['customer_registration_date', 'created_at', 'updated_at'], 'safe'],
@@ -61,7 +61,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             'customer_id' => 'Customer ID',
-            'branch_id' => 'Branch ID',
+            'branch_id' => 'Branch Name',
             'customer_name' => 'Customer Name',
             'customer_gender' => 'Customer Gender',
             'customer_cnic' => 'Customer Cnic',

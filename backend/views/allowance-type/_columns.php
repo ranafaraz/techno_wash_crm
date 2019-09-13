@@ -10,13 +10,14 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'allowance_type_id',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'allowance_type_id',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'branch_id',
+        'attribute'=>'branch_id',        
+        'value'=>'branch.branch_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -34,13 +35,13 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'updated_at',
     // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'created_by',
-    ],
     // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_by',
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'created_by',
+    // ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'updated_by',
     // ],
     [
         'class' => 'kartik\grid\ActionColumn',

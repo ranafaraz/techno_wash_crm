@@ -50,7 +50,7 @@ class AllowanceType extends \yii\db\ActiveRecord
     {
         return [
             'allowance_type_id' => 'Allowance Type ID',
-            'branch_id' => 'Branch ID',
+            'branch_id' => 'Branch Name',
             'allowance_name' => 'Allowance Name',
             'amount' => 'Amount',
             'created_at' => 'Created At',

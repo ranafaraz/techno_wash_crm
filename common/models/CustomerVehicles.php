@@ -56,8 +56,8 @@ class CustomerVehicles extends \yii\db\ActiveRecord
     {
         return [
             'customer_vehicle_id' => 'Customer Vehicle ID',
-            'customer_id' => 'Customer ID',
-            'vehicle_typ_sub_id' => 'Vehicle Typ Sub ID',
+            'customer_id' => 'Customer Name',
+            'vehicle_typ_sub_id' => 'Vehicle Typ Sub Name',
             'registration_no' => 'Registration No',
             'color' => 'Color',
             'image' => 'Image',

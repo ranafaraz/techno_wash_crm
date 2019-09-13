@@ -1,6 +1,11 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Branches;
+use common\models\EmployeeTypes;
+use yii\helpers\ArrayHelper;
+use kartik\select2\Select2;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Employee */
@@ -9,45 +14,126 @@ use yii\widgets\ActiveForm;
 
 <div class="employee-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'emp_type_id')->textInput() ?>
+    <div class="row">
+        <div class="col-md-4">
 
-    <?= $form->field($model, 'branch_id')->textInput() ?>
+    <?=$form->field($model, 'branch_id')->widget(Select2::classname(), [
+    'data' => ArrayHelper::map(Branches::find()->all(), 'branch_id', 'branch_name'),
+    'language' => 'en',
+    'options' => ['placeholder' => '<--- Select Branch --->'],
+    'pluginOptions' => [
+        'allowClear' => true,
+    ],
+    ]);?>
 
-    <?= $form->field($model, 'salary_id')->textInput() ?>
+    </div>
+        <div class="col-md-4">
+    <?=$form->field($model, 'emp_type_id')->widget(Select2::classname(), [
+    'data' => ArrayHelper::map(EmployeeTypes::find()->all(), 'emp_type_id', 'emp_type_name'),
+    'language' => 'en',
+    'options' => ['placeholder' => '<--- Select Branch --->'],
+    'pluginOptions' => [
+        'allowClear' => true,
+    ],
+    ]);?>
+    </div>
+        <div class="col-md-4">            
 
-    <?= $form->field($model, 'emp_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'emp_name')->textInput(['maxlength' => true]) ?> 
+    </div>
+    </div>
+    <!-- row 1 close -->
 
-    <?= $form->field($model, 'emp_cnic')->textInput(['maxlength' => true]) ?>
-
+    <div class="row">
+        <div class="col-md-4">
+    
     <?= $form->field($model, 'emp_father_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'emp_contact')->textInput() ?>
+    </div>
+        <div class="col-md-4">
+
+    <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
+
+    </div>
+        <div class="col-md-4">
+    
+    <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
+    
+    </div>
+    </div>
+    <!-- row 2 close -->
+
+    <div class="row">
+        <div class="col-md-4">
 
     <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true]) ?>
+    
 
-    <?= $form->field($model, 'emp_image')->textInput(['maxlength' => true]) ?>
+    </div>
+        <div class="col-md-4">
 
+    <?= $form->field($model, 'emp_image')->fileInput(['maxlength' => true]) ?>
+
+    </div>
+        <div class="col-md-4">
+    
     <?= $form->field($model, 'emp_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
 
+    </div>
+    </div>
+    <!-- row 3 close -->
+
+    <div class="row">
+        <div class="col-md-4">
     <?= $form->field($model, 'emp_qualification')->textInput(['maxlength' => true]) ?>
 
+
+    </div>
+        <div class="col-md-4">
     <?= $form->field($model, 'emp_reference')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'joining_date')->textInput() ?>
+    </div>
+        <div class="col-md-4">
+    
+    <?php  
+    echo '<label>Employee Joining Date</label>';
+    echo DatePicker::widget([
+    'model' => $model, 
+    'attribute' => 'joining_date',
+    'options' => ['placeholder' => 'Select Joining date ...'],
+    'pluginOptions' => [
+        'autoclose'=>true
+    ]
+    ]);
+    ?>
 
-    <?= $form->field($model, 'learning_date')->textInput() ?>
+     </div>
+    </div>
+    <!-- row 4 close -->
+
+    <div class="row">
+        <div class="col-md-4">
+    
+    <?php  
+    echo '<label>Employee Learning Date</label>';
+    echo DatePicker::widget([
+    'model' => $model, 
+    'attribute' => 'learning_date',
+    'options' => ['placeholder' => 'Select Learning date ...'],
+    'pluginOptions' => [
+        'autoclose'=>true
+    ]
+    ]);
+    ?>
+    </div>
+        <div class="col-md-4">
 
     <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ], ['prompt' => '']) ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+        </div>
+    </div>
+    <!-- row 5 close -->
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

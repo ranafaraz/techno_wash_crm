@@ -1,6 +1,11 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Branches;
+use yii\helpers\ArrayHelper;
+use kartik\select2\Select2;
+use kartik\date\DatePicker;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Customer */
@@ -9,37 +14,87 @@ use yii\widgets\ActiveForm;
 
 <div class="customer-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'branch_id')->textInput() ?>
+    <div class="row">
+        <div class="col-md-4">
+
+    <?=$form->field($model, 'branch_id')->widget(Select2::classname(), [
+    'data' => ArrayHelper::map(Branches::find()->all(), 'branch_id', 'branch_name'),
+    'language' => 'en',
+    'options' => ['placeholder' => '<--- Select Branch --->'],
+    'pluginOptions' => [
+        'allowClear' => true,
+    ],
+    ]);?>
+
+    </div>
+        <div class="col-md-4">
 
     <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
+    </div>
+        <div class="col-md-4">
 
-    <?= $form->field($model, 'customer_cnic')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
+    </div>
+    </div>
+    <!-- row 1 close -->
+
+    <div class="row">
+        <div class="col-md-4">
+
+    <?= $form->field($model, 'customer_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
+    </div>
+        <div class="col-md-4">
 
     <?= $form->field($model, 'customer_address')->textInput(['maxlength' => true]) ?>
+    </div>
+        <div class="col-md-4">
 
-    <?= $form->field($model, 'customer_contact_no')->textInput() ?>
+    <?= $form->field($model, 'customer_contact_no')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
 
-    <?= $form->field($model, 'customer_registration_date')->textInput() ?>
+    </div>
+    </div>
+    <!-- row 2 close -->
+
+    <div class="row">
+        <div class="col-md-4">
+    <?php  
+    echo '<label>Customter Registration Date</label>';
+    echo DatePicker::widget([
+    'model' => $model, 
+    'attribute' => 'customer_registration_date',
+    'options' => ['placeholder' => 'Select Registration date ...'],
+    'pluginOptions' => [
+        'autoclose'=>true
+    ]
+    ]);
+    ?>
+    </div>
+        <div class="col-md-4">
 
     <?= $form->field($model, 'customer_age')->textInput() ?>
+    
+    </div>
+        <div class="col-md-4">
 
     <?= $form->field($model, 'customer_email')->textInput(['maxlength' => true]) ?>
+    </div>
+    </div>
+    <!-- row 3 close -->
 
-    <?= $form->field($model, 'customer_image')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-md-4">
+
+    <?= $form->field($model, 'customer_image')->fileInput(['maxlength' => true]) ?>
+    </div>
+        <div class="col-md-4">
 
     <?= $form->field($model, 'customer_occupation')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    </div>
+</div>
+  <!-- row 4 close -->
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

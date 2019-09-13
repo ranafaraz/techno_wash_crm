@@ -11,8 +11,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'customer_id')->textInput() ?>
-
     <?= $form->field($model, 'vehicle_typ_sub_id')->textInput() ?>
 
     <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true]) ?>
@@ -20,14 +18,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

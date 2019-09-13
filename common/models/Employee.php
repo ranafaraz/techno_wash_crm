@@ -71,9 +71,9 @@ class Employee extends \yii\db\ActiveRecord
     {
         return [
             'emp_id' => 'Emp ID',
-            'emp_type_id' => 'Emp Type ID',
-            'branch_id' => 'Branch ID',
-            'salary_id' => 'Salary ID',
+            'emp_type_id' => 'Emp Type Name',
+            'branch_id' => 'Branch Name',
+            'salary_id' => 'Salary',
             'emp_name' => 'Emp Name',
             'emp_cnic' => 'Emp Cnic',
             'emp_father_name' => 'Emp Father Name',

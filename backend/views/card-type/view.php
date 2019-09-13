@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'card_type_id',
+            //'card_type_id',
             'card_name',
             'card_description:ntext',
             'card_price',

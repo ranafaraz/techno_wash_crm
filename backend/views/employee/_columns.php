@@ -10,30 +10,34 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'emp_id',
-    ],
+    //     [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'emp_id',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_type_id',
+        'value' => 'emp_type.emp_type_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'branch_id',
+        'value' => 'branch.branch_name',
+
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'salary_id',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'salary_id',
+
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_name',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'emp_cnic',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'emp_cnic',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'emp_father_name',
