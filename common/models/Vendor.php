@@ -34,9 +34,9 @@ class Vendor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'name', 'ntn', 'created_by', 'updated_by'], 'required'],
+            [['branch_id', 'name', 'ntn'], 'required'],
             [['branch_id', 'ntn', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['name'], 'string', 'max' => 100],
         ];
     }

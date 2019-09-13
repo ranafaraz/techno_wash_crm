@@ -36,9 +36,9 @@ class StockIssue extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_id', 'stock_id', 'stock_issue_date', 'description', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'stock_id', 'stock_issue_date', 'description'], 'required'],
             [['emp_id', 'stock_id', 'created_by', 'updated_by'], 'integer'],
-            [['stock_issue_date', 'created_at', 'updated_at'], 'safe'],
+            [['stock_issue_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['description'], 'string', 'max' => 200],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
             [['stock_id'], 'exist', 'skipOnError' => true, 'targetClass' => Stock::className(), 'targetAttribute' => ['stock_id' => 'stock_id']],
