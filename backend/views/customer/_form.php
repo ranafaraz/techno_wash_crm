@@ -3,8 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Branches;
 use yii\helpers\ArrayHelper;
-use kartik\date\DatePicker;
-//use kartik\datetime\DateTimePicker;
+use dosamigos\datetimepicker\DateTimePicker;
 
 
 /* @var $this yii\web\View */
@@ -17,71 +16,52 @@ use kartik\date\DatePicker;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
 
+            <label>Customter Registration Date</label>
+                <?= DateTimePicker::widget([
+                'model' => $model,
+                'attribute' => 'customer_registration_date',
+                'language' => 'en',
+                'size' => 'ms',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'convertFormat' => false,                    
+                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'todayBtn' => true
+                ]
+            ]);?>
+
+
+    </div>
+        <div class="col-md-6">
     <?= $form->field($model, 'branch_id')->dropDownList(
                 ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
                 ['prompt'=>'Select Branch',]
                 )?>
 
     </div>
+</div>
+<!-- row 1 close -->
+<div class="row">
         <div class="col-md-4">
-
     <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true]) ?>
 
     </div>
         <div class="col-md-4">
-
     <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
+    
     </div>
-    </div>
-    <!-- row 1 close -->
-
-    <div class="row">
         <div class="col-md-4">
-
     <?= $form->field($model, 'customer_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
-    </div>
-        <div class="col-md-4">
-
-    <?= $form->field($model, 'customer_address')->textInput(['maxlength' => true]) ?>
-    </div>
-        <div class="col-md-4">
-
-    <?= $form->field($model, 'customer_contact_no')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
-
+    
     </div>
     </div>
     <!-- row 2 close -->
-
     <div class="row">
         <div class="col-md-4">
-    <?php 
-    echo '<label>Customter Registration Date</label>'; 
-    echo DatePicker::widget([
-    'model' => $model, 
-    'attribute' => 'customer_registration_date',
-    'options' => ['placeholder' => 'Select date ...'],
-    'pluginOptions' => [
-        'format' => '20yy-m-d',
-        'autoclose'=>true
-    ]
-    ]);
-
-    // echo '<label>Customter Registration Date</label>';
-    // echo DateTimePicker::widget([
-    // 'model' => $model, 
-    // 'name' => 'customer_registration_date',
-    // 'options' => ['placeholder' => 'Select time'],
-    // 'convertFormat' => true,
-    // 'pluginOptions' => [
-    //     'format' => 'd-M-Y g:i A',
-    //     'startDate' => '01-Mar-2014 12:00 AM',
-    //     'todayHighlight' => true
-    // ]
-    // ]);
-
-    ?>
+    <?= $form->field($model, 'customer_contact_no')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>      
+    
     </div>
         <div class="col-md-4">
 
@@ -96,6 +76,11 @@ use kartik\date\DatePicker;
     <!-- row 3 close -->
 
     <div class="row">
+        <div class="col-md-4">
+
+    <?= $form->field($model, 'customer_address')->textInput(['maxlength' => true]) ?>  
+
+    </div>
         <div class="col-md-4">
 
     <?= $form->field($model, 'customer_image')->fileInput(['maxlength' => true]) ?>
