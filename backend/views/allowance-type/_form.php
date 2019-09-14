@@ -14,15 +14,10 @@ use kartik\select2\Select2;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?=$form->field($model, 'branch_id')->widget(Select2::classname(), [
-	'data' => ArrayHelper::map(Branches::find()->all(), 'branch_id', 'branch_name'),
-	'language' => 'en',
-	'options' => ['placeholder' => '<--- Select Branch --->'],
-	'pluginOptions' => [
-		'allowClear' => true,
-	],
-    ]);?>
-
+    <?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+                )?>
     <?= $form->field($model, 'allowance_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'amount')->textInput() ?>

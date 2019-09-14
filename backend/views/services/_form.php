@@ -3,7 +3,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Branches;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Services */
@@ -16,15 +15,10 @@ use kartik\select2\Select2;
 
     <div class="row">
         <div class="col-md-6">
-
-    <?=$form->field($model, 'branch_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(Branches::find()->all(), 'branch_id', 'branch_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Branch --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+                )?>
 
     </div>
         <div class="col-md-6">

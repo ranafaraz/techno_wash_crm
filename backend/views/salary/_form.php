@@ -5,7 +5,6 @@ use common\models\Employee;
 use common\models\EmployeeAllowances;
 use common\models\WageType;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Salary */
@@ -15,32 +14,21 @@ use kartik\select2\Select2;
 <div class="salary-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <?=$form->field($model, 'emp_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(Employee::find()->all(), 'emp_id', 'emp_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Employee --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
 
-    <?=$form->field($model, 'emp_allowance_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(EmployeeAllowances::find()->all(), 'emp_allowance_id', 'emp_allowance_id'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Emp Allowance --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'emp_id')->dropDownList(
+                ArrayHelper::map(Employee::find()->all(),'emp_id','emp_name'),
+                ['prompt'=>'Select Employee',]
+                )?>
 
-    <?=$form->field($model, 'wage_type_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(WageType::find()->all(), 'wage_type_id', 'wage_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Wage --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'emp_allowance_id')->dropDownList(
+                ArrayHelper::map(EmployeeAllowances::find()->all(),'emp_allowance_id','emp_allowance_id'),
+                ['prompt'=>'Select Emp Allowance',]
+                )?>
+
+        <?= $form->field($model, 'wage_type_id')->dropDownList(
+                ArrayHelper::map(WageType::find()->all(),'wage_type_id','wage_name'),
+                ['prompt'=>'Select Wage',]
+                )?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

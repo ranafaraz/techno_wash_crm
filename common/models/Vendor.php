@@ -67,12 +67,4 @@ class Vendor extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBranch()
-    {
-        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
-    }
 }

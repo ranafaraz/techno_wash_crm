@@ -5,7 +5,6 @@ use common\models\Customer;
 use common\models\CustomerVehicles;
 use common\models\CardType;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2;
 use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
@@ -20,38 +19,26 @@ use kartik\date\DatePicker;
     <div class="row">
         <div class="col-md-4">
 
-    <?=$form->field($model, 'card_type_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(CardType::find()->all(), 'card_type_id', 'card_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Card --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'card_type_id')->dropDownList(
+                ArrayHelper::map(CardType::find()->all(),'card_type_id','card_name'),
+                ['prompt'=>'Select Card Type',]
+                )?>
 
     </div>
         <div class="col-md-4">
 
-    <?=$form->field($model, 'customer_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(Customer::find()->all(), 'customer_id', 'customer_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Card --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'customer_id')->dropDownList(
+                ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),
+                ['prompt'=>'Select Customer',]
+                )?>
 
     </div>
         <div class="col-md-4">
 
-    <?=$form->field($model, 'customer_vehicle_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(CustomerVehicles::find()->all(), 'customer_vehicle_id', 'customer_vehicle_id'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Card --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'customer_vehicle_id')->dropDownList(
+                ArrayHelper::map(CustomerVehicles::find()->all(),'customer_vehicle_id','customer_vehicle_id'),
+                ['prompt'=>'Select Customer Vehicle',]
+                )?>
 
     </div>
     </div>

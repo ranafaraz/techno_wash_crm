@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\VehicleTypeSubCategory;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2;
+use common\models\Customer;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\CustomerVehicles */
@@ -14,17 +14,18 @@ use kartik\select2\Select2;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
+    <?= $form->field($model, 'customer_id')->dropDownList(
+                ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),
+                ['prompt'=>'Select Customer',]
+                )?>
+
     <div class="row">
         <div class="col-md-6">
 
-    <?=$form->field($model, 'vehicle_typ_sub_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(VehicleTypeSubCategory::find()->all(), 'vehicle_typ_sub_id', 'name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select vehicle sub type --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+        <?= $form->field($model, 'vehicle_typ_sub_id')->dropDownList(
+                ArrayHelper::map(VehicleTypeSubCategory::find()->all(),'vehicle_typ_sub_id','name'),
+                ['prompt'=>'Select Vehicle Sub Type',]
+                )?>
 
     </div>
         <div class="col-md-6">
