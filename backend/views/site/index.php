@@ -10,80 +10,61 @@ use yii\helpers\Url;
 <div class="site-index">
     <!-- Main content -->
     <section class="content">
-      <!-- Small boxes (Stat box) -->
-      <div class="row">
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-aqua">
-            <div class="inner">
-             
-              <h3>150</h3>
 
-              <p>Today's Visitors</p>
+      <div class="row">
+        <div class="col-md-3">
+          <a href="./customer">
+            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px">
+                <p><i class="glyphicon glyphicon-user"></i> Today's Visitors</p><br>
+                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">25</b>
+              </div>
             </div>
-            <div class="icon">
-              <i class="fa fa-users"></i>
-            </div>
-            <a href="./std-personal-info" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
+          </a>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-green">
-            <div class="inner">
-              
-              <h3>27,500</h3>
-              <p>Today's Sale</p>
+        <div class="col-md-3">
+          <a href="./customer">
+            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px">
+                <p><i class="glyphicon glyphicon-user"></i> Today's Expenses</p><br>
+                <b style="background-color:#DD4B39;color:white;padding:10px;border-radius: 20px;">5000</b>
+              </div>
             </div>
-            <div class="icon">
-              <i class="fa fa-calculator"></i>
-            </div>
-            <a href="./emp-info" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
+          </a>
         </div>
-        <!-- ./col -->
-        
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner">
-              
-              <h3>2500</h3>
-              <p>Today's Expense</p>
+        <div class="col-md-3">
+          <a href="./customer">
+            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px">
+                <p><i class="glyphicon glyphicon-user"></i> Today's Income</p><br>
+                <b style="background-color:#00C0EF;color:white;padding:10px;border-radius: 20px;">15000</b>
+              </div>
             </div>
-            <div class="icon">
-              <i class="fa fa-money" style="font-size: 70px;"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
+          </a>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-yellow">
-            <div class="inner">
-             
-              <h3>25,000</h3>
-              <p>Today's Profit</p>
+        <div class="col-md-3">
+          <a href="./customer">
+            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px">
+                <p><i class="fa fa-money"></i> Today's Profit</p><br>
+                <b style="background-color:#00A65A;color:white;padding:10px;border-radius: 20px;">10000</b>
+              </div>
             </div>
-            <div class="icon">
-              <i class="fa fa-bar-chart"></i>
-            </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
+          </a>
         </div>
       </div>
+      <!-- Small boxes (Stat box) -->
+      
       <!-- /.row -->
 
       <!-- Message of the day start -->
       <div class="row">
         <div class="col-md-12 col-sm-6 col-xs-12">
-          <div class="info-box bg-navy callout-warning">
+          <div class="info-box callout-warning" style="border-left:4px solid #FAB61C;border-right:4px solid #FAB61C;border-top-right-radius:20px;
+          border-bottom-right-radius:20px;">
             <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
             <div class="info-box-content">
-              <h4 style="float: left;">Message of the day!</h4>  
+              <h4 style="float: left;color:#FAB61C;">Message of the day!</h4>  
               <h4 style="float:right">
                 <span id="hr"></span>
                 <span id="min"></span>

@@ -18,8 +18,8 @@ class CustomerSearch extends Customer
     public function rules()
     {
         return [
-            [['customer_id', 'branch_id', 'customer_age', 'created_by', 'updated_by'], 'integer'],
-            [['customer_name', 'customer_gender', 'customer_cnic', 'customer_address', 'customer_contact_no', 'customer_registration_date', 'customer_email', 'customer_image', 'customer_occupation', 'updated_at', 'created_at'], 'safe'],
+            [['customer_id', 'customer_age', 'created_by', 'updated_by'], 'integer'],
+            [['customer_name', 'customer_gender', 'customer_cnic', 'customer_address', 'customer_contact_no', 'customer_registration_date', 'customer_email', 'customer_image', 'customer_occupation', 'updated_at', 'created_at', 'branch_id'], 'safe'],
         ];
     }
 
@@ -55,9 +55,11 @@ class CustomerSearch extends Customer
             return $dataProvider;
         }
 
+        $query->joinWith('branch');
+
         $query->andFilterWhere([
             'customer_id' => $this->customer_id,
-            'branch_id' => $this->branch_id,
+            //'branch_id' => $this->branch_id,
             'customer_registration_date' => $this->customer_registration_date,
             'customer_age' => $this->customer_age,
             'created_by' => $this->created_by,
@@ -73,7 +75,8 @@ class CustomerSearch extends Customer
             ->andFilterWhere(['like', 'customer_contact_no', $this->customer_contact_no])
             ->andFilterWhere(['like', 'customer_email', $this->customer_email])
             ->andFilterWhere(['like', 'customer_image', $this->customer_image])
-            ->andFilterWhere(['like', 'customer_occupation', $this->customer_occupation]);
+            ->andFilterWhere(['like', 'customer_occupation', $this->customer_occupation])
+             ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);
 
         return $dataProvider;
     }

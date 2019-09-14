@@ -101,6 +101,8 @@ class CustomerController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->validate()){
+
+                
                 $model->customer_image = UploadedFile::getInstance($model,'customer_image');
 
                 // checking the field
@@ -130,7 +132,8 @@ class CustomerController extends Controller
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
-            }else{           
+            } // closing of else if
+            else{           
                 return [
                     'title'=> "Create new Customer",
                     'content'=>$this->renderAjax('create', [
