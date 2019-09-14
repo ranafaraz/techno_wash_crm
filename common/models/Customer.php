@@ -53,6 +53,7 @@ class Customer extends \yii\db\ActiveRecord
             [['customer_cnic', 'customer_contact_no'], 'string', 'max' => 15],
             [['customer_address', 'customer_email', 'customer_image', 'customer_occupation'], 'string', 'max' => 255],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
+            [['customer_image'],'file','extensions' => 'png'],
         ];
     }
 

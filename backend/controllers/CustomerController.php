@@ -11,6 +11,9 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
+use common\models\CustomerVehicles;
+use backend\models\Model;
+
 
 /**
  * CustomerController implements the CRUD actions for Customer model.
@@ -83,7 +86,8 @@ class CustomerController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Customer();  
+        $model = new Customer();
+         $modelCustomerVehicles = [new CustomerVehicles];  
 
         if($request->isAjax){
             /*
@@ -92,18 +96,21 @@ class CustomerController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Customer",
+                    'title'=> "",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                         'modelCustomerVehicles'=>(empty($modelCustomerVehicles)) ? [new CustomerVehicles] : $modelCustomerVehicles,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
+            }else if($model->load($request->post())){
 
-                
-                $model->customer_image = UploadedFile::getInstance($model,'customer_image');
+                    $modelCustomerVehicles = Model::createMultiple(CustomerVehicles::classname()); 
+                    Model::loadMultiple($modelCustomerVehicles, Yii::$app->request->post()); 
+
+                    $model->customer_image = UploadedFile::getInstance($model,'customer_image');
 
                 // checking the field
                 if(!empty($model->customer_image)){
@@ -117,13 +124,62 @@ class CustomerController extends Controller
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
                 }
                 else {
-                   $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
+                    $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
                 }
-                $model->created_by = Yii::$app->user->identity->id; 
-                $model->created_at = new \yii\db\Expression('NOW()');
-                $model->updated_by = '0';
-                $model->updated_at = '0'; 
-                $model->save();
+                    $model->created_by = Yii::$app->user->identity->id; 
+                    $model->created_at = new \yii\db\Expression('NOW()');
+                    $model->updated_by = '0';
+                    $model->updated_at = '0';
+
+                    // validate all models
+                    $valid = $model->validate();
+                    $valid = Model::validateMultiple($modelCustomerVehicles) && $valid;
+                    
+                    if ($valid) {
+                        $transaction = \Yii::$app->db->beginTransaction();
+                        try {
+                            if ($flag = $model->save(false)) {
+                                foreach ($modelCustomerVehicles as $value) {
+                                    $value->image = UploadedFile::getInstance($value,'image');
+
+                                    // checking the field
+                                    if(!empty($value->image)){
+                                        // making the name of the image file
+                                        $imageName = $value->registration_no.'_photo';
+                                        // getting extension of the image file
+                                        $imageExtension = $value->image->extension;
+                                        // save the path of the image in backend/web/uploads 
+                                        $value->image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
+                                        //save the path in the db column
+                                        $value->image = 'uploads/'.$imageName.'.'.$imageExtension;
+                                    }
+                                    else {
+                                        $value->image = 'uploads/'.'default.png'; 
+                                    }
+
+                                    $value->customer_id = $model->customer_id;
+                                    $value->created_at = new \yii\db\Expression('NOW()');
+                                    $value->created_by = Yii::$app->user->identity->id; 
+                                    $value->updated_by = '0';
+                                    $value->updated_at = '0';    
+
+                                    if (! ($flag = $value->save(false))) {
+                                        $transaction->rollBack();
+                                        break;
+                                    }
+                                } // modelCustomerVehicles foreach end
+                            } // closing of if model
+                            
+                            if ($flag) {
+                                $transaction->commit();
+                                //return $this->redirect(['index']);
+                            }
+                        } catch (Exception $e) {
+                            $transaction->rollBack();
+                            echo $e;
+                        }
+                  
+                    }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new Customer",
