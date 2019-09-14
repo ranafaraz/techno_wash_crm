@@ -4,6 +4,8 @@ use yii\widgets\ActiveForm;
 use common\models\Branches;
 use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;
+use wbraganca\dynamicform\DynamicFormWidget;
+use common\models\VehicleTypeSubCategory;
 //use kartik\datetime\DateTimePicker;
 
 
@@ -11,10 +13,17 @@ use kartik\date\DatePicker;
 /* @var $model common\models\Customer */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Customer</h2>
+        </div>
+</div>
 <div class="customer-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(
+        ['options' => ['enctype' => 'multipart/form-data','id' => 'dynamic-form']]
+
+    ); ?>
 
     <div class="row">
         <div class="col-md-4">
@@ -106,6 +115,72 @@ use kartik\date\DatePicker;
     </div>
 </div>
   <!-- row 4 close -->
+
+
+  <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4><i class="glyphicon glyphicon-envelope"></i> Customer Vehicle</h4></div>
+            <div class="panel-body">
+            <?php DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items', // required: css class selector
+                'widgetItem' => '.item', // required: css class
+                'limit' => 22, // the maximum times, an element can be cloned (default 999)
+                'min' => 1, // 0 or 1 (default 1)
+                'insertButton' => '.add-item', // css class
+                'deleteButton' => '.remove-item', // css class
+                'model' => $modelCustomerVehicles[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'vehicle_typ_sub_id',  
+                    'registration_no',
+                    'color',
+                    'image',
+                ],
+            ]); ?>
+
+            <div class="container-items"><!-- widgetContainer -->
+            <?php foreach ($modelCustomerVehicles as $i => $value): ?>
+                <div class="item panel panel-warning"><!-- widgetBody -->
+                    <div class="panel-heading">
+                        <h3 class="panel-title pull-left"> Customer Vehicle</h3>
+                        <div class="pull-right">
+                            <button type="button" class="add-item btn btn-success btn-xs"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                        <?php
+                            // necessary for update action.
+                            
+                        ?>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                 <?= $form->field($value, "[{$i}]vehicle_typ_sub_id")->dropDownList(
+                                    ArrayHelper::map(VehicleTypeSubCategory::find()->all(),'vehicle_typ_sub_id','name'),
+                                        ['prompt'=>'Vehivle Type Category']
+                                )?>
+                            </div>
+                            <div class="col-sm-3">
+                                <?= $form->field($value, "[{$i}]registration_no")->textInput() ?>
+                            </div>
+                            <div class="col-sm-3">
+                                <?= $form->field($value, "[{$i}]color")->textInput() ?>
+                            </div>
+                            <div class="col-sm-3">
+                                <?= $form->field($value, "[{$i}]image")->fileInput() ?>
+                            </div>
+                        </div><!-- .row -->
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            </div>
+            <?php DynamicFormWidget::end(); ?>
+            </div>
+        </div>  
+    </div>
+    <!-- fuel consumption dynamic form close -->
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
