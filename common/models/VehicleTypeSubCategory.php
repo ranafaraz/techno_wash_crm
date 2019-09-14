@@ -35,6 +35,7 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
             [['vehicle_type_id', 'name', 'manufacture'], 'required'],
             [['vehicle_type_id', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
@@ -51,7 +52,7 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
     {
         return [
             'vehicle_typ_sub_id' => 'Vehicle Typ Sub ID',
-            'vehicle_type_id' => 'Vehicle Type ID',
+            'vehicle_type_id' => 'Vehicle Type Name',
             'name' => 'Name',
             'manufacture' => 'Manufacture',
             'created_at' => 'Created At',

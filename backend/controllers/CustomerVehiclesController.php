@@ -93,7 +93,7 @@ class CustomerVehiclesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new CustomerVehicles",
+                    'title'=> "",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -122,7 +122,6 @@ class CustomerVehiclesController extends Controller
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0';
-                print_r($model->image);
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',

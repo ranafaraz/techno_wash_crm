@@ -9,14 +9,22 @@
     .main-sidebar{
         color: #ECF0F5;
         background-color: #FAB61C;
+        font-family:verdana;
     }
     .main-sidebar a{
         color:  #000000;
+
     }
     .sidebar a:hover{
         font-weight: bold;
         background-color: #000000;
         color: #ffffff;
+    }
+    #user-name{
+        color:green;
+    }
+    #user-name:hover{
+        color:red;
     }
 </style>
 <aside class="main-sidebar">
@@ -24,16 +32,24 @@
     <section class="sidebar" style="overflow-y: visible; ">
 
         <!-- Sidebar user panel -->
-        <div class="user-panel">
+        <div class="user-panel" style="margin-bottom:10px;">
             <div class="pull-left image">
                 <img src="<?php echo '../backend/web/'.$userPhoto; ?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p style="color:black;">
-                    <?= Yii::$app->user->identity->username ?>
+                <p id="user-name">
+                    <?php 
+                    $name = Yii::$app->user->identity->username;
+                    if ($name = 'developer') {
+                        echo "Developer";
+                    }
+
+
+
+                     ?>
                     <!--  -->
                 </p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <p id="user-name" ><i class="fa fa-circle text-success"></i> Online</p>
             </div>
         </div>
         <!-- search form -->
@@ -56,7 +72,7 @@
                     // ['label' => 'Menus', 'options' => ['class' => 'header center']],
                      ['label' => 'Home', 'icon' => 'dashboard', 'url' => "./home"],
                      ['label' => 'Customer', 'icon' => 'arrow-right', 'url' => "./customer"],
-                     ['label' => 'Customer Vehicles', 'icon' => 'arrow-right', 'url' => "./customer-vehicles"],
+                     //['label' => 'Customer Vehicles', 'icon' => 'arrow-right', 'url' => "./customer-vehicles"],
                      [
                         'label' => 'Employee',
                         'icon' => 'arrow-right',

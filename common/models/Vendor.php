@@ -16,7 +16,6 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property PurchaseInvoice[] $purchaseInvoices
  * @property Branches $branch
  */
 class Vendor extends \yii\db\ActiveRecord
@@ -35,6 +34,7 @@ class Vendor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
             [['branch_id', 'name', 'ntn'], 'required'],
             [['branch_id', 'ntn', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
@@ -58,14 +58,6 @@ class Vendor extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPurchaseInvoices()
-    {
-        return $this->hasMany(PurchaseInvoice::className(), ['vendor_id' => 'vendor_id']);
     }
 
     /**

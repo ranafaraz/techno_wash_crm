@@ -38,12 +38,13 @@ class CustomerVehicles extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'vehicle_typ_sub_id', 'registration_no', 'color'], 'required'],
+            [['vehicle_typ_sub_id', 'registration_no', 'color'], 'required'],
             [['customer_id', 'vehicle_typ_sub_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by','image','customer_id'], 'safe'],
             [['registration_no'], 'string', 'max' => 20],
             [['color'], 'string', 'max' => 10],
             [['image'], 'string', 'max' => 200],
+            [['image'],'image', 'extensions' => 'png'],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'customer_id']],
             [['vehicle_typ_sub_id'], 'exist', 'skipOnError' => true, 'targetClass' => VehicleTypeSubCategory::className(), 'targetAttribute' => ['vehicle_typ_sub_id' => 'vehicle_typ_sub_id']],
         ];

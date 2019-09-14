@@ -38,7 +38,7 @@ CrudAsset::register($this);
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-                'type' => 'primary', 
+                'type' => 'default', 
                 'heading' => '<i class="glyphicon glyphicon-list"></i> Vehicle Types listing',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([

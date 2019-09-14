@@ -6,18 +6,40 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\CardType */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="card-type-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Card</h2>
+        </div>
+</div>
+<div class="card-type-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'card_name')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-md-4">
 
-    <?= $form->field($model, 'card_description')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'card_name')->textInput(['maxlength' => true]) ?>
+            
+        </div>
+        <div class="col-md-4">
 
-    <?= $form->field($model, 'card_price')->textInput() ?>
+           <?= $form->field($model, 'card_price')->textInput() ?> 
 
-    <?= $form->field($model, 'card_services')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
+
+            <?= $form->field($model, 'card_services')->textInput(['maxlength' => true]) ?>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <?= $form->field($model, 'card_description')->textarea(['rows' => 6]) ?>
+
+        </div>
+        
+    </div>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

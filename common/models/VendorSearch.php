@@ -18,8 +18,8 @@ class VendorSearch extends Vendor
     public function rules()
     {
         return [
-            [['vendor_id', 'branch_id', 'ntn', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'created_at', 'updated_at'], 'safe'],
+            [['vendor_id', 'ntn', 'created_by', 'updated_by'], 'integer'],
+            [['name', 'created_at', 'updated_at', 'branch_id'], 'safe'],
         ];
     }
 
@@ -54,10 +54,10 @@ class VendorSearch extends Vendor
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        $query->joinWith('branch');
         $query->andFilterWhere([
             'vendor_id' => $this->vendor_id,
-            'branch_id' => $this->branch_id,
+            //'branch_id' => $this->branch_id,
             'ntn' => $this->ntn,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
@@ -65,7 +65,8 @@ class VendorSearch extends Vendor
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+        ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);
 
         return $dataProvider;
     }

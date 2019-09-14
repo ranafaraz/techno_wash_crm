@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\bootstrap\Modal;
+use yii\bootstrap\Modal; 
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
@@ -38,7 +38,7 @@ CrudAsset::register($this);
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-                'type' => 'primary', 
+                'type' => 'default', 
                 'heading' => '<i class="glyphicon glyphicon-list"></i> Customers listing',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([

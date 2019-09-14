@@ -1,17 +1,27 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\VehicleType;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\VehicleTypeSubCategory */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="vehicle-type-sub-category-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Vehicle Sub Type</h2>
+        </div>
+</div>
+<div class="vehicle-type-sub-category-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'vehicle_type_id')->textInput() ?>
+    
+	<?= $form->field($model, 'vehicle_type_id')->dropDownList(
+                ArrayHelper::map(VehicleType::find()->all(),'vehical_type_id','name'),
+                ['prompt'=>'Select Vehicle Type ']
+    )?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

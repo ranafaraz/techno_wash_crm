@@ -33,6 +33,7 @@ class StockType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
             [['name', 'description'], 'required'],
             [['description'], 'string'],
             [['created_by', 'updated_by'], 'integer'],

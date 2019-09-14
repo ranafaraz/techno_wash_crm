@@ -1,21 +1,32 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\Branches;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vendor */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="vendor-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Vendor</h2>
+        </div>
+</div>
+<div class="vendor-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'branch_id')->textInput() ?>
+    <?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+    )?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ntn')->textInput() ?>
+
+    
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

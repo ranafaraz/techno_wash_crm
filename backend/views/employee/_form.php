@@ -2,49 +2,88 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Branches;
+use common\models\Salary;
 use common\models\EmployeeTypes;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2;
-use kartik\date\DatePicker;
+use dosamigos\datetimepicker\DateTimePicker;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Employee */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="employee-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Employee</h2>
+        </div>
+</div>
+<div class="employee-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
     <div class="row">
         <div class="col-md-4">
 
-    <?=$form->field($model, 'branch_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(Branches::find()->all(), 'branch_id', 'branch_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Branch --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <label>Employee Joining Date</label>
+                <?= DateTimePicker::widget([
+                'model' => $model,
+                'attribute' => 'joining_date',
+                'language' => 'en',
+                'size' => 'ms',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'convertFormat' => false,                    
+                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'todayBtn' => true
+                ]
+            ]);?>
+
+     </div>
+     <div class="col-md-4">
+
+     <label>Employee Learning Date</label>
+                <?= DateTimePicker::widget([
+                'model' => $model,
+                'attribute' => 'learning_date',
+                'language' => 'en',
+                'size' => 'ms',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'convertFormat' => false,                    
+                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'todayBtn' => true
+                ]
+            ]);?>
+    </div>
+        <div class="col-md-4">   
+
+    <?= $form->field($model, 'salary_id')->dropDownList(
+                ArrayHelper::map(Salary::find()->all(),'salary_id','salary_id'),
+                ['prompt'=>'Select Salary',]
+                )?>
+    </div>
+    </div>
+    <!-- row 1 close -->
+    <div class="row">
+        <div class="col-md-4">
+
+    <?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+                )?>
 
     </div>
         <div class="col-md-4">
-    <?=$form->field($model, 'emp_type_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(EmployeeTypes::find()->all(), 'emp_type_id', 'emp_type_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Emp Type --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'emp_type_id')->dropDownList(
+                ArrayHelper::map(EmployeeTypes::find()->all(),'emp_type_id','emp_type_name'),
+                ['prompt'=>'Select Emp Type',]
+                )?>
     </div>
-        <div class="col-md-4">            
+        <div class="col-md-4">                    
 
     <?= $form->field($model, 'emp_name')->textInput(['maxlength' => true]) ?> 
     </div>
     </div>
-    <!-- row 1 close -->
+    <!-- row 2 close -->
 
     <div class="row">
         <div class="col-md-4">
@@ -63,7 +102,7 @@ use kartik\date\DatePicker;
     
     </div>
     </div>
-    <!-- row 2 close -->
+    <!-- row 3 close -->
 
     <div class="row">
         <div class="col-md-4">
@@ -83,51 +122,20 @@ use kartik\date\DatePicker;
 
     </div>
     </div>
-    <!-- row 3 close -->
-
-    <div class="row">
-        <div class="col-md-4">
-    <?= $form->field($model, 'emp_qualification')->textInput(['maxlength' => true]) ?>
-
-
-    </div>
-        <div class="col-md-4">
-    <?= $form->field($model, 'emp_reference')->textInput(['maxlength' => true]) ?>
-
-    </div>
-        <div class="col-md-4">
-    
-    <?php  
-    echo '<label>Employee Joining Date</label>';
-    echo DatePicker::widget([
-    'model' => $model, 
-    'attribute' => 'joining_date',
-    'options' => ['placeholder' => 'Select Joining date ...'],
-    'pluginOptions' => [
-        'autoclose'=>true
-    ]
-    ]);
-    ?>
-
-     </div>
-    </div>
     <!-- row 4 close -->
 
     <div class="row">
         <div class="col-md-4">
-    
-    <?php  
-    echo '<label>Employee Learning Date</label>';
-    echo DatePicker::widget([
-    'model' => $model, 
-    'attribute' => 'learning_date',
-    'options' => ['placeholder' => 'Select Learning date ...'],
-    'pluginOptions' => [
-        'autoclose'=>true
-    ]
-    ]);
-    ?>
+
+    <?= $form->field($model, 'emp_qualification')->textInput(['maxlength' => true]) ?>
+
     </div>
+        <div class="col-md-4">
+
+    <?= $form->field($model, 'emp_reference')->textInput(['maxlength' => true]) ?>
+
+    </div>
+        
         <div class="col-md-4">
 
     <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ], ['prompt' => '']) ?>

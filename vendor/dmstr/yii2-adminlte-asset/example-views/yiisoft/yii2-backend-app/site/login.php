@@ -20,76 +20,73 @@ $fieldOptions2 = [
 ?>
 
 <?php Yii::$app->session->getFlash('key', 'message'); ?>
-
-      
-           <div class="login-box" style="margin-top: 30px; background-color: #183663; margin: 20px auto; color: white;">
-    <div class="login-logo" style="padding-top: 10px">
-        <a href="#" style="color: white; border-bottom: 2px solid #28C0CE;"><b>DEXDEVS</b><small> - IC</small></a>
-        <p style="font-size: 20px;">INSTITUTE ON CLOUD</p>
-    </div>
-    <!-- /.login-logo -->
-    <div class="login-box-body" style=" border-top: 3px solid #1A3562;">
-        <img src="images/cloudlogo1.png"  class="img-responsive"  style="border: 1px solid #28C0CE; border-radius: 5px 25px 5px 25px; padding:10px"><br>
-        <p class="login-box-msg" style="color: #183663;"><b>Sign in to start your session</b></p>
-
-
-
-        <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
-
-        <?= $form
-            ->field($model, 'username', $fieldOptions1)
-            ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
-
-        <?= $form
-            ->field($model, 'password', $fieldOptions2)
-            ->label(false)
-            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-
-        <div class="row">
-            <div class="col-xs-6">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-            </div>
-            <div class="col-xs-6">
-                <span style="float: right;">
-                    <?= Html::a(' Reset Password', ['../site/request-password-reset'],
-                        ['title'=> 'Click here to reset password','class'=>'btn btn-warning btn-sm fa fa-key'])
-                    ?>
-                </span>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" style="padding:0px;margin-top:45px;">
+            <img src="images/dexdevs2_photo.png" style="border-radius: 5px;display:block;margin-left:auto;margin-right:auto;width:40%;margin-top:100px;"><br>
+            <p style="text-align: center;font-size:20px"><b>Dexterous Developers</b></p>
+            <p style="text-align: center;">Next Big Thing in Software Development</p>
         </div>
-        <!-- <div class="row">
-            <div class="col-md-12" style="padding-bottom:10px;">
-                <a href="passwords" style="float: right;padding:5px;" class="label label-info">View Users</a>
-            </div><br>
-        </div> -->
-
-        <div class="row">
-            <!-- /.col -->
-            <div class="col-xs-12">
-                <?= Html::submitButton('Sign in', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
+        <div class="col-md-4" style="border-left:3px solid #FAB61C;margin-top:35px;">
+            <div class="login-box" style="padding:2px; background-color:black;color: white;border-top:3px solid #FAB61C;">
+        <div class="login-logo" style="padding-top: 10px;">
+            <a href="#" style="color: #FAB61C; border-bottom: 2px solid #28C0CE;font-size:20px;"><b>TECHNO<span style="color:white;">WASH</span></b><b> - TW</b></a>
+            <p style="font-size: 20px;color:white;">Powered By: DEXDEVS</p>
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body" style=" border-top: 3px solid #1A3562;">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="images/dexdevs2_photo.png" style="border:2px solid #FAB61C; border-radius: 5px;box-shadow:0px 0px 20px 0px #FAB61C;display:block;margin-left:auto;margin-right:auto;width:40%;"><br>
+                </div>
             </div>
-            <!-- /.col -->
-        </div>
+            <p class="login-box-msg" style="color: #183663;"><b>Sign in to start your session</b></p>
 
 
-        <?php ActiveForm::end(); ?>
 
-        <!-- <div class="social-auth-links text-center">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in
-                using Facebook</a>
-            <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Sign
-                in using Google+</a>
-        </div> -->
-        <!-- /.social-auth-links -->
+            <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
-<!--         <a href="#">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a> -->
+            <?= $form
+                ->field($model, 'username', $fieldOptions1)
+                ->label(false)
+                ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
 
+            <?= $form
+                ->field($model, 'password', $fieldOptions2)
+                ->label(false)
+                ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                </div>
+                <div class="col-xs-6">
+                    <span style="float: right;">
+                        <?= Html::a(' Reset Password', ['../site/request-password-reset'],
+                            ['title'=> 'Click here to reset password','class'=>'btn btn-warning btn-sm fa fa-key'])
+                        ?>
+                    </span>
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-12" style="padding-bottom:10px;">
+                    <a href="passwords" style="float: right;padding:5px;" class="label label-info">View Users</a>
+                </div><br>
+            </div> -->
+
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-xs-12">
+                    <?= Html::submitButton('Sign in', ['class' => 'btn btn-success btn-block btn-flat', 'name' => 'login-button']) ?>
+                </div>
+                <!-- /.col -->
+            </div>
+
+
+            <?php ActiveForm::end(); ?>
+            </div>
+        <!-- /.login-box-body -->
+            </div><!-- /.login-box -->
+            </div>
     </div>
-    <!-- /.login-box-body -->
-</div><!-- /.login-box -->
-        </div>
-    </div>
-
+</div>

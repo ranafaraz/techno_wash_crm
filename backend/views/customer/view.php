@@ -20,7 +20,7 @@ use yii\widgets\DetailView;
             'customer_registration_date',
             'customer_age',
             'customer_email:email',
-            //'customer_image',
+            'customer_image',
             'customer_occupation',
             'created_by',
             'updated_by',
