@@ -5,14 +5,18 @@ use common\models\Customer;
 use common\models\CustomerVehicles;
 use common\models\CardType;
 use yii\helpers\ArrayHelper;
-use kartik\date\DatePicker;
+use dosamigos\datetimepicker\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Membership */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="membership-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Membership</h2>
+        </div>
+</div>
+<div class="membership-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -46,36 +50,38 @@ use kartik\date\DatePicker;
 
     <div class="row">
         <div class="col-md-4">
-    <?php 
-    echo '<label>Membership Start Date</label>'; 
-    echo DatePicker::widget([
-    'model' => $model, 
-    'attribute' => 'membership_start_date',
-    'options' => ['placeholder' => 'Select date ...'],
-    'pluginOptions' => [
-        'format' => '20yy-m-d',
-        'autoclose'=>true
-    ]
-    ]);
 
-    ?>
+    <label>Membership Start Date</label>
+            <?= DateTimePicker::widget([
+                'model' => $model,
+                'attribute' => 'membership_start_date',
+                'language' => 'en',
+                'size' => 'ms',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'convertFormat' => false,                    
+                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'todayBtn' => true
+                ]
+            ]);
+            ?>
     </div>
         <div class="col-md-4">
 
-    <?php 
-    echo '<label>Membership End Date</label>'; 
-    echo DatePicker::widget([
-    'model' => $model, 
-    'attribute' => 'membership_end_date',
-    'options' => ['placeholder' => 'Select date ...'],
-    'pluginOptions' => [
-        'format' => '20yy-m-d',
-        'autoclose'=>true
-    ]
-    ]);
-
-    ?>
-
+    <label>Membership End Date</label>
+            <?= DateTimePicker::widget([
+                'model' => $model,
+                'attribute' => 'membership_end_date',
+                'language' => 'en',
+                'size' => 'ms',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'convertFormat' => false,                    
+                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'todayBtn' => true
+                ]
+            ]);
+            ?>
     </div>
         <div class="col-md-4">
 

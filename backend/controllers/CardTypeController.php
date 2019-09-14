@@ -91,7 +91,7 @@ class CardTypeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new CardType",
+                    'title'=> "",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),

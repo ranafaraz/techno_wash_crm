@@ -9,8 +9,12 @@ use common\models\Customer;
 /* @var $model common\models\CustomerVehicles */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="customer-vehicles-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Customer Vehicle</h2>
+        </div>
+</div>
+<div class="customer-vehicles-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 

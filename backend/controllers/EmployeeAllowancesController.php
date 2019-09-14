@@ -91,7 +91,7 @@ class EmployeeAllowancesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new EmployeeAllowances",
+                    'title'=> "",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),

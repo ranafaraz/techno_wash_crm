@@ -91,7 +91,7 @@ class PurchaseInvoiceController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new PurchaseInvoice",
+                    'title'=> "",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),

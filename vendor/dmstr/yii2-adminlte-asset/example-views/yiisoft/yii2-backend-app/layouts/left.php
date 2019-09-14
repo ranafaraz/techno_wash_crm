@@ -72,7 +72,7 @@
                     // ['label' => 'Menus', 'options' => ['class' => 'header center']],
                      ['label' => 'Home', 'icon' => 'dashboard', 'url' => "./home"],
                      ['label' => 'Customer', 'icon' => 'arrow-right', 'url' => "./customer"],
-                     ['label' => 'Customer Vehicles', 'icon' => 'arrow-right', 'url' => "./customer-vehicles"],
+                     //['label' => 'Customer Vehicles', 'icon' => 'arrow-right', 'url' => "./customer-vehicles"],
                      [
                         'label' => 'Employee',
                         'icon' => 'arrow-right',

@@ -91,7 +91,7 @@ class ServicesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Services",
+                    'title'=> "",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),

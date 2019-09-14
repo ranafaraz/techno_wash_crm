@@ -6,8 +6,12 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\EmployeeTypes */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="employee-types-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Employee Type</h2>
+        </div>
+</div>
+<div class="employee-types-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 
     <?php $form = ActiveForm::begin(); ?>
 
