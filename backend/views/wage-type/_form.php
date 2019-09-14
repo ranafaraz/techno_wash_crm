@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\Branches;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\WageType */
@@ -11,7 +13,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'branch_id')->textInput() ?>
+ 	<?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+    )?>
 
     <?= $form->field($model, 'wage_name')->textInput(['maxlength' => true]) ?>
 

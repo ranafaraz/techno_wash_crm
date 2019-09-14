@@ -19,7 +19,9 @@ class BranchesSearch extends Branches
     {
         return [
             [['branch_id', 'created_by', 'updated_by'], 'integer'],
+
             [['branch_code', 'branch_name', 'branch_type', 'branch_location', 'branch_contact_no', 'branch_email', 'status', 'branch_head_name', 'branch_head_contact_no', 'branch_head_email', 'created_at', 'updated_at', 'delete_status', 'org_id'], 'safe'],
+
         ];
     }
 
@@ -78,7 +80,7 @@ class BranchesSearch extends Branches
             ->andFilterWhere(['like', 'branch_head_email', $this->branch_head_email])
             ->andFilterWhere(['like', 'delete_status', $this->delete_status])
             ->andFilterWhere(['like', 'organization.org_name', $this->org_id]);
-
+            
         return $dataProvider;
     }
 }

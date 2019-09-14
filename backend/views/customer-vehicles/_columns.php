@@ -22,7 +22,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'vehicle_typ_sub_id',
-        'value'=>'vehicle_typ_sub_category.name',
+        'value'=>'vehicleTypSub.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

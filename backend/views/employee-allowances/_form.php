@@ -1,6 +1,10 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Employee;
+use common\models\AllowanceType;
+use yii\helpers\ArrayHelper;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\EmployeeAllowances */
@@ -11,9 +15,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'emp_id')->textInput() ?>
+    <?= $form->field($model, 'emp_id')->dropDownList(
+                ArrayHelper::map(Employee::find()->all(),'emp_id','emp_name'),
+                ['prompt'=>'Select Employee',]
+                )?>
 
-    <?= $form->field($model, 'allowance_type_id')->textInput() ?>
+        <?= $form->field($model, 'allowance_type_id')->dropDownList(
+                ArrayHelper::map(AllowanceType::find()->all(),'allowance_type_id','allowance_name'),
+                ['prompt'=>'Select Allowance',]
+                )?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

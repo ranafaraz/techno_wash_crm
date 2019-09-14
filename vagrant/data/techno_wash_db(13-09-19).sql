@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2019 at 10:01 AM
+-- Generation Time: Sep 13, 2019 at 07:30 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -190,6 +190,13 @@ CREATE TABLE `card_type` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `card_type`
+--
+
+INSERT INTO `card_type` (`card_type_id`, `card_name`, `card_description`, `card_price`, `card_services`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Card', 'Card description here', 20000, 'Card Services here', 104, 0, '2019-09-13 15:17:09', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -211,7 +218,7 @@ CREATE TABLE `customer` (
   `customer_occupation` varchar(255) NOT NULL,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -220,7 +227,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_id`, `branch_id`, `customer_name`, `customer_gender`, `customer_cnic`, `customer_address`, `customer_contact_no`, `customer_registration_date`, `customer_age`, `customer_email`, `customer_image`, `customer_occupation`, `created_by`, `updated_by`, `updated_at`, `created_at`) VALUES
-(1, 1, 'abc', 'Male', '32143-4564756-7', 'ryk', '+34-543-6345736', '2019-09-10 00:00:00', 22, 'abc@abc.com', 'uploads/abc_photo.png', 'abc', 4, 4, '2019-09-13 07:37:22', '2019-09-13 06:54:07');
+(1, 1, 'abc', 'Male', '32143-4564756-7', 'ryk', '+34-543-6345736', '2019-09-10 00:00:00', 22, 'abc@abc.com', 'uploads/abc_photo.png', 'abc', 4, 4, '2019-09-13 07:37:22', '2019-09-13 06:54:07'),
+(2, 2, 'test name', 'Male', '12345-6789876-5', 'ryk', '+35-768-9546787', '2019-09-06 00:00:00', 32, 'fgch@vs.com', 'uploads/test name_photo.png', 'dty,vjhj,', 140, 0, '0000-00-00 00:00:00', '2019-09-13 14:37:12'),
+(3, 1, 'saqib', 'Male', '37204-7872389-0', '117/p', '+73-892-4789409', '2019-09-17 00:00:00', 22, 'saqib@gmail.com', 'uploads/saqib_photo.png', 'student', 140, 0, '0000-00-00 00:00:00', '2019-09-13 16:57:29');
 
 -- --------------------------------------------------------
 
@@ -240,6 +249,13 @@ CREATE TABLE `customer_vehicles` (
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer_vehicles`
+--
+
+INSERT INTO `customer_vehicles` (`customer_vehicle_id`, `customer_id`, `vehicle_typ_sub_id`, `registration_no`, `color`, `image`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 1, 1, '36241782364078', 'white', 'nbgksaj', '2019-09-13 12:59:11', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -270,6 +286,13 @@ CREATE TABLE `employee` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`emp_id`, `emp_type_id`, `branch_id`, `salary_id`, `emp_name`, `emp_cnic`, `emp_father_name`, `emp_contact`, `emp_email`, `emp_image`, `emp_gender`, `emp_qualification`, `emp_reference`, `joining_date`, `learning_date`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(2, 2, 1, 1, 'Arslan', '12345678901234', 'Nasir', '03043374027', 'arsalan@dexdevs.com', 'jhewlrfk', 'Male', 'awfhvlkwe', 'lwbfkl', '2019-09-23 00:00:00', '2019-09-10 00:00:00', 'Active', 104, 0, '2019-09-13 13:58:02', '2019-09-13 13:58:02');
+
 -- --------------------------------------------------------
 
 --
@@ -285,6 +308,13 @@ CREATE TABLE `employee_allowances` (
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employee_allowances`
+--
+
+INSERT INTO `employee_allowances` (`emp_allowance_id`, `emp_id`, `allowance_type_id`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 2, 1, '2019-09-13 14:57:47', '0000-00-00 00:00:00', 104, 0);
 
 -- --------------------------------------------------------
 
@@ -373,6 +403,14 @@ CREATE TABLE `membership` (
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `membership`
+--
+
+INSERT INTO `membership` (`membership_id`, `card_type_id`, `customer_id`, `customer_vehicle_id`, `membership_start_date`, `membership_end_date`, `card_issued_by`, `car_registration_no`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 1, 1, 1, '2019-09-02 00:00:00', '2019-09-30 00:00:00', 'Arslan', '1234567890', '2019-09-13 15:20:14', 104, '0000-00-00 00:00:00', 0),
+(2, 1, 2, 1, '2019-09-05 00:00:00', '2019-09-04 00:00:00', 'ali', '67324892637', '2019-09-13 15:41:02', 140, '0000-00-00 00:00:00', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -460,6 +498,13 @@ CREATE TABLE `salary` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `salary`
+--
+
+INSERT INTO `salary` (`salary_id`, `emp_id`, `emp_allowance_id`, `wage_type_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, 1, 104, 0, '2019-09-13 14:58:34', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -530,8 +575,15 @@ CREATE TABLE `services` (
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`services_id`, `branch_id`, `name`, `price`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Car Wash', 2300, 'some description here ', 140, 0, '2019-09-13 15:52:51', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -590,6 +642,14 @@ CREATE TABLE `stock_type` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stock_type`
+--
+
+INSERT INTO `stock_type` (`stock_type_id`, `name`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Oil Stock', 'oil Stock Description here', 104, 0, '2019-09-13 16:04:20', '0000-00-00 00:00:00'),
+(2, 'Car Parts Stock', 'Car Parts Stock Description here', 104, 0, '2019-09-13 16:05:20', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -686,6 +746,13 @@ CREATE TABLE `vehicle_type` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `vehicle_type`
+--
+
+INSERT INTO `vehicle_type` (`vehical_type_id`, `name`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Mehran', 'Menran with palte no 1234. Some thing......', 140, 0, '2019-09-13 12:56:11', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -703,6 +770,13 @@ CREATE TABLE `vehicle_type_sub_category` (
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `vehicle_type_sub_category`
+--
+
+INSERT INTO `vehicle_type_sub_category` (`vehicle_typ_sub_id`, `vehicle_type_id`, `name`, `manufacture`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 1, 'Model 123', 'Suzuki', '2019-09-13 12:58:02', '0000-00-00 00:00:00', 140, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -717,7 +791,7 @@ CREATE TABLE `vendor` (
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -736,6 +810,13 @@ CREATE TABLE `wage_type` (
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `wage_type`
+--
+
+INSERT INTO `wage_type` (`wage_type_id`, `branch_id`, `wage_name`, `basic_pay`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 1, 'Daily Payment', 1000, '2019-09-13 13:31:38', '0000-00-00 00:00:00', 104, 0);
 
 --
 -- Indexes for dumped tables
@@ -896,7 +977,8 @@ ALTER TABLE `sale_invoice_stock_detail`
 -- Indexes for table `services`
 --
 ALTER TABLE `services`
-  ADD PRIMARY KEY (`services_id`);
+  ADD PRIMARY KEY (`services_id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `stock`
@@ -960,7 +1042,8 @@ ALTER TABLE `vehicle_type_sub_category`
 -- Indexes for table `vendor`
 --
 ALTER TABLE `vendor`
-  ADD PRIMARY KEY (`vendor_id`);
+  ADD PRIMARY KEY (`vendor_id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `wage_type`
@@ -990,31 +1073,31 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `card_type`
 --
 ALTER TABLE `card_type`
-  MODIFY `card_type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `card_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `customer_vehicles`
 --
 ALTER TABLE `customer_vehicles`
-  MODIFY `customer_vehicle_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `customer_vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee_allowances`
 --
 ALTER TABLE `employee_allowances`
-  MODIFY `emp_allowance_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `emp_allowance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `employee_types`
@@ -1038,7 +1121,7 @@ ALTER TABLE `manufacture`
 -- AUTO_INCREMENT for table `membership`
 --
 ALTER TABLE `membership`
-  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `membership_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `organization`
@@ -1056,7 +1139,7 @@ ALTER TABLE `purchase_invoice`
 -- AUTO_INCREMENT for table `salary`
 --
 ALTER TABLE `salary`
-  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sale_invoice_head`
@@ -1080,7 +1163,7 @@ ALTER TABLE `sale_invoice_stock_detail`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `services_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `services_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `stock`
@@ -1098,7 +1181,7 @@ ALTER TABLE `stock_issue`
 -- AUTO_INCREMENT for table `stock_type`
 --
 ALTER TABLE `stock_type`
-  MODIFY `stock_type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `stock_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -1122,13 +1205,13 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT for table `vehicle_type`
 --
 ALTER TABLE `vehicle_type`
-  MODIFY `vehical_type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `vehical_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vehicle_type_sub_category`
 --
 ALTER TABLE `vehicle_type_sub_category`
-  MODIFY `vehicle_typ_sub_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `vehicle_typ_sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vendor`
@@ -1140,7 +1223,7 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `wage_type`
 --
 ALTER TABLE `wage_type`
-  MODIFY `wage_type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `wage_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -1194,9 +1277,9 @@ ALTER TABLE `customer_vehicles`
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`salary_id`) REFERENCES `salary` (`salary_id`),
   ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`branch_id`),
-  ADD CONSTRAINT `employee_ibfk_3` FOREIGN KEY (`emp_type_id`) REFERENCES `employee_types` (`emp_type_id`);
+  ADD CONSTRAINT `employee_ibfk_3` FOREIGN KEY (`emp_type_id`) REFERENCES `employee_types` (`emp_type_id`),
+  ADD CONSTRAINT `employee_ibfk_4` FOREIGN KEY (`salary_id`) REFERENCES `salary` (`salary_id`);
 
 --
 -- Constraints for table `employee_allowances`
@@ -1248,6 +1331,12 @@ ALTER TABLE `sale_invoice_stock_detail`
   ADD CONSTRAINT `sale_invoice_stock_detail_ibfk_2` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`stock_id`);
 
 --
+-- Constraints for table `services`
+--
+ALTER TABLE `services`
+  ADD CONSTRAINT `services_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`branch_id`);
+
+--
 -- Constraints for table `stock`
 --
 ALTER TABLE `stock`
@@ -1273,6 +1362,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `vehicle_type_sub_category`
   ADD CONSTRAINT `vehicle_type_sub_category_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_type` (`vehical_type_id`);
+
+--
+-- Constraints for table `vendor`
+--
+ALTER TABLE `vendor`
+  ADD CONSTRAINT `vendor_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`branch_id`);
 
 --
 -- Constraints for table `wage_type`

@@ -17,10 +17,12 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'branch_id',
+        'value'=>'branch.branch_name',        
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'stock_type_id',
+        'value'=>'branch.branch_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

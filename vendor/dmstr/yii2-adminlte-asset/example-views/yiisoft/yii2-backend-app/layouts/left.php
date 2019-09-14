@@ -91,7 +91,7 @@
                         'url' => '#',
                         'items' => [
                             ['label' => 'Manage Stock', 'icon' => 'chevron-right', 'url' => './stock',],
-                            ['label' => 'Issue to Employee', 'icon' => 'chevron-right', 'url' => './stock-issue',],
+                            ['label' => 'Stock Issues', 'icon' => 'chevron-right', 'url' => './stock-issue',],
                         ],
                     ],
                     ['label' => 'Sale Invoice', 'icon' => 'arrow-right', 'url' => "./sale-invoice-head"],

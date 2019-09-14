@@ -167,8 +167,10 @@ class OrganizationController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
-
+        $model = $this->findModel($id);
+         $org_logo = Yii::$app->db->createCommand("SELECT org_logo FROM organization where org_id = $id")->queryAll();
+        $org_image=$org_logo[0]["org_logo"];       
+    
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -184,6 +186,20 @@ class OrganizationController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post())){
+                $model->org_logo = UploadedFile::getInstance($model,'org_logo');
+                if (!empty($model->org_logo)) {
+                    // making the name of image file
+                    $imageName = $model->org_name.'_photo';
+                    // getting the extension of image file
+                    $imageExtension = $model->org_logo->extension;
+                    // save the path of the image in backend/web/uploads
+                    $model->org_logo->saveAs('uploads/'.$imageName.'.'.$imageExtension);
+                    //save the path in the db column
+                    $model->org_logo = 'uploads/'.$imageName.'.'.$imageExtension;
+                }
+                else{
+                    $model->org_logo = $org_image;
+                }
                 $model->updated_by = Yii::$app->user->identity->id;
                 $model->updated_at = new \yii\db\Expression('NOW()');
                 $model->created_by = $model->created_by;

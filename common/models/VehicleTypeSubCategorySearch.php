@@ -54,10 +54,10 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        $query->joinWith('vehicleType');
         $query->andFilterWhere([
             'vehicle_typ_sub_id' => $this->vehicle_typ_sub_id,
-            'vehicle_type_id' => $this->vehicle_type_id,
+           // 'vehicle_type_id' => $this->vehicle_type_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
@@ -65,7 +65,8 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'manufacture', $this->manufacture]);
+            ->andFilterWhere(['like', 'manufacture', $this->manufacture])
+            ->andFilterWhere(['like', 'vehicle_type.vehicle_type_id', $this->name]);
 
         return $dataProvider;
     }

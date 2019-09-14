@@ -3,8 +3,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Branches;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2;
-use kartik\datetime\DateTimePicker;
+use kartik\date\DatePicker;
+//use kartik\datetime\DateTimePicker;
 
 
 /* @var $this yii\web\View */
@@ -19,14 +19,10 @@ use kartik\datetime\DateTimePicker;
     <div class="row">
         <div class="col-md-4">
 
-    <?=$form->field($model, 'branch_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(Branches::find()->all(), 'branch_id', 'branch_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Branch --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+                )?>
 
     </div>
         <div class="col-md-4">
@@ -60,19 +56,30 @@ use kartik\datetime\DateTimePicker;
 
     <div class="row">
         <div class="col-md-4">
-    <?php  
-    echo '<label>Customter Registration Date</label>';
-    echo DateTimePicker::widget([
+    <?php 
+    echo '<label>Customter Registration Date</label>'; 
+    echo DatePicker::widget([
     'model' => $model, 
-    'name' => 'customer_registration_date',
-    'options' => ['placeholder' => 'Select Registration time ...'],
-    'convertFormat' => true,
+    'attribute' => 'customer_registration_date',
+    'options' => ['placeholder' => 'Select date ...'],
     'pluginOptions' => [
-        'format' => 'd-M-Y g:i A',
-        'startDate' => '01-Mar-2014 12:00 AM',
-        'todayHighlight' => true
+        'format' => '20yy-m-d',
+        'autoclose'=>true
     ]
     ]);
+
+    // echo '<label>Customter Registration Date</label>';
+    // echo DateTimePicker::widget([
+    // 'model' => $model, 
+    // 'name' => 'customer_registration_date',
+    // 'options' => ['placeholder' => 'Select time'],
+    // 'convertFormat' => true,
+    // 'pluginOptions' => [
+    //     'format' => 'd-M-Y g:i A',
+    //     'startDate' => '01-Mar-2014 12:00 AM',
+    //     'todayHighlight' => true
+    // ]
+    // ]);
 
     ?>
     </div>

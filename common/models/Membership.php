@@ -58,8 +58,8 @@ class Membership extends \yii\db\ActiveRecord
     {
         return [
             'membership_id' => 'Membership ID',
-            'card_type_id' => 'Card Type ID',
-            'customer_id' => 'Customer ID',
+            'card_type_id' => 'Card Name',
+            'customer_id' => 'Customer Name',
             'customer_vehicle_id' => 'Customer Vehicle ID',
             'membership_start_date' => 'Membership Start Date',
             'membership_end_date' => 'Membership End Date',

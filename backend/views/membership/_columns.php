@@ -17,14 +17,17 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'card_type_id',
+        'value'=>'cardType.card_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'customer_id',
+        'value'=>'customer.customer_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'customer_vehicle_id',
+        //'value'=>'customerVehicle.customer_name',        
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -38,10 +41,10 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'card_issued_by',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'car_registration_no',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'car_registration_no',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',

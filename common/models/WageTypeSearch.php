@@ -18,8 +18,8 @@ class WageTypeSearch extends WageType
     public function rules()
     {
         return [
-            [['wage_type_id', 'branch_id', 'basic_pay', 'created_by', 'updated_by'], 'integer'],
-            [['wage_name', 'created_at', 'updated_at'], 'safe'],
+            [['wage_type_id', 'basic_pay', 'created_by', 'updated_by'], 'integer'],
+            [['wage_name', 'created_at', 'updated_at','branch_id'], 'safe'],
         ];
     }
 
@@ -54,10 +54,10 @@ class WageTypeSearch extends WageType
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        $query->joinWith('branch');
         $query->andFilterWhere([
             'wage_type_id' => $this->wage_type_id,
-            'branch_id' => $this->branch_id,
+            //'branch_id' => $this->branch_id,
             'basic_pay' => $this->basic_pay,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -65,7 +65,8 @@ class WageTypeSearch extends WageType
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'wage_name', $this->wage_name]);
+        $query->andFilterWhere(['like', 'wage_name', $this->wage_name])
+        ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);;
 
         return $dataProvider;
     }

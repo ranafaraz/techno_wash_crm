@@ -211,15 +211,6 @@ return array (
       '@kartik/export' => $vendorDir . '/kartik-v/yii2-export/src',
     ),
   ),
-  'kartik-v/yii2-widget-select2' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-select2',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/select2' => $vendorDir . '/kartik-v/yii2-widget-select2/src',
-    ),
-  ),
   'spanjeta/yii2-backup' => 
   array (
     'name' => 'spanjeta/yii2-backup',
@@ -232,28 +223,19 @@ return array (
   'kartik-v/yii2-grid' => 
   array (
     'name' => 'kartik-v/yii2-grid',
-    'version' => '3.3.2.0',
+    'version' => '3.3.4.0',
     'alias' => 
     array (
       '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid/src',
     ),
   ),
-  'kartik-v/yii2-widget-datetimepicker' => 
+  'kartik-v/yii2-widget-select2' => 
   array (
-    'name' => 'kartik-v/yii2-widget-datetimepicker',
-    'version' => '1.4.9.0',
-    'alias' => 
-    array (
-      '@kartik/datetime' => $vendorDir . '/kartik-v/yii2-widget-datetimepicker/src',
-    ),
-  ),
-  'kartik-v/yii2-widget-datepicker' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-datepicker',
+    'name' => 'kartik-v/yii2-widget-select2',
     'version' => '9999999-dev',
     'alias' => 
     array (
-      '@kartik/date' => $vendorDir . '/kartik-v/yii2-widget-datepicker/src',
+      '@kartik/select2' => $vendorDir . '/kartik-v/yii2-widget-select2/src',
     ),
   ),
 );

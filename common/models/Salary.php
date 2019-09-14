@@ -53,9 +53,9 @@ class Salary extends \yii\db\ActiveRecord
     {
         return [
             'salary_id' => 'Salary ID',
-            'emp_id' => 'Emp ID',
-            'emp_allowance_id' => 'Emp Allowance ID',
-            'wage_type_id' => 'Wage Type ID',
+            'emp_id' => 'Employee Name',
+            'emp_allowance_id' => 'Employee Allowance ID',
+            'wage_type_id' => 'Wage Name',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
             'created_at' => 'Created At',

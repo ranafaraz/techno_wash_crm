@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\VehicleTypeSubCategory;
+use yii\helpers\ArrayHelper;
+use common\models\Customer;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\CustomerVehicles */
@@ -9,15 +12,43 @@ use yii\widgets\ActiveForm;
 
 <div class="customer-vehicles-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'vehicle_typ_sub_id')->textInput() ?>
+    <?= $form->field($model, 'customer_id')->dropDownList(
+                ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),
+                ['prompt'=>'Select Customer',]
+                )?>
+
+    <div class="row">
+        <div class="col-md-6">
+
+        <?= $form->field($model, 'vehicle_typ_sub_id')->dropDownList(
+                ArrayHelper::map(VehicleTypeSubCategory::find()->all(),'vehicle_typ_sub_id','name'),
+                ['prompt'=>'Select Vehicle Sub Type',]
+                )?>
+
+    </div>
+        <div class="col-md-6">
 
     <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true]) ?>
 
+        </div>
+    </div>
+    <!-- row 1 close -->
+
+    <div class="row">
+        <div class="col-md-6">
+
     <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+    </div>
+        <div class="col-md-6">
+
+    <?= $form->field($model, 'image')->fileInput(['maxlength' => true]) ?>
+
+     </div>
+    </div>
+    <!-- row 2 close -->
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

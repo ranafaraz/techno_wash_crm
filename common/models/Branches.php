@@ -47,10 +47,10 @@ class Branches extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['org_id', 'branch_code', 'branch_name', 'branch_type', 'branch_location', 'branch_contact_no', 'branch_email', 'status', 'branch_head_name', 'branch_head_contact_no', 'branch_head_email'], 'required'],
+            [['org_id'], 'required'],
             [['org_id', 'created_by', 'updated_by', 'delete_status'], 'integer'],
             [['branch_type', 'status'], 'string'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
+            [[ 'branch_code', 'branch_name', 'branch_type', 'branch_location', 'branch_contact_no', 'branch_email', 'status', 'branch_head_name', 'branch_head_contact_no', 'branch_head_email','created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['branch_code', 'branch_name', 'branch_contact_no'], 'string', 'max' => 32],
             [['branch_location', 'branch_head_name'], 'string', 'max' => 50],
             [['branch_email'], 'string', 'max' => 100],

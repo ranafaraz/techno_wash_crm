@@ -35,6 +35,7 @@ class WageType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
             [['branch_id', 'wage_name', 'basic_pay'], 'required'],
             [['branch_id', 'basic_pay', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
@@ -50,7 +51,7 @@ class WageType extends \yii\db\ActiveRecord
     {
         return [
             'wage_type_id' => 'Wage Type ID',
-            'branch_id' => 'Branch ID',
+            'branch_id' => 'Branch Name',
             'wage_name' => 'Wage Name',
             'basic_pay' => 'Basic Pay',
             'created_at' => 'Created At',

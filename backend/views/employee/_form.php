@@ -2,9 +2,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Branches;
+use common\models\Salary;
 use common\models\EmployeeTypes;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2;
 use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
@@ -16,30 +16,26 @@ use kartik\date\DatePicker;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
+<?= $form->field($model, 'salary_id')->dropDownList(
+                ArrayHelper::map(Salary::find()->all(),'salary_id','salary_id'),
+                ['prompt'=>'Select Salary',]
+                )?>
     <div class="row">
         <div class="col-md-4">
 
-    <?=$form->field($model, 'branch_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(Branches::find()->all(), 'branch_id', 'branch_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Branch --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+                )?>
 
     </div>
         <div class="col-md-4">
-    <?=$form->field($model, 'emp_type_id')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(EmployeeTypes::find()->all(), 'emp_type_id', 'emp_type_name'),
-    'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Branch --->'],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
-    ]);?>
+    <?= $form->field($model, 'emp_type_id')->dropDownList(
+                ArrayHelper::map(EmployeeTypes::find()->all(),'emp_type_id','emp_type_name'),
+                ['prompt'=>'Select Emp Type',]
+                )?>
     </div>
-        <div class="col-md-4">            
+        <div class="col-md-4">                    
 
     <?= $form->field($model, 'emp_name')->textInput(['maxlength' => true]) ?> 
     </div>

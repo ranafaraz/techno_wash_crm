@@ -17,6 +17,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'vehicle_type_id',
+        'value'=>'vehicleType.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
