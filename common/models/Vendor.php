@@ -34,9 +34,10 @@ class Vendor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'name', ], 'required'],
+
+            [['branch_id', 'name', 'ntn'], 'required'],
             [['branch_id', 'ntn', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at','ntn', 'created_by', 'updated_by'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
         ];
@@ -57,6 +58,14 @@ class Vendor extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBranch()
+    {
+        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
     }
 
     /**

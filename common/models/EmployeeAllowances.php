@@ -35,9 +35,9 @@ class EmployeeAllowances extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_id', 'allowance_type_id', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'allowance_type_id'], 'required'],
             [['emp_id', 'allowance_type_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
             [['allowance_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AllowanceType::className(), 'targetAttribute' => ['allowance_type_id' => 'allowance_type_id']],
         ];
@@ -50,7 +50,7 @@ class EmployeeAllowances extends \yii\db\ActiveRecord
     {
         return [
             'emp_allowance_id' => 'Emp Allowance ID',
-            'emp_id' => 'Emp ID',
+            'emp_id' => 'Employee Name',
             'allowance_type_id' => 'Allowance Type ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

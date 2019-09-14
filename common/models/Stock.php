@@ -45,9 +45,9 @@ class Stock extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'barcode', 'name', 'expiry_date', 'purchase_price', 'selling_price', 'status', 'created_by', 'updated_by'], 'required'],
+            [['branch_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'barcode', 'name', 'expiry_date', 'purchase_price', 'selling_price', 'status'], 'required'],
             [['branch_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
-            [['expiry_date', 'created_at', 'updated_at'], 'safe'],
+            [['expiry_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['status'], 'string'],
             [['barcode', 'name'], 'string', 'max' => 200],
             [['stock_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => StockType::className(), 'targetAttribute' => ['stock_type_id' => 'stock_type_id']],
@@ -63,8 +63,8 @@ class Stock extends \yii\db\ActiveRecord
     {
         return [
             'stock_id' => 'Stock ID',
-            'branch_id' => 'Branch ID',
-            'stock_type_id' => 'Stock Type ID',
+            'branch_id' => 'Branch Name',
+            'stock_type_id' => 'Stock Type Name',
             'purchase_invoice_id' => 'Purchase Invoice ID',
             'manufacture_id' => 'Manufacture ID',
             'barcode' => 'Barcode',

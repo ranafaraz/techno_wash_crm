@@ -35,9 +35,9 @@ class SaleInvoiceStockDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sale_inv_head_id', 'stock_id', 'discount_per_item', 'created_by', 'updated_by'], 'required'],
+            [['sale_inv_head_id', 'stock_id', 'discount_per_item'], 'required'],
             [['sale_inv_head_id', 'stock_id', 'discount_per_item', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['sale_inv_head_id'], 'exist', 'skipOnError' => true, 'targetClass' => SaleInvoiceHead::className(), 'targetAttribute' => ['sale_inv_head_id' => 'sale_inv_head_id']],
             [['stock_id'], 'exist', 'skipOnError' => true, 'targetClass' => Stock::className(), 'targetAttribute' => ['stock_id' => 'stock_id']],
         ];

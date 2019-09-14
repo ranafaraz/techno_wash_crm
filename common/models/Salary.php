@@ -37,9 +37,9 @@ class Salary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_id', 'emp_allowance_id', 'wage_type_id', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'emp_allowance_id', 'wage_type_id'], 'required'],
             [['emp_id', 'emp_allowance_id', 'wage_type_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
             [['wage_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => WageType::className(), 'targetAttribute' => ['wage_type_id' => 'wage_type_id']],
             [['emp_allowance_id'], 'exist', 'skipOnError' => true, 'targetClass' => EmployeeAllowances::className(), 'targetAttribute' => ['emp_allowance_id' => 'emp_allowance_id']],
@@ -53,9 +53,9 @@ class Salary extends \yii\db\ActiveRecord
     {
         return [
             'salary_id' => 'Salary ID',
-            'emp_id' => 'Emp ID',
-            'emp_allowance_id' => 'Emp Allowance ID',
-            'wage_type_id' => 'Wage Type ID',
+            'emp_id' => 'Employee Name',
+            'emp_allowance_id' => 'Employee Allowance ID',
+            'wage_type_id' => 'Wage Name',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
             'created_at' => 'Created At',

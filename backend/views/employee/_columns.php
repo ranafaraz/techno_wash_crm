@@ -17,7 +17,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_type_id',
-        'value' => 'emp_type.emp_type_name',
+        'value' => 'empType.emp_type_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

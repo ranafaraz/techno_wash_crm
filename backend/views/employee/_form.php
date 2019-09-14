@@ -33,7 +33,7 @@ use kartik\date\DatePicker;
     <?=$form->field($model, 'emp_type_id')->widget(Select2::classname(), [
     'data' => ArrayHelper::map(EmployeeTypes::find()->all(), 'emp_type_id', 'emp_type_name'),
     'language' => 'en',
-    'options' => ['placeholder' => '<--- Select Branch --->'],
+    'options' => ['placeholder' => '<--- Select Emp Type --->'],
     'pluginOptions' => [
         'allowClear' => true,
     ],

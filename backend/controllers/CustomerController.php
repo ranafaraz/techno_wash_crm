@@ -145,28 +145,7 @@ class CustomerController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->validate()) {
-                $model->customer_image = UploadedFile::getInstance($model,'customer_image');
-
-                // checking the field
-                if(!empty($model->customer_image)){
-                    // making the name of the image file
-                    $imageName = $model->customer_name.'_photo';
-                    // getting extension of the image file
-                    $imageExtension = $model->customer_image->extension;
-                    // save the path of the image in backend/web/uploads 
-                    $model->customer_image->saveAs('uploads/'.$imageName.'.'.$model->customer_image->extension);
-                    //save the path in the db column
-                    $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
-                }
-                else {
-                   $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
-                }
-                $model->created_by = Yii::$app->user->identity->id; 
-                $model->created_at = new \yii\db\Expression('NOW()');
-                $model->updated_by = '0';
-                $model->updated_at = '0'; 
-                $model->save();
+            if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->customer_id]);
             } else {
                 return $this->render('create', [
@@ -203,7 +182,28 @@ class CustomerController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->validate()){
+                $model->customer_image = UploadedFile::getInstance($model,'customer_image');
+
+                // checking the field
+                if(!empty($model->customer_image)){
+                    // making the name of the image file
+                    $imageName = $model->customer_name.'_photo';
+                    // getting extension of the image file
+                    $imageExtension = $model->customer_image->extension;
+                    // save the path of the image in backend/web/uploads 
+                    $model->customer_image->saveAs('uploads/'.$imageName.'.'.$model->customer_image->extension);
+                    //save the path in the db column
+                    $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
+                }
+                else {
+                   $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
+                }
+                $model->updated_by = Yii::$app->user->identity->id;
+                $model->updated_at = new \yii\db\Expression('NOW()');
+                $model->created_by = $model->created_by;
+                $model->created_at = $model->created_at;
+                $model->update();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Customer #".$id,

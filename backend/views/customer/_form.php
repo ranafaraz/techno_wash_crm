@@ -5,6 +5,7 @@ use common\models\Branches;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use kartik\date\DatePicker;
+//use kartik\datetime\DateTimePicker;
 
 
 /* @var $this yii\web\View */
@@ -60,16 +61,31 @@ use kartik\date\DatePicker;
 
     <div class="row">
         <div class="col-md-4">
-    <?php  
-    echo '<label>Customter Registration Date</label>';
+    <?php 
+    echo '<label>Customter Registration Date</label>'; 
     echo DatePicker::widget([
     'model' => $model, 
     'attribute' => 'customer_registration_date',
-    'options' => ['placeholder' => 'Select Registration date ...'],
+    'options' => ['placeholder' => 'Select date ...'],
     'pluginOptions' => [
+        'format' => '20yy-m-d',
         'autoclose'=>true
     ]
     ]);
+
+    // echo '<label>Customter Registration Date</label>';
+    // echo DateTimePicker::widget([
+    // 'model' => $model, 
+    // 'name' => 'customer_registration_date',
+    // 'options' => ['placeholder' => 'Select time'],
+    // 'convertFormat' => true,
+    // 'pluginOptions' => [
+    //     'format' => 'd-M-Y g:i A',
+    //     'startDate' => '01-Mar-2014 12:00 AM',
+    //     'todayHighlight' => true
+    // ]
+    // ]);
+
     ?>
     </div>
         <div class="col-md-4">

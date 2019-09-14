@@ -35,10 +35,11 @@ class CardType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['card_name', 'card_price',  ], 'required'],
+
+            [['card_name', 'card_description', 'card_price', 'card_services'], 'required'],
             [['card_description'], 'string'],
             [['card_price', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at','created_by', 'updated_by','card_services' , 'card_description',], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['card_name'], 'string', 'max' => 100],
             [['card_services'], 'string', 'max' => 200],
         ];

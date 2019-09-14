@@ -27,7 +27,12 @@
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-widget-timepicker": "*",
+<<<<<<< HEAD
         "spanjeta/yii2-backup": "*"
+=======
+        "spanjeta/yii2-backup": "*",
+        "kartik-v/yii2-widget-datetimepicker": "*"
+>>>>>>> 2e686ad37c7d8290e2b34fa4e55ba492dc58ae01
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

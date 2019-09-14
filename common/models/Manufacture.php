@@ -33,10 +33,11 @@ class Manufacture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', ], 'required'],
+
+            [['name', 'description'], 'required'],
             [['description'], 'string'],
             [['created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'description' ,'created_by', 'updated_by'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['name'], 'string', 'max' => 100],
         ];
     }

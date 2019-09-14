@@ -37,9 +37,9 @@ class PurchaseInvoice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vendor_id', 'bilty_no', 'purchase_date', 'dispatch_date', 'receiving_date', 'created_by', 'updated_by'], 'required'],
+            [['vendor_id', 'bilty_no', 'purchase_date', 'dispatch_date', 'receiving_date'], 'required'],
             [['vendor_id', 'created_by', 'updated_by'], 'integer'],
-            [['purchase_date', 'dispatch_date', 'receiving_date', 'created_at', 'updated_at'], 'safe'],
+            [['purchase_date', 'dispatch_date', 'receiving_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['bilty_no'], 'string', 'max' => 20],
             [['vendor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vendor::className(), 'targetAttribute' => ['vendor_id' => 'vendor_id']],
         ];

@@ -35,9 +35,9 @@ class SaleInvoiceServicesDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sale_inv_head_id', 'services_id', 'discount_per_service', 'created_by', 'updated_by'], 'required'],
+            [['sale_inv_head_id', 'services_id', 'discount_per_service'], 'required'],
             [['sale_inv_head_id', 'services_id', 'discount_per_service', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['sale_inv_head_id'], 'exist', 'skipOnError' => true, 'targetClass' => SaleInvoiceHead::className(), 'targetAttribute' => ['sale_inv_head_id' => 'sale_inv_head_id']],
             [['services_id'], 'exist', 'skipOnError' => true, 'targetClass' => Services::className(), 'targetAttribute' => ['services_id' => 'services_id']],
         ];

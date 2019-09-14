@@ -122,6 +122,7 @@ class ComposerStaticInit0c51b51caa7b76089a6868de9dd1f3ad
             'kartik\\editable\\' => 16,
             'kartik\\dynagrid\\' => 16,
             'kartik\\dialog\\' => 14,
+            'kartik\\datetime\\' => 16,
             'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
         ),
@@ -303,6 +304,10 @@ class ComposerStaticInit0c51b51caa7b76089a6868de9dd1f3ad
         'kartik\\dialog\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog/src',
+        ),
+        'kartik\\datetime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker/src',
         ),
         'kartik\\date\\' => 
         array (

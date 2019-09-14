@@ -31,8 +31,9 @@ class UserType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', ], 'required'],
-            [['created_at', 'updated_at','description', 'created_by', 'updated_by'], 'safe'],
+
+            [['name', 'description'], 'required'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['created_by', 'updated_by'], 'integer'],
             [['name'], 'string', 'max' => 30],
             [['description'], 'string', 'max' => 200],

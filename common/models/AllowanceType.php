@@ -35,9 +35,9 @@ class AllowanceType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'allowance_name', 'amount', 'created_by', 'updated_by'], 'required'],
-            [['branch_id', 'amount', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['branch_id', 'allowance_name', 'amount'], 'required'],
+            [['branch_id', 'amount'], 'integer'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['allowance_name'], 'string', 'max' => 50],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
         ];

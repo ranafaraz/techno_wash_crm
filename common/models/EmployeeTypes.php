@@ -33,8 +33,9 @@ class EmployeeTypes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_type_name'], 'required'],
-            [['created_at', 'updated_at', 'description', 'created_by', 'updated_by'], 'safe'],
+
+            [['emp_type_name', 'description'], 'required'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['created_by', 'updated_by'], 'integer'],
             [['emp_type_name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 150],

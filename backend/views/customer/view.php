@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             //'customer_id',
-            'branch_id',
+            'branch.branch_name',
             'customer_name',
             'customer_gender',
             'customer_cnic',
@@ -20,7 +20,7 @@ use yii\widgets\DetailView;
             'customer_registration_date',
             'customer_age',
             'customer_email:email',
-            'customer_image',
+            //'customer_image',
             'customer_occupation',
             'created_by',
             'updated_by',

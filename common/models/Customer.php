@@ -13,7 +13,7 @@ use Yii;
  * @property string $customer_gender
  * @property string $customer_cnic
  * @property string $customer_address
- * @property int $customer_contact_no
+ * @property string $customer_contact_no
  * @property string $customer_registration_date
  * @property int $customer_age
  * @property string $customer_email
@@ -21,9 +21,10 @@ use Yii;
  * @property string $customer_occupation
  * @property int $created_by
  * @property int $updated_by
- * @property string $created_at
  * @property string $updated_at
+ * @property string $created_at
  *
+ * @property Branches $branch
  * @property CustomerVehicles[] $customerVehicles
  * @property Membership[] $memberships
  * @property SaleInvoiceHead[] $saleInvoiceHeads
@@ -44,13 +45,14 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'customer_name', 'customer_gender', 'customer_cnic', 'customer_address', 'customer_contact_no', 'customer_registration_date', 'customer_age', 'customer_email', 'customer_image', 'customer_occupation'], 'required'],
-            [['branch_id', 'customer_contact_no', 'customer_age', 'created_by', 'updated_by'], 'integer'],
+            [['branch_id', 'customer_name', 'customer_gender', 'customer_cnic', 'customer_address', 'customer_contact_no', 'customer_registration_date', 'customer_age', 'customer_email', 'customer_occupation'], 'required'],
+            [['branch_id', 'customer_age', 'created_by', 'updated_by'], 'integer'],
             [['customer_gender'], 'string'],
-            [['customer_registration_date', 'created_at', 'updated_at'], 'safe'],
+            [['customer_registration_date', 'updated_at', 'created_at', 'created_by', 'updated_by'], 'safe'],
             [['customer_name'], 'string', 'max' => 100],
-            [['customer_cnic'], 'string', 'max' => 15],
+            [['customer_cnic', 'customer_contact_no'], 'string', 'max' => 15],
             [['customer_address', 'customer_email', 'customer_image', 'customer_occupation'], 'string', 'max' => 255],
+            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
         ];
     }
 
@@ -74,9 +76,17 @@ class Customer extends \yii\db\ActiveRecord
             'customer_occupation' => 'Customer Occupation',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
-            'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'created_at' => 'Created At',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBranch()
+    {
+        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
     }
 
     /**

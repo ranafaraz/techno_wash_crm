@@ -40,9 +40,9 @@ class Membership extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['card_type_id', 'customer_id', 'customer_vehicle_id', 'membership_start_date', 'membership_end_date', 'card_issued_by', 'car_registration_no', 'created_by', 'updated_by'], 'required'],
+            [['card_type_id', 'customer_id', 'customer_vehicle_id', 'membership_start_date', 'membership_end_date', 'card_issued_by', 'car_registration_no'], 'required'],
             [['card_type_id', 'customer_id', 'customer_vehicle_id', 'created_by', 'updated_by'], 'integer'],
-            [['membership_start_date', 'membership_end_date', 'created_at', 'updated_at'], 'safe'],
+            [['membership_start_date', 'membership_end_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['card_issued_by'], 'string', 'max' => 50],
             [['car_registration_no'], 'string', 'max' => 20],
             [['card_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => CardType::className(), 'targetAttribute' => ['card_type_id' => 'card_type_id']],
@@ -58,8 +58,8 @@ class Membership extends \yii\db\ActiveRecord
     {
         return [
             'membership_id' => 'Membership ID',
-            'card_type_id' => 'Card Type ID',
-            'customer_id' => 'Customer ID',
+            'card_type_id' => 'Card Name',
+            'customer_id' => 'Customer Name',
             'customer_vehicle_id' => 'Customer Vehicle ID',
             'membership_start_date' => 'Membership Start Date',
             'membership_end_date' => 'Membership End Date',
