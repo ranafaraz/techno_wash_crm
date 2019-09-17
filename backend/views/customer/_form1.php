@@ -12,11 +12,12 @@ use common\models\VehicleTypeSubCategory;
 /* @var $this yii\web\View */
 /* @var $model common\models\Customer */
 /* @var $form yii\widgets\ActiveForm */
+$customerName = $model->customer_name;
 ?>
 <div class="row">
-        <div class="col-md-12">
-            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Customer</h2>
-        </div>
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Update Customer (<b><?php echo $customerName; ?></b>)</h2>
+    </div>
 </div>
 <div class="customer-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 

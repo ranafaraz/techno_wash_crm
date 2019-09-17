@@ -59,7 +59,7 @@ class SalaryController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Salary #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -153,7 +153,7 @@ class SalaryController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Salary #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

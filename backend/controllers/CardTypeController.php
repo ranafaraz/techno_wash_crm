@@ -59,7 +59,7 @@ class CardTypeController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "CardType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -158,7 +158,7 @@ class CardTypeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update CardType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

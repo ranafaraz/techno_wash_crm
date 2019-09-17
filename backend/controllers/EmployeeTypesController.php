@@ -59,7 +59,7 @@ class EmployeeTypesController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "EmployeeTypes #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -165,7 +165,7 @@ class EmployeeTypesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update EmployeeTypes #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

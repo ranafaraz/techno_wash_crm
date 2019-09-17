@@ -59,7 +59,7 @@ class WageTypeController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "WageType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -108,7 +108,7 @@ class WageTypeController extends Controller
 
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new WageType",
+                    'title'=> "Create New WageType",
                     'content'=>'<span class="text-success">Create WageType success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -116,7 +116,7 @@ class WageTypeController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new WageType",
+                    'title'=> "Create New WageType",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -159,7 +159,7 @@ class WageTypeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update WageType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -174,7 +174,7 @@ class WageTypeController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "WageType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -183,7 +183,7 @@ class WageTypeController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update WageType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

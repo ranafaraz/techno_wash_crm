@@ -59,7 +59,7 @@ class StockIssueController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "StockIssue #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -102,7 +102,7 @@ class StockIssueController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new StockIssue",
+                    'title'=> "Create New StockIssue",
                     'content'=>'<span class="text-success">Create StockIssue success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -110,7 +110,7 @@ class StockIssueController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new StockIssue",
+                    'title'=> "Create New StockIssue",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -153,7 +153,7 @@ class StockIssueController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update StockIssue #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -163,7 +163,7 @@ class StockIssueController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "StockIssue #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -172,7 +172,7 @@ class StockIssueController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update StockIssue #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

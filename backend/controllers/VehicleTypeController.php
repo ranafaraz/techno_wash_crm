@@ -59,7 +59,7 @@ class VehicleTypeController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "VehicleType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -107,7 +107,7 @@ class VehicleTypeController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new VehicleType",
+                    'title'=> "Create New VehicleType",
                     'content'=>'<span class="text-success">Create VehicleType success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -115,7 +115,7 @@ class VehicleTypeController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new VehicleType",
+                    'title'=> "Create New VehicleType",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -158,7 +158,7 @@ class VehicleTypeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update VehicleType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -173,7 +173,7 @@ class VehicleTypeController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "VehicleType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -182,7 +182,7 @@ class VehicleTypeController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update VehicleType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

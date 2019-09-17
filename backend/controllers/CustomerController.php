@@ -63,7 +63,7 @@ class CustomerController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -122,10 +122,10 @@ class CustomerController extends Controller
                     $model->customer_image->saveAs('uploads/'.$imageName.'.'.$model->customer_image->extension);
                     //save the path in the db column
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
-                }
-                else {
-                    $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
-                }
+                    }
+                    else {
+                        $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
+                    }
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
@@ -234,7 +234,7 @@ class CustomerController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
