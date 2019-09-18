@@ -182,7 +182,7 @@ class CustomerController extends Controller
                     }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Customer",
+                    'title'=> "Create New Customer",
                     'content'=>'<span class="text-success">Create Customer success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -191,7 +191,7 @@ class CustomerController extends Controller
             } // closing of else if
             else{           
                 return [
-                    'title'=> "Create new Customer",
+                    'title'=> "Create New Customer",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -265,7 +265,7 @@ class CustomerController extends Controller
                 $model->update();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -274,7 +274,7 @@ class CustomerController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

@@ -54,7 +54,7 @@ class SaleInvoiceHead extends \yii\db\ActiveRecord
     {
         return [
             'sale_inv_head_id' => 'Sale Inv Head ID',
-            'customer_id' => 'Customer ID',
+            'customer_id' => 'Customer Nmae',
             'date' => 'Date',
             'total_amount' => 'Total Amount',
             'discount' => 'Discount',

@@ -102,7 +102,7 @@ class PurchaseInvoiceController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new PurchaseInvoice",
+                    'title'=> "Create New PurchaseInvoice",
                     'content'=>'<span class="text-success">Create PurchaseInvoice success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -110,7 +110,7 @@ class PurchaseInvoiceController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new PurchaseInvoice",
+                    'title'=> "Create New PurchaseInvoice",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -163,7 +163,7 @@ class PurchaseInvoiceController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "PurchaseInvoice #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -172,7 +172,7 @@ class PurchaseInvoiceController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update PurchaseInvoice #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

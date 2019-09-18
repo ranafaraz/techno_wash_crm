@@ -49,7 +49,7 @@ class Manufacture extends \yii\db\ActiveRecord
     {
         return [
             'manufacture_id' => 'Manufacture ID',
-            'name' => 'Name',
+            'name' => 'Manufacturer Name',
             'description' => 'Description',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',

@@ -107,7 +107,7 @@ class MembershipController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Membership",
+                    'title'=> "Create New Membership",
                     'content'=>'<span class="text-success">Create Membership success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -115,7 +115,7 @@ class MembershipController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Membership",
+                    'title'=> "Create New Membership",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -173,7 +173,7 @@ class MembershipController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Membership #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -182,7 +182,7 @@ class MembershipController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Membership #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

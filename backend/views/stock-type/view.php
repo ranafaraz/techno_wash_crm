@@ -4,11 +4,20 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\StockType */
+$stocktypeName = $model->name;
 ?>
-<div class="stock-type-view">
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View StockType (<b><?php echo $stocktypeName; ?></b>)</h2>
+    </div>
+</div>
+<div class="stock-type-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
+
 <?php 
+
     $created_by = $model->created_by;
     $updated_by = $model->updated_by;
+
     $createdBy = Yii::$app->db->createCommand("SELECT username FROM user WHERE id = '$created_by'")->queryAll();
     if (!empty($createdBy)) {
         $createdBy = $createdBy[0]['username'];
@@ -30,8 +39,8 @@ use yii\widgets\DetailView;
             //'stock_type_id',
             'name',
             'description:ntext',
-            'created_by',
-            'updated_by',
+            'created_at',
+            'updated_at',
             [
              'attribute' => 'created_by',
              'format'=>'raw',

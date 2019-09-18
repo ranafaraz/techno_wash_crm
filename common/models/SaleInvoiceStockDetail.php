@@ -51,7 +51,7 @@ class SaleInvoiceStockDetail extends \yii\db\ActiveRecord
         return [
             'sale_inv_stock_detail_id' => 'Sale Inv Stock Detail ID',
             'sale_inv_head_id' => 'Sale Inv Head ID',
-            'stock_id' => 'Stock ID',
+            'stock_id' => 'Stock Name',
             'discount_per_item' => 'Discount Per Item',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

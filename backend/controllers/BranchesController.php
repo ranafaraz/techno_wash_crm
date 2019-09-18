@@ -107,7 +107,7 @@ class BranchesController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Branches",
+                    'title'=> "Create New Branches",
                     'content'=>'<span class="text-success">Create Branches success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -115,7 +115,7 @@ class BranchesController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Branches",
+                    'title'=> "Create New Branches",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -173,7 +173,7 @@ class BranchesController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Branches #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -182,7 +182,7 @@ class BranchesController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Branches #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

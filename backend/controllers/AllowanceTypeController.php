@@ -107,7 +107,7 @@ class AllowanceTypeController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new AllowanceType",
+                    'title'=> "Create New AllowanceType",
                     'content'=>'<span class="text-success">Create AllowanceType success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -115,7 +115,7 @@ class AllowanceTypeController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new AllowanceType",
+                    'title'=> "Create New AllowanceType",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -178,7 +178,7 @@ class AllowanceTypeController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "AllowanceType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -187,7 +187,7 @@ class AllowanceTypeController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update AllowanceType #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

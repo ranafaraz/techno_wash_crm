@@ -4,11 +4,11 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\AllowanceType */
-$AllowanceName = $model->allowance_name;
+$allowanceName = $model->allowance_name;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View AllowanceType (<b><?php echo $AllowanceName; ?></b>)</h2>
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View AllowanceType (<b><?php echo $allowanceName; ?></b>)</h2>
     </div>
 </div>
 <div class="allowance-type-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">

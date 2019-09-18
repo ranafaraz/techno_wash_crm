@@ -52,8 +52,8 @@ class StockIssue extends \yii\db\ActiveRecord
     {
         return [
             'stock_issue_id' => 'Stock Issue ID',
-            'emp_id' => 'Emp ID',
-            'stock_id' => 'Stock ID',
+            'emp_id' => 'Emp Name',
+            'stock_id' => 'Stock Name',
             'stock_issue_date' => 'Stock Issue Date',
             'description' => 'Description',
             'created_at' => 'Created At',

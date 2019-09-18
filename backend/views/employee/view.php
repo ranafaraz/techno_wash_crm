@@ -12,7 +12,8 @@ $empName = $model->emp_name;
     </div>
 </div>
 <div class="employee-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
-<?php
+
+    <?php
     $created_by = $model->created_by; // get the created_by (id)
     $updated_by = $model->updated_by;  // get the updated_by (id)
 
@@ -59,8 +60,8 @@ $empName = $model->emp_name;
             [
              'attribute' => 'created_by',
              'format'=>'raw',
-             'value'=>  $createdBy,
-            ],               
+             'value'=> $createdBy,
+            ],  
             [
              'attribute' => 'updated_by',
              'format'=>'raw',
