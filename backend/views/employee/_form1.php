@@ -15,10 +15,10 @@ $empName = $model->emp_name;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Update Employee (<b><?php echo $empName; ?></b>)</h2>
+        <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Employee (<b><?php echo $empName; ?></b>)</h2>
     </div>
 </div>
-<div class="employee-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
+<div class="employee-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="row">
@@ -33,7 +33,7 @@ $empName = $model->emp_name;
                 'clientOptions' => [
                     'autoclose' => true,
                     'convertFormat' => false,                    
-                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'format' => 'yyyy-mm-dd  hh:ii:ss',
                     'todayBtn' => true
                 ]
             ]);?>
@@ -50,7 +50,7 @@ $empName = $model->emp_name;
                 'clientOptions' => [
                     'autoclose' => true,
                     'convertFormat' => false,                    
-                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'format' => 'yyyy-mm-dd  hh:ii:ss',
                     'todayBtn' => true
                 ]
             ]);?>

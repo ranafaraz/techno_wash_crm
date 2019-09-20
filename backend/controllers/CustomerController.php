@@ -59,6 +59,7 @@ class CustomerController extends Controller
      */
     public function actionView($id)
     {   
+        //return $this->render('customer-detail-view');
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -225,7 +226,9 @@ class CustomerController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);  
+        $customer_image = Yii::$app->db->createCommand("SELECT customer_image FROM customer where customer_id = $id")->queryAll();
+        $customerImage=$customer_image[0]["customer_image"];     
 
         if($request->isAjax){
             /*
@@ -256,7 +259,7 @@ class CustomerController extends Controller
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
                 }
                 else {
-                   $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
+                   $model->customer_image = $customerImage;
                 }
                 $model->updated_by = Yii::$app->user->identity->id;
                 $model->updated_at = new \yii\db\Expression('NOW()');

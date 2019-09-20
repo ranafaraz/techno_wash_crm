@@ -167,7 +167,9 @@ class CustomerVehiclesController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);  
+        $image = Yii::$app->db->createCommand("SELECT image FROM customer_vehicles where customer_vehicle_id = $id")->queryAll();
+        $vehicleImage=$image[0]["image"];        
 
         if($request->isAjax){
             /*
@@ -198,7 +200,7 @@ class CustomerVehiclesController extends Controller
                     $model->image = 'uploads/'.$imageName.'.'.$model->image->extension;
                 }
                 else {
-                   $model->image = 'uploads/'.'default-image-name.jpg'; 
+                   $model->image = $vehicleImage; 
                 }
                 $model->updated_by = Yii::$app->user->identity->id;
                 $model->updated_at = new \yii\db\Expression('NOW()');

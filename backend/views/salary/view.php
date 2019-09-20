@@ -5,7 +5,12 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Salary */
 ?>
-<div class="salary-view">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">View Salary</h2>
+        </div>
+</div>
+<div class="salary-view" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 <?php 
     
     $created_by = $model->created_by;
