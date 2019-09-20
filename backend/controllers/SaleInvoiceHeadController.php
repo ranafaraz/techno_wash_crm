@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 /**
  * SaleInvoiceHeadController implements the CRUD actions for SaleInvoiceHead model.
@@ -22,6 +23,20 @@ class SaleInvoiceHeadController extends Controller
     public function behaviors()
     {
         return [
+             'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -81,6 +96,9 @@ class SaleInvoiceHeadController extends Controller
      */
     public function actionCreateSaleInvoice(){
         return $this->render('create-sale-invoice');
+    }
+    public function actionSaleInvoiceView(){
+        return $this->render('sale-invoice-view');
     }
     public function actionFetchInfo(){
         return $this->render('fetch-info');
