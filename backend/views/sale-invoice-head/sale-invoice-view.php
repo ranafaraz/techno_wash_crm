@@ -4,7 +4,7 @@
 	<title></title>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box box-default">
@@ -21,7 +21,13 @@
 					            <div class="active tab-pane" id="services">
 					             	<div class="row">
 					             		<div class="col-md-10">
-					             			<
+					             			<h2>Services</h2>
+					             		</div>
+					             		<div class="col-md-2">
+					             			<a href="" class="btn btn-success">
+											<i class="glyphicon glyphicon-plus"></i>
+											 Add Service
+					             			</a>
 					             		</div>
 					             	</div> 
 					            </div>

@@ -31,7 +31,7 @@ class SaleInvoiceHeadController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -99,6 +99,12 @@ class SaleInvoiceHeadController extends Controller
     }
     public function actionSaleInvoiceView(){
         return $this->render('sale-invoice-view');
+    }
+    public function actionAddSaleInvoiceService(){
+        return $this->render('add-sale-invoice-service');
+    }
+    public function actionAddSaleInvoiceStock(){
+        return $this->render('add-sale-invoice-stock');
     }
     public function actionFetchInfo(){
         return $this->render('fetch-info');
