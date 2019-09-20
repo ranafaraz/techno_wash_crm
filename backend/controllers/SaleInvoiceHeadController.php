@@ -79,6 +79,12 @@ class SaleInvoiceHeadController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    public function actionCreateSaleInvoice(){
+        return $this->render('create-sale-invoice');
+    }
+    public function actionFetchInfo(){
+        return $this->render('fetch-info');
+    }
     public function actionCreate()
     {
         $request = Yii::$app->request;

@@ -26,8 +26,8 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Sale Invoice Heads','class'=>'btn btn-success']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create-sale-invoice'],
+                    ['role'=>'','title'=> 'Create new Sale Invoice Heads','class'=>'btn btn-success']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
                     '{toggleData}'.
