@@ -4,8 +4,14 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Branches */
+$branchName = $model->branch_name;
 ?>
-<div class="branches-view">
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View Branch (<b><?php echo $branchName; ?></b>)</h2>
+    </div>
+</div>
+<div class="branches-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 <?php 
 
     $created_by = $model->created_by;

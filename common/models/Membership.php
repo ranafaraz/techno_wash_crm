@@ -60,7 +60,7 @@ class Membership extends \yii\db\ActiveRecord
             'membership_id' => 'Membership ID',
             'card_type_id' => 'Card Name',
             'customer_id' => 'Customer Name',
-            'customer_vehicle_id' => 'Customer Vehicle ID',
+            'customer_vehicle_id' => 'Vehicle Registration No',
             'membership_start_date' => 'Membership Start Date',
             'membership_end_date' => 'Membership End Date',
             'card_issued_by' => 'Card Issued By',

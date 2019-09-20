@@ -51,7 +51,7 @@ class SaleInvoiceServicesDetail extends \yii\db\ActiveRecord
         return [
             'sale_inv_ser_detail_id' => 'Sale Inv Ser Detail ID',
             'sale_inv_head_id' => 'Sale Inv Head ID',
-            'services_id' => 'Services ID',
+            'services_id' => 'Service Name',
             'discount_per_service' => 'Discount Per Service',
             'created_at' => 'Created At',
             'created_by' => 'Created By',

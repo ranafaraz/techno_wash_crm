@@ -145,7 +145,7 @@ use common\models\VehicleTypeSubCategory;
                             <div class="col-sm-3">
                                  <?= $form->field($value, "[{$i}]vehicle_typ_sub_id")->dropDownList(
                                     ArrayHelper::map(VehicleTypeSubCategory::find()->all(),'vehicle_typ_sub_id','name'),
-                                        ['prompt'=>'Vehivle Type Category']
+                                        ['prompt'=>'Select Vehicle Sub Type']
                                 )?>
                             </div>
                             <div class="col-sm-3">

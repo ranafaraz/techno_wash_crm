@@ -53,6 +53,7 @@ class Stock extends \yii\db\ActiveRecord
             [['stock_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => StockType::className(), 'targetAttribute' => ['stock_type_id' => 'stock_type_id']],
             [['purchase_invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => PurchaseInvoice::className(), 'targetAttribute' => ['purchase_invoice_id' => 'purchase_invoice_id']],
             [['manufacture_id'], 'exist', 'skipOnError' => true, 'targetClass' => Manufacture::className(), 'targetAttribute' => ['manufacture_id' => 'manufacture_id']],
+             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']], 
         ];
     }
 
@@ -65,10 +66,10 @@ class Stock extends \yii\db\ActiveRecord
             'stock_id' => 'Stock ID',
             'branch_id' => 'Branch Name',
             'stock_type_id' => 'Stock Type Name',
-            'purchase_invoice_id' => 'Purchase Invoice ID',
-            'manufacture_id' => 'Manufacture ID',
+            'purchase_invoice_id' => 'Bilty No',
+            'manufacture_id' => 'Manufacture Name',
             'barcode' => 'Barcode',
-            'name' => 'Name',
+            'name' => 'Stock Name',
             'expiry_date' => 'Expiry Date',
             'purchase_price' => 'Purchase Price',
             'selling_price' => 'Selling Price',
@@ -79,6 +80,11 @@ class Stock extends \yii\db\ActiveRecord
             'updated_by' => 'Updated By',
         ];
     }
+
+    public function getBranch() 
+   { 
+       return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']); 
+   } 
 
     /**
      * @return \yii\db\ActiveQuery

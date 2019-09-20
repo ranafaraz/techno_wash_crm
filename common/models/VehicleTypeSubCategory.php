@@ -53,7 +53,7 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
         return [
             'vehicle_typ_sub_id' => 'Vehicle Typ Sub ID',
             'vehicle_type_id' => 'Vehicle Type Name',
-            'name' => 'Name',
+            'name' => 'Vehicle Sub Type Name',
             'manufacture' => 'Manufacture',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

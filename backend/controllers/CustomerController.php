@@ -63,7 +63,7 @@ class CustomerController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -122,10 +122,10 @@ class CustomerController extends Controller
                     $model->customer_image->saveAs('uploads/'.$imageName.'.'.$model->customer_image->extension);
                     //save the path in the db column
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
-                }
-                else {
-                    $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
-                }
+                    }
+                    else {
+                        $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
+                    }
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
@@ -182,7 +182,7 @@ class CustomerController extends Controller
                     }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Customer",
+                    'title'=> "Create New Customer",
                     'content'=>'<span class="text-success">Create Customer success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -191,7 +191,7 @@ class CustomerController extends Controller
             } // closing of else if
             else{           
                 return [
-                    'title'=> "Create new Customer",
+                    'title'=> "Create New Customer",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -234,7 +234,7 @@ class CustomerController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -265,7 +265,7 @@ class CustomerController extends Controller
                 $model->update();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -274,7 +274,7 @@ class CustomerController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Customer #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

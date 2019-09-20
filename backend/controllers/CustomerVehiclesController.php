@@ -61,7 +61,7 @@ class CustomerVehiclesController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "CustomerVehicles #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -125,7 +125,7 @@ class CustomerVehiclesController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new CustomerVehicles",
+                    'title'=> "Create New CustomerVehicles",
                     'content'=>'<span class="text-success">Create CustomerVehicles success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -133,7 +133,7 @@ class CustomerVehiclesController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new CustomerVehicles",
+                    'title'=> "Create New CustomerVehicles",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -176,7 +176,7 @@ class CustomerVehiclesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update CustomerVehicles #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -207,7 +207,7 @@ class CustomerVehiclesController extends Controller
                 $model->update();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "CustomerVehicles #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -216,7 +216,7 @@ class CustomerVehiclesController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update CustomerVehicles #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

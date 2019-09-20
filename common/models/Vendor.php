@@ -51,7 +51,7 @@ class Vendor extends \yii\db\ActiveRecord
         return [
             'vendor_id' => 'Vendor ID',
             'branch_id' => 'Branch Name',
-            'name' => 'Name',
+            'name' => 'Vendor Name',
             'ntn' => 'Ntn',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',

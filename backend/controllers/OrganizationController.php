@@ -60,7 +60,7 @@ class OrganizationController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Organization #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -125,7 +125,7 @@ class OrganizationController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Organization",
+                    'title'=> "Create New Organization",
                     'content'=>'<span class="text-success">Create Organization success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -133,7 +133,7 @@ class OrganizationController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Organization",
+                    'title'=> "Create New Organization",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -178,7 +178,7 @@ class OrganizationController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Organization #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -207,7 +207,7 @@ class OrganizationController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Organization #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -216,7 +216,7 @@ class OrganizationController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Organization #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

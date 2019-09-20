@@ -4,11 +4,18 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Manufacture */
+$manufactureName = $model->name;
 ?>
-<div class="manufacture-view">
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View Manufacture (<b><?php echo $manufactureName; ?></b>)</h2>
+    </div>
+</div>
+<div class="manufacture-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 <?php 
-$created_by = $model->created_by;
+    $created_by = $model->created_by;
     $updated_by = $model->updated_by;
+    
     $createdBy = Yii::$app->db->createCommand("SELECT username FROM user WHERE id = '$created_by'")->queryAll();
     if (!empty($createdBy)) {
         $createdBy = $createdBy[0]['username'];
@@ -30,8 +37,7 @@ $created_by = $model->created_by;
         'attributes' => [
             //'manufacture_id',
             'name',
-            'description:ntext',
-            
+            'description:ntext',            
             'created_at',
             'updated_at',
             [

@@ -4,11 +4,20 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\UserType */
+$usertypeName = $model->name;
 ?>
-<div class="user-type-view">
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View UserType (<b><?php echo $usertypeName; ?></b>)</h2>
+    </div>
+</div>
+<div class="user-type-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
+
 <?php 
+
     $created_by = $model->created_by;
     $updated_by = $model->updated_by;
+
     $createdBy = Yii::$app->db->createCommand("SELECT username FROM user WHERE id = '$created_by'")->queryAll();
     if (!empty($createdBy)) {
         $createdBy = $createdBy[0]['username'];

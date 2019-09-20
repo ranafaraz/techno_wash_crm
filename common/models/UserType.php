@@ -47,7 +47,7 @@ class UserType extends \yii\db\ActiveRecord
     {
         return [
             'user_type_id' => 'User Type ID',
-            'name' => 'Name',
+            'name' => 'User Type Name',
             'description' => 'Description',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

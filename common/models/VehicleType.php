@@ -49,7 +49,7 @@ class VehicleType extends \yii\db\ActiveRecord
     {
         return [
             'vehical_type_id' => 'Vehical Type ID',
-            'name' => 'Name',
+            'name' => 'Vehical Type Name',
             'description' => 'Description',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',

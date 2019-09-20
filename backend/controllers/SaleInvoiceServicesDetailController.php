@@ -59,7 +59,7 @@ class SaleInvoiceServicesDetailController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "SaleInvoiceServicesDetail #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -102,7 +102,7 @@ class SaleInvoiceServicesDetailController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new SaleInvoiceServicesDetail",
+                    'title'=> "Create New SaleInvoiceServicesDetail",
                     'content'=>'<span class="text-success">Create SaleInvoiceServicesDetail success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -110,7 +110,7 @@ class SaleInvoiceServicesDetailController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new SaleInvoiceServicesDetail",
+                    'title'=> "Create New SaleInvoiceServicesDetail",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -153,7 +153,7 @@ class SaleInvoiceServicesDetailController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update SaleInvoiceServicesDetail #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -172,7 +172,7 @@ class SaleInvoiceServicesDetailController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update SaleInvoiceServicesDetail #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

@@ -5,8 +5,14 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Organization */
+$orgName = $model->org_name;
 ?>
-<div class="organization-view">
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View Organization (<b><?php echo $orgName; ?></b>)</h2>
+    </div>
+</div>
+<div class="organization-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
      <?php 
 
     $created_by = $model->created_by;
@@ -31,7 +37,7 @@ use yii\helpers\Html;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'org_id',
+            //'org_id',
             'org_name',
             'org_address',
             'org_owner',

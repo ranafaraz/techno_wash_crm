@@ -4,15 +4,18 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Vendor */
+$vendorName = $model->name;
 ?>
-<div class="vendor-view">
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View Vendor (<b><?php echo $vendorName; ?></b>)</h2>
+    </div>
+</div>
+<div class="vendor-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 <?php 
     
     $created_by = $model->created_by;
     $updated_by = $model->updated_by;
-    $branch_id  = $model->branch_id;
-    $branch_name = Yii::$app->db->createCommand("SELECT branch_name FROM branches WHERE branch_id = '$branch_id'")->queryAll();
-    $branchName=$branch_name[0]['branch_name'];
     
     $createdBy = Yii::$app->db->createCommand("SELECT username FROM user WHERE id = '$created_by'")->queryAll();
     if (!empty($createdBy)) {
@@ -32,12 +35,8 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'vendor_id',
-            [
-             'attribute' => 'branch_id',
-             'format'=>'raw',
-             'value'=> $branchName,
-            ], 
+            //'vendor_id',
+            'branch.branch_name', 
             'name',
             'ntn',
             'created_at',

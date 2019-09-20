@@ -59,7 +59,7 @@ class SaleInvoiceHeadController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "SaleInvoiceHead #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -79,6 +79,12 @@ class SaleInvoiceHeadController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    public function actionCreateSaleInvoice(){
+        return $this->render('create-sale-invoice');
+    }
+    public function actionFetchInfo(){
+        return $this->render('fetch-info');
+    }
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -119,7 +125,7 @@ class SaleInvoiceHeadController extends Controller
             // closing of transaction handling
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new SaleInvoiceHead",
+                    'title'=> "Create New SaleInvoiceHead",
                     'content'=>'<span class="text-success">Create SaleInvoiceHead success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -127,7 +133,7 @@ class SaleInvoiceHeadController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new SaleInvoiceHead",
+                    'title'=> "Create New SaleInvoiceHead",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -170,7 +176,7 @@ class SaleInvoiceHeadController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update SaleInvoiceHead #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -180,7 +186,7 @@ class SaleInvoiceHeadController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "SaleInvoiceHead #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -189,7 +195,7 @@ class SaleInvoiceHeadController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update SaleInvoiceHead #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

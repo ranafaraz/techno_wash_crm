@@ -27,7 +27,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'customer_vehicle_id',
-        //'value'=>'customerVehicle.customer_name',        
+        'value'=>'customerVehicle.registration_no',        
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

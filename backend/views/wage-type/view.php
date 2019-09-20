@@ -4,8 +4,14 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\WageType */
+$wageName = $model->wage_name;
 ?>
-<div class="wage-type-view">
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">View Wagetype (<b><?php echo $wageName; ?></b>)</h2>
+    </div>
+</div>
+<div class="wage-type-view" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
 <?php 
     
     $created_by = $model->created_by;
@@ -28,7 +34,7 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             //'wage_type_id',
-            'branch_id',
+            'branch.branch_name',
             'wage_name',
             'basic_pay',
             'created_at',

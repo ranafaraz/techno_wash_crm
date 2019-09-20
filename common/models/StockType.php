@@ -49,7 +49,7 @@ class StockType extends \yii\db\ActiveRecord
     {
         return [
             'stock_type_id' => 'Stock Type ID',
-            'name' => 'Name',
+            'name' => 'Stock Type Name',
             'description' => 'Description',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',

@@ -52,7 +52,7 @@ class PurchaseInvoice extends \yii\db\ActiveRecord
     {
         return [
             'purchase_invoice_id' => 'Purchase Invoice ID',
-            'vendor_id' => 'Vendor ID',
+            'vendor_id' => 'Vendor Name',
             'bilty_no' => 'Bilty No',
             'purchase_date' => 'Purchase Date',
             'dispatch_date' => 'Dispatch Date',
