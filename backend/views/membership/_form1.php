@@ -13,10 +13,10 @@ use dosamigos\datetimepicker\DateTimePicker;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Update Membership</h2>
+        <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Membership</h2>
     </div>
 </div>
-<div class="membership-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
+<div class="membership-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -40,8 +40,8 @@ use dosamigos\datetimepicker\DateTimePicker;
         <div class="col-md-4">
 
     <?= $form->field($model, 'customer_vehicle_id')->dropDownList(
-                ArrayHelper::map(CustomerVehicles::find()->all(),'customer_vehicle_id','customer_vehicle_id'),
-                ['prompt'=>'Select Customer Vehicle',]
+                ArrayHelper::map(CustomerVehicles::find()->all(),'customer_vehicle_id','registration_no'),
+                ['prompt'=>'Select Customer Vehicle Reg No.',]
                 )?>
 
     </div>
@@ -60,7 +60,7 @@ use dosamigos\datetimepicker\DateTimePicker;
                 'clientOptions' => [
                     'autoclose' => true,
                     'convertFormat' => false,                    
-                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'format' => 'yyyy-mm-dd  hh:ii:ss',
                     'todayBtn' => true
                 ]
             ]);
@@ -77,7 +77,7 @@ use dosamigos\datetimepicker\DateTimePicker;
                 'clientOptions' => [
                     'autoclose' => true,
                     'convertFormat' => false,                    
-                    'format' => 'dd-mm-yyyy  HH:ii P',
+                    'format' => 'yyyy-mm-dd  hh:ii:ss',
                     'todayBtn' => true
                 ]
             ]);

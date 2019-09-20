@@ -168,7 +168,7 @@ class OrganizationController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-         $org_logo = Yii::$app->db->createCommand("SELECT org_logo FROM organization where org_id = $id")->queryAll();
+        $org_logo = Yii::$app->db->createCommand("SELECT org_logo FROM organization where org_id = $id")->queryAll();
         $org_image=$org_logo[0]["org_logo"];       
     
         if($request->isAjax){

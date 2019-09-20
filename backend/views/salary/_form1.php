@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 ?>
 <div class="row">
         <div class="col-md-12">
-            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Create New Salary</h2>
+            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Salary</h2>
         </div>
 </div>
 <div class="salary-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">

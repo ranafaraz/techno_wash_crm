@@ -11,10 +11,10 @@ $allowanceName = $model->allowance_name;
 ?>
 <div class="row">
     <div class="col-md-12">
-        <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Update AllowanceType (<b><?php echo $allowanceName; ?></b>)</h2>
+        <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update AllowanceType (<b><?php echo $allowanceName; ?></b>)</h2>
     </div>
 </div>
-<div class="allowance-type-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
+<div class="allowance-type-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
     <?php $form = ActiveForm::begin(); ?>
 

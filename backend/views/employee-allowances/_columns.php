@@ -22,6 +22,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'allowance_type_id',
+        'value' => 'allowanceType.allowance_name',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',

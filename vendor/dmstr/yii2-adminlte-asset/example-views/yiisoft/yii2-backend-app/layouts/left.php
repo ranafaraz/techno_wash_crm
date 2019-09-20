@@ -7,18 +7,13 @@
 ?>
 <style type="text/css">
     .main-sidebar{
-        color: #ECF0F5;
-        background-color: #FAB61C;
-        font-family:verdana;
-    }
-    .main-sidebar a{
-        color:  #000000;
-
+        font-family: georgia;
     }
     .sidebar a:hover{
         font-weight: bold;
-        background-color: #000000;
-        color: #ffffff;
+        background-color: #3C8DBC !important;
+        color: #ffffff !important;
+        border-radius: 2px !important;
     }
     #user-name{
         color:green;

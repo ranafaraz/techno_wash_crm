@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace backend\controllers;
 
 use Yii;
@@ -99,7 +99,27 @@ class EmployeeController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->validate()){
+                $model->emp_image = UploadedFile::getInstance($model,'emp_image');
+                if (!empty($model->emp_image)) {
+                    // making the name of image file
+                    $imageName = $model->emp_name.'_photo';
+                    // getting the extension of image file
+                    $imageExtension = $model->emp_image->extension;
+                    // save the path of the image in backend/web/uploads
+                    $model->emp_image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
+                    //save the path in the db column
+                    $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
+                }
+                else{
+                    $model->emp_image = 'uploads/'.'default.png';
+                }
+
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0'; 
+                $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create New Employee",
@@ -144,7 +164,9 @@ class EmployeeController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
+        $emp_image = Yii::$app->db->createCommand("SELECT emp_image FROM employee where emp_id = $id")->queryAll();
+        $empImage=$emp_image[0]["emp_image"];       
 
         if($request->isAjax){
             /*
@@ -160,7 +182,27 @@ class EmployeeController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post()) && $model->validate()){
+                $model->emp_image = UploadedFile::getInstance($model,'emp_image');
+                if (!empty($model->emp_image)) {
+                    // making the name of image file
+                    $imageName = $model->emp_name.'_photo';
+                    // getting the extension of image file
+                    $imageExtension = $model->emp_image->extension;
+                    // save the path of the image in backend/web/uploads
+                    $model->emp_image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
+                    //save the path in the db column
+                    $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
+                }
+                else{
+                    $model->emp_image = $empImage;
+                }
+
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0'; 
+                $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "",
