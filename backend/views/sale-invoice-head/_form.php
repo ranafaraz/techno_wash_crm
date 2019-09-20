@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\Customer;
+use dosamigos\datetimepicker\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\SaleInvoiceHead */
@@ -15,21 +18,32 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'customer_id')->textInput() ?>
-
-    <?= $form->field($model, 'date')->textInput() ?>
-
-    <?= $form->field($model, 'total_amount')->textInput() ?>
-
-    <?= $form->field($model, 'discount')->textInput() ?>
-
-    <?= $form->field($model, 'net_total')->textInput() ?>
-
-    <?= $form->field($model, 'paid_amount')->textInput() ?>
-
-    <?= $form->field($model, 'remaining_amount')->textInput() ?>
-
-  
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+             <?= $form->field($model, 'customer_id')->dropDownList(
+                ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),
+                ['prompt'=>'Select Customer',]
+    )?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <label>Date</label>
+            <?= DateTimePicker::widget([
+                'model' => $model,
+                'attribute' => 'date',
+                'language' => 'en',
+                'size' => 'ms',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'convertFormat' => false,                    
+                    'format' => 'yyyy-mm-dd  HH:ii P',
+                    'todayBtn' => true
+                ]
+            ]);
+            ?>
+        </div>
+    </div>
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

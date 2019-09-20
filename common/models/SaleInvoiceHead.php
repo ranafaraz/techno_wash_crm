@@ -40,9 +40,9 @@ class SaleInvoiceHead extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'date', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount'], 'required'],
+            [['customer_id', 'date'], 'required'],
             [['customer_id', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount', 'created_by', 'updated_by'], 'integer'],
-            [['date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
+            [['date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount'], 'safe'],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'customer_id']],
         ];
     }
@@ -54,7 +54,7 @@ class SaleInvoiceHead extends \yii\db\ActiveRecord
     {
         return [
             'sale_inv_head_id' => 'Sale Inv Head ID',
-            'customer_id' => 'Customer ID',
+            'customer_id' => 'Customer Name',
             'date' => 'Date',
             'total_amount' => 'Total Amount',
             'discount' => 'Discount',

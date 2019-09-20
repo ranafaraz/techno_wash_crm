@@ -99,7 +99,24 @@ class SaleInvoiceHeadController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post())){
+                // starting of transaction handling
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+            
+            $model->created_by = Yii::$app->user->identity->id; 
+            $model->created_at = new \yii\db\Expression('NOW()');
+            $model->updated_by = '0';
+            $model->updated_at = '0'; 
+            $model->save();
+            // transaction commit
+            $transaction->commit();
+            } // closing of try block 
+            catch (Exception $e) {
+                // transaction rollback
+                $transaction->rollback();
+            } // closing of catch block
+            // closing of transaction handling
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new SaleInvoiceHead",
