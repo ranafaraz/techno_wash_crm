@@ -71,7 +71,7 @@
 									    WHERE vehicle_typ_sub_id = '$customerVehicleType'
 									    ")->queryAll();
 										 ?>
-										<option value="<?php echo $VehiclesName[0]['vehicle_typ_sub_id']; ?>"><?php echo $VehiclesName[0]['name']." - ".$VehicleReg; ?> </option>
+										<option value="<?php echo $customerVehicles[$i]['customer_vehicle_id']; ?>"><?php echo $VehiclesName[0]['name']." - ".$VehicleReg; ?> </option>
 										<?php } ?>
 									</select>
 								</div>
@@ -93,14 +93,16 @@
 								</div>
 								<div class="form-group">
 									<label>Discount</label>
-									 <input type="radio" name="discountType" id="percentage"  required="required" value="percentage" checked >By Percentage
+									 <input type="radio" name="discountType" id="percentage"   checked >By Percentage
 					
-									  <input type="radio" name="discountType" id="amount"  required="required" value="amount"> By Amount
-									<input type="text" name="discount" class="form-control" id="disc">
+									  <input type="radio" name="discountType" id="amount"> By Amount
+									<input type="text" name="discount" class="form-control" id="disc" value="0" >
+									<input type="hidden" id="name" >
+									<input type="hidden" id="vehicle_name" >
 								</div>
 								<div class="form-group">
 									<label>After Discount</label>
-									<input type="text" name="after_discount" class="form-control" readonly="" id="after">
+									<input type="text" name="after_discount" class="form-control" readonly="" id="after" onfocus="discountFun()">
 								</div>
 								<button onclick="insertArray()" type="submit" name="add" class="btn btn-success">Add</button>
 							
@@ -133,6 +135,7 @@
 									</tr>
 								</thead>
 							</table>
+							<button class="btn btn-success" id="insertdata" disabled="">Insert Data</button>
 						</div>
 					</div>
 				</div>
@@ -149,15 +152,22 @@
 	let amountArray 		= new Array();
 	let discountArray 		= new Array();
 	let afterDiscountArray 	= new Array();
-
+var invoice_id = <?php echo $saleInvoiceID; ?>;
 	function insertArray(){
-
+	var servicesName=$('#name').val();
 	var vehicle 	= $('#vehicle').val();
+	var reg_name 	= $('#vehicle_name').val();
 	var services 	= $('#services').val();
 	var price 		= $('#price').val();
 	var disc 		= $('#disc').val();
 	var after 		= $('#after').val();
-
+	if (vehicle=="" || vehicle==null) {
+	alert("Select the Vehicle name ");
+	}
+	else if (services=="" || services==null) {
+	alert("Select the Services ");
+	}
+else{
 	vehicleArray.push(vehicle);
 	serviceArray.push(services);
 	amountArray.push(price);
@@ -165,7 +175,8 @@
 	afterDiscountArray.push(after);
 
 	$("#mydata").show();
-
+	//document.getElementById('insertdata').disabled=false;
+	$('#insertdata').attr("disabled", false);
 	let table = document.getElementById("myTableData");
 
 	//count the table row
@@ -176,8 +187,8 @@
 	  
 	//insert the coulmn against the row
 	row.insertCell(0).innerHTML= rowCount;
-	row.insertCell(1).innerHTML= vehicle;
-	row.insertCell(2).innerHTML= services;
+	row.insertCell(1).innerHTML= reg_name;
+	row.insertCell(2).innerHTML= servicesName;
 	row.insertCell(3).innerHTML= price;
 	row.insertCell(4).innerHTML= disc;
 	row.insertCell(5).innerHTML= after;
@@ -188,8 +199,34 @@
 	$('#price').val("");
 	$('#disc').val("");
 	$('#after').val("");
-
-	}
+}
+}
+function discountFun(){
+        // Getting the value from the original price
+       originalPrice = parseInt(document.getElementById("price").value);
+       // alert(originalPrice);
+      //discountType  = parseInt(document.getElementById("discountType").value);
+        
+          if(document.getElementById('percentage').checked)
+              {
+              	
+            discount = parseInt(document.getElementById("disc").value);
+            
+            discountReceived = parseInt((originalPrice*discount)/100);
+            
+            purchasePrice = originalPrice-discountReceived;
+            $('#after').val(purchasePrice);
+              }
+            else if(document.getElementById('amount').checked)
+            {
+            	
+            discount = parseInt(document.getElementById("disc").value);
+                  
+            purchasePrice = originalPrice - discount;
+              discountReceived = discount;
+              $('#after').val(purchasePrice);
+            } 
+      }
 </script>
 <?php
 $url = \yii\helpers\Url::to("sale-invoice-head/fetch-info");
@@ -208,14 +245,52 @@ $script = <<< JS
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
 	        	
            $('#price').val(jsonResult[0]['price']);
-           $("#disc").change(function(){
-		var afterDiscount = $("#price").val() - $("#disc").val();
-           $('#after').val(afterDiscount);
-		
-	});
+           $('#name').val(jsonResult[0]['name']);
+         
            
         	}      
     	}); 
+	});
+	$("#vehicle").change(function(){
+		var vehicle = $("#vehicle").val();
+		//alert(vehicle);
+		$.ajax({
+	        type:'post',
+	        data:{vehicle:vehicle},
+	        url: "$url",
+	        success: function(result){
+	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+	        	 $('#vehicle_name').val(jsonResult[0]['registration_no']);
+        	}      
+    	}); 
+	});
+	$('#insertdata').click(function(){
+		invoice_id; 	
+ 		vehicleArray;
+		serviceArray;
+		amountArray;
+		discountArray;
+		//afterDiscountArray;
+		$.ajax({
+	        type:'post',
+	        data:{	invoice_id:invoice_id,
+					vehicleArray:vehicleArray,
+					serviceArray:serviceArray,
+					amountArray:amountArray,
+					discountArray:discountArray
+					//afterDiscountArray:afterDiscountArray
+	        	},
+	        url: "$url",
+	        success: function(result){
+	        	// var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+	        	alert(result);
+	        	
+           
+         
+           
+        	}      
+    	}); 
+		
 	});
 
 	

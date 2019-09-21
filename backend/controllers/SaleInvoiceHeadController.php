@@ -31,7 +31,7 @@ class SaleInvoiceHeadController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice','customer-invoice-lists'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -109,6 +109,9 @@ class SaleInvoiceHeadController extends Controller
     public function actionFetchInfo(){
         return $this->render('fetch-info');
     }
+    public function actionCustomerInvoiceLists(){
+        return $this->render('customer-invoice-lists');
+    }
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -141,6 +144,7 @@ class SaleInvoiceHeadController extends Controller
             $model->save();
             // transaction commit
             $transaction->commit();
+            return $this->redirect(['./sale-invoice-view', 'sale_invoice_id' => $model->sale_inv_head_id,'customer_id' => $model->customer_id] );
             } // closing of try block 
             catch (Exception $e) {
                 // transaction rollback
