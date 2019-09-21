@@ -31,6 +31,7 @@ class SaleInvoiceHeadController extends Controller
                         'allow' => true,
                     ],
                     [
+
                         'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice','customer-invoice-lists'],
                         'allow' => true,
                         'roles' => ['@'],

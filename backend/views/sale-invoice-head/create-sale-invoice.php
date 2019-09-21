@@ -23,7 +23,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				
-				<p><label>Discount By:</label> <input type="radio" name="amount" id="percentage" checked="">Percentage <input type="radio" name="amount" id="amount">Amount</p>
+				<p><label>Discount By:</label> <input type="radio" name="amount" id="percentage" checked="" >Percentage <input type="radio" name="amount" id="amount" >Amount</p>
 				<input type="text" class="form-control" name="product_name" id="discount" value="0">
 			</div>
 			<div class="col-md-4">
@@ -53,7 +53,7 @@
 								<th>Product Name</th>
 								<th>Price</th>
 								<th>Discount Amount</th>
-								
+								<th>Sr # No</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -70,7 +70,9 @@
       let productNameArr = new Array();
       let priceAr = new Array();
       let discountArr = new Array();
-
+    function reset(){
+    	$('#discount').val("0");
+    } 
 	function insert_data(){
 		var barcode = $('#barcode').val();
 		var product_name= $('#product_name').val();
@@ -88,22 +90,23 @@
 		 //count the table row
 		let rowCount = table.rows.length;
           
-          
+             let rowCount = table.rows.length;
           
           //insert the new row
           let row = table.insertRow(1);
           
           //insert the coulmn against the row
+
           row.insertCell(0).innerHTML= rowCount;
           row.insertCell(1).innerHTML= barcode;
           row.insertCell(2).innerHTML= product_name;
           row.insertCell(3).innerHTML= price;
           row.insertCell(4).innerHTML= discount;
-
           $('#barcode').val("");
 			$('#product_name').val("");
 			 $('#price').val("");
 			$('#discount_amount').val("");
+			$('#discount').val(0);
 	}
 </script>
 <?php
@@ -111,26 +114,27 @@ $url = \yii\helpers\Url::to("sale-invoice-head/fetch-info");
 
 
 $script = <<< JS
-$("#discount_amount").focus(function(){
+var net_total = 0;
+$("#discount").change(function(){
 
 		var discount = $("#discount").val();
 		var price = $("#price").val();
 		var net_amount = $('#net_total').val();
 		if($('#amount').prop('checked')){
-			discountd_amount = price-discount;
+			var discountd_amount = price-discount;
 			$('#discount_amount').val(discount);
-			net_total=parseInt(discountd_amount)+parseInt(net_amount);
+			var net_total=parseInt(discountd_amount)+parseInt(net_amount);
 			$('#net_total').val(net_total);
 		}
 		else if($('#percentage').prop('checked')){
 			
 			discount_amount = (price*discount)/100;
-			discounted=price-discount_amount;
+			var discounted=price-discount_amount;
 
 			$('#discount_amount').val(discount_amount);
-			procuct_discount = $('#discount_amount').val();
+			var product_discount = $('#discount_amount').val();
 
-			var net_discount = price-procuct_discount;
+			var net_discount = price-product_discount;
 
 			net_total=parseInt(net_discount)+parseInt(net_amount);
 			$('#net_total').val(net_total);
