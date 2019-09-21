@@ -5,6 +5,18 @@
  	$Fetch_info = Yii::$app->db->createCommand("SELECT * FROM stock WHERE barcode = '$barcode'")->queryAll();
  	echo json_encode($Fetch_info);
  	}
+ 	if(isset($_POST['serviceID']))
+ 	{
+ 		 $serviceID = $_POST['serviceID'];
+ 		 // getting services amount
+		$services = Yii::$app->db->createCommand("
+	    SELECT price
+	    FROM services
+	    WHERE services_id = $serviceID
+	    ")->queryAll();
+
+	   echo json_encode($services); 
+ 	}
 	// else if(isset($_POST['session_Id'])){
 	// $classId = $_POST['class_Id'];
 	// $sessionId = $_POST['session_Id'];

@@ -48,6 +48,7 @@
 				
 						<thead>
 							<tr>
+								<th>Sr.#</th>
 								<th>BarCode</th>
 								<th>Product Name</th>
 								<th>Price</th>
@@ -85,6 +86,9 @@
 		 $("#mydata").show();
 
 		 let table = document.getElementById("myTableData");
+
+		 //count the table row
+		let rowCount = table.rows.length;
           
              let rowCount = table.rows.length;
           
@@ -92,13 +96,12 @@
           let row = table.insertRow(1);
           
           //insert the coulmn against the row
-          //
-          row.insertCell(0).innerHTML= barcode;
-          row.insertCell(1).innerHTML= product_name;
-          row.insertCell(2).innerHTML= price;
-          row.insertCell(3).innerHTML= discount;
-          row.insertCell(4).innerHTML= rowCount;
 
+          row.insertCell(0).innerHTML= rowCount;
+          row.insertCell(1).innerHTML= barcode;
+          row.insertCell(2).innerHTML= product_name;
+          row.insertCell(3).innerHTML= price;
+          row.insertCell(4).innerHTML= discount;
           $('#barcode').val("");
 			$('#product_name').val("");
 			 $('#price').val("");
