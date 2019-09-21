@@ -1,3 +1,18 @@
+<?php 
+
+	$customerID = $_GET['customer_id'];
+	$saleInvoiceID = $_GET['sale_invoice_id'];
+
+	// getting customer name
+	$customerName = Yii::$app->db->createCommand("
+    SELECT *
+    FROM customer
+    WHERE customer_id = $customerID
+    ")->queryAll();
+
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +20,11 @@
 </head>
 <body>
 <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h2 style="color:#3C8DBC;">Sale Invoice: <?php echo $customerName[0]['customer_name']; ?> ( ID: <?php echo $saleInvoiceID; ?> )</h2>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box box-default">
@@ -24,7 +44,7 @@
 					             			<h2>Services</h2>
 					             		</div>
 					             		<div class="col-md-2">
-					             			<a href="" class="btn btn-success">
+					             			<a href="./add-sale-invoice-service?customerID=<?php echo $customerID; ?>&saleInvoiceID=<?php echo $saleInvoiceID; ?>" class="btn btn-success">
 											<i class="glyphicon glyphicon-plus"></i>
 											 Add Service
 					             			</a>
