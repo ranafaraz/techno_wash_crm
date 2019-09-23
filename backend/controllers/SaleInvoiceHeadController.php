@@ -32,7 +32,7 @@ class SaleInvoiceHeadController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice','customer-invoice-lists'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice','customer-invoice-lists', 'insert-services-invoice'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -95,6 +95,25 @@ class SaleInvoiceHeadController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
+    public function actionInsertServiceInvoice($invoice_id, $vehicleArray, $serviceArray, $discountArray){
+        $countvehicle       = count($vehicleArray);
+
+        for ($i=0; $i <$countvehicle ; $i++) {
+            $insert = Yii::$app->db->createCommand()->insert('sale_invoice_services_detail',
+                [
+                    'sale_inv_haed_id'      => $invoice_id,
+                    'services_id'           => $serviceArray[$i],
+                    'customer_vehicle_id'   => $vehicleArray[$i],
+                    'discount_per_service'  => $discountArray[$i],
+                    'created_at'            => new \yii\db\Express('NOW()'),
+                    'created_by'            => Yii::$app->user->identity->id,
+                ]
+            )->queryAll();
+        }
+        return json_encode($insert);
+    }
+
     public function actionCreateSaleInvoice(){
         return $this->render('create-sale-invoice');
     }

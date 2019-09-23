@@ -13,6 +13,7 @@ use yii\helpers\Html;
 use yii\web\UploadedFile;
 use common\models\CustomerVehicles;
 use backend\models\Model;
+use yii\filters\AccessControl;
 
 
 /**
@@ -26,6 +27,21 @@ class CustomerController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -40,6 +56,16 @@ class CustomerController extends Controller
      * Lists all Customer models.
      * @return mixed
      */
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+    public function actionSaleInvoiceView(){
+        return $this->render('sale-invoice-view');
+    }
+    public function actionFetchInfo(){
+        return $this->render('fetch-info');
+    }
     public function actionIndex()
     {    
         $searchModel = new CustomerSearch();

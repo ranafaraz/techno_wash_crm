@@ -42,7 +42,7 @@ class SaleInvoiceHead extends \yii\db\ActiveRecord
         return [
             [['customer_id', 'date'], 'required'],
             [['customer_id', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount', 'created_by', 'updated_by'], 'integer'],
-            [['date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount'], 'safe'],
+            [['date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount','status'], 'safe'],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'customer_id']],
         ];
     }
