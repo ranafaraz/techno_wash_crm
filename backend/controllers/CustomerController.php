@@ -13,6 +13,7 @@ use yii\helpers\Html;
 use yii\web\UploadedFile;
 use common\models\CustomerVehicles;
 use backend\models\Model;
+use yii\filters\AccessControl;
 
 
 /**
@@ -26,6 +27,20 @@ class CustomerController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','customer-detail-view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -59,23 +74,23 @@ class CustomerController extends Controller
      */
     public function actionView($id)
     {   
-        //return $this->render('customer-detail-view');
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
+        return $this->render('customer-detail-view');
+        // $request = Yii::$app->request;
+        // if($request->isAjax){
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
+        //     return [
+        //             'title'=> "",
+        //             'content'=>$this->renderAjax('view', [
+        //                 'model' => $this->findModel($id),
+        //             ]),
+        //             'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+        //                     Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        //         ];    
+        // }else{
+        //     return $this->render('view', [
+        //         'model' => $this->findModel($id),
+        //     ]);
+        // }
     }
 
     /**
@@ -244,28 +259,8 @@ class CustomerController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
-                $model->customer_image = UploadedFile::getInstance($model,'customer_image');
-
-                // checking the field
-                if(!empty($model->customer_image)){
-                    // making the name of the image file
-                    $imageName = $model->customer_name.'_photo';
-                    // getting extension of the image file
-                    $imageExtension = $model->customer_image->extension;
-                    // save the path of the image in backend/web/uploads 
-                    $model->customer_image->saveAs('uploads/'.$imageName.'.'.$model->customer_image->extension);
-                    //save the path in the db column
-                    $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
-                }
-                else {
-                   $model->customer_image = $customerImage;
-                }
-                $model->updated_by = Yii::$app->user->identity->id;
-                $model->updated_at = new \yii\db\Expression('NOW()');
-                $model->created_by = $model->created_by;
-                $model->created_at = $model->created_at;
-                $model->update();
+            }else if($model->load($request->post()) && $model->save()){
+                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "",
@@ -289,8 +284,29 @@ class CustomerController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->customer_id]);
+            if ($model->load($request->post()) && $model->validate()) {
+                $model->customer_image = UploadedFile::getInstance($model,'customer_image');
+
+                // checking the field
+                if(!empty($model->customer_image)){
+                    // making the name of the image file
+                    $imageName = $model->customer_name.'_photo';
+                    // getting extension of the image file
+                    $imageExtension = $model->customer_image->extension;
+                    // save the path of the image in backend/web/uploads 
+                    $model->customer_image->saveAs('uploads/'.$imageName.'.'.$model->customer_image->extension);
+                    //save the path in the db column
+                    $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
+                }
+                else {
+                   $model->customer_image = $customerImage;
+                }
+                $model->updated_by = Yii::$app->user->identity->id;
+                $model->updated_at = new \yii\db\Expression('NOW()');
+                $model->created_by = $model->created_by;
+                $model->created_at = $model->created_at;
+                $model->update();
+                return $this->redirect(['customer-detail-view', 'id' => $model->customer_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
