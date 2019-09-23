@@ -9,6 +9,9 @@
     .main-sidebar{
         font-family: georgia;
     }
+    .sidebar a{
+        font-size: 13px;
+    }
     .sidebar a:hover{
         font-weight: bold;
         background-color: #3C8DBC !important;
@@ -48,15 +51,15 @@
             </div>
         </div>
         <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <!-- <div class="input-group">
+        <!-- <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search..."/>
               <span class="input-group-btn">
                 <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
               </span>
-            </div> -->
-        </form>
+            </div>
+        </form> -->
         <!-- /.search form -->
         <?php if(Yii::$app->user->can('navigation')){ ?>
 

@@ -81,7 +81,7 @@ class CustomerVehiclesController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $request = Yii::$app->request;
         $model = new CustomerVehicles();  
@@ -146,8 +146,37 @@ class CustomerVehiclesController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->customer_vehicle_id]);
+            if ($model->load($request->post())) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                $model->image = UploadedFile::getInstance($model,'image');
+
+                // checking the field
+                if(!empty($model->image)){
+                    // making the name of the image file
+                    $imageName = $model->registration_no.'_photo';
+                    // getting extension of the image file
+                    $imageExtension = $model->image->extension;
+                    // save the path of the image in backend/web/uploads 
+                    $model->image->saveAs('uploads/'.$imageName.'.'.$model->image->extension);
+                    //save the path in the db column
+                    $model->image = 'uploads/'.$imageName.'.'.$model->image->extension;
+                }
+                else {
+                   $model->image = 'uploads/'.'default-image-name.jpg'; 
+                }
+                $model->customer_id = $id;
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0';
+                $model->save();
+                $transaction->commit();
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                    echo $e;
+                }
+                return $this->redirect(['./customer-detail-view', 'id' => $model->customer_id]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -230,8 +259,29 @@ class CustomerVehiclesController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->customer_vehicle_id]);
+            if ($model->load($request->post()) && $model->validate()) {
+                $model->image = UploadedFile::getInstance($model,'image');
+
+                // checking the field
+                if(!empty($model->image)){
+                    // making the name of the image file
+                    $imageName = $model->registration_no.'_photo';
+                    // getting extension of the image file
+                    $imageExtension = $model->image->extension;
+                    // save the path of the image in backend/web/uploads 
+                    $model->image->saveAs('uploads/'.$imageName.'.'.$model->image->extension);
+                    //save the path in the db column
+                    $model->image = 'uploads/'.$imageName.'.'.$model->image->extension;
+                }
+                else {
+                   $model->image = $vehicleImage; 
+                }
+                $model->updated_by = Yii::$app->user->identity->id;
+                $model->updated_at = new \yii\db\Expression('NOW()');
+                $model->created_by = $model->created_by;
+                $model->created_at = $model->created_at;
+                $model->update();
+                return $this->redirect(['./customer-detail-view', 'id' => $model->customer_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
