@@ -31,7 +31,7 @@ return [
                         if (empty($model->customer_id) || empty($model->customer_id)) {
                             return;
                         }
-                        return Html::a($stdPersonalInfo[0]['customer_name'], [ './create-sale-invoice','id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_blank', 'data' => ['pjax' => 0]] );
+                        return Html::a($stdPersonalInfo[0]['customer_name'], [ './sale-invoice-view','sale_invoice_id' => $model->sale_inv_head_id,'customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_self', 'data' => ['pjax' => 0]] );
                     },
         'contentOptions' => function ($model, $key, $index, $column) {
         return ['class' => 'text-center','style' => 'background-color:' 

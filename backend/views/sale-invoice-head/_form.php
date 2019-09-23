@@ -19,7 +19,7 @@ use dosamigos\datetimepicker\DateTimePicker;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8">
              <?= $form->field($model, 'customer_id')->dropDownList(
                 ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),
                 ['prompt'=>'Select Customer',]
@@ -27,7 +27,7 @@ use dosamigos\datetimepicker\DateTimePicker;
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8">
             <label>Date</label>
             <?= DateTimePicker::widget([
                 'model' => $model,

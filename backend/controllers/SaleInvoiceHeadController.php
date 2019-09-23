@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 /**
  * SaleInvoiceHeadController implements the CRUD actions for SaleInvoiceHead model.
@@ -22,6 +23,21 @@ class SaleInvoiceHeadController extends Controller
     public function behaviors()
     {
         return [
+             'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice','customer-invoice-lists'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -82,8 +98,20 @@ class SaleInvoiceHeadController extends Controller
     public function actionCreateSaleInvoice(){
         return $this->render('create-sale-invoice');
     }
+    public function actionSaleInvoiceView(){
+        return $this->render('sale-invoice-view');
+    }
+    public function actionAddSaleInvoiceService(){
+        return $this->render('add-sale-invoice-service');
+    }
+    public function actionAddSaleInvoiceStock(){
+        return $this->render('add-sale-invoice-stock');
+    }
     public function actionFetchInfo(){
         return $this->render('fetch-info');
+    }
+    public function actionCustomerInvoiceLists(){
+        return $this->render('customer-invoice-lists');
     }
     public function actionCreate()
     {
@@ -117,6 +145,7 @@ class SaleInvoiceHeadController extends Controller
             $model->save();
             // transaction commit
             $transaction->commit();
+            return $this->redirect(['./sale-invoice-view', 'sale_invoice_id' => $model->sale_inv_head_id,'customer_id' => $model->customer_id] );
             } // closing of try block 
             catch (Exception $e) {
                 // transaction rollback

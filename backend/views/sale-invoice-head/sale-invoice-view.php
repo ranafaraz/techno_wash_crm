@@ -1,0 +1,76 @@
+<?php 
+
+	$customerID = $_GET['customer_id'];
+	$saleInvoiceID = $_GET['sale_invoice_id'];
+
+	// getting customer name
+	$customerName = Yii::$app->db->createCommand("
+    SELECT *
+    FROM customer
+    WHERE customer_id = $customerID
+    ")->queryAll();
+
+
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h2 style="color:#3C8DBC;">Sale Invoice: <?php echo $customerName[0]['customer_name']; ?> ( ID: <?php echo $saleInvoiceID; ?> )</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box box-default">
+				<div class="box-body">
+					<div class="nav-tabs-custom">
+			            <ul class="nav nav-tabs">
+			              <li class="active">
+			              	<a href="#services" data-toggle="tab">Add Service</a>
+			              </li>
+			              <li><a href="#stock" data-toggle="tab">Add Stock</a></li>
+			              <li><a href="#details" data-toggle="tab">Account Details</a></li>
+			            </ul>
+			            <div class="tab-content">
+					            <div class="active tab-pane" id="services">
+					             	<div class="row">
+					             		<div class="col-md-10">
+					             			<h2>Services</h2>
+					             		</div>
+					             		<div class="col-md-2">
+					             			<a href="./add-sale-invoice-service?customerID=<?php echo $customerID; ?>&saleInvoiceID=<?php echo $saleInvoiceID; ?>" class="btn btn-success">
+											<i class="glyphicon glyphicon-plus"></i>
+											 Add Service
+					             			</a>
+					             		</div>
+					             	</div> 
+					            </div>
+					              <!-- /.tab-pane -->
+					            <div class="tab-pane" id="stock">
+					              	<h1>tab 2</h1>
+					                    
+					            </div>
+					              <!-- /.tab-pane -->
+
+			              		<div class="tab-pane" id="details">
+			              			<h1>tab 3</h1>
+			               
+					            </div>
+					              <!-- /.tab-pane -->
+			            </div>
+			            <!-- /.tab-content -->
+          			</div>
+          			<!-- /.nav-tabs-custom -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
