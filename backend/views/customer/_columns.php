@@ -16,15 +16,15 @@ return [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'customer_id',
     // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'branch_id',
-        'value'=>'branch.branch_name',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'customer_name',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'branch_id',
+    //     'value'=>'branch.branch_name',
+    // ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'customer_name',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'customer_name',

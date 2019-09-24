@@ -1,7 +1,8 @@
 <?php 
 
+	use yii\helpers\Html;
   $customerID = $_GET['customer_id'];
-
+  $id=Yii::$app->user->identity->id;
   // getting customer name
   $customerName = Yii::$app->db->createCommand("
     SELECT *
@@ -40,8 +41,11 @@
 <body>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
       <h2 style="color:#3C8DBC;">Sale Invoice: <?php echo $customerName[0]['customer_name']; ?></h2>
+    </div>
+    <div class="col-md-4">
+
     </div>
   </div>
   <div class="row">
@@ -202,14 +206,14 @@
                   <input type="text" name="total_amount" class="form-control" readonly="" id="tp" value="0">
                 </div>
                 <div class="form-group">
-									<label>Discount</label>
-									 <input type="radio" name="discountType" id="percentage"   checked > Percentage
-					
-									  <input type="radio" name="discountType" id="amount"> Amount
-									<input type="text" name="discount" class="form-control" id="disc" value="0">
-									<input type="hidden" id="name" >
-									<input type="hidden" id="vehicle_name" >
-								</div>
+					<label>Discount</label>
+					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
+	
+					  <input type="radio" name="discountType" id="amount"> Amount
+					<input type="text" name="discount" class="form-control" id="disc" value="0">
+					<input type="hidden" id="name" >
+					<input type="hidden" id="vehicle_name" >
+				</div>
                 <div class="form-group">
                   <label>Net Total</label>
                   <input type="text" name="net_total" class="form-control" id="nt"readonly="" onfocus="discountFun()">
@@ -241,11 +245,12 @@
 </html>
 <script>
 
-	let vehicleArray 				= new Array();
-	let serviceArray 				= new Array();
-	let amountArray 				= new Array();
-	let ItemTypeArray       = new Array();
-	let customer_id        = <?php echo $customerID; ?>;
+	let vehicleArray 	= new Array();
+	let serviceArray 	= new Array();
+	let amountArray 	= new Array();
+	let ItemTypeArray   = new Array();
+	let customer_id     = <?php echo $customerID; ?>;
+	let user_id= <?php echo $id; ?>;
 
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
 function discountFun(){
@@ -490,44 +495,51 @@ $script = <<< JS
     	}); 
 	});
 	$('#insert').click(function(){
-			var invoice_date = $('invoice_date').val();
-			customer_id;
-			vehicleArray;
-			serviceArray; 
-			amountArray;
- 			ItemTypeArray;
- 			var total_amount = $('#tp').val();
- 			var net_total = $('#nt').val();
- 			var paid = $('#paid').val();
-      var remaining = $('#remaining').val();
-      var status = $('#status').val();
 
-				if(invoice_date=='' || invoice_date==null){
-					alert("Please Select the today's Date");
-				}
-				$.ajax({
+		var invoice_date = $('#invoice_date').val();
+
+		customer_id;
+		var total_amount = $('#tp').val();
+		var net_total = $('#nt').val();
+		var paid = $('#paid').val();
+	    var remaining = $('#remaining').val();
+	    var status = $('#status').val();
+		vehicleArray;
+		serviceArray; 
+		amountArray;
+ 		ItemTypeArray;
+ 			
+			// alert(ItemTypeArray);
+			// if(invoice_date=='' || invoice_date==null){
+			// 	alert("Please Select the today's Date");
+			// }
+		$.ajax({
 	        type:'post',
 	        data:{
+	        	user_id:user_id,
 	        	invoice_date:invoice_date,
-						customer_id:customer_id,
-						vehicleArray:vehicleArray,
-						serviceArray:serviceArray,
-						amountArray:amountArray,
-						ItemTypeArray:ItemTypeArray,
-						total_amount:total_amount,
-						net_total:net_total,
-						paid:paid,
-						remaining:remaining,
-						status:status
+				customer_id:customer_id,
+				vehicleArray:vehicleArray,
+				serviceArray:serviceArray,
+				amountArray:amountArray,
+				ItemTypeArray:ItemTypeArray,
+				total_amount:total_amount,
+				net_total:net_total,
+				paid:paid,
+				remaining:remaining,
+				status:status
 	        	},
 	        url: "$url",
 	        success: function(result){
-	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	
-	        	}      
+	        	//var jsonResult = JSON.parse(result);
+        		if(result){
+        			
+        			window.location = './sale-invoice-view?customer_id=$customerID';
+        		}       	
+        	}      
     	}); 
 
-		});
+	});
 
 JS;
 $this->registerJs($script);
