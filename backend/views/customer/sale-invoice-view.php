@@ -1,22 +1,40 @@
-<?php 
+<?php  
+use common\models\Customer; 
+use common\models\Branches;
+use yii\helpers\Html;
 
-	use yii\helpers\Html;
   $customerID = $_GET['customer_id'];
   $id=Yii::$app->user->identity->id;
   // getting customer name
-  $customerName = Yii::$app->db->createCommand("
+  $customerData = Yii::$app->db->createCommand("
     SELECT *
     FROM customer
     WHERE customer_id = $customerID
     ")->queryAll();
 
   // getting vehicle
-  $customerVehicles = Yii::$app->db->createCommand("
+  $vehicleData = Yii::$app->db->createCommand("
     SELECT *
     FROM customer_vehicles
     WHERE customer_id = '$customerID'
     ")->queryAll();
-    $countcustomerVehicles = count($customerVehicles);
+    $countvehicleData = count($vehicleData);
+
+    // getting Paid invoice
+  $paidinvoiceData = Yii::$app->db->createCommand("
+    SELECT *
+    FROM sale_invoice_head
+    WHERE customer_id = '$customerID' AND (status = 'paid' OR status = 'Paid')
+    ")->queryAll();
+    $countpaidinvoiceData = count($paidinvoiceData);
+
+    // getting Paid invoice
+  $creditinvoiceData = Yii::$app->db->createCommand("
+    SELECT *
+    FROM sale_invoice_head
+    WHERE customer_id = '$customerID' AND (status = 'Partially' OR status = 'Unpaid')
+    ")->queryAll();
+    $countcreditinvoiceData = count($creditinvoiceData);
 
  // getting services
   $services = Yii::$app->db->createCommand("
@@ -25,12 +43,9 @@
     ")->queryAll();
     $countServices = count($services);
 
- // getting customer name
-  $customerName = Yii::$app->db->createCommand("
-    SELECT *
-    FROM customer
-    WHERE customer_id = $customerID
-    ")->queryAll();
+	$branchId = $customerData[0]['branch_id'];
+
+    $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
 
 ?>
 <!DOCTYPE html>
@@ -42,7 +57,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
-      <h2 style="color:#3C8DBC;">Sale Invoice: <?php echo $customerName[0]['customer_name']; ?></h2>
+      <h2 style="color:#3C8DBC;">Sale Invoice: <?php echo $customerData[0]['customer_name']; ?></h2>
     </div>
     <div class="col-md-4">
 
@@ -57,10 +72,12 @@
               <li class="active">
                 <a href="#invoice" data-toggle="tab">New Invoice</a>
               </li>
-              <li><a href="#previous" data-toggle="tab">Prevoius Invoices</a></li>
-              <!-- <li><a href="#details" data-toggle="tab">Account Details</a></li> -->
+              <li><a href="#paid" data-toggle="tab">Paid Invoices <span class="badge"><?=$countpaidinvoiceData?></span></a></li>
+              <li><a href="#credit" data-toggle="tab">Credit <span class="badge"><?=$countcreditinvoiceData?></span></a></li>
+              <li><a href="#customer" data-toggle="tab">Customer Profile</a></li>
+              <li><a href="#customer_vehicles" data-toggle="tab">Customer Vehicles</a></li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content" style="background-color: #efefef;">
               <div class="active tab-pane" id="invoice">
                
                   <div class="form-group">
@@ -79,7 +96,7 @@
                   </div>
                 </form>				
                 <div class="row">
-                    <div class="col-md-4" id=>
+                    <div class="col-md-4">
                       <div class="box box-info">
 												<div class="box-body">
 								          <div class="container-fluid" style="margin-bottom:8px;">
@@ -96,9 +113,9 @@
 								                  <select name="customer_vehicle" class="form-control" id="vehicle">
 								                    <option value="">Select Vehicle</option>
 								                    <?php 
-								                    for ($i=0; $i <$countcustomerVehicles ; $i++) { 
-								                    $customerVehicleType = $customerVehicles[$i]['vehicle_typ_sub_id'];
-								                    $VehicleReg = $customerVehicles[$i]['registration_no'];
+								                    for ($i=0; $i <$countvehicleData ; $i++) { 
+								                    $customerVehicleType = $vehicleData[$i]['vehicle_typ_sub_id'];
+								                    $VehicleReg = $vehicleData[$i]['registration_no'];
 
 								                    // getting vehicle type name
 								                    $VehiclesName = Yii::$app->db->createCommand("
@@ -107,7 +124,7 @@
 								                      WHERE vehicle_typ_sub_id = '$customerVehicleType'
 								                      ")->queryAll();
 								                     ?>
-								                    <option value="<?php echo $customerVehicles[$i]['customer_vehicle_id']; ?>"><?php echo $VehiclesName[0]['name']." - ".$VehicleReg; ?> </option>
+								                    <option value="<?php echo $vehicleData[$i]['customer_vehicle_id']; ?>"><?php echo $VehiclesName[0]['name']." - ".$VehicleReg; ?> </option>
 								                    <?php } ?>
 								                  </select>
 								                </div>
@@ -177,10 +194,268 @@
                 </div>
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="previous">
-                      
+              <div class="tab-pane" id="paid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Details</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">                      
+                        <table class="table table-bordered table-striped">
+                            <thead style="background-color: #367FA9;color:white;">
+                                <tr>
+                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+
+                                    for ($i=0; $i <$countpaidinvoiceData ; $i++) {
+                                        
+                                        ?>
+                                        
+                                    <tr>
+                                        <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                                        <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
+                                            echo $date; ?></td>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="paid-invoice-view?paid_id=<?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
+                                    </tr>   
+                                
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
               </div>
               <!-- /.tab-pane -->
+
+              <div class="tab-pane" id="credit">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Details</h3>
+                    </div>
+                            <?php
+                              $totalcreditAmount=0;
+                                for ($i=0; $i <$countcreditinvoiceData ; $i++) {
+                                     $totalcreditAmount += $creditinvoiceData[$i]['remaining_amount'];
+                                }        
+                            ?>
+                    <div class="col-md-4">
+                        <h3 class="text-danger" style="vertical-align: middle; margin-bottom: 20px !important;background-color: white;padding: 6px;border-radius: 3px;">Total Credit: <?= $totalcreditAmount;?></h3>
+                    </div>
+                </div>    
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">                      
+                        <table class="table table-bordered table-striped">
+                            <thead style="background-color: #367FA9;color:white;">
+                                <tr>
+                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Remaining Amount</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Status</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+
+                                    for ($i=0; $i <$countcreditinvoiceData ; $i++) {
+                                        
+                                        ?>
+                                        
+                                    <tr>
+                                        <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                                        <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
+                                            echo $date;?></td>
+                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
+                                        <a href="" title="Edit"><i class="fa fa-edit"></i>
+                                        <a href="" title="Collect"><i class="fa fa-file"></i></a></td>
+                                    </tr>   
+                                
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <!-- /.tab-pane -->
+
+			  <div class="tab-pane" id="customer">
+            	<div class="row">
+            		<div class="col-md-11">
+            			<h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Details</h3>
+            		</div>
+            		<div class="col-md-1">
+            			 <a href="./customer-update?id=<?php echo $customerID;?>" class="btn btn-info" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
+            				<i class="glyphicon glyphicon-edit"></i> Edit
+            			</a>
+            		</div>
+            	</div>
+            	<div class="row" style="margin-bottom:10px;">
+            		<div class="col-md-12">
+            			<table class="table table-bordered">
+            				<thead style="background-color: #367FA9;color:white;">
+            					<tr>
+            						<th class="text-center">
+    								<?php
+			            				echo "Customer Name: <b style='font-size:15px; font-family:georgia;'>".$customerData[0]['customer_name']."</b>";
+    				 				?>
+            						</th>
+            					</tr>
+            				</thead>
+            			</table>
+            		</div>
+            	</div>
+            	<div class="row">
+            		<div class="col-md-6">
+            			<table class="table table-bordered">
+            				<thead>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Branch Name:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $branchData->branch_name; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer Gender:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_gender']; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer CNIC:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_cnic']; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer Address:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_address']; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer Contact No:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_contact_no']; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer Registration Date:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_registration_date']; ?>
+            						</th>
+            					</tr>
+            				</thead>
+            			</table>
+            		</div>
+            		<div class="col-md-6">
+            			<table class="table table-bordered">
+            				<thead>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer Age:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_age']; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer Email:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_email']; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Customer Occupation:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $customerData[0]['customer_occupation']; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="text-center bg-color" style="vertical-align:middle;">Customer Image:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<img src="<?php echo $customerData[0]['customer_image']; ?>" class="img-rounded" alt="Image" style="width:150px; height:120px;"/>
+            						</th>
+            					</tr>
+            				</thead>
+            			</table>
+            		</div>
+            	</div>  
+            </div>
+			<!-- /.tab-pane -->
+
+            <div class="tab-pane" id="customer_vehicles">
+              	<div class="row">
+            		<div class="col-md-11">
+            			<h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Vehicles Details</h3>
+            		</div>
+            		<div class="col-md-1">
+            			<a href="./customer-vehicles-create?id=<?php echo $customerID;?>" class="btn btn-success" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;">
+            				<i class="glyphicon glyphicon-plus"></i> Insert
+            			</a>
+            		</div>
+            	</div>
+            	<div class="row">
+            		<div class="col-md-12">
+            			<div class="table-responsive">           			
+            			<table class="table table-bordered table-striped">
+            				<thead style="background-color: #367FA9;color:white;">
+            					<tr>
+            						<th class="t-cen" style="vertical-align:middle;">Sr #.</th>
+            						<th class="t-cen" style="vertical-align:middle;">Customer Name</th>
+            						<th class="t-cen" style="vertical-align:middle;">Vehicle Sub Type</th>
+            						<th class="t-cen" style="vertical-align:middle;">Registration No</th>
+            						<th class="t-cen" style="vertical-align:middle;">Vehicle Color</th>
+            						<th class="t-cen" style="vertical-align:middle;">Vehicle Image</th>
+            						<th class="t-cen" style="vertical-align:middle;">Action</th>
+            					</tr>
+            				</thead>
+            				<tbody>
+            					<?php 
+
+            						for ($i=0; $i <$countvehicleData ; $i++) {
+
+									    $vehicleSubTypId = $vehicleData[$i]['vehicle_typ_sub_id'];
+
+									    
+										$vehicleSubType = Yii::$app->db->createCommand("
+									    SELECT *
+									    FROM vehicle_type_sub_category
+									    WHERE vehicle_typ_sub_id = '$vehicleSubTypId'
+									    ")->queryAll();
+
+            							?>
+            							
+            						<tr>
+            							<td style="vertical-align:middle;"><?php echo $i+1; ?></td>
+            							<td style="vertical-align:middle;"><?php echo $customerData[0]['customer_name']; ?></td>
+            							<td style="vertical-align:middle;"><?php echo $vehicleSubType[0]['name']; ?></td>
+            							<td style="vertical-align:middle;"><?php echo $vehicleData[$i]['registration_no']; ?></td>
+            							<td style="vertical-align:middle;"><?php echo $vehicleData[$i]['color']; ?></td>
+            							<td class="text-center" style="vertical-align:middle;"><img src="<?php echo $vehicleData[$i]['image']; ?>" class="img-thumbnail" alt="Image" style="width:150px; height:100px;"/></td>
+            							<td class="text-center" style="vertical-align:middle;"><a href="customer-vehicles-update?id=<?php echo $vehicleData[$i]['customer_vehicle_id'] ?>" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
+            						</tr>	
+            					
+            					<?php } ?>
+            				</tbody>
+            			</table>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
           </div>

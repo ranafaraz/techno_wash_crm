@@ -66,7 +66,7 @@ class WageTypeSearch extends WageType
         ]);
 
         $query->andFilterWhere(['like', 'wage_name', $this->wage_name])
-        ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);;
+        ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);
 
         return $dataProvider;
     }

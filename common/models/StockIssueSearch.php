@@ -18,8 +18,8 @@ class StockIssueSearch extends StockIssue
     public function rules()
     {
         return [
-            [['stock_issue_id', 'emp_id', 'stock_id', 'created_by', 'updated_by'], 'integer'],
-            [['stock_issue_date', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['stock_issue_id', 'created_by', 'updated_by'], 'integer'],
+            [['stock_issue_date', 'description', 'created_at', 'updated_at', 'emp_id', 'stock_id'], 'safe'],
         ];
     }
 
@@ -55,10 +55,14 @@ class StockIssueSearch extends StockIssue
             return $dataProvider;
         }
 
+        $query->joinWith('emp');
+        $query->joinWith('stock');
+
+
         $query->andFilterWhere([
             'stock_issue_id' => $this->stock_issue_id,
-            'emp_id' => $this->emp_id,
-            'stock_id' => $this->stock_id,
+            //'emp_id' => $this->emp_id,
+            //'stock_id' => $this->stock_id,
             'stock_issue_date' => $this->stock_issue_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -66,7 +70,10 @@ class StockIssueSearch extends StockIssue
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'description', $this->description])
+              ->andFilterWhere(['like', 'employee.emp_name', $this->emp_id])
+              ->andFilterWhere(['like', 'stock.name', $this->stock_id]);
+
 
         return $dataProvider;
     }

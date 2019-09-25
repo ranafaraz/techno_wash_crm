@@ -52,7 +52,7 @@ $branchName = $model->branch_name;
             <?= $form->field($model, 'branch_email')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ], ['prompt' => '']) ?>
+            <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'branch_head_name')->textInput(['maxlength' => true]) ?>

@@ -18,8 +18,8 @@ class MembershipSearch extends Membership
     public function rules()
     {
         return [
-            [['membership_id', 'card_type_id', 'customer_id', 'customer_vehicle_id', 'created_by', 'updated_by'], 'integer'],
-            [['membership_start_date', 'membership_end_date', 'card_issued_by', 'car_registration_no', 'created_at', 'updated_at'], 'safe'],
+            [['membership_id', 'created_by', 'updated_by'], 'integer'],
+            [['membership_start_date', 'membership_end_date', 'card_issued_by', 'car_registration_no', 'created_at', 'updated_at', 'card_type_id', 'customer_id', 'customer_vehicle_id'], 'safe'],
         ];
     }
 
@@ -55,11 +55,16 @@ class MembershipSearch extends Membership
             return $dataProvider;
         }
 
+        $query->joinWith('cardType');
+        $query->joinWith('customer');
+        $query->joinWith('customerVehicle');
+
+
         $query->andFilterWhere([
             'membership_id' => $this->membership_id,
-            'card_type_id' => $this->card_type_id,
-            'customer_id' => $this->customer_id,
-            'customer_vehicle_id' => $this->customer_vehicle_id,
+            // 'card_type_id' => $this->card_type_id,
+            // 'customer_id' => $this->customer_id,
+            // 'customer_vehicle_id' => $this->customer_vehicle_id,
             'membership_start_date' => $this->membership_start_date,
             'membership_end_date' => $this->membership_end_date,
             'created_at' => $this->created_at,
@@ -69,7 +74,10 @@ class MembershipSearch extends Membership
         ]);
 
         $query->andFilterWhere(['like', 'card_issued_by', $this->card_issued_by])
-            ->andFilterWhere(['like', 'car_registration_no', $this->car_registration_no]);
+            ->andFilterWhere(['like', 'car_registration_no', $this->car_registration_no])
+            ->andFilterWhere(['like', 'card_type.card_name', $this->card_type_id])
+            ->andFilterWhere(['like', 'customer.customer_name', $this->customer_id])
+            ->andFilterWhere(['like', 'customer_vehicles.registration_no', $this->customer_vehicle_id]);
 
         return $dataProvider;
     }

@@ -16,11 +16,11 @@ return [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'customer_id',
     // ],
-    // [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'branch_id',
-    //     'value'=>'branch.branch_name',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'branch_id',
+        'value'=>'branch.branch_name',
+    ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'customer_name',
@@ -58,14 +58,14 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'customer_address',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'customer_contact_no',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'customer_registration_date',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'customer_contact_no',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'customer_registration_date',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'customer_age',
