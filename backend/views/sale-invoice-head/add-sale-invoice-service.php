@@ -152,7 +152,9 @@
 	let amountArray 		= new Array();
 	let discountArray 		= new Array();
 	let afterDiscountArray 	= new Array();
-var invoice_id = <?php echo $saleInvoiceID; ?>;
+
+	var invoice_id = <?php echo $saleInvoiceID; ?>;
+	
 	function insertArray(){
 	var servicesName=$('#name').val();
 	var vehicle 	= $('#vehicle').val();
@@ -194,10 +196,10 @@ else{
 	row.insertCell(5).innerHTML= after;
 
 
-    $('#vehicle').val("");
+    // $('#vehicle').val("");
 	$('#services').val("");
 	$('#price').val("");
-	$('#disc').val("");
+	$('#disc').val("0");
 	$('#after').val("");
 }
 }
@@ -271,25 +273,18 @@ $script = <<< JS
 		amountArray;
 		discountArray;
 		//afterDiscountArray;
-		$.ajax({
-	        type:'post',
-	        data:{	invoice_id:invoice_id,
+		
+    	$.get('./sale-invoice-head/insert-services-invoice',
+    			{	invoice_id:invoice_id,
 					vehicleArray:vehicleArray,
 					serviceArray:serviceArray,
 					amountArray:amountArray,
 					discountArray:discountArray
-					//afterDiscountArray:afterDiscountArray
-	        	},
-	        url: "$url",
-	        success: function(result){
-	        	// var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	alert(result);
-	        	
-           
+	        	},function(data){
          
-           
-        	}      
-    	}); 
+        var data =  $.parseJSON(data);
+        alert(data);
+    });   
 		
 	});
 

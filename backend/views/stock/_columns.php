@@ -10,41 +10,37 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-    //     [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'stock_id',
-    // ],
-    [
+        [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'branch_id',
-        'value'=>'branch.branch_name',        
+        'attribute'=>'stock_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'stock_type_id',
-        'value'=>'stockType.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'purchase_invoice_id',
-        'value' => 'purchaseInvoice.bilty_no',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'manufacture_id',
-        'value' => 'manufacture.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'barcode',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
-    ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'name',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'expiry_date',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'original_price',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',

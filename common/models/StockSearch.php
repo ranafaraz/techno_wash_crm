@@ -18,8 +18,13 @@ class StockSearch extends Stock
     public function rules()
     {
         return [
+<<<<<<< HEAD
             [['stock_id', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
             [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at', 'branch_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id'], 'safe'],
+=======
+            [['stock_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'original_price', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
+            [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at'], 'safe'],
+>>>>>>> 9c471f1b28fb96071504970840ecaec5a3229ff3
         ];
     }
 
@@ -61,11 +66,16 @@ class StockSearch extends Stock
 
         $query->andFilterWhere([
             'stock_id' => $this->stock_id,
+<<<<<<< HEAD
             //'branch_id' => $this->branch_id,
             //'stock_type_id' => $this->stock_type_id,
+=======
+            'stock_type_id' => $this->stock_type_id,
+>>>>>>> 9c471f1b28fb96071504970840ecaec5a3229ff3
             'purchase_invoice_id' => $this->purchase_invoice_id,
             //'manufacture_id' => $this->manufacture_id,
             'expiry_date' => $this->expiry_date,
+            'original_price' => $this->original_price,
             'purchase_price' => $this->purchase_price,
             'selling_price' => $this->selling_price,
             'created_at' => $this->created_at,

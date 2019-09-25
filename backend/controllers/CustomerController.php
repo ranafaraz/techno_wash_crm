@@ -35,7 +35,8 @@ class CustomerController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','customer-detail-view'],
+
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -55,6 +56,16 @@ class CustomerController extends Controller
      * Lists all Customer models.
      * @return mixed
      */
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+    public function actionSaleInvoiceView(){
+        return $this->render('sale-invoice-view');
+    }
+    public function actionFetchInfo(){
+        return $this->render('fetch-info');
+    }
     public function actionIndex()
     {    
         $searchModel = new CustomerSearch();
