@@ -16,11 +16,11 @@ return [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'customer_id',
     // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'branch_id',
-        'value'=>'branch.branch_name',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'branch_id',
+    //     'value'=>'branch.branch_name',
+    // ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'customer_name',
@@ -38,12 +38,13 @@ return [
                         if (empty($model->customer_id) || empty($model->customer_id)) {
                             return;
                         }
-                        return Html::a($model->customer_name, [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_self', 'data' => ['pjax' => 0]] );
+                        return Html::a($model->customer_name, [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_self','style'=>'color:white;', 'data' => ['pjax' => 0]] 
+                    );
                     },
         'contentOptions' => function ($model, $key, $index, $column) {
-        return ['class' => 'text-center','style' => 'background-color:' 
+        return ['class' => '','style' => 'background-color:' 
             . (!empty($model->customer_id) && $model->customer_id / $model->customer_id < 2
-                ? '#c1efba' : 'black')];
+                ? '#3C8DBC' : 'black')];
         },
     ],
     // [
@@ -62,10 +63,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'customer_contact_no',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'customer_registration_date',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'customer_registration_date',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'customer_age',
