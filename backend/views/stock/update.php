@@ -7,7 +7,7 @@ use yii\helpers\Html;
 ?>
 <div class="stock-update">
 
-    <?= $this->render('_form1', [
+    <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 

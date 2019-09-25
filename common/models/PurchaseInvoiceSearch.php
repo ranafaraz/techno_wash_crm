@@ -18,8 +18,8 @@ class PurchaseInvoiceSearch extends PurchaseInvoice
     public function rules()
     {
         return [
-            [['purchase_invoice_id', 'vendor_id', 'created_by', 'updated_by'], 'integer'],
-            [['bilty_no', 'purchase_date', 'dispatch_date', 'receiving_date', 'created_at', 'updated_at'], 'safe'],
+            [['purchase_invoice_id', 'vendor_id', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount', 'created_by', 'updated_by'], 'integer'],
+            [['bilty_no', 'purchase_date', 'dispatch_date', 'receiving_date', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -61,13 +61,19 @@ class PurchaseInvoiceSearch extends PurchaseInvoice
             'purchase_date' => $this->purchase_date,
             'dispatch_date' => $this->dispatch_date,
             'receiving_date' => $this->receiving_date,
+            'total_amount' => $this->total_amount,
+            'discount' => $this->discount,
+            'net_total' => $this->net_total,
+            'paid_amount' => $this->paid_amount,
+            'remaining_amount' => $this->remaining_amount,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'bilty_no', $this->bilty_no]);
+        $query->andFilterWhere(['like', 'bilty_no', $this->bilty_no])
+            ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

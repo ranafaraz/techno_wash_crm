@@ -13,6 +13,12 @@ use Yii;
  * @property string $purchase_date
  * @property string $dispatch_date
  * @property string $receiving_date
+ * @property int $total_amount
+ * @property int $discount
+ * @property int $net_total
+ * @property int $paid_amount
+ * @property int $remaining_amount
+ * @property string $status
  * @property string $created_at
  * @property string $updated_at
  * @property int $created_by
@@ -37,10 +43,10 @@ class PurchaseInvoice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vendor_id', 'bilty_no', 'purchase_date', 'dispatch_date', 'receiving_date'], 'required'],
-            [['vendor_id', 'created_by', 'updated_by'], 'integer'],
-            [['purchase_date', 'dispatch_date', 'receiving_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
-            [['bilty_no'], 'string', 'max' => 20],
+            [['vendor_id', 'bilty_no', 'purchase_date', 'dispatch_date', 'receiving_date', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount', 'status', 'created_by', 'updated_by'], 'required'],
+            [['vendor_id', 'total_amount', 'discount', 'net_total', 'paid_amount', 'remaining_amount', 'created_by', 'updated_by'], 'integer'],
+            [['purchase_date', 'dispatch_date', 'receiving_date', 'created_at', 'updated_at'], 'safe'],
+            [['bilty_no', 'status'], 'string', 'max' => 20],
             [['vendor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vendor::className(), 'targetAttribute' => ['vendor_id' => 'vendor_id']],
         ];
     }
@@ -52,11 +58,17 @@ class PurchaseInvoice extends \yii\db\ActiveRecord
     {
         return [
             'purchase_invoice_id' => 'Purchase Invoice ID',
-            'vendor_id' => 'Vendor Name',
+            'vendor_id' => 'Vendor ID',
             'bilty_no' => 'Bilty No',
             'purchase_date' => 'Purchase Date',
             'dispatch_date' => 'Dispatch Date',
             'receiving_date' => 'Receiving Date',
+            'total_amount' => 'Total Amount',
+            'discount' => 'Discount',
+            'net_total' => 'Net Total',
+            'paid_amount' => 'Paid Amount',
+            'remaining_amount' => 'Remaining Amount',
+            'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'created_by' => 'Created By',
