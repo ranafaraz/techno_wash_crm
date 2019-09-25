@@ -18,8 +18,8 @@ class AllowanceTypeSearch extends AllowanceType
     public function rules()
     {
         return [
-            [['allowance_type_id', 'branch_id', 'amount', 'created_by', 'updated_by'], 'integer'],
-            [['allowance_name', 'created_at', 'updated_at'], 'safe'],
+            [['allowance_type_id', 'amount', 'created_by', 'updated_by'], 'integer'],
+            [['allowance_name', 'created_at', 'updated_at', 'branch_id'], 'safe'],
         ];
     }
 
@@ -55,9 +55,12 @@ class AllowanceTypeSearch extends AllowanceType
             return $dataProvider;
         }
 
+
+        $query->joinWith('branch');
+ 
         $query->andFilterWhere([
             'allowance_type_id' => $this->allowance_type_id,
-            'branch_id' => $this->branch_id,
+            //'branch_id' => $this->branch_id,
             'amount' => $this->amount,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -65,7 +68,8 @@ class AllowanceTypeSearch extends AllowanceType
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'allowance_name', $this->allowance_name]);
+        $query->andFilterWhere(['like', 'allowance_name', $this->allowance_name])
+        ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);
 
         return $dataProvider;
     }

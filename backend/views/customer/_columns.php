@@ -21,18 +21,18 @@ return [
         'attribute'=>'branch_id',
         'value'=>'branch.branch_name',
     ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'customer_name',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'customer_name',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'customer_name',
-        'width' => '170px',
-        'headerOptions' => [
-            // this should be on a CSS file as class instead of a inline style attribute...
-            'style' => 'text-align: center !important;vertical-align: middle !important'
-        ],
+        //'width' => '170px',
+        // 'headerOptions' => [
+        //     // this should be on a CSS file as class instead of a inline style attribute...
+        //     'style' => 'text-align: center !important;vertical-align: middle !important'
+        // ],
         'format' => 'raw',
         'value' => function($model, $key, $index, $column) {
                         if (empty($model->customer_id) || empty($model->customer_id)) {
@@ -58,14 +58,14 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'customer_address',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'customer_contact_no',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'customer_registration_date',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'customer_contact_no',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'customer_registration_date',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'customer_age',

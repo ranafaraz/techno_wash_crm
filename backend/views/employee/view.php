@@ -5,11 +5,16 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Employee */
 $empName = $model->emp_name;
+$empImage = $model->emp_image;
 ?>
 <div class="row">
-    <div class="col-md-12">
-        <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">View Employee (<b><?php echo $empName; ?></b>)</h2>
+    <div class="col-md-6">
+        <h2 style="text-align:center;font-family:georgia;color:#367FA9;margin-top:10px;vertical-align:middle;">View Employee (<b><?php echo $empName; ?></b>)</h2>        
     </div>
+    <div class="col-md-6">
+        <img src="<?=$empImage?>" alt="Employee Image" class="img-circle" style="width:100px; height:80px;float: right;" />        
+    </div>
+
 </div>
 <div class="employee-view" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
@@ -48,7 +53,7 @@ $empName = $model->emp_name;
             'emp_cnic',            
             'emp_contact',
             'emp_email:email',
-            'emp_image',
+            //'emp_image',
             'emp_gender',
             'emp_qualification',
             'emp_reference',

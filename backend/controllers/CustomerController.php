@@ -140,12 +140,12 @@ class CustomerController extends Controller
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
                     }
                     else {
-                        $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
+                        $model->customer_image = 'uploads/default-image-name.jpg'; 
                     }
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
-                    $model->updated_at = '0';
+                    $model->updated_at = '0';                    
 
                     // validate all models
                     $valid = $model->validate();
@@ -170,7 +170,7 @@ class CustomerController extends Controller
                                         $value->image = 'uploads/'.$imageName.'.'.$imageExtension;
                                     }
                                     else {
-                                        $value->image = 'uploads/'.'default.png'; 
+                                       $value->image = 'uploads/default-car-image.png';
                                     }
 
                                     $value->customer_id = $model->customer_id;

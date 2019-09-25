@@ -18,8 +18,8 @@ class EmployeeSearch extends Employee
     public function rules()
     {
         return [
-            [['emp_id', 'emp_type_id', 'branch_id', 'salary_id', 'emp_contact', 'created_by', 'updated_by'], 'integer'],
-            [['emp_name', 'emp_cnic', 'emp_father_name', 'emp_email', 'emp_image', 'emp_gender', 'emp_qualification', 'emp_reference', 'joining_date', 'learning_date', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['emp_id', 'emp_contact', 'created_by', 'updated_by'], 'integer'],
+            [['emp_name', 'emp_cnic', 'emp_father_name', 'emp_email', 'emp_image', 'emp_gender', 'emp_qualification', 'emp_reference', 'joining_date', 'learning_date', 'status', 'created_at', 'updated_at', 'emp_type_id', 'branch_id', 'salary_id'], 'safe'],
         ];
     }
 
@@ -55,10 +55,13 @@ class EmployeeSearch extends Employee
             return $dataProvider;
         }
 
+        $query->joinWith('branch');
+        $query->joinWith('empType');
+
         $query->andFilterWhere([
             'emp_id' => $this->emp_id,
-            'emp_type_id' => $this->emp_type_id,
-            'branch_id' => $this->branch_id,
+            //'emp_type_id' => $this->emp_type_id,
+            //'branch_id' => $this->branch_id,
             'salary_id' => $this->salary_id,
             'emp_contact' => $this->emp_contact,
             'joining_date' => $this->joining_date,
@@ -77,7 +80,9 @@ class EmployeeSearch extends Employee
             ->andFilterWhere(['like', 'emp_gender', $this->emp_gender])
             ->andFilterWhere(['like', 'emp_qualification', $this->emp_qualification])
             ->andFilterWhere(['like', 'emp_reference', $this->emp_reference])
-            ->andFilterWhere(['like', 'status', $this->status]);
+            ->andFilterWhere(['like', 'status', $this->status])
+            ->andFilterWhere(['like', 'employee_types.emp_type_name', $this->emp_type_id])
+            ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);
 
         return $dataProvider;
     }

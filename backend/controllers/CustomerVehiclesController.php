@@ -116,7 +116,7 @@ class CustomerVehiclesController extends Controller
                     $model->image = 'uploads/'.$imageName.'.'.$model->image->extension;
                 }
                 else {
-                   $model->image = 'uploads/'.'default-image-name.jpg'; 
+                   $model->image = 'uploads/'.'default-car-image.png'; 
                 }
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
@@ -163,7 +163,7 @@ class CustomerVehiclesController extends Controller
                     $model->image = 'uploads/'.$imageName.'.'.$model->image->extension;
                 }
                 else {
-                   $model->image = 'uploads/'.'default-image-name.jpg'; 
+                   $model->image = 'uploads/'.'default-car-image.png'; 
                 }
                 $model->customer_id = $id;
                 $model->created_by = Yii::$app->user->identity->id; 
