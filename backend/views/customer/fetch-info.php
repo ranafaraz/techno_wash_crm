@@ -74,17 +74,25 @@
 
 	   echo json_encode($stock); 
  	}
- 	if (isset($_POST["invoice_date"]) && isset($_POST["customer_id"]) && isset($_POST["vehicleArray"])&& isset($_POST["serviceArray"])&& isset($_POST["amountArray"])&& isset($_POST["ItemTypeArray"])&& isset($_POST["ItemTypeArray"])&& isset($_POST["total_amount"])&& isset($_POST["net_total"])&& isset($_POST["paid"])&& isset($_POST["remaining"])&& isset($_POST["status"])){
-customer_id,
-vehicleArray,
-serviceArray,
-amountArray,
-ItemTypeArray,
-total_amount,
-net_total,
-paid,
-remaining,
-status
- 	}
+ 	if (isset($_POST["invoice_date"]) && isset($_POST["customer_id"]) && isset($_POST["vehicleArray"])&& isset($_POST["serviceArray"])&& isset($_POST["amountArray"])&& isset($_POST["ItemTypeArray"])&& isset($_POST["total_amount"])&& isset($_POST["net_total"])&& isset($_POST["paid"])&& isset($_POST["remaining"])&& isset($_POST["status"])){
+ 		$invoice_id  = $_POST["invoice_date"];
+		$customer_id = $_POST["customer_id"];
+		$vehicleArray = $_POST["vehicleArray"];
+		$serviceArray = $_POST["serviceArray"];
+		$amountArray =$_POST["amountArray"];
+		$ItemTypeArray = $_POST["ItemTypeArray"];
+		
+		$total_amount = $_POST["total_amount"];
+		$net_total = $_POST["net_total"];
+		$paid = $_POST["paid"];
+		$remaining = $_POST["remaining"];
+		$status = $_POST["status"];
+		// $Insert_head = Yii::$app->db->createCommand()->insert('auth_assignment',[
+	 //  				//'exam_category_id' 		=> $exam_category,
+		// 			'item_name'   => $username,
+		// 			'user_id'    => $id,
+		// 			])->execute();
+
+}
 
 ?>
