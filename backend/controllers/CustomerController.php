@@ -36,7 +36,7 @@ class CustomerController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-invoice-view','credit-invoice-view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,6 +62,12 @@ class CustomerController extends Controller
     }
     public function actionSaleInvoiceView(){
         return $this->render('sale-invoice-view');
+    }
+    public function actionPaidInvoiceView(){
+        return $this->render('paid-invoice-view');
+    }
+    public function actionCreditInvoiceView(){
+        return $this->render('credit-invoice-view');
     }
     public function actionFetchInfo(){
         return $this->render('fetch-info');
@@ -279,7 +285,7 @@ class CustomerController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Edit',['update','customer_id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -317,7 +323,7 @@ class CustomerController extends Controller
                 $model->created_by = $model->created_by;
                 $model->created_at = $model->created_at;
                 $model->update();
-                return $this->redirect(['customer-detail-view', 'id' => $model->customer_id]);
+                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,

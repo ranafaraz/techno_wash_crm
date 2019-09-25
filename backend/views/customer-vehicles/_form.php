@@ -65,7 +65,7 @@ $customerId = $_GET['id'];
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
-            <a href="./customer-detail-view?id=<?php echo $customerId;?>" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+            <a href="./sale-invoice-view?customer_id=<?php echo $customerId;?>" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
 	        <?= Html::submitButton($model->isNewRecord ? '<i class="glyphicon glyphicon-save"></i> Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>

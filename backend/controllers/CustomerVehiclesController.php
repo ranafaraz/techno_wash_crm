@@ -176,7 +176,7 @@ class CustomerVehiclesController extends Controller
                     $transaction->rollBack();
                     echo $e;
                 }
-                return $this->redirect(['./customer-detail-view', 'id' => $model->customer_id]);
+                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -281,7 +281,7 @@ class CustomerVehiclesController extends Controller
                 $model->created_by = $model->created_by;
                 $model->created_at = $model->created_at;
                 $model->update();
-                return $this->redirect(['./customer-detail-view', 'id' => $model->customer_id]);
+                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
