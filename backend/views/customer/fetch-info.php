@@ -140,6 +140,15 @@
 				'discount_per_service'  => $amountArray[$j],
 				'created_by'		=> $user_id,
 				])->execute();
+	    	if ($ItemTypeArray[$j] == "Stock") {
+
+	    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+							'status'		=> "Sold",	
+							'updated_by'	=> $user_id
+	                        ],
+	                        ['stock_id' => $serviceArray[$j]]
+	                    )->execute();
+	    	}
 	    } // end of for loop
 	    // transaction commit
     	$transaction->commit();
