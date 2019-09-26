@@ -101,6 +101,17 @@ use common\models\VehicleTypeSubCategory;
     </div>
 </div>
   <!-- row 4 close -->
+  <div class="row">
+      <div class="col-md-4">
+           <?= $form->field($model, 'customer_whatsapp')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
+      </div>
+      <div class="col-md-4">
+           <?= $form->field($model, 'customer_social_media')->textInput(['maxlength' => true]) ?>
+      </div>
+      <div class="col-md-4">
+          
+      </div>
+  </div>
 
 
   <div class="row">

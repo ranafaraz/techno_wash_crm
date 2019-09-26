@@ -18,13 +18,10 @@ class StockSearch extends Stock
     public function rules()
     {
         return [
-<<<<<<< HEAD
+
             [['stock_id', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
-            [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at', 'branch_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id'], 'safe'],
-=======
-            [['stock_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'original_price', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
-            [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at'], 'safe'],
->>>>>>> 9c471f1b28fb96071504970840ecaec5a3229ff3
+            [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at','stock_type_id', 'purchase_invoice_id', 'manufacture_id'], 'safe'],
+
         ];
     }
 
@@ -60,18 +57,14 @@ class StockSearch extends Stock
             return $dataProvider;
         }
 
-        $query->joinWith('branch');
         $query->joinWith('stockType');
         $query->joinWith('manufacture');
 
         $query->andFilterWhere([
             'stock_id' => $this->stock_id,
-<<<<<<< HEAD
             //'branch_id' => $this->branch_id,
             //'stock_type_id' => $this->stock_type_id,
-=======
-            'stock_type_id' => $this->stock_type_id,
->>>>>>> 9c471f1b28fb96071504970840ecaec5a3229ff3
+
             'purchase_invoice_id' => $this->purchase_invoice_id,
             //'manufacture_id' => $this->manufacture_id,
             'expiry_date' => $this->expiry_date,
@@ -88,8 +81,7 @@ class StockSearch extends Stock
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'manufacture.name', $this->manufacture_id])
-            ->andFilterWhere(['like', 'stock_type.name', $this->stock_type_id])
-            ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);
+            ->andFilterWhere(['like', 'stock_type.name', $this->stock_type_id]);
         return $dataProvider;
     }
 }

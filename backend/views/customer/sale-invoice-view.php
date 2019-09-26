@@ -56,17 +56,14 @@ use yii\helpers\Html;
 <body>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
-      <h2 style="color:#3C8DBC;">Sale Invoice: <?php echo $customerData[0]['customer_name']; ?></h2>
-    </div>
-    <div class="col-md-4">
-
-    </div>
-  </div>
-  <div class="row">
     <div class="col-md-9">
       <div class="box box-primary">
         <div class="box-body">
+         <div class="row">
+          <div class="col-md-12">
+            <h2 style="color:#3C8DBC;">Sale Invoice: <?php echo $customerData[0]['customer_name']; ?></h2>
+          </div>
+        </div>
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active">
@@ -281,7 +278,7 @@ use yii\helpers\Html;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
                                         <a href="" title="Edit"><i class="fa fa-edit"></i>
-                                        <a href="" title="Collect"><i class="fa fa-file"></i></a></td>
+                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
                                     </tr>   
                                 
                                 <?php } ?>
@@ -491,11 +488,11 @@ use yii\helpers\Html;
 				</div>
                 <div class="form-group">
                   <label>Net Total</label>
-                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" onfocus="discountFun()">
+                  <input type="text" name="net_total" class="form-control" id="nt" readonly="" onfocus="discountFun()">
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid">
+                  <input type="text" name="paid" class="form-control"  id="paid_amount">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
@@ -557,17 +554,19 @@ function discountFun(){
             } 
       }
       function cal_remaining(){
-      	var paid = $('#paid').val();
+      	var paid = $('#paid_amount').val();
       	var nt = $('#nt').val();
-      	var remaining =nt - paid;
+        //alert(paid);
+        //alert(nt);
+      	var remaining = nt - paid;
       	$('#remaining').val(remaining); 
-      	if (remaining ==0) {
+      	if (remaining == 0) {
       		$('#status').val('paid');
       	}
       	else if (remaining < paid) {
       		$('#status').val('Partially');
       	}
-      	else if (remaining = nt) {
+      	else if (remaining == nt) {
       		$('#status').val('Unpaid');
       	}
       	$('#insert').show();
@@ -667,19 +666,19 @@ $script = <<< JS
 		 if($("#percentage").checked)
               {
               	
-            discount = parseInt($("#disc").val());
+            var discount = parseInt($("#disc").val());
             
-            discountReceived = parseInt((totalAmount*discount)/100);
+            var discountReceived = parseInt((totalAmount*discount)/100);
             
-            purchasePrice = totalAmount-discountReceived;
+            var purchasePrice = totalAmount-discountReceived;
             $('#nt').val(purchasePrice);
               }
             else if(document.getElementById("#amount").checked)
             {
             	
-            discount = parseInt(document.getElementById("disc").value);
+            var discount = parseInt(document.getElementById("disc").value);
                   
-            purchasePrice = originalPrice - discount;
+            var purchasePrice = originalPrice - discount;
               //discountReceived = discount;
              //$('#nt').val(purchasePrice);
               //alert(originalPrice);
@@ -775,7 +774,7 @@ $script = <<< JS
 		customer_id;
 		var total_amount = $('#tp').val();
 		var net_total = $('#nt').val();
-		var paid = $('#paid').val();
+		var paid = $('#paid_amount').val();
 	    var remaining = $('#remaining').val();
 	    var status = $('#status').val();
 		vehicleArray;
@@ -818,3 +817,44 @@ $script = <<< JS
 JS;
 $this->registerJs($script);
 ?>
+<?php 
+
+ if(isset($_POST['insert_collect']))
+ {
+   $customerID  = $_POST['custID'];
+   $invID       = $_POST['invID'];
+   $netTotal    = $_POST['net_total'];
+   $paid_amount = $_POST['paid_amount'];
+   $remaining   = $_POST['remaining'];
+   $collect     = $_POST['collect'];
+   $status      = $_POST['status'];
+   $netTotal    = $_POST['net_total'];
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'net_total'        => $netTotal,
+     'paid_amount'      => $paid_amount,
+     'remaining_amount' => $remaining,
+     'status'           => $status,
+     'created_by'       => $id,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
