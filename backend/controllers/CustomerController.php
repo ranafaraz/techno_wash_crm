@@ -36,7 +36,7 @@ class CustomerController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-invoice-view','credit-invoice-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-sale-invoice','credit-invoice-view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -63,11 +63,8 @@ class CustomerController extends Controller
     public function actionSaleInvoiceView(){
         return $this->render('sale-invoice-view');
     }
-    public function actionPaidInvoiceView(){
-        return $this->render('paid-invoice-view');
-    }
-    public function actionCreditInvoiceView(){
-        return $this->render('credit-invoice-view');
+    public function actionPaidSaleInvoice(){
+        return $this->render('paid-sale-invoice');
     }
     public function actionFetchInfo(){
         return $this->render('fetch-info');

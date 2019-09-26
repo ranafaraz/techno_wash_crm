@@ -224,7 +224,7 @@ use yii\helpers\Html;
                                         <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
                                             echo $date; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="paid-invoice-view?paid_id=<?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="paid-sale-invoice?paid_id=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
                                     </tr>   
                                 
                                 <?php } ?>
