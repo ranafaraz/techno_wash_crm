@@ -174,7 +174,7 @@ $id =  Yii::$app->user->identity->id;
                       <div class="row" id="mydata" style="display: none;">
 							<div class="col-md-12">
 								<table class="table table-bordered" id="myTableData">
-									<thead><th style="background-color: skyblue">Sr:#</th>
+									<thead>
 											<th style="background-color: skyblue">Vehicle </th>
 											<th style="background-color: skyblue">Item</th>
 											<th style="background-color: skyblue">Type</th>
@@ -419,12 +419,12 @@ $script = <<< JS
 						let row = table.insertRow(1);
 						
 						//insert the coulmn against the row
-						row.insertCell(0).innerHTML=rowCount;
-						row.insertCell(1).innerHTML= reg_name;
-						row.insertCell(2).innerHTML= servicesName;
-						row.insertCell(3).innerHTML= type;
-						row.insertCell(4).innerHTML= price;
-						index++;
+						row.insertCell(0).innerHTML=reg_name;
+						row.insertCell(1).innerHTML= servicesName;
+						row.insertCell(2).innerHTML= type;
+						row.insertCell(3).innerHTML= price;
+						
+						
 
 					  // $('#vehicle').val("");
 						$('#services').val("");
@@ -540,11 +540,11 @@ $script = <<< JS
 						let row = table.insertRow(1);
 						  
 						//insert the coulmn against the row
-						row.insertCell(0).innerHTML= rowCount;
-						row.insertCell(1).innerHTML= reg_name;
-						row.insertCell(2).innerHTML= servicesName;
-						row.insertCell(3).innerHTML= type;
-						row.insertCell(4).innerHTML= stock_price;
+						
+						row.insertCell(0).innerHTML= reg_name;
+						row.insertCell(1).innerHTML= servicesName;
+						row.insertCell(2).innerHTML= type;
+						row.insertCell(3).innerHTML= stock_price;
 
 
 					  // $('#vehicle').val("");
