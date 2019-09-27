@@ -1,7 +1,10 @@
 <?php 
+use common\models\Customer; 
+use common\models\Branches;
+use yii\helpers\Html;
 
   $customerID = $_GET['customer_id'];
-
+  $id=Yii::$app->user->identity->id;
   // getting customer name
   $customerName = Yii::$app->db->createCommand("
     SELECT *
@@ -31,6 +34,20 @@
     WHERE customer_id = $customerID
     ")->queryAll();
 $id =  Yii::$app->user->identity->id;
+$paidinvoiceData = Yii::$app->db->createCommand("
+    SELECT *
+    FROM sale_invoice_head
+    WHERE customer_id = '$customerID' AND (status = 'paid' OR status = 'Paid')
+    ORDER BY sale_inv_head_id DESC
+    ")->queryAll();
+    $countpaidinvoiceData = count($paidinvoiceData);
+
+    $creditinvoiceData = Yii::$app->db->createCommand("
+    SELECT *
+    FROM sale_invoice_head
+    WHERE customer_id = '$customerID' AND (status = 'Partially' OR status = 'Unpaid')
+    ")->queryAll();
+    $countcreditinvoiceData = count($creditinvoiceData);
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,8 +79,11 @@ $id =  Yii::$app->user->identity->id;
               <li class="active">
                 <a href="#invoice" data-toggle="tab">New Invoice</a>
               </li>
-              <li><a href="#previous" data-toggle="tab">Prevoius Invoices</a></li>
-              <!-- <li><a href="#details" data-toggle="tab">Account Details</a></li> -->
+             
+              <li><a href="#paid" data-toggle="tab">Paid Invoices <span class="badge"><?=$countpaidinvoiceData?></span></a></li>
+              <li><a href="#credit" data-toggle="tab">Credit <span class="badge"><?=$countcreditinvoiceData?></span></a></li>
+              <li><a href="#customer" data-toggle="tab">Customer Profile</a></li>
+              <li><a href="#customer_vehicles" data-toggle="tab">Customer Vehicles</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="invoice">
@@ -177,6 +197,7 @@ $id =  Yii::$app->user->identity->id;
 							<div class="col-md-12">
 								<table class="table table-bordered" id="myTableData">
 									<thead>
+                    <th style="background-color: skyblue">Sr #</th>
 											<th style="background-color: skyblue">Vehicle </th>
 											<th style="background-color: skyblue">Item</th>
 											<th style="background-color: skyblue">Type</th>
@@ -421,10 +442,11 @@ $script = <<< JS
 						let row = table.insertRow(1);
 						
 						//insert the coulmn against the row
-						row.insertCell(0).innerHTML=reg_name;
-						row.insertCell(1).innerHTML= servicesName;
-						row.insertCell(2).innerHTML= type;
-						row.insertCell(3).innerHTML= price;
+            row.insertCell(0).innerHTML=rowCount;
+						row.insertCell(1).innerHTML=reg_name;
+						row.insertCell(2).innerHTML= servicesName;
+						row.insertCell(3).innerHTML= type;
+						row.insertCell(4).innerHTML= price;
 						
 						
 
@@ -542,11 +564,11 @@ $script = <<< JS
 						let row = table.insertRow(1);
 						  
 						//insert the coulmn against the row
-						
-						row.insertCell(0).innerHTML= reg_name;
-						row.insertCell(1).innerHTML= servicesName;
-						row.insertCell(2).innerHTML= type;
-						row.insertCell(3).innerHTML= stock_price;
+						row.insertCell(0).innerHTML=rowCount;
+						row.insertCell(1).innerHTML= reg_name;
+						row.insertCell(2).innerHTML= servicesName;
+						row.insertCell(3).innerHTML= type;
+						row.insertCell(4).innerHTML= stock_price;
 
 
 					  // $('#vehicle').val("");
@@ -563,7 +585,7 @@ $script = <<< JS
 			                      // get the seected row index
 			                      rIndex = this.rowIndex;
 			                      document.getElementById("remove_value").value = rIndex;
-			                       document.getElementById("removed_value").value = this.cells[1].innerHTML;
+			                       document.getElementById("removed_value").value = this.cells[2].innerHTML;
 			                     
 			                    };
 			                }
@@ -667,3 +689,44 @@ $script = <<< JS
 JS;
 $this->registerJs($script);
 ?>
+<?php 
+
+ if(isset($_POST['insert_collect']))
+ {
+   $customerID  = $_POST['custID'];
+   $invID       = $_POST['invID'];
+   $netTotal    = $_POST['net_total'];
+   $paid_amount = $_POST['paid_amount'];
+   $remaining   = $_POST['remaining'];
+   $collect     = $_POST['collect'];
+   $status      = $_POST['status'];
+   $netTotal    = $_POST['net_total'];
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'net_total'        => $netTotal,
+     'paid_amount'      => $paid_amount,
+     'remaining_amount' => $remaining,
+     'status'           => $status,
+     'created_by'       => $id,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
