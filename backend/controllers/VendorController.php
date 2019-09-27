@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-
+use yii\filters\AccessControl;
 /**
  * VendorController implements the CRUD actions for Vendor model.
  */
@@ -22,6 +22,21 @@ class VendorController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','purchase-invoice-view','fetch-info','branch-details','customer-detail-view','fetch-vendor-info'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,6 +51,14 @@ class VendorController extends Controller
      * Lists all Vendor models.
      * @return mixed
      */
+    public function actionFetchVendorInfo()
+    {    
+        return $this->render('fetch-vendor-info');
+    }
+    public function actionPurchaseInvoiceView()
+    {    
+        return $this->render('purchase-invoice-view');
+    }
     public function actionIndex()
     {    
         $searchModel = new VendorSearch();

@@ -6,13 +6,9 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\PurchaseInvoice */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<div class="row">
-        <div class="col-md-12">
-            <h2 style="text-align: center;font-family:georgia;color:#FAB61C;margin-top:0px;">Create New Purchase Invoice</h2>
-        </div>
-</div>
-<div class="purchase-invoice-form" style="background-color:#ffe1a3;padding:20px;border-top:4px solid #FAB61C;">
-    
+
+<div class="purchase-invoice-form">
+
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'vendor_id')->textInput() ?>
@@ -24,6 +20,26 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'dispatch_date')->textInput() ?>
 
     <?= $form->field($model, 'receiving_date')->textInput() ?>
+
+    <?= $form->field($model, 'total_amount')->textInput() ?>
+
+    <?= $form->field($model, 'discount')->textInput() ?>
+
+    <?= $form->field($model, 'net_total')->textInput() ?>
+
+    <?= $form->field($model, 'paid_amount')->textInput() ?>
+
+    <?= $form->field($model, 'remaining_amount')->textInput() ?>
+
+    <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'created_at')->textInput() ?>
+
+    <?= $form->field($model, 'updated_at')->textInput() ?>
+
+    <?= $form->field($model, 'created_by')->textInput() ?>
+
+    <?= $form->field($model, 'updated_by')->textInput() ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

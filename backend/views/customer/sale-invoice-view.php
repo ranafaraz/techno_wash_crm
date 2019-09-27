@@ -30,18 +30,18 @@
     FROM customer
     WHERE customer_id = $customerID
     ")->queryAll();
-
+$id =  Yii::$app->user->identity->id;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
   <title></title>
   <style type="text/css" media="screen">
-  	#remove_index{
+  	#remove_index,#types{
   		display: none;
   	}
   	tr:hover{
-  		background-color:#EEE;
+  		background-color:gray;
   		cursor: pointer;
   	}
   </style>
@@ -123,7 +123,7 @@
 				                    <?php } ?>
 				                  </select>
 				                </div>
-				                <div class="form-group">
+				                <div class="form-group" id="types">
 				                	<label>Select Type</label>
 				                	<select id="item_type" class="form-control">
 				                		<option value="">Select Type</option>
@@ -174,14 +174,12 @@
                       <div class="row" id="mydata" style="display: none;">
 							<div class="col-md-12">
 								<table class="table table-bordered" id="myTableData">
-									<thead>
-										<tr>
-											<th>Sr #</th>
-											<th>Vehicle</th>
-											<th>Item</th>
-											<th>Type</th>
-											<th>Amount</th>
-										</tr>
+									<thead><th style="background-color: skyblue">Sr:#</th>
+											<th style="background-color: skyblue">Vehicle </th>
+											<th style="background-color: skyblue">Item</th>
+											<th style="background-color: skyblue">Type</th>
+											<th style="background-color: skyblue">Amount</th>
+										
 									</thead>
 									<tbody>
 										
@@ -260,14 +258,16 @@
 </body>
 </html>
 <script>
-
+	
 	let vehicleArray 				= new Array();
 	let serviceArray 				= new Array();
 	let amountArray 				= new Array();
 	let ItemTypeArray       = new Array();
+	let user_id = <?php echo $id; ?>;
 	let customer_id        = <?php echo $customerID; ?>;
 	let rIndex;
 	let table;
+	let index = 1;
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
 function discountFun(){
         // Getting the value from the original price
@@ -298,6 +298,31 @@ function discountFun(){
               //alert(originalPrice);
             } 
       }
+      function deleteRow(tableID) 
+      {
+            try {
+            var table = document.getElementById('myTableData');
+            var rowCount = table.rows.length;
+
+            for(var i=0; i<rowCount; i++) {
+                var row = table.rows[i];
+                var chkbox = row.cells[0].childNodes[0];
+                if(null != chkbox&& true == chkbox.checked) {
+                    if(rowCount <= 1) {
+                        alert("Cannot delete all the rows.");
+                        break;
+                    }
+                    table.deleteRow(i);
+                    rowCount--;
+                    i--;
+                }
+
+
+            }
+            }catch(e) {
+                alert(e);
+            }
+        }
       function cal_remaining(){
       	var paid = $('#paid').val();
       	var nt = $('#nt').val();
@@ -333,6 +358,10 @@ $script = <<< JS
 		 else if(item_type == "Stock")
 		 {
 		 	$('#stock').show();
+		 	$('#servic').hide();
+		 }
+		 else{
+		 	$('#stock').hide();
 		 	$('#servic').hide();
 		 }
 	});
@@ -385,17 +414,17 @@ $script = <<< JS
 
 						//count the table row
 						let rowCount = table.rows.length;
-
+						
 						//insert the new row
 						let row = table.insertRow(1);
-						  
+						
 						//insert the coulmn against the row
-						row.insertCell(0).innerHTML= rowCount;
+						row.insertCell(0).innerHTML=rowCount;
 						row.insertCell(1).innerHTML= reg_name;
 						row.insertCell(2).innerHTML= servicesName;
 						row.insertCell(3).innerHTML= type;
 						row.insertCell(4).innerHTML= price;
-
+						index++;
 
 					  // $('#vehicle').val("");
 						$('#services').val("");
@@ -406,7 +435,7 @@ $script = <<< JS
 			                    {
 			                      // get the seected row index
 			                      rIndex = this.rowIndex;
-			                      document.getElementById("remove_value").value = this.cells[0].innerHTML;
+			                      document.getElementById("remove_value").value = rIndex;
 			                     
 			                    };
 			                }
@@ -443,6 +472,12 @@ $script = <<< JS
 
 	$("#vehicle").change(function(){
 		var vehicle = $("#vehicle").val();
+		if(vehicle == null || vehicle ==""){
+			$('#types').hide();
+		}
+		else{
+			$('#types').show();
+		}
 		//alert(vehicle);
 		$.ajax({
 	        type:'post',
@@ -520,23 +555,49 @@ $script = <<< JS
 
                 
                 for(var i = 1; i < table.rows.length; i++)
-                {
-                    table.rows[i].onclick = function()
-                    {
-                      // get the seected row index
-                      rIndex = this.rowIndex;
-                      document.getElementById("remove_value").value = this.cells[0].innerHTML;
-                     
-                    };
-                }
-            
+			                {
+			                    table.rows[i].onclick = function()
+			                    {
+			                      // get the seected row index
+			                      rIndex = this.rowIndex;
+			                      document.getElementById("remove_value").value = rIndex;
+			                     
+			                    };
+			                }
 				}
         	}      
     	}); 
 	});
+	$('#remove').click(function(){
+
+		var remove_value1= $('#remove_value').val();
+		//alert(remove_value1);
+			document.getElementById("myTableData").deleteRow(remove_value1);
+			var a =amountArray.length - remove_value1;
+			//alert(amountArray);
+			var nt=$('#tp').val();
+			var nta = nt-amountArray[a];
+			amountArray.splice(a,1);
+			vehicleArray.splice(a,1);
+			serviceArray.splice(a,1); 
+			
+ 			ItemTypeArray.splice(a,1);
+			$('#remove_value').val("");
+			//alert(amountArray);
+			$('#tp').val(nta);
+			if(amountArray.length==0){
+			$('#mydata').hide();
+			$('#remove_index').hide();
+			$('#bill_form').hide();
+			$('#price').val("");
+				
+			}
+		});
+
+
 
 	$('#insert').click(function(){
-			var invoice_date = $('invoice_date').val();
+			var invoice_date = $('#invoice_date').val();
 			customer_id;
 			vehicleArray;
 			serviceArray; 
@@ -545,53 +606,49 @@ $script = <<< JS
  			var total_amount = $('#tp').val();
  			var net_total = $('#nt').val();
  			var paid = $('#paid').val();
-      var remaining = $('#remaining').val();
-      var status = $('#status').val();
-
-				if(invoice_date=='' || invoice_date==null){
-					alert("Please Select the today's Date");
-				}
-				$.ajax({
-	        type:'post',
-	        data:{
-	        	invoice_date:invoice_date,
-						customer_id:customer_id,
+		    var remaining = $('#remaining').val();
+		    var status = $('#status').val();
+			if(invoice_date=="" || invoice_date==null){
+				alert('Please Select the date ');
+				$('#invoice_date').css("border", "1px solid red");
+				$('#invoice_date').focus();
+			}
+			else if(net_total=="" || net_total==null){
+				alert('Please Select the date ');
+				$('#nt').css("border", "1px solid red");
+				$('#invoice_date').css("border", "1px solid ");
+				$('#nt').focus();
+			}
+					else{
+						$.ajax({
+			        type:'post',
+			        data:{
+			        	user_id:user_id,
 						vehicleArray:vehicleArray,
+	        			invoice_date:invoice_date,
+						customer_id:customer_id,
+						paid:paid,
+						remaining:remaining,
+						status:status,
 						serviceArray:serviceArray,
 						amountArray:amountArray,
 						ItemTypeArray:ItemTypeArray,
 						total_amount:total_amount,
-						net_total:net_total,
-						paid:paid,
-						remaining:remaining,
-						status:status
+						net_total:net_total
+						
 	        	},
 	        url: "$url",
 	        success: function(result){
-	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	
+	        	//var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+	        	console.log(result);
 	        	}      
-    	}); 
+    	});
+					}
+				
 
 		});
-		$('#remove').click(function(){
-
-		var remove_value= $('#remove_value').val();
-		if(remove_value == "" || remove_value == null){
-		  alert("Please Select the services which is want to remove");
-		}
-		else{
-			remove_value = remove_value-1;
-	        amount = amountArray[remove_value];
-	        var tp =$('#tp').val();
-	        var nt = tp-amount;  
-	       $('#tp').val(nt);  
-	       $('#remove_value').val("");
-	       document.getElementById("myTable").deleteRow(1);
-
-
-		}
-	});
+		
+		
 
 JS;
 $this->registerJs($script);

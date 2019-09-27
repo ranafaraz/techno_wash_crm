@@ -18,7 +18,7 @@ class StockSearch extends Stock
     public function rules()
     {
         return [
-            [['stock_id', 'branch_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
+            [['stock_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'original_price', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
             [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -57,11 +57,11 @@ class StockSearch extends Stock
 
         $query->andFilterWhere([
             'stock_id' => $this->stock_id,
-            'branch_id' => $this->branch_id,
             'stock_type_id' => $this->stock_type_id,
             'purchase_invoice_id' => $this->purchase_invoice_id,
             'manufacture_id' => $this->manufacture_id,
             'expiry_date' => $this->expiry_date,
+            'original_price' => $this->original_price,
             'purchase_price' => $this->purchase_price,
             'selling_price' => $this->selling_price,
             'created_at' => $this->created_at,

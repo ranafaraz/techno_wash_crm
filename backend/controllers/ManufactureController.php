@@ -67,7 +67,7 @@ class ManufactureController extends Controller
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
-            return $this->render('view', [
+            return $this->render('views', [
                 'model' => $this->findModel($id),
             ]);
         }
