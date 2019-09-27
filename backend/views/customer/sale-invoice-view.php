@@ -25,6 +25,7 @@ use yii\helpers\Html;
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'paid' OR status = 'Paid')
+    ORDER BY sale_inv_head_id DESC
     ")->queryAll();
     $countpaidinvoiceData = count($paidinvoiceData);
 
@@ -172,21 +173,21 @@ use yii\helpers\Html;
 											</div>
                     </div>
                     <div class="col-md-8" >
-                      <div class="row" id="mydata" style="display: none;">
-												<div class="col-md-12">
-													<table class="table table-bordered" id="myTableData">
-														<thead>
-															<tr>
-																<th>Sr #</th>
-																<th>Vehicle</th>
-																<th>Item</th>
-																<th>Type</th>
-																<th>Amount</th>
-															</tr>
-														</thead>
-													</table>
-												</div>
-											</div>
+                        <div class="row" id="mydata" style="display: none;">
+							<div class="col-md-12">
+								<table class="table table-bordered" id="myTableData">
+									<thead>
+										<tr>
+											<th>Sr #</th>
+											<th>Vehicle</th>
+											<th>Item</th>
+											<th>Type</th>
+											<th>Amount</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
                     </div>
                 </div>
               </div>
@@ -221,7 +222,7 @@ use yii\helpers\Html;
                                         <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
                                             echo $date; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="paid-sale-invoice?paid_id=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
                                     </tr>   
                                 
                                 <?php } ?>
@@ -278,7 +279,7 @@ use yii\helpers\Html;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
                                         <a href="" title="Edit"><i class="fa fa-edit"></i>
-                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
+                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
                                     </tr>   
                                 
                                 <?php } ?>
