@@ -18,8 +18,10 @@ class StockSearch extends Stock
     public function rules()
     {
         return [
-            [['stock_id', 'stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'original_price', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
-            [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at'], 'safe'],
+
+            [['stock_id', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
+            [['barcode', 'name', 'expiry_date', 'status', 'created_at', 'updated_at','stock_type_id', 'purchase_invoice_id', 'manufacture_id'], 'safe'],
+
         ];
     }
 
@@ -55,11 +57,16 @@ class StockSearch extends Stock
             return $dataProvider;
         }
 
+        $query->joinWith('stockType');
+        $query->joinWith('manufacture');
+
         $query->andFilterWhere([
             'stock_id' => $this->stock_id,
-            'stock_type_id' => $this->stock_type_id,
+            //'branch_id' => $this->branch_id,
+            //'stock_type_id' => $this->stock_type_id,
+
             'purchase_invoice_id' => $this->purchase_invoice_id,
-            'manufacture_id' => $this->manufacture_id,
+            //'manufacture_id' => $this->manufacture_id,
             'expiry_date' => $this->expiry_date,
             'original_price' => $this->original_price,
             'purchase_price' => $this->purchase_price,
@@ -72,8 +79,9 @@ class StockSearch extends Stock
 
         $query->andFilterWhere(['like', 'barcode', $this->barcode])
             ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'status', $this->status]);
-
+            ->andFilterWhere(['like', 'status', $this->status])
+            ->andFilterWhere(['like', 'manufacture.name', $this->manufacture_id])
+            ->andFilterWhere(['like', 'stock_type.name', $this->stock_type_id]);
         return $dataProvider;
     }
 }

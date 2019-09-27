@@ -1,6 +1,6 @@
 <?php 
 
-	use yii\helpers\Html;
+use yii\helpers\Html;
   $vendorID = $_GET['vendor_id'];
   $id=Yii::$app->user->identity->id;
   // getting customer name
@@ -138,19 +138,19 @@
 			            	<div class="col-md-3">
 			            		<div class="form-group">
 				            		<label>Original Price</label>
-				            		<input type="text" class="form-control" id="original_price">
+				            		<input type="number" class="form-control" id="original_price">
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
 			            		<div class="form-group">
 				            		<label>Purchase Price</label>
-				            		<input type="text" class="form-control" id="purchase_price">
+				            		<input type="number" class="form-control" id="purchase_price">
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
 			            		<div class="form-group">
 				            		<label>Selling Price</label>
-				            		<input type="text" class="form-control" id="selling_price">
+				            		<input type="number" class="form-control" id="selling_price">
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
@@ -159,6 +159,8 @@
 				            		<input type="text" class="form-control" id="barcode">
 			            		</div>
 			            	</div>
+			            	<input type="hidden" id="stockTypeName">
+			            	<input type="hidden" id="manufactreName">
 			            </div>		
                 	</div>
                 </div><hr>			
@@ -223,7 +225,7 @@
 					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
 	
 					  <input type="radio" name="discountType" id="amount"> Amount
-					<input type="text" name="discount" class="form-control" id="disc" value="0">
+					<input type="number" name="discount" class="form-control" id="disc" value="0">
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
 				</div>
@@ -233,7 +235,7 @@
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid">
+                  <input type="number" name="paid" class="form-control"  id="paid">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
@@ -266,11 +268,10 @@
 	let originalPriceArray  = new Array();
 	let purchasePriceArray  = new Array();
 	let sellingPriceArray   = new Array();
+	let vendorID 			= <?php echo $vendorID; ?>;
 
-	
-
-	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
-function discountFun(){
+	let user_id= <?php echo $id; ?>;
+	function discountFun(){
         // Getting the value from the original price
        originalPrice = parseInt(document.getElementById("tp").value);
        // alert(originalPrice);
@@ -305,7 +306,7 @@ function discountFun(){
       	var remaining =nt - paid;
       	$('#remaining').val(remaining); 
       	if (remaining ==0) {
-      		$('#status').val('paid');
+      		$('#status').val('Paid');
       	}
       	else if (remaining < paid) {
       		$('#status').val('Partially');
@@ -372,6 +373,9 @@ $script = <<< JS
 		var purchase_price 		= $("#purchase_price").val();
 		var selling_price 		= $("#selling_price").val();
 
+		var stockTypeName 		=  $('#stockTypeName').val();
+		var manufactreName 		=  $('#manufactreName').val();
+
 		var totalAmount = parseInt($('#tp').val());
 		var tp = parseInt(totalAmount)+parseInt(purchase_price);
 		$('#tp').val(tp);
@@ -429,8 +433,8 @@ $script = <<< JS
 		  
 		//insert the coulmn against the row
 		row.insertCell(0).innerHTML= rowCount;
-		row.insertCell(1).innerHTML= stock_type;
-		row.insertCell(2).innerHTML= manufacture_type;
+		row.insertCell(1).innerHTML= stockTypeName;
+		row.insertCell(2).innerHTML= manufactreName;
 		row.insertCell(3).innerHTML= name;
 		row.insertCell(4).innerHTML= expiry_date;
 		row.insertCell(5).innerHTML= original_price;
@@ -457,10 +461,104 @@ $script = <<< JS
 	        url: "$url",
 	        success: function(result){
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+	        	$('#stockTypeName').val(jsonResult[0]['name']);
         		      	
         	}      
     	}); 
 
+	});
+
+	$('#manufacture_type').change(function(){
+
+		var manufacture_type = $("#manufacture_type").val();
+
+		$.ajax({
+	        type:'post',
+	        data:{
+	        	manufacture_type:manufacture_type
+	        	},
+	        url: "$url",
+	        success: function(result){
+	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+	        	$('#manufactreName').val(jsonResult[0]['name']);
+        		      	
+        	}      
+    	}); 
+
+	});
+
+	$('#insert').click(function(){
+
+		user_id;
+		vendorID;
+		var bilty_no 		= $('#bilty_no').val();
+		var purchase_date 	= $('#purchase_date').val();
+		var dispatch_date 	= $('#dispatch_date').val();
+		var receiving_date 	= $('#receiving_date').val();
+		var total_amount 	= $('#tp').val();
+		var net_total 		= $('#nt').val();
+		var paid 			= $('#paid').val();
+	    var remaining 		= $('#remaining').val();
+		var status 			= $('#status').val();
+	    barcodeArray;
+	 	stockTypeArray;
+	 	manufacturerArray;
+	 	nameArray;
+	 	expiryDateArray;
+	 	originalPriceArray;
+	 	purchasePriceArray;
+	 	sellingPriceArray;
+
+ 		if(bilty_no == "" || bilty_no == null )
+ 		{
+ 			alert('Please fill Bilty no');
+ 		}
+ 		else if(purchase_date == "" || purchase_date == null )
+ 		{
+ 			alert('Please select purchase date');
+ 		}
+ 		else if(dispatch_date == "" || dispatch_date == null )
+ 		{
+ 			alert('Please select dispatch date');
+ 		}
+ 		else if(receiving_date == "" || receiving_date == null )
+ 		{
+ 			alert('Please select receiving date');
+ 		}
+ 		else
+ 		{
+ 			$.ajax({
+		        type:'post',
+		        data:{
+		        	user_id:user_id,
+		        	vendorID:vendorID,
+					bilty_no:bilty_no, 		
+					purchase_date:purchase_date,
+					dispatch_date:dispatch_date, 	
+					receiving_date:receiving_date, 	
+					total_amount:total_amount, 	
+					net_total:net_total, 		
+					paid:paid, 			
+				    remaining:remaining,
+				    status:status, 		
+				    barcodeArray:barcodeArray,
+				 	stockTypeArray:stockTypeArray,
+				 	manufacturerArray:manufacturerArray,
+				 	nameArray:nameArray,
+				 	expiryDateArray:expiryDateArray,
+				 	originalPriceArray:originalPriceArray,
+				 	purchasePriceArray:purchasePriceArray,
+				 	sellingPriceArray:sellingPriceArray
+		        	},
+		        url: "$url",
+		        success: function(result){ 
+	        		if(result){
+        			
+        			window.location = './purchase-invoice-view?vendor_id=$vendorID';
+        			}     	
+	        	}      
+    		}); 	
+ 		}
 	});
 
 JS;

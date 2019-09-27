@@ -18,8 +18,8 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
     public function rules()
     {
         return [
-            [['vehicle_typ_sub_id', 'vehicle_type_id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'manufacture', 'created_at', 'updated_at'], 'safe'],
+            [['vehicle_typ_sub_id', 'created_by', 'updated_by'], 'integer'],
+            [['name', 'manufacture', 'created_at', 'updated_at', 'vehicle_type_id'], 'safe'],
         ];
     }
 
@@ -66,7 +66,7 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'manufacture', $this->manufacture])
-            ->andFilterWhere(['like', 'vehicle_type.vehicle_type_id', $this->name]);
+            ->andFilterWhere(['like', 'vehicle_type.name', $this->vehicle_type_id]);
 
         return $dataProvider;
     }

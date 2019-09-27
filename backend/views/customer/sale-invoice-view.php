@@ -81,7 +81,9 @@ $id =  Yii::$app->user->identity->id;
                     <div class="col-md-8">
 	                    <div class="row" style="margin-top: 25px" id="remove_index">
 	                    	<div class="col-md-6">
-	                    		<input type="text" placeholder="" class="form-control" id="remove_value" readonly="">
+	                    		<input type="hidden" id="remove_value">
+	                    		<input type="text" placeholder="" class="form-control" id="removed_value" readonly="">
+	                    		
 	                    	</div>
 	                    	<div class="col-md-2">
 	                    		<button type="button" class="btn btn-warning btn-flat" id="remove"><i class="fa fa-times"></i> Remove</button>
@@ -436,7 +438,7 @@ $script = <<< JS
 			                      // get the seected row index
 			                      rIndex = this.rowIndex;
 			                      document.getElementById("remove_value").value = rIndex;
-			                     
+			                     document.getElementById("removed_value").value = this.cells[1].innerHTML;
 			                    };
 			                }
 				
@@ -561,6 +563,7 @@ $script = <<< JS
 			                      // get the seected row index
 			                      rIndex = this.rowIndex;
 			                      document.getElementById("remove_value").value = rIndex;
+			                       document.getElementById("removed_value").value = this.cells[1].innerHTML;
 			                     
 			                    };
 			                }
@@ -571,7 +574,11 @@ $script = <<< JS
 	$('#remove').click(function(){
 
 		var remove_value1= $('#remove_value').val();
-		//alert(remove_value1);
+		//alert();
+			if(remove_value1 =="" || remove_value1==null){
+				alert("Please Select the services to remove");
+			}
+			else{
 			document.getElementById("myTableData").deleteRow(remove_value1);
 			var a =amountArray.length - remove_value1;
 			//alert(amountArray);
@@ -583,6 +590,7 @@ $script = <<< JS
 			
  			ItemTypeArray.splice(a,1);
 			$('#remove_value').val("");
+			$('#removed_value').val("");
 			//alert(amountArray);
 			$('#tp').val(nta);
 			if(amountArray.length==0){
@@ -590,7 +598,13 @@ $script = <<< JS
 			$('#remove_index').hide();
 			$('#bill_form').hide();
 			$('#price').val("");
+			$('#vehicle').val("");
+			$('#item_type').val("");
+			$('#types').hide();
+			$('#stock').hide();
+			$('#servic').hide();
 				
+			}
 			}
 		});
 

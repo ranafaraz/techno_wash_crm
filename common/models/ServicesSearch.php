@@ -18,8 +18,8 @@ class ServicesSearch extends Services
     public function rules()
     {
         return [
-            [['services_id', 'branch_id', 'price', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['services_id', 'price', 'created_by', 'updated_by'], 'integer'],
+            [['name', 'description', 'created_at', 'updated_at', 'branch_id'], 'safe'],
         ];
     }
 
@@ -55,9 +55,11 @@ class ServicesSearch extends Services
             return $dataProvider;
         }
 
+        $query->joinWith('branch');
+
         $query->andFilterWhere([
             'services_id' => $this->services_id,
-            'branch_id' => $this->branch_id,
+            //'branch_id' => $this->branch_id,
             'price' => $this->price,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
@@ -66,8 +68,8 @@ class ServicesSearch extends Services
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
-
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'branches.branch_name', $this->branch_id]);
         return $dataProvider;
     }
 }

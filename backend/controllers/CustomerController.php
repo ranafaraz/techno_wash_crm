@@ -35,8 +35,7 @@ class CustomerController extends Controller
                         'allow' => true,
                     ],
                     [
-
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-sale-invoice','credit-invoice-view','collect-sale-invoice'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -60,8 +59,14 @@ class CustomerController extends Controller
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
+    public function actionCollectSaleInvoice(){
+        return $this->render('collect-sale-invoice');
+    }
     public function actionSaleInvoiceView(){
         return $this->render('sale-invoice-view');
+    }
+    public function actionPaidSaleInvoice(){
+        return $this->render('paid-sale-invoice');
     }
     public function actionFetchInfo(){
         return $this->render('fetch-info');
@@ -151,12 +156,12 @@ class CustomerController extends Controller
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
                     }
                     else {
-                        $model->customer_image = 'uploads/'.'default-image-name.jpg'; 
+                        $model->customer_image = 'uploads/default-image-name.jpg'; 
                     }
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
-                    $model->updated_at = '0';
+                    $model->updated_at = '0';                    
 
                     // validate all models
                     $valid = $model->validate();
@@ -181,7 +186,7 @@ class CustomerController extends Controller
                                         $value->image = 'uploads/'.$imageName.'.'.$imageExtension;
                                     }
                                     else {
-                                        $value->image = 'uploads/'.'default.png'; 
+                                       $value->image = 'uploads/default-car-image.png';
                                     }
 
                                     $value->customer_id = $model->customer_id;
@@ -279,7 +284,7 @@ class CustomerController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Edit',['update','customer_id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -317,7 +322,7 @@ class CustomerController extends Controller
                 $model->created_by = $model->created_by;
                 $model->created_at = $model->created_at;
                 $model->update();
-                return $this->redirect(['customer-detail-view', 'id' => $model->customer_id]);
+                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
