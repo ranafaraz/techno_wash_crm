@@ -103,16 +103,18 @@ class ManufactureController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
+            }else if($model->load($request->post())){
+
 
                 $modelProducts = Model::createMultiple(Products::classname());
                 // validate all models
                 $valid = $model->validate();
-                $valid = Model::validateMultiple($modelProducts);
+                $valid = Model::validateMultiple($modelProducts) && $valid;
+
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
-                $model->updated_by = '0';
-                $model->updated_at = '0';
+                //$model->updated_by = '0';
+                //$model->updated_at = '0';
 
                 if ($valid) {
                         $transaction = \Yii::$app->db->beginTransaction();
@@ -124,7 +126,7 @@ class ManufactureController extends Controller
                                     $product->created_at = new \yii\db\Expression('NOW()');
                                     $product->created_by = Yii::$app->user->identity->id; 
                                     $product->updated_by = '0';
-                                    $product->updated_at = '0';    
+                                    //$product->updated_at = '0';    
 
                                     if (! ($flag = $product->save(false))) {
                                         $transaction->rollBack();
