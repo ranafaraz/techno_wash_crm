@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
   	#remove_index,#types{
   		display: none;
   	}
-  	tr:hover{
+  	#myTableData thead tr:hover{
   		background-color: #ECF0F5;
   		cursor: pointer;
   	}
@@ -199,18 +199,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					</div>
                     </div>
                     <div class="col-md-8" >
-                        <div class="row" id="mydata" style="display: none;">
-							<div class="col-md-12">
-								<table class="table table-bordered" id="myTableData">
-									<thead>
-										<tr>
-											<th>Sr #</th>
-											<th>Vehicle</th>
-											<th>Item</th>
-											<th>Type</th>
-											<th>Amount</th>
-										</tr>
-									</thead>
 
                       <div class="row" id="mydata" style="display: none;">
 							<div class="col-md-12">
@@ -247,7 +235,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <tr>
                                     <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
                                     <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
                                     <th class="t-cen" style="vertical-align:middle;">Action</th>
                                 </tr>
@@ -262,7 +249,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <tr>
                                         <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount'];?></td>
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
                                             echo $date; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
@@ -320,7 +306,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
                                         <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit"><i class="fa fa-edit"></i>
-                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
+                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
                                     </tr>   
                                 
                                 <?php } ?>
@@ -521,7 +507,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="form-group">
 					<label>Discount</label>
-					 <input type="radio" name="discountType" id="percentage" checked > Percentage
+					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
 	
 					  <input type="radio" name="discountType" id="amount"> Amount
 					<input type="text" name="discount" class="form-control" id="disc" value="0">
@@ -685,12 +671,12 @@ $script = <<< JS
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
 				    $('#tp').val(tp);
 
-				        var vehicle = $('#vehicle').val();
-						var services = $('#services').val();
-						var price = $('#price').val();
-						var servicesName = $('#service_name').val();
-						var reg_name = $('#vehicle_name').val();
-						var type = $('#item_type').val();
+				    var vehicle 						= $('#vehicle').val();
+						var services 						= $('#services').val();
+						var price 							= $('#price').val();
+						var servicesName				=$('#service_name').val();
+						var reg_name 						= $('#vehicle_name').val();
+						var type                =$('#item_type').val();
 						
 						if (vehicle=="" || vehicle==null)
 						{
@@ -999,52 +985,6 @@ $this->registerJs($script);
      'remaining_amount' => $remaining,
      'status'           => $status,
      'created_by'       => $id,
-    ],
-       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
-
-    )->execute();
-     // transaction commit
-     $transaction->commit();
-        
-     } // closing of try block 
-     catch (Exception $e) {
-      // transaction rollback
-         $transaction->rollback();
-     } // closing of catch block
-     // closing of transaction handling
-}
-
- ?>
-
- <?php 
-
- if(isset($_POST['update_invoice']))
- {
-   $customerID  = $_POST['custID'];
-   $invID       = $_POST['invID'];
-   $updateDate = $_POST['date'];
-   $updateDiscount = $_POST['update_discount'];
-   $updatepaidAmount = $_POST['paid_amount'];
-   $updatetotalamount = $_POST['total_amount'];
-   $updatenetTotal = $_POST['net_total'];
-   $updateremainingAmount = $_POST['remaining_amount'];
-   $updatestatus = $_POST['status'];
-   
-
-   $id   =Yii::$app->user->identity->id;
-
-     // starting of transaction handling
-     $transaction = \Yii::$app->db->beginTransaction();
-     try {
-      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
-
-     'date' => $updateDate,
-     'total_amount' => $updatetotalamount,
-     'discount' => $updateDiscount,
-     'net_total' => $updatenetTotal,
-     'paid_amount' => $updatepaidAmount,
-     'remaining_amount' => $updateremainingAmount,
-     'status' => $updatestatus,
     ],
        ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
 

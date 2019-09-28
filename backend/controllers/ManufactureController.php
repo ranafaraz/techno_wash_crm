@@ -113,7 +113,7 @@ class ManufactureController extends Controller
 
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
-                $model->updated_by = '0';
+                //$model->updated_by = '0';
                 //$model->updated_at = '0';
 
                 if ($valid) {
