@@ -106,14 +106,13 @@ class ManufactureController extends Controller
             }else if($model->load($request->post()) && $model->validate()){
 
                 $modelProducts = Model::createMultiple(Products::classname());
-                
+                // validate all models
+                $valid = $model->validate();
+                $valid = Model::validateMultiple($modelProducts);
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0';
-                // validate all models
-                $valid = $model->validate();
-                $valid = Model::validateMultiple($modelProducts);
 
                 if ($valid) {
                         $transaction = \Yii::$app->db->beginTransaction();
@@ -131,7 +130,7 @@ class ManufactureController extends Controller
                                         $transaction->rollBack();
                                         break;
                                     }
-                                } // modelRouteVoucherEmployee foreach end
+                                } // modelProduct foreach end
                             }
                             if ($flag) {
                                 $transaction->commit();
