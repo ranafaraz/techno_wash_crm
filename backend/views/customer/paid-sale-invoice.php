@@ -1,7 +1,7 @@
 
 <?php 
 $paidID = $_GET['paid_id'];
-	$paidinvoiceData = Yii::$app->db->createCommand("
+$paidinvoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM sale_invoice_head
     WHERE sale_inv_head_id = '$paidID' AND (status = 'paid' OR status = 'Paid')
@@ -53,6 +53,12 @@ $customervehicleID = Yii::$app->db->createCommand("
 		</div>
 			<div class="table-responsive">
 		<table class="table table-bordered table-striped">
+			<?php for($i=0; $i<$countcustomervehicleID; $i++)
+    				{
+
+    		?>
+		
+    
 				<thead style="background-color: #3C8DBC;color: white;">
 					<tr>
 						<th style="max-width: 10px;">Sr#</th>
@@ -65,7 +71,8 @@ $customervehicleID = Yii::$app->db->createCommand("
 				<tbody>
 
 					<tr>
-						<td>							
+						<td>
+						<?php  ?>							
 						</td>
 						<td>
 							
@@ -87,7 +94,8 @@ $customervehicleID = Yii::$app->db->createCommand("
 							<!-- &emsp;&emsp;PKR -->
 						</td>
 					</tr>
-				</tbody>			
+				</tbody>
+				<?php } ?>			
 		</table>
 		
 		</div>
