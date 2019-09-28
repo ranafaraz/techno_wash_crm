@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Manufacture;
+use common\models\Products;
 
 /**
- * ManufactureSearch represents the model behind the search form about `common\models\Manufacture`.
+ * ProductsSearch represents the model behind the search form about `common\models\Products`.
  */
-class ManufactureSearch extends Manufacture
+class ProductsSearch extends Products
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ManufactureSearch extends Manufacture
     public function rules()
     {
         return [
-            [['manufacture_id', 'stock_type_id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['product_id', 'manufacture_id', 'created_by', 'updated_by'], 'integer'],
+            [['product_name', 'description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ManufactureSearch extends Manufacture
      */
     public function search($params)
     {
-        $query = Manufacture::find();
+        $query = Products::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,15 +56,15 @@ class ManufactureSearch extends Manufacture
         }
 
         $query->andFilterWhere([
+            'product_id' => $this->product_id,
             'manufacture_id' => $this->manufacture_id,
-            'stock_type_id' => $this->stock_type_id,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
+            'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
+            'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'product_name', $this->product_name])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

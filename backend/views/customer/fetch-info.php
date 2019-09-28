@@ -30,37 +30,7 @@
 	    ")->queryAll();
  		   echo json_encode($register); 
  	}
- 	if (isset($_POST["vehicleArray"]) && isset($_POST["serviceArray"])
- 		&& isset($_POST["amountArray"]) && isset($_POST["discountArray"]) && isset($_POST["invoice_id"])) {
-
-
- 		$invoice_id			=$_POST["invoice_id"];
- 		$vehicleArray		=$_POST["vehicleArray"];
- 		$serviceArray		=$_POST["serviceArray"];
- 		$amountArray		=$_POST["amountArray"];
- 		$discountArray 		=$_POST["discountArray"];
- 		//$afterDiscountArray	=$_POST["afterDiscountArray"];
- 		$countvehicle 		= count($vehicleArray);
-
- 		for ($i=0; $i <$countvehicle ; $i++) {
-
-	 		$insert = Yii::$app->db->createCommand()->insert(
-
-	 			'sale_invoice_services_detail',
-	 			[
-	 				'sale_inv_haed_id' 		=> $invoice_id,
-	 				'services_id' 			=> $serviceArray[$i],
-	 				'customer_vehicle_id' 	=> $vehicleArray[$i],
-	 				'discount_per_service' 	=> $discountArray[$i],
-	 				'created_at' 			=> new \yii\db\Express('NOW()'),
-	 				'created_by'			=> Yii::$app->user->identity->id,
-	 			]
-	 		)->queryAll();
- 		}
-
- 		
- 		   echo json_encode($insert); 
- 	}
+ 	
 	
 	if(isset($_POST['barcode']))
  	{
@@ -75,29 +45,42 @@
 	   echo json_encode($stock); 
  	}
 
- 	if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
- 	 && isset($_POST['total_amount']) && isset($_POST['net_total']) 
- 	 && isset($_POST['paid']) && isset($_POST['remaining'])
- 	  && isset($_POST['status']) && isset($_POST['vehicleArray'])
- 	  && isset($_POST['serviceArray']) && isset($_POST['amountArray'])
- 	   && isset($_POST['ItemTypeArray']))
+ 	 if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
+ 	  && isset($_POST['total_amount']) && isset($_POST['net_total']) 
+ 	  && isset($_POST['paid']) && isset($_POST['remaining'])
+ 	 && isset($_POST['status']) && isset($_POST['vehicleArray'])
+ 	   && isset($_POST['serviceArray']) && isset($_POST['amountArray'])
+ 	    && isset($_POST['ItemTypeArray']))
  	{
- 	$total_amount = $_POST["total_amount"];
-	$invoice_date= $_POST["invoice_date"];
-	$customer_id= $_POST['customer_id'];
-	$net_total = $_POST['net_total'];
-	$paid = $_POST['paid'];
-	$remaining = $_POST['remaining'];
-	$status = $_POST["status"];
-	$vehicleArray = $_POST['vehicleArray']; 
-	$serviceArray = $_POST["serviceArray"];
-	$amountArray = $_POST['amountArray'];
-	$ItemTypeArray = $_POST['ItemTypeArray'];
-	$user_id = $_POST["user_id"];
-	$disc_amount = $total_amount - $net_total;
-	$countItemArray = count($vehicleArray);
-
-	// starting of transaction handling
+ 		$total_amount = $_POST["total_amount"];
+ 		$invoice_date= $_POST["invoice_date"];
+	 	$customer_id= $_POST['customer_id'];
+		 $net_total = $_POST['net_total'];
+		 $paid = $_POST['paid'];
+		 $remaining = $_POST['remaining'];
+		 $status = $_POST["status"];
+		$vehicleArray = $_POST['vehicleArray']; 
+		$serviceArray = $_POST["serviceArray"];
+		$amountArray = $_POST['amountArray'];
+		$ItemTypeArray = $_POST['ItemTypeArray'];
+		$user_id = $_POST["user_id"];
+		$disc_amount = $total_amount - $net_total;
+		$countItemArray = count($vehicleArray);
+		// echo json_encode($total_amount);
+		// echo json_encode($invoice_date);
+		// echo json_encode($customer_id);
+		// echo json_encode($net_total);
+		// echo json_encode($paid);
+		// echo json_encode($remaining);
+		// echo json_encode($status);
+		// echo json_encode($vehicleArray);
+		// echo json_encode($serviceArray);
+		// echo json_encode($amountArray);
+		// echo json_encode($ItemTypeArray);
+		// echo json_encode($user_id);
+		// echo json_encode($disc_amount);
+		// echo json_encode($countItemArray);
+		//starting of transaction handling
 	$transaction = \Yii::$app->db->beginTransaction();
 	try {
 		 $insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
@@ -140,15 +123,6 @@
 				'discount_per_service'  => $amountArray[$j],
 				'created_by'		=> $user_id,
 				])->execute();
-	    	if ($ItemTypeArray[$j] == "Stock") {
-
-	    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
-							'status'		=> "Sold",	
-							'updated_by'	=> $user_id
-	                        ],
-	                        ['stock_id' => $serviceArray[$j]]
-	                    )->execute();
-	    	}
 	    } // end of for loop
 	    // transaction commit
     	$transaction->commit();
@@ -161,8 +135,10 @@
         $transaction->rollback();
 	} // closing of catch block
 	// closing of transaction handling
-
+echo json_encode($insert_invoice_detail);
+	
 	
 }
 		
 ?>
+<!--  -->
