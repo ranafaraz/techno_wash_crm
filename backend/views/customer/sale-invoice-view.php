@@ -617,12 +617,13 @@ function discountFun(){
       	if (remaining ==0) {
       		$('#status').val('paid');
       	}
-      	else if (remaining < paid) {
-      		$('#status').val('Partially');
-      	}
-      	else if (remaining = nt) {
+      	else if (remaining == nt) {
       		$('#status').val('Unpaid');
       	}
+        
+        else {
+          $('#status').val('Partially');
+        }
       	$('#insert').show();
       }
 

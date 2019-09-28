@@ -117,19 +117,16 @@ use yii\helpers\Html;
 			            		<div class="form-group">
 				            		<label>Manufacture</label>
 				            		<select class="form-control" id="manufacture_type">
-				            			<option value="">manufacturer...</option>
-				            			<?php 
-				            			for ($j=0; $j <$countManufacture ; $j++) {
-				            			?>
-				            			<option value="<?php echo $manufacture[$j]['manufacture_id']; ?>"><?php echo $manufacture[$j]['name'];  ?></option>
-				            			<?php } ?>
+				            			<option value="">Select Manufacturer</option>
 				            		</select>
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
 			            		<div class="form-group">
-				            		<label>Name</label>
-				            		<input type="text" class="form-control" id="name">
+				            		<label>Product Name</label>
+				            		<select class="form-control" id="product_name">
+                          <option value="">Select Product</option>
+                        </select>
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
@@ -166,6 +163,7 @@ use yii\helpers\Html;
 			            	</div>
 			            	<input type="hidden" id="stockTypeName">
 			            	<input type="hidden" id="manufactreName">
+                    <input type="hidden" id="productName">
 			            </div>		
                 	</div>
                 </div><hr>			
@@ -279,28 +277,27 @@ use yii\helpers\Html;
 					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
 	
 					  <input type="radio" name="discountType" id="amount"> Amount
-					<input type="number" name="discount" class="form-control" id="disc" value="0">
+					<input type="number" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()">
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
 				</div>
                 <div class="form-group">
                   <label>Net Total</label>
-                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" onfocus="discountFun()">
+                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" >
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="number" name="paid" class="form-control"  id="paid">
+                  <input type="number" name="paid" class="form-control"  id="paid" oninput="cal_remaining()">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
-                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"
-                  onfocus="cal_remaining()"> 
+                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
                 </div>
                 <div class="form-group">
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
                 </div>
-                <button class="btn btn-success btn-block btn-flat" id="insert" >
+                <button class="btn btn-success btn-block btn-flat" id="insert" style="display: none;">
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
               
             </div>
@@ -359,16 +356,22 @@ use yii\helpers\Html;
       	var nt = $('#nt').val();
       	var remaining =nt - paid;
       	$('#remaining').val(remaining); 
-      	if (remaining ==0) {
-      		$('#status').val('Paid');
-      	}
-      	else if (remaining < paid) {
-      		$('#status').val('Partially');
-      	}
-      	else if (remaining = nt) {
-      		$('#status').val('Unpaid');
-      	}
-      	$('#insert').show();
+        
+        	if (remaining == 0) {
+        		$('#status').val('Paid');
+            $('#insert').show();
+        	}
+        	else if (remaining == nt) {
+        		$('#status').val('Unpaid');
+            $('#insert').show();
+        	}
+          
+          else {
+            $('#status').val('Partially');
+            $('#insert').show();
+          }
+        
+      	//$('#insert').show();
       }
 </script>
 <?php
@@ -377,19 +380,57 @@ $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
 
 $script = <<< JS
 
-	$("#item_type").change(function(){
-		 var item_type = $('#item_type').val();
-		 if(item_type == "Service")
-		 {
-		 	$('#servic').show();
-		 	$('#stock').hide();
-		 }
-		 else if(item_type == "Stock")
-		 {
-		 	$('#stock').show();
-		 	$('#servic').hide();
-		 }
+	$("#stock_type").change(function(){
+		 var stockType = $('#stock_type').val();
+
+		 $.ajax({
+          type:'post',
+          data:{
+            stockType:stockType
+            },
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            //console.log(jsonResult);
+
+            $('#manufacture_type').empty();
+            $('#manufacture_type').append("<option>"+"Select Manufactre.."+"</option>");
+            var options = '';
+                for(var i=0; i<jsonResult.length; i++) { 
+                    options += '<option value="'+jsonResult[i]['manufacture_id']+'">'+jsonResult[i]['name']+'</option>';
+                }
+            // Append to the html
+            $('#manufacture_type').append(options);
+                    
+          }      
+      });
 	});
+
+  $("#manufacture_type").change(function(){
+     var manufactureType = $('#manufacture_type').val();
+
+     $.ajax({
+          type:'post',
+          data:{
+            manufactureType:manufactureType
+            },
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            console.log(jsonResult);
+
+            $('#product_name').empty();
+            $('#product_name').append("<option>"+"Select Product.."+"</option>");
+            var options = '';
+                for(var i=0; i<jsonResult.length; i++) { 
+                    options += '<option value="'+jsonResult[i]['product_id']+'">'+jsonResult[i]['product_name']+'</option>';
+                }
+            // Append to the html
+            $('#product_name').append(options);
+                    
+          }      
+      });
+  });
 
 	$("#disc").change(function(){
 		 var totalAmount = $('#tp').val();
@@ -421,7 +462,7 @@ $script = <<< JS
 		var barcode 			= $("#barcode").val();
 		var stock_type 			= $("#stock_type").val();
 		var manufacture_type 	= $("#manufacture_type").val();
-		var name 				= $("#name").val();
+		var name 				= $("#product_name").val();
 		var expiry_date 		= $("#expiry_date").val();
 		var original_price 		= $("#original_price").val();
 		var purchase_price 		= $("#purchase_price").val();
@@ -429,6 +470,7 @@ $script = <<< JS
 
 		var stockTypeName 		=  $('#stockTypeName').val();
 		var manufactreName 		=  $('#manufactreName').val();
+    var product_name    =  $('#productName').val();
 
 		var totalAmount = parseInt($('#tp').val());
 		var tp = parseInt(totalAmount)+parseInt(purchase_price);
@@ -489,7 +531,7 @@ $script = <<< JS
 		row.insertCell(0).innerHTML= rowCount;
 		row.insertCell(1).innerHTML= stockTypeName;
 		row.insertCell(2).innerHTML= manufactreName;
-		row.insertCell(3).innerHTML= name;
+		row.insertCell(3).innerHTML= product_name;
 		row.insertCell(4).innerHTML= expiry_date;
 		row.insertCell(5).innerHTML= original_price;
 		row.insertCell(6).innerHTML= purchase_price;
@@ -540,6 +582,25 @@ $script = <<< JS
     	}); 
 
 	});
+
+  $('#product_name').change(function(){
+
+    var product_name = $("#product_name").val();
+
+    $.ajax({
+          type:'post',
+          data:{
+            product_name:product_name
+            },
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            $('#productName').val(jsonResult[0]['product_name']);
+                    
+          }      
+      }); 
+
+  });
 
 	$('#insert').click(function(){
 
