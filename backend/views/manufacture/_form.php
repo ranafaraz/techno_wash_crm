@@ -36,16 +36,21 @@ use wbraganca\dynamicform\DynamicFormWidget;
         </div>
     </div>
 
-    <!-- products dynamic form -->
+   <!-- products dynamic form -->
     <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading"><h4><i class="glyphicon glyphicon-envelope"></i> Product Details</h4></div>
+            <div class="panel-heading">
+                <h4>
+                    <i class="glyphicon glyphicon-envelope"></i> 
+                        Product Details 
+                </h4>
+            </div>
             <div class="panel-body">
             <?php DynamicFormWidget::begin([
                 'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
                 'widgetBody' => '.container-items', // required: css class selector
                 'widgetItem' => '.item', // required: css class
-                'limit' => 100, // the maximum times, an element can be cloned (default 999)
+                'limit' => 10, // the maximum times, an element can be cloned (default 999)
                 'min' => 1, // 0 or 1 (default 1)
                 'insertButton' => '.add-item', // css class
                 'deleteButton' => '.remove-item', // css class
@@ -69,10 +74,6 @@ use wbraganca\dynamicform\DynamicFormWidget;
                         <div class="clearfix"></div>
                     </div>
                     <div class="panel-body">
-                        <?php
-                            // necessary for update action.
-                            
-                        ?>
                         <div class="row">
                             <div class="col-sm-6">
                                  <?= $form->field($product, "[{$e}]product_name")->textInput()?>

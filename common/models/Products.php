@@ -15,6 +15,8 @@ use Yii;
  * @property int $created_by
  * @property string $updated_at
  * @property int $updated_by
+ *
+ * @property Manufacture $manufacture
  */
 class Products extends \yii\db\ActiveRecord
 {
@@ -32,11 +34,12 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'product_name'], 'required'],
+            [['product_name'], 'required'],
             [['manufacture_id', 'created_by', 'updated_by'], 'integer'],
             [['description'], 'string'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by','manufacture_id', 'description'], 'safe'],
+            [['created_at', 'updated_at', 'description', 'created_by', 'updated_by','manufacture_id'], 'safe'],
             [['product_name'], 'string', 'max' => 50],
+            [['manufacture_id'], 'exist', 'skipOnError' => true, 'targetClass' => Manufacture::className(), 'targetAttribute' => ['manufacture_id' => 'manufacture_id']],
         ];
     }
 
@@ -55,5 +58,13 @@ class Products extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getManufacture()
+    {
+        return $this->hasOne(Manufacture::className(), ['manufacture_id' => 'manufacture_id']);
     }
 }

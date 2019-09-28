@@ -84,8 +84,8 @@ class ManufactureController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Manufacture();
-        $modelProducts = [new Products];  
+        $model = new Manufacture();  
+        $modelProducts = [new Products];
 
         if($request->isAjax){
             /*
@@ -98,21 +98,26 @@ class ManufactureController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'modelProducts'=>(empty($modelProducts)) ? [new Products] : $modelProducts,
+                        
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
+            }else if($model->load($request->post())){
 
                 $modelProducts = Model::createMultiple(Products::classname());
-                // validate all models
-                $valid = $model->validate();
-                $valid = Model::validateMultiple($modelProducts);
+
+                Model::loadMultiple($modelProducts, Yii::$app->request->post());
+
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0';
+
+                // validate all models
+                $valid = $model->validate();
+                $valid = Model::validateMultiple($modelProducts) && $valid;
 
                 if ($valid) {
                         $transaction = \Yii::$app->db->beginTransaction();
@@ -130,21 +135,19 @@ class ManufactureController extends Controller
                                         $transaction->rollBack();
                                         break;
                                     }
-                                } // modelProduct foreach end
+                                } // modelRouteVoucherEmployee foreach end
                             }
                             if ($flag) {
                                 $transaction->commit();
                                 //return $this->redirect(['index']);
                             }
-                        }
-                        catch (Exception $e) {
+                        } catch (Exception $e) {
                             $transaction->rollBack();
                             echo $e;
                         }
                   
-                } // closing of validate if
-
-               
+                    } // closing of validate if                
+                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create New Manufacture",
