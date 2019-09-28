@@ -103,7 +103,7 @@ class ManufactureController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post())){
+            }else if($model->load($request->post()) && $model->validate()){
 
                 $modelProducts = Model::createMultiple(Products::classname());
                 
