@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
   	#remove_index,#types{
   		display: none;
   	}
-  	tr:hover{
+  	#myTableData thead  tr:hover{
   		background-color: #ECF0F5;
   		cursor: pointer;
   	}
