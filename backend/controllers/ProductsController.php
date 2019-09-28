@@ -3,20 +3,18 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Manufacture;
-use common\models\ManufactureSearch;
+use common\models\Products;
+use common\models\ProductsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-use backend\models\Model;
-use common\models\Products;
 
 /**
- * ManufactureController implements the CRUD actions for Manufacture model.
+ * ProductsController implements the CRUD actions for Products model.
  */
-class ManufactureController extends Controller
+class ProductsController extends Controller
 {
     /**
      * @inheritdoc
@@ -35,12 +33,12 @@ class ManufactureController extends Controller
     }
 
     /**
-     * Lists all Manufacture models.
+     * Lists all Products models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new ManufactureSearch();
+        $searchModel = new ProductsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,7 +49,7 @@ class ManufactureController extends Controller
 
 
     /**
-     * Displays a single Manufacture model.
+     * Displays a single Products model.
      * @param integer $id
      * @return mixed
      */
@@ -61,7 +59,7 @@ class ManufactureController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "",
+                    'title'=> "Products #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -69,14 +67,14 @@ class ManufactureController extends Controller
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
-            return $this->render('views', [
+            return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
         }
     }
 
     /**
-     * Creates a new Manufacture model.
+     * Creates a new Products model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -84,8 +82,7 @@ class ManufactureController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Manufacture();
-        $modelProducts = [new Products];  
+        $model = new Products();  
 
         if($request->isAjax){
             /*
@@ -94,69 +91,26 @@ class ManufactureController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "",
+                    'title'=> "Create new Products",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'modelProducts'=>(empty($modelProducts)) ? [new Products] : $modelProducts,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post())){
-
-                $modelProducts = Model::createMultiple(Products::classname());
-                
-                $model->created_by = Yii::$app->user->identity->id; 
-                $model->created_at = new \yii\db\Expression('NOW()');
-                $model->updated_by = '0';
-                $model->updated_at = '0';
-                // validate all models
-                $valid = $model->validate();
-                $valid = Model::validateMultiple($modelProducts);
-
-                if ($valid) {
-                        $transaction = \Yii::$app->db->beginTransaction();
-                        try {
-                            if ($flag = $model->save(false)) {
-
-                                foreach ($modelProducts as $product) {
-                                    $product->manufacture_id = $model->manufacture_id;
-                                    $product->created_at = new \yii\db\Expression('NOW()');
-                                    $product->created_by = Yii::$app->user->identity->id; 
-                                    $product->updated_by = '0';
-                                    $product->updated_at = '0';    
-
-                                    if (! ($flag = $product->save(false))) {
-                                        $transaction->rollBack();
-                                        break;
-                                    }
-                                } // modelRouteVoucherEmployee foreach end
-                            }
-                            if ($flag) {
-                                $transaction->commit();
-                                //return $this->redirect(['index']);
-                            }
-                        }
-                        catch (Exception $e) {
-                            $transaction->rollBack();
-                            echo $e;
-                        }
-                  
-                } // closing of validate if
-
-               
+            }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create New Manufacture",
-                    'content'=>'<span class="text-success">Create Manufacture success</span>',
+                    'title'=> "Create new Products",
+                    'content'=>'<span class="text-success">Create Products success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create New Manufacture",
+                    'title'=> "Create new Products",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -170,7 +124,7 @@ class ManufactureController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->manufacture_id]);
+                return $this->redirect(['view', 'id' => $model->product_id]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -181,7 +135,7 @@ class ManufactureController extends Controller
     }
 
     /**
-     * Updates an existing Manufacture model.
+     * Updates an existing Products model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -199,22 +153,17 @@ class ManufactureController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "",
+                    'title'=> "Update Products #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
-                $model->updated_by = Yii::$app->user->identity->id;
-                $model->updated_at = new \yii\db\Expression('NOW()');
-                $model->created_by = $model->created_by;
-                $model->created_at = $model->created_at;
-                $model->save();
+            }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "",
+                    'title'=> "Products #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -223,7 +172,7 @@ class ManufactureController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "",
+                    'title'=> "Update Products #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -236,7 +185,7 @@ class ManufactureController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->manufacture_id]);
+                return $this->redirect(['view', 'id' => $model->product_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -246,7 +195,7 @@ class ManufactureController extends Controller
     }
 
     /**
-     * Delete an existing Manufacture model.
+     * Delete an existing Products model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -274,7 +223,7 @@ class ManufactureController extends Controller
     }
 
      /**
-     * Delete multiple existing Manufacture model.
+     * Delete multiple existing Products model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -305,15 +254,15 @@ class ManufactureController extends Controller
     }
 
     /**
-     * Finds the Manufacture model based on its primary key value.
+     * Finds the Products model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Manufacture the loaded model
+     * @return Products the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Manufacture::findOne($id)) !== null) {
+        if (($model = Products::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

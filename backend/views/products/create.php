@@ -4,12 +4,11 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Manufacture */
+/* @var $model common\models\Products */
 
 ?>
-<div class="manufacture-create">
+<div class="products-create">
     <?= $this->render('_form', [
         'model' => $model,
-        'modelProducts' => $modelProducts,
     ]) ?>
 </div>
