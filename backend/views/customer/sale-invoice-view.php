@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
   	#remove_index,#types{
   		display: none;
   	}
-  	tr:hover{
+  	#myTableData thead tr:hover{
   		background-color: #ECF0F5;
   		cursor: pointer;
   	}
@@ -216,7 +216,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							<div class="col-md-12">
 								<table class="table table-bordered" id="myTableData">
 									<thead>
-                      <th style="background-color: skyblue">Sr # </th>
+                                            <th style="background-color: skyblue">Sr # </th>
 											<th style="background-color: skyblue">Vehicle </th>
 											<th style="background-color: skyblue">Item</th>
 											<th style="background-color: skyblue">Type</th>
@@ -245,11 +245,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                    <th class="t-cen">Sr #</th>
+                                    <th class="t-cen">Sale Invoice Head</th>
+                                    <th class="t-cen">Amount</th>
+                                    <th class="t-cen">Date</th>
+                                    <th class="t-cen">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -296,12 +296,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Remaining Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Status</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                    <th class="t-cen">Sr #.</th>
+                                    <th class="t-cen">Sale Invoice Head</th>
+                                    <th class="t-cen">Date</th>
+                                    <th class="t-cen">Remaining Amount</th>
+                                    <th class="t-cen">Status</th>
+                                    <th class="t-cen">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
