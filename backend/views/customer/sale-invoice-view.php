@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
               <li><a href="#customer_vehicles" data-toggle="tab">Customer Vehicles</a></li>
               <!-- <li><a href="#details" data-toggle="tab">Account Details</a></li> -->
             </ul>
-            <div class="tab-content">
+            <div class="tab-content" style="background-color: #efefef;">
               <div class="active tab-pane" id="invoice">
                
                   <div class="form-group">
@@ -233,9 +233,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
                                     <th class="t-cen" style="vertical-align:middle;">Action</th>
                                 </tr>
                             </thead>
@@ -248,9 +249,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                         
                                     <tr>
                                         <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                                        <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
                                             echo $date; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
                                     </tr>   
                                 
@@ -282,9 +284,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Total Amount</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Paid Amount</th>
                                     <th class="t-cen" style="vertical-align:middle;">Remaining Amount</th>
                                     <th class="t-cen" style="vertical-align:middle;">Status</th>
                                     <th class="t-cen" style="vertical-align:middle;">Action</th>
@@ -299,10 +303,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                         
                                     <tr>
                                         <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                                        <!-- <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
                                             echo $date;?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
+                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
                                         <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit"><i class="fa fa-edit"></i>
