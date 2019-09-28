@@ -70,7 +70,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Collect</label>
-									<input type="number" name="collect" id="collect_amount" class="form-control" onchange="cal_remaining()">
+									<input type="number" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()">
 								</div>
 								<div class="form-group">
 									<label>Status</label>
@@ -80,9 +80,13 @@
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">	
 							</div>	
 						</div>
+						
 						<div class="row">
-							<div class="col-md-12">
-								<button type="submit" name="insert_collect" id="insert" class="btn btn-success btn-block btn-flat" style="display: none;">Collect Invoice</button>
+							<div class="col-md-6">
+								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
+							</div>
+							<div class="col-md-6">
+								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" style="display: none;width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
 							</div>
 						</div>
 					</form>
@@ -107,8 +111,7 @@
       	// alert(collectedAmount);
 
       	$('#remaining_amount').val(remainingAmount); 
-      	$('#paid_amount').val(collectedAmount);
-      	$('#collect_amount').val(""); 
+      	$('#paid_amount').val(collectedAmount); 
       	if (remainingAmount == 0) {
       		$('#status').val('Paid');
       		$('#insert').show();
@@ -118,6 +121,8 @@
       		$('#insert').show();
       	} else {
       		alert("Amount is Greated..!");
+      		$('#collect_amount').val('');
+      		$('#insert').hide();
       	}
     }
 </script>
