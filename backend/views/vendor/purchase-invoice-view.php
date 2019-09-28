@@ -1,6 +1,7 @@
 <?php 
-
+use common\models\Branches;
 use yii\helpers\Html;
+
   $vendorID = $_GET['vendor_id'];
   $id=Yii::$app->user->identity->id;
   // getting customer name
@@ -9,6 +10,10 @@ use yii\helpers\Html;
     FROM vendor
     WHERE vendor_id = $vendorID
     ")->queryAll();
+
+  $branchId = $vendorData[0]['branch_id'];
+
+    $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
 
    // getting stock type
   $stockType = Yii::$app->db->createCommand("
@@ -50,9 +55,9 @@ use yii\helpers\Html;
                 <a href="#invoice" data-toggle="tab">New Invoice</a>
               </li>
               <li><a href="#previous" data-toggle="tab">Prevoius Invoices</a></li>
-              <!-- <li><a href="#details" data-toggle="tab">Account Details</a></li> -->
+              <li><a href="#profile" data-toggle="tab">Vendor Profile</a></li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content" style="background-color: #efefef;">
               <div class="active tab-pane" id="invoice">
                
                   <div class="form-group">
@@ -197,6 +202,55 @@ use yii\helpers\Html;
                       
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="profile">
+            	<div class="row">
+            		<div class="col-md-11">
+            			<h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Vendor Details</h3>
+            		</div>
+            		<div class="col-md-1">
+            			 <a href="./vendor-update?id=<?php echo $vendorID;?>" class="btn btn-info" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
+            				<i class="glyphicon glyphicon-edit"></i> Edit
+            			</a>
+            		</div>
+            	</div>
+            	<div class="row" style="margin-bottom:10px;">
+            		<div class="col-md-12">
+            			<table class="table table-bordered">
+            				<thead style="background-color: #367FA9;color:white;">
+            					<tr>
+            						<th class="text-center">
+    								<?php
+			            				echo "Vendor Name: <b style='font-size:16px; font-family:georgia;'>".$vendorData[0]['name']."</b>";
+    				 				?>
+            						</th>
+            					</tr>
+            				</thead>
+            			</table>
+            		</div>
+            	</div>
+            	<div class="row">
+            		<div class="col-md-12">
+            			<table class="table table-bordered">
+            				<thead>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Branch Name:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $branchData->branch_name; ?>
+            						</th>
+            					</tr>
+            					<tr>
+            						<th class="bg-color" style="padding: 12px;">Vendor NTN:</th>
+            						<th class="t-cen" style="background-color: white;">
+            							<?php echo $vendorData[0]['ntn']; ?>
+            						</th>
+            					</tr>
+            				</thead>
+            			</table>
+            		</div>
+            	</div>  
+            </div>
+			<!-- /.tab-pane -->
+
             </div>
             <!-- /.tab-content -->
           </div>

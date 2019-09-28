@@ -217,8 +217,13 @@ class VendorController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->vendor_id]);
+            if ($model->load($request->post()) && $model->validate()) {
+                $model->updated_by = Yii::$app->user->identity->id;
+                $model->updated_at = new \yii\db\Expression('NOW()');
+                $model->created_by = $model->created_by;
+                $model->created_at = $model->created_at;
+                $model->save();
+                return $this->redirect(['./purchase-invoice-view', 'vendor_id' => $model->vendor_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,

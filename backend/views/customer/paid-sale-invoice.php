@@ -188,6 +188,55 @@ $customervehicleID = Yii::$app->db->createCommand("
 				</table>
 			</div>
 		</div>
+<<<<<<< HEAD
+			<div class="table-responsive">
+		<table class="table table-bordered table-striped">
+			<?php for($i=0; $i<$countcustomervehicleID; $i++)
+    				{
+
+    		?>
+		
+    
+				<thead style="background-color: #3C8DBC;color: white;">
+					<tr>
+						<th style="max-width: 10px;">Sr#</th>
+						<th>ITEM/SERVICE</th>
+						<th>QUANTITY</th>
+						<th>PRICE</th>
+						<th>TOTAL</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr>
+						<td>
+						<?php  ?>							
+						</td>
+						<td>
+							
+						</td>
+						<td></td>
+						<td>
+						</td>
+						<td></td>
+					</tr>
+					
+	
+					<tr>
+						<td>
+						</td>
+						<th style="background-color: lightgray;">
+							GRAND TOTAL:
+						</th>
+						<td style="background-color: lightgray;">
+							<!-- &emsp;&emsp;PKR -->
+						</td>
+					</tr>
+				</tbody>
+				<?php } ?>			
+		</table>
+		
+=======
 
 		<div class="row">
 			<div class="col-sm-6">
@@ -223,6 +272,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					</thead>
 				</table>
 			</div>
+>>>>>>> 9c9a91c0ef713bfd2be92d4e5d722b1cfa16106b
 		</div>
 	</div>
 </body>
