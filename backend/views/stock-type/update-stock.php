@@ -5,6 +5,7 @@
 </head>
 <body>
 <div class="container-fluid">
+	<h3>Stock Update</h3>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box box-default">
