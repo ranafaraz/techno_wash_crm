@@ -753,7 +753,8 @@ $script = <<< JS
 	});
 
 
-	$("#services").change(function(){
+	$("#services").on('keydown',function(){
+    $("#services").on('keypress',function(){
 		var serviceID = $("#services").val();
 		//alert(serviceID);
 		$.ajax({
@@ -815,7 +816,6 @@ $script = <<< JS
 
 					  // $('#vehicle').val("");
             $('#services').val("");
-						$('#price').focus();
 
 						$('#remove_index').show();
 						for(var i = 1; i < table.rows.length; i++)
@@ -830,7 +830,8 @@ $script = <<< JS
 			                }
 				
 	}
-        	}      
+        	} 
+          });    
     	}); 
 	});
 
