@@ -5,6 +5,99 @@ use yii\helpers\Html;
 
   $customerID = $_GET['customer_id'];
 
+  ?>
+
+  <?php 
+
+ if(isset($_POST['insert_collect']))
+ {
+   $customerID  = $_POST['custID'];
+   $invID       = $_POST['invID'];
+   $netTotal    = $_POST['net_total'];
+   $paid_amount = $_POST['paid_amount'];
+   $remaining   = $_POST['remaining'];
+   $collect     = $_POST['collect'];
+   $status      = $_POST['status'];
+   $netTotal    = $_POST['net_total'];
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'net_total'        => $netTotal,
+     'paid_amount'      => $paid_amount,
+     'remaining_amount' => $remaining,
+     'status'           => $status,
+     'created_by'       => $id,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
+
+ <?php 
+
+ if(isset($_POST['update_invoice']))
+ {
+   $customerID  = $_POST['custID'];
+   $invID       = $_POST['invID'];
+   $updateDate = $_POST['date'];
+   $updateDiscount = $_POST['update_discount'];
+   $updatepaidAmount = $_POST['paid_amount'];
+   $updatetotalamount = $_POST['total_amount'];
+   $updatenetTotal = $_POST['net_total'];
+   $updateremainingAmount = $_POST['remaining_amount'];
+   $updatestatus = $_POST['status'];
+   
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'date' => $updateDate,
+     'total_amount' => $updatetotalamount,
+     'discount' => $updateDiscount,
+     'net_total' => $updatenetTotal,
+     'paid_amount' => $updatepaidAmount,
+     'remaining_amount' => $updateremainingAmount,
+     'status' => $updatestatus,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
+  <?PHP
+
   // getting customer name
   $customerData = Yii::$app->db->createCommand("
     SELECT *
@@ -51,7 +144,7 @@ use yii\helpers\Html;
     $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
 
 
-$this->title = 'Customer Profile';
+$this->title = 'Customer Profile:';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -618,16 +711,15 @@ function discountFun(){
       function cal_remaining(){
       	var paid = $('#paid').val();
       	var nt = $('#nt').val();
-      	var remaining =nt - paid;
+      	var remaining = nt - paid;
       	$('#remaining').val(remaining); 
-      	if (remaining ==0) {
-      		$('#status').val('paid');
+      	if (remaining == 0) {
+      		$('#status').val('Paid');
       	}
-      	else if (remaining == nt) {
+      	else if (remaining == nt && paid <= 0) {
       		$('#status').val('Unpaid');
-      	}
-        
-        else {
+      	}        
+        else if (paid > 0) {
           $('#status').val('Partially');
         }
       	$('#insert').show();
@@ -721,7 +813,9 @@ $script = <<< JS
 						
 
 					  // $('#vehicle').val("");
-						$('#services').val("");
+            $('#services').val("");
+						$('#price').focus();
+
 						$('#remove_index').show();
 						for(var i = 1; i < table.rows.length; i++)
 			                {
@@ -784,7 +878,7 @@ $script = <<< JS
     	}); 
 	});
 
-	$("#barcode").change(function(){
+	$("#barcode").on('change',function(){
 		var barcode = $("#barcode").val();
 		$.ajax({
 	        type:'post',
@@ -868,7 +962,7 @@ $script = <<< JS
 		var remove_value1= $('#remove_value').val();
 		//alert();
 			if(remove_value1 =="" || remove_value1==null){
-				alert("Please Select the services to remove");
+				alert("Please Select the Service/Item to remove");
 			}
 			else{
 			document.getElementById("myTableData").deleteRow(remove_value1);
@@ -953,7 +1047,7 @@ $script = <<< JS
 	        url: "$url",
 	        success: function(result){
 	        	//var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	alert('Data is inserted');
+	        	alert('Bill is Added');
             window.location = './sale-invoice-view?customer_id=$customerID';
 	        	}      
     	});
@@ -967,44 +1061,3 @@ $script = <<< JS
 JS;
 $this->registerJs($script);
 ?>
-<?php 
-
- if(isset($_POST['insert_collect']))
- {
-   $customerID  = $_POST['custID'];
-   $invID       = $_POST['invID'];
-   $netTotal    = $_POST['net_total'];
-   $paid_amount = $_POST['paid_amount'];
-   $remaining   = $_POST['remaining'];
-   $collect     = $_POST['collect'];
-   $status      = $_POST['status'];
-   $netTotal    = $_POST['net_total'];
-
-   $id   =Yii::$app->user->identity->id;
-
-     // starting of transaction handling
-     $transaction = \Yii::$app->db->beginTransaction();
-     try {
-      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
-
-     'net_total'        => $netTotal,
-     'paid_amount'      => $paid_amount,
-     'remaining_amount' => $remaining,
-     'status'           => $status,
-     'created_by'       => $id,
-    ],
-       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
-
-    )->execute();
-     // transaction commit
-     $transaction->commit();
-        
-     } // closing of try block 
-     catch (Exception $e) {
-      // transaction rollback
-         $transaction->rollback();
-     } // closing of catch block
-     // closing of transaction handling
-}
-
- ?>

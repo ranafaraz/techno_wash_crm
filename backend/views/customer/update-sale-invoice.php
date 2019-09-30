@@ -161,14 +161,14 @@ $customerData = Yii::$app->db->createCommand("
       	var remaining = nt - paid;
       	$('#remaining').val(remaining); 
       	if (remaining == 0) {
-      		$('#status').val('paid');
+      		$('#status').val('Paid');
       	}
-      	else if (remaining < paid) {
-      		$('#status').val('Partially');
-      	}
-      	else if (remaining == nt) {
+      	else if (remaining == nt && paid <= 0) {
       		$('#status').val('Unpaid');
-      	}
+      	}        
+        else if (paid > 0) {
+          $('#status').val('Partially');
+        }
       	$('#update').show();
 
       	if(remaining < 0){
