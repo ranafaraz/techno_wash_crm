@@ -55,10 +55,10 @@
  		$total_amount = $_POST["total_amount"];
  		$invoice_date= $_POST["invoice_date"];
 	 	$customer_id= $_POST['customer_id'];
-		 $net_total = $_POST['net_total'];
-		 $paid = $_POST['paid'];
-		 $remaining = $_POST['remaining'];
-		 $status = $_POST["status"];
+		$net_total = $_POST['net_total'];
+		$paid = $_POST['paid'];
+		$remaining = $_POST['remaining'];
+		$status = $_POST["status"];
 		$vehicleArray = $_POST['vehicleArray']; 
 		$serviceArray = $_POST["serviceArray"];
 		$amountArray = $_POST['amountArray'];

@@ -192,7 +192,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				                <!-- stock div -->
 				                <input type="hidden" id="service_name" >
 				                <input type="hidden" id="stock_name">
-								<input type="hidden" id="vehicle_name" >
+								        <input type="hidden" id="vehicle_name" >
 				            </div>
 				          </div>
 						</div>
