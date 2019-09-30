@@ -38,7 +38,7 @@ use yii\helpers\Html;
     )->execute();
      // transaction commit
      $transaction->commit();
-     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
+     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID])->with('');
         
      } // closing of try block 
      catch (Exception $e) {
@@ -126,7 +126,7 @@ use yii\helpers\Html;
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'paid' OR status = 'Paid')
-    ORDER BY sale_inv_head_id DESC
+    ORDER BY `date` DESC
     ")->queryAll();
 
     $countpaidinvoiceData = count($paidinvoiceData);
@@ -135,6 +135,7 @@ use yii\helpers\Html;
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'Partially' OR status = 'Unpaid')
+    ORDER BY `date` DESC
     ")->queryAll();
     $countcreditinvoiceData = count($creditinvoiceData);
     $id =  Yii::$app->user->identity->id;
@@ -752,7 +753,8 @@ $script = <<< JS
 	});
 
 
-	$("#services").change(function(){
+	$("#services").on('keydown',function(){
+    $("#services").on('keypress',function(){
 		var serviceID = $("#services").val();
 		//alert(serviceID);
 		$.ajax({
@@ -814,7 +816,6 @@ $script = <<< JS
 
 					  // $('#vehicle').val("");
             $('#services').val("");
-						$('#price').focus();
 
 						$('#remove_index').show();
 						for(var i = 1; i < table.rows.length; i++)
@@ -829,7 +830,8 @@ $script = <<< JS
 			                }
 				
 	}
-        	}      
+        	} 
+          });    
     	}); 
 	});
 

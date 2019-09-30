@@ -82,34 +82,22 @@ $customervehicleID = Yii::$app->db->createCommand("
 					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Cash Memo</h3>
 					
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<table class="table">
 								
 								<thead>
 									<tr>
-										<th>Name:</b></th>
+										<th style="vertical-align: top;">Name:</th>
 										
 										<td><?php echo $customer_name; ?></td>
-									</tr>
-									<tr>
-										<th><b>INV # :</b></th>
-										
-										<td><?php echo $sihID; ?></td>
-									</tr>
-								</thead>
-								
-							</table>
-						</div>
-						<div class="col-md-6">
-							<table class="table">
-								
-								<thead>
-									<tr>
 										<th>Date</th>
 										
 										<td><?php echo $date; ?></td>
 									</tr>
 									<tr>
+										<th><b>INV #</b></th>
+										
+										<td><?php echo $sihID; ?></td>
 										<th>Time</th>
 										
 										<td><?php echo $time; ?></td>

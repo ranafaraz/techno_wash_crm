@@ -8,13 +8,16 @@
 <style type="text/css">
     .main-sidebar{
         font-family: georgia;
+        background-color: #fab61c !important;
+
     }
     .sidebar a{
         font-size: 13px;
+        color: #000000 !important;
     }
     .sidebar a:hover{
         font-weight: bold;
-        background-color: #3C8DBC !important;
+        background-color: #000000 !important;
         color: #ffffff !important;
         border-radius: 2px !important;
     }
