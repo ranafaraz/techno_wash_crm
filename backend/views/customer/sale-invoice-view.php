@@ -607,9 +607,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="form-group">
 					<label>Discount</label>
+
 					  <input type="radio" name="discountType" id="amount" checked> Amount
             <input type="radio" name="discountType" id="percentage"> Percent
 					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()">
+          
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
 				</div>
