@@ -96,7 +96,7 @@ use yii\helpers\Html;
 }
 
  ?>
-  <?PHP
+  <?php
 
   // getting customer name
   $customerData = Yii::$app->db->createCommand("
@@ -751,7 +751,6 @@ $script = <<< JS
 		 	$('#servic').hide();
 		 }
 	});
-
 
 	$("#services").on('keydown',function(){
     $("#services").on('keypress',function(){

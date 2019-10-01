@@ -82,21 +82,22 @@
                             ['label' => 'Add Employee', 'icon' => 'user-plus', 'url' => './employee',],
                             ['label' => 'Employee Salary', 'icon' => 'money', 'url' => './salary',],
                             ['label' => 'Employee Allowance', 'icon' => 'credit-card', 'url' => './employee-allowances',],
-                        ],
-                    ],
-                     ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./membership"],
-                     ['label' => 'Services', 'icon' => 'strikethrough', 'url' => "./services"],
-                     [
-                        'label' => 'Stock',
-                        'icon' => 'bar-chart',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Manage Stock', 'icon' => 'meetup', 'url' => './stock',],
                             ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
                         ],
                     ],
-                    ['label' => 'Sale Invoice', 'icon' => 'file-text-o', 'url' => "./sale-invoice-head"],
-                    ['label' => 'Users', 'icon' => 'user', 'url' => "./home"],
+                     ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./membership"],
+                     ['label' => 'Vendor', 'icon' => 'male', 'url' => ["./vendor"],],
+                    //  [
+                    //     'label' => 'Stock',
+                    //     'icon' => 'bar-chart',
+                    //     'url' => '#',
+                    //     'items' => [
+                    //         // ['label' => 'Manage Stock', 'icon' => 'meetup', 'url' => './stock',],
+                            
+                    //     ],
+                    // ],
+                    // ['label' => 'Sale Invoice', 'icon' => 'file-text-o', 'url' => "./sale-invoice-head"],
+                    // ['label' => 'Users', 'icon' => 'user', 'url' => "./home"],
                     ['label' => 'Accounts', 'icon' => 'server', 'url' => "./home"],
                     ['label' => 'Reports', 'icon' => 'book', 'url' => "./home"],
                     //['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
@@ -127,6 +128,7 @@
                                 ],
                             ],
                             ['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./card-type"],],
+                            ['label' => 'Services', 'icon' => 'strikethrough', 'url' => "./services"],
                             [
                                 'label' => 'Stock',
                                 'icon' => 'bar-chart',
@@ -136,7 +138,7 @@
                                     ['label' => 'Stock Type', 'icon' => 'bars', 'url' => './stock-type',],
                                 ],
                             ],
-                            ['label' => 'User Types', 'icon' => 'user-circle-o', 'url' => ["./user-type"],],
+                            // ['label' => 'User Types', 'icon' => 'user-circle-o', 'url' => ["./user-type"],],
                             ['label' => 'Employee Types', 'icon' => 'user-secret', 'url' => ["./employee-types"],],
                             [
                                 'label' => 'Salary',
@@ -147,7 +149,7 @@
                                     ['label' => 'Allowance Type', 'icon' => 'credit-card-alt', 'url' => './allowance-type',],
                                 ],
                             ],
-                            ['label' => 'Vendor', 'icon' => 'male', 'url' => ["./vendor"],],
+                            
                             // [
                             //     'label' => 'Subjects',
                             //     'icon' => 'caret-right',
