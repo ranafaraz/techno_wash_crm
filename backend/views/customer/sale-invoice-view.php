@@ -258,7 +258,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					                <div class="form-group">
 					                  <label>Select Service</label>
 					                  <select name="services" class="form-control" id="services">
-					                    <option value="">Select Service</option>
+					                    <option value=""></option>
 					                    <?php 
 
 					                    for ($j=0; $j <$countServices ; $j++) { 
@@ -607,25 +607,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="form-group">
 					<label>Discount</label>
-					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
-	
-					  <input type="radio" name="discountType" id="amount"> Amount
-					<input type="text" name="discount" class="form-control" id="disc" value="0">
+					  <input type="radio" name="discountType" id="amount" checked> Amount
+            <input type="radio" name="discountType" id="percentage"> Percent
+					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()">
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
 				</div>
                 <div class="form-group">
                   <label>Net Total</label>
-                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" onfocus="discountFun()">
+                  <input type="text" name="net_total" class="form-control" id="nt"readonly="">
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid">
+                  <input type="text" name="paid" class="form-control"  id="paid" oninput="cal_remaining()">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
-                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"
-                  onfocus="cal_remaining()"> 
+                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
                 </div>
                 <div class="form-group">
                   <label>status</label>
@@ -655,6 +653,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	let table;
 	let index = 1;
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
+  
 function discountFun(){
         // Getting the value from the original price
        originalPrice = parseInt(document.getElementById("tp").value);
@@ -681,8 +680,15 @@ function discountFun(){
             //alert(purchasePrice);
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
+             $('#remaining').val(purchasePrice);
               //alert(originalPrice);
-            } 
+            }
+            $('#insert').show(); 
+            if (purchasePrice < 0) {
+              $('#insert').hide();
+            }
+
+
       }
       function deleteRow(tableID) 
       {
@@ -724,6 +730,9 @@ function discountFun(){
           $('#status').val('Partially');
         }
       	$('#insert').show();
+        if (remaining < 0) {
+          $('#insert').hide();
+        }
       }
 
 </script>
@@ -752,7 +761,6 @@ $script = <<< JS
 		 }
 	});
 
-
 	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
 		//alert(serviceID);
@@ -769,7 +777,10 @@ $script = <<< JS
             var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
-				    $('#tp').val(tp);
+            $('#tp').val(tp);
+            $('#nt').val(tp);
+            $('#remaining').val(tp);
+				    $('#status').val('Unpaid');
 
 				    var vehicle 						= $('#vehicle').val();
 						var services 						= $('#services').val();
@@ -878,7 +889,7 @@ $script = <<< JS
     	}); 
 	});
 
-	$("#barcode").on('click',function(){
+	$("#barcode").on('change',function(){
 		var barcode = $("#barcode").val();
 		$.ajax({
 	        type:'post',
@@ -892,7 +903,10 @@ $script = <<< JS
 	        	var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['selling_price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
-				    $('#tp').val(tp);
+            $('#tp').val(tp);
+            $('#nt').val(tp);
+				    $('#remaining').val(tp);
+            $('#status').val('Unpaid');
 
 				    var vehicle 						= $('#vehicle').val();
 						var barcode             = jsonResult[0]['stock_id'];
@@ -978,7 +992,10 @@ $script = <<< JS
 			$('#remove_value').val("");
 			$('#removed_value').val("");
 			//alert(amountArray);
-			$('#tp').val(nta);
+      $('#tp').val(nta);
+      $('#nt').val(nta);
+      $('#remaining').val(nta);
+      $('#status').val('Unpaid');
 			if(amountArray.length==0){
 			$('#mydata').hide();
 			$('#remove_index').hide();
