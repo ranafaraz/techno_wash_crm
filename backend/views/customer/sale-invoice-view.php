@@ -753,7 +753,7 @@ $script = <<< JS
 	});
 
 
-	$("#services").on('change',function(){
+	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
 		//alert(serviceID);
 		$.ajax({
@@ -878,7 +878,7 @@ $script = <<< JS
     	}); 
 	});
 
-	$("#barcode").on('change',function(){
+	$("#barcode").on('click',function(){
 		var barcode = $("#barcode").val();
 		$.ajax({
 	        type:'post',
