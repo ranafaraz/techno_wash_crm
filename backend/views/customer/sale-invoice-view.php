@@ -145,9 +145,6 @@ use yii\helpers\Html;
     $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
 
 
-$this->title = 'Customer Profile:';
-$this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -167,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12" style="margin-top: -20px">
-      <h2 style="color:#3C8DBC;"><?php echo $customerData[0]['customer_name']; ?></h2>
+      <h2 style="color:#3C8DBC;"><label style="color: #000000;">Customer:&ensp;</label><?php echo $customerData[0]['customer_name']; ?></h2>
     </div>
   </div>
   <div class="row">
@@ -611,7 +608,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					  <input type="radio" name="discountType" id="amount" checked> Amount
             <input type="radio" name="discountType" id="percentage"> Percent
 					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()">
-          
+
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
 				</div>
@@ -630,6 +627,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="form-group">
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
+                </div>
+                <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
                 <button class="btn btn-success btn-block btn-flat" id="insert" >
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
@@ -688,6 +687,10 @@ function discountFun(){
             $('#insert').show(); 
             if (purchasePrice < 0) {
               $('#insert').hide();
+              $('#alert').css("display","block");
+              $('#alert').html("&ensp;Discount Cannot Be Greater Than Total Amount");
+            }else{
+              $('#alert').css("display","none");
             }
 
 
@@ -734,7 +737,12 @@ function discountFun(){
       	$('#insert').show();
         if (remaining < 0) {
           $('#insert').hide();
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        }else{
+          $('#alert').css("display","none");
         }
+
       }
 
 </script>
@@ -997,7 +1005,9 @@ $script = <<< JS
       $('#tp').val(nta);
       $('#nt').val(nta);
       $('#remaining').val(nta);
-      $('#status').val('Unpaid');
+      $('#status').val("Unpaid");
+      $('#disc').val("");
+      $('#paid').val("");
 			if(amountArray.length==0){
 			$('#mydata').hide();
 			$('#remove_index').hide();
