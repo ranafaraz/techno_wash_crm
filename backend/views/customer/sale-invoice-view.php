@@ -754,6 +754,8 @@ $script = <<< JS
 	
 
 	$("#item_type").change(function(){
+    $('#selling_price').val("");
+    $('#price').val("");
 		 var item_type = $('#item_type').val();
 		 if(item_type == "Service")
 		 {
@@ -769,6 +771,7 @@ $script = <<< JS
 		 	$('#stock').hide();
 		 	$('#servic').hide();
 		 }
+
 	});
 
 	$("#services").on('click',function(){
