@@ -22,10 +22,10 @@ use common\models\VehicleType;
                 ArrayHelper::map(VehicleType::find()->all(),'vehical_type_id','name'),
                 ['prompt'=>'Select Vehicle Type ']
     )?>
-
+      <?= $form->field($model, 'manufacture')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'manufacture')->textInput(['maxlength' => true]) ?>
+  
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

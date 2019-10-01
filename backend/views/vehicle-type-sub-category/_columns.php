@@ -21,12 +21,13 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'attribute'=>'manufacture',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'manufacture',
+        'attribute'=>'name',
     ],
+    
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',
