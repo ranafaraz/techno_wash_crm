@@ -96,7 +96,7 @@ use yii\helpers\Html;
 }
 
  ?>
-  <?PHP
+  <?php
 
   // getting customer name
   $customerData = Yii::$app->db->createCommand("
