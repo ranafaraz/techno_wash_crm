@@ -878,7 +878,7 @@ $script = <<< JS
     	}); 
 	});
 
-	$("#barcode").on('change',function(){
+	$("#barcode").on('click',function(){
 		var barcode = $("#barcode").val();
 		$.ajax({
 	        type:'post',
