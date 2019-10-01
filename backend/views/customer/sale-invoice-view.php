@@ -753,7 +753,7 @@ $script = <<< JS
 	});
 
 
-	$("#services").on('change',function(){
+	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
 		//alert(serviceID);
 		$.ajax({
