@@ -66,20 +66,7 @@
 		$user_id = $_POST["user_id"];
 		$disc_amount = $total_amount - $net_total;
 		$countItemArray = count($vehicleArray);
-		// echo json_encode($total_amount);
-		// echo json_encode($invoice_date);
-		// echo json_encode($customer_id);
-		// echo json_encode($net_total);
-		// echo json_encode($paid);
-		// echo json_encode($remaining);
-		// echo json_encode($status);
-		// echo json_encode($vehicleArray);
-		// echo json_encode($serviceArray);
-		// echo json_encode($amountArray);
-		// echo json_encode($ItemTypeArray);
-		// echo json_encode($user_id);
-		// echo json_encode($disc_amount);
-		// echo json_encode($countItemArray);
+		
 		//starting of transaction handling
 	$transaction = \Yii::$app->db->beginTransaction();
 	try {
@@ -123,6 +110,15 @@
 				'discount_per_service'  => $amountArray[$j],
 				'created_by'		=> $user_id,
 				])->execute();
+	    		if ($ItemTypeArray[$j] == "Stock") {
+
+	    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+							'status'		=> "Sold",	
+							'updated_by'	=> $user_id
+	                        ],
+	                        ['stock_id' => $serviceArray[$j]]
+	            )->execute();
+	    	}
 	    } // end of for loop
 	    // transaction commit
     	$transaction->commit();
