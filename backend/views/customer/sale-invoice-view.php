@@ -928,7 +928,7 @@ $script = <<< JS
 						let row = table.insertRow(1);
 						  
 						//insert the coulmn against the row
-						row.insertCell(0).innerHTML= reg_name;
+						row.insertCell(0).innerHTML= rowCount;
 						row.insertCell(1).innerHTML= reg_name;
 						row.insertCell(2).innerHTML= servicesName;
 						row.insertCell(3).innerHTML= type;
