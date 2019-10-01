@@ -753,8 +753,7 @@ $script = <<< JS
 	});
 
 
-	$("#services").on('keydown',function(){
-    $("#services").on('keypress',function(){
+	$("#services").on('change',function(){
 		var serviceID = $("#services").val();
 		//alert(serviceID);
 		$.ajax({
@@ -783,8 +782,8 @@ $script = <<< JS
 						{
 									alert("Select the Vehicle name ");
 						}
-						else if (services=="" || services==null) {
-									alert("Select the Services ");
+						else if (services =="" || services==null) {
+									//alert("Select the Services ");
 						}
 						else
 						{
@@ -830,8 +829,7 @@ $script = <<< JS
 			                }
 				
 	}
-        	} 
-          });    
+        	}   
     	}); 
 	});
 
