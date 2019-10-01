@@ -607,9 +607,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="form-group">
 					<label>Discount</label>
-					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
+					 <input type="radio" name="discountType" id="percentage" > Percentage
 	
-					  <input type="radio" name="discountType" id="amount"> Amount
+					  <input type="radio" name="discountType" id="amount" checked> Amount
 					<input type="text" name="discount" class="form-control" id="disc" value="0">
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
@@ -878,7 +878,7 @@ $script = <<< JS
     	}); 
 	});
 
-	$("#barcode").on('click',function(){
+	$("#barcode").on('change',function(){
 		var barcode = $("#barcode").val();
 		$.ajax({
 	        type:'post',
