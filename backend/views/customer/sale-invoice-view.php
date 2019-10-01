@@ -962,9 +962,7 @@ $script = <<< JS
 						row.insertCell(4).innerHTML= stock_price;
 
 
-					  // $('#vehicle').val("");
 						$('#barcode').val("");
-						//$('#selling_price').val("");
 						$('#barcode').focus();
 						$('#remove_index').show();
 

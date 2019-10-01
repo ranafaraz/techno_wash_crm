@@ -52,6 +52,7 @@
 
  		&& isset($_POST['vendorID'])
  		&& isset($_POST['bilty_no'])
+ 		&& isset($_POST['bill_no'])
  	 	&& isset($_POST['purchase_date'])
  	 	&& isset($_POST['dispatch_date']) 
  	 	&& isset($_POST['receiving_date'])
@@ -72,6 +73,7 @@
 	 	$user_id 				= $_POST["user_id"];
 		$vendorID				= $_POST["vendorID"];
 		$bilty_no				= $_POST['bilty_no'];
+		$bill_no				= $_POST['bill_no'];
 		$purchase_date 			= $_POST['purchase_date'];
 		$dispatch_date 			= $_POST['dispatch_date'];
 		$receiving_date 		= $_POST['receiving_date'];
@@ -99,6 +101,7 @@
 
 		'vendor_id'   		=> $vendorID,
 		'bilty_no'    		=> $bilty_no,
+		'bill_no'    		=> $bill_no,
 		'purchase_date'    	=> $purchase_date,
 		'dispatch_date'    	=> $dispatch_date,
 		'receiving_date'    => $receiving_date,
@@ -118,6 +121,7 @@
 	    FROM purchase_invoice
 	    WHERE vendor_id						= '$vendorID'
 	    AND bilty_no						= '$bilty_no'
+	    AND bill_no						= '$bill_no'
 		AND CAST(purchase_date as DATE) 	= '$purchase_date'
 		AND CAST(dispatch_date as DATE) 	= '$dispatch_date'
 		AND CAST(receiving_date as DATE) 	= '$receiving_date'
