@@ -38,7 +38,7 @@ $customerData = Yii::$app->db->createCommand("
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Date</label>
-									<?php $date = date('20y-m-d',strtotime($updateinvoiceData[0]['date']));?>
+									<?php $date = date('Y-m-d',strtotime($updateinvoiceData[0]['date']));?>
 									<input type="date" name="date" id="date" class="form-control" value="<?php echo $date;?>" onchange="datechange()">
 								</div>
 								<div class="form-group">
@@ -161,14 +161,14 @@ $customerData = Yii::$app->db->createCommand("
       	var remaining = nt - paid;
       	$('#remaining').val(remaining); 
       	if (remaining == 0) {
-      		$('#status').val('paid');
+      		$('#status').val('Paid');
       	}
-      	else if (remaining < paid) {
-      		$('#status').val('Partially');
-      	}
-      	else if (remaining == nt) {
+      	else if (remaining == nt && paid <= 0) {
       		$('#status').val('Unpaid');
-      	}
+      	}        
+        else if (paid > 0) {
+          $('#status').val('Partially');
+        }
       	$('#update').show();
 
       	if(remaining < 0){

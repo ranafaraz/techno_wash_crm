@@ -59,10 +59,14 @@
 								<div class="form-group">
 									<label>Paid</label>
 									<input type="text" name="paid_amount" id="paid_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['paid_amount'];?>">
+
+									<input type="hidden" name="pamount" id="pamount" value="<?php echo $creditInvoiceData[0]['paid_amount'];?>">
 								</div>
 								<div class="form-group">
 									<label>Remaining</label>
 									<input type="text" name="remaining" id="remaining_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+
+									<input type="hidden" name="ramount" id="ramount" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
 								</div>
 								<input type="hidden" name="custID" value="<?php echo $customerID; ?>">
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">
@@ -70,7 +74,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Collect</label>
-									<input type="number" name="collect" id="collect_amount" class="form-control" onchange="cal_remaining()">
+									<input type="number" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()">
 								</div>
 								<div class="form-group">
 									<label>Status</label>
@@ -80,9 +84,13 @@
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">	
 							</div>	
 						</div>
+						
 						<div class="row">
-							<div class="col-md-12">
-								<button type="submit" name="insert_collect" id="insert" class="btn btn-success btn-block btn-flat" style="display: none;">Collect Invoice</button>
+							<div class="col-md-6">
+								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
+							</div>
+							<div class="col-md-6">
+								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" style="display: none;width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
 							</div>
 						</div>
 					</form>
@@ -96,28 +104,34 @@
 <script>
 	function cal_remaining(){
 
-      	var paid = $('#paid_amount').val();
-      	var nt = $('#nt').val();
+      	var paid = parseInt($('#paid_amount').val());
+      	var pamount = parseInt($('#pamount').val());
+      	var ramount = parseInt($('#ramount').val());
+      	var nt = parseInt($('#nt').val());
       	var collect = parseInt($('#collect_amount').val());
-      	var remaining = $('#remaining_amount').val();
+      	var remaining = parseInt($('#remaining_amount').val());
 
-      	var remainingAmount = remaining - collect;
-      	var collectedAmount = parseInt(collect)+parseInt(paid);
+      	var remainingAmount = ramount - collect;
+      	var collectedAmount = collect + pamount;
       	// alert(remainingAmount);
       	// alert(collectedAmount);
 
       	$('#remaining_amount').val(remainingAmount); 
-      	$('#paid_amount').val(collectedAmount);
-      	$('#collect_amount').val(""); 
-      	if (remainingAmount == 0) {
+      	$('#paid_amount').val(collectedAmount); 
+      	if (remainingAmount == 0 && nt == collectedAmount) {
       		$('#status').val('Paid');
       		$('#insert').show();
       	}
       	else if (remainingAmount > 0) {
       		$('#status').val('Partially');
       		$('#insert').show();
-      	} else {
+      	} else if (remainingAmount < 0) {
       		alert("Amount is Greated..!");
+      		$('#collect_amount').val('');
+      		$('#insert').hide();
+      	}
+      	if (collect < 0) {
+      		$('#insert').hide();
       	}
     }
 </script>

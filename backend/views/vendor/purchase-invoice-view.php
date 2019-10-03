@@ -64,25 +64,33 @@ use yii\helpers\Html;
                           <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
                   </div> 
                   <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label>Bilty No</label>
                         <input type="text"  class="form-control" id="bilty_no">
                       </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>Bill No</label>
+                        <input type="text"  class="form-control" id="bill_no">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label>Purchase Date</label>
                         <input type="date"  class="form-control" id="purchase_date">
                       </div>
                     </div>
-                    <div class="col-md-3">
+                  </div>
+                  <div class="row">         
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label>Dispatch Date</label>
                         <input type="date"  class="form-control" id="dispatch_date">
                       </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label>Receiving Date</label>
                         <input type="date"  class="form-control" id="receiving_date">
@@ -102,9 +110,9 @@ use yii\helpers\Html;
 			            <div class="row">
 			            	<div class="col-md-3">
 			            		<div class="form-group">
-				            		<label>Stock Type</label>
+				            		<label>Select Stock Type</label>
 				            		<select class="form-control" id="stock_type">
-				            			<option value="">stock type...</option>
+				            			<option value=""></option>
 				            			<?php 
 				            			for ($i=0; $i <$countStockType ; $i++) {
 				            			?>
@@ -117,19 +125,16 @@ use yii\helpers\Html;
 			            		<div class="form-group">
 				            		<label>Manufacture</label>
 				            		<select class="form-control" id="manufacture_type">
-				            			<option value="">manufacturer...</option>
-				            			<?php 
-				            			for ($j=0; $j <$countManufacture ; $j++) {
-				            			?>
-				            			<option value="<?php echo $manufacture[$j]['manufacture_id']; ?>"><?php echo $manufacture[$j]['name'];  ?></option>
-				            			<?php } ?>
+				            			<option value="">First Select StockType</option>
 				            		</select>
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
 			            		<div class="form-group">
-				            		<label>Name</label>
-				            		<input type="text" class="form-control" id="name">
+				            		<label>Product Name</label>
+				            		<select class="form-control" id="product_name">
+                          <option value="">First Select Manufacturer</option>
+                        </select>
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
@@ -166,6 +171,7 @@ use yii\helpers\Html;
 			            	</div>
 			            	<input type="hidden" id="stockTypeName">
 			            	<input type="hidden" id="manufactreName">
+                    <input type="hidden" id="productName">
 			            </div>		
                 	</div>
                 </div><hr>			
@@ -180,8 +186,8 @@ use yii\helpers\Html;
 											<th>ST.</th>
 											<th>Mnu.</th>
 											<th>Name</th>
-											<th>Exp.Date</th>
-											<th>Org Price</th>
+											<th>Exp. Date</th>
+											<th>Org. Price</th>
 											<th>Purchase Price</th>
 											<th>Sale Price</th>
 										</tr>
@@ -275,32 +281,34 @@ use yii\helpers\Html;
                   <input type="text" name="total_amount" class="form-control" readonly="" id="tp" value="0">
                 </div>
                 <div class="form-group">
-					<label>Discount</label>
-					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
-	
-					  <input type="radio" name="discountType" id="amount"> Amount
-					<input type="number" name="discount" class="form-control" id="disc" value="0">
-					<input type="hidden" id="name" >
-					<input type="hidden" id="vehicle_name" >
-				</div>
+          					<label>Discount</label>
+
+                      <input type="radio" name="discountType" id="amount" checked> Amount
+          					 <input type="radio" name="discountType" id="percentage" > Percentage
+          	
+          					<input type="number" name="discount" class="form-control" id="disc" oninput="discountFun()">
+          					<input type="hidden" id="name" >
+          					<input type="hidden" id="vehicle_name" >
+          				</div>
                 <div class="form-group">
                   <label>Net Total</label>
-                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" onfocus="discountFun()">
+                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" >
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="number" name="paid" class="form-control"  id="paid">
+                  <input type="number" name="paid" class="form-control"  id="paid" oninput="cal_remaining()">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
-                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"
-                  onfocus="cal_remaining()"> 
+                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
                 </div>
                 <div class="form-group">
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
                 </div>
-                <button class="btn btn-success btn-block btn-flat" id="insert" >
+                <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
+                </div>
+                <button class="btn btn-success btn-block btn-flat" id="insert" style="display: none;">
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
               
             </div>
@@ -351,24 +359,44 @@ use yii\helpers\Html;
             //alert(purchasePrice);
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
+             $('#remaining').val(purchasePrice);
               //alert(originalPrice);
             } 
+            $('#insert').show();
+            if (purchasePrice < 0) {
+              $('#insert').hide();
+              $('#alert').css("display","block");
+              $('#alert').html("&ensp;Discount Cannot Be Greater Than Total Amount");
+            }else{
+              $('#alert').css("display","none");
+            }
       }
       function cal_remaining(){
       	var paid = $('#paid').val();
       	var nt = $('#nt').val();
       	var remaining =nt - paid;
       	$('#remaining').val(remaining); 
-      	if (remaining ==0) {
-      		$('#status').val('Paid');
-      	}
-      	else if (remaining < paid) {
-      		$('#status').val('Partially');
-      	}
-      	else if (remaining = nt) {
-      		$('#status').val('Unpaid');
-      	}
-      	$('#insert').show();
+        
+        	if (remaining == 0) {
+        		$('#status').val('Paid');
+            $('#insert').show();
+        	}
+        	else if (remaining == nt) {
+        		$('#status').val('Unpaid');
+            $('#insert').show();
+        	}
+          
+          else if (paid > 0) {
+          $('#status').val('Partially');
+        }
+        $('#insert').show();
+        if (remaining < 0) {
+          $('#insert').hide();
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        }else{
+          $('#alert').css("display","none");
+        }
       }
 </script>
 <?php
@@ -377,19 +405,57 @@ $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
 
 $script = <<< JS
 
-	$("#item_type").change(function(){
-		 var item_type = $('#item_type').val();
-		 if(item_type == "Service")
-		 {
-		 	$('#servic').show();
-		 	$('#stock').hide();
-		 }
-		 else if(item_type == "Stock")
-		 {
-		 	$('#stock').show();
-		 	$('#servic').hide();
-		 }
+	$("#stock_type").change(function(){
+		 var stockType = $('#stock_type').val();
+
+		 $.ajax({
+          type:'post',
+          data:{
+            stockType:stockType
+            },
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            //console.log(jsonResult);
+
+            $('#manufacture_type').empty();
+            $('#manufacture_type').append("<option>"+"Select Manufacturer"+"</option>");
+            var options = '';
+                for(var i=0; i<jsonResult.length; i++) { 
+                    options += '<option value="'+jsonResult[i]['manufacture_id']+'">'+jsonResult[i]['name']+'</option>';
+                }
+            // Append to the html
+            $('#manufacture_type').append(options);
+                    
+          }      
+      });
 	});
+
+  $("#manufacture_type").change(function(){
+     var manufactureType = $('#manufacture_type').val();
+
+     $.ajax({
+          type:'post',
+          data:{
+            manufactureType:manufactureType
+            },
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            console.log(jsonResult);
+
+            $('#product_name').empty();
+            $('#product_name').append("<option>"+"Select Product"+"</option>");
+            var options = '';
+                for(var i=0; i<jsonResult.length; i++) { 
+                    options += '<option value="'+jsonResult[i]['product_id']+'">'+jsonResult[i]['product_name']+'</option>';
+                }
+            // Append to the html
+            $('#product_name').append(options);
+                    
+          }      
+      });
+  });
 
 	$("#disc").change(function(){
 		 var totalAmount = $('#tp').val();
@@ -415,13 +481,12 @@ $script = <<< JS
               //alert(originalPrice);
             } 
 	});
-
 	$("#barcode").change(function(){
 
 		var barcode 			= $("#barcode").val();
 		var stock_type 			= $("#stock_type").val();
 		var manufacture_type 	= $("#manufacture_type").val();
-		var name 				= $("#name").val();
+		var name 				= $("#product_name").val();
 		var expiry_date 		= $("#expiry_date").val();
 		var original_price 		= $("#original_price").val();
 		var purchase_price 		= $("#purchase_price").val();
@@ -429,37 +494,55 @@ $script = <<< JS
 
 		var stockTypeName 		=  $('#stockTypeName').val();
 		var manufactreName 		=  $('#manufactreName').val();
+    var product_name    =  $('#productName').val();
 
 		var totalAmount = parseInt($('#tp').val());
 		var tp = parseInt(totalAmount)+parseInt(purchase_price);
 		$('#tp').val(tp);
+            $('#nt').val(tp);
+            $('#remaining').val(tp);
+            $('#status').val('Unpaid');
 		if(stock_type == "" || stock_type == null)
 		{
 			alert('Please Select the Stock Type');
+      $('#stock_type').css("border", "1px solid red");
+      $('#stock_type').focus();
 		}
 		else if(manufacture_type == "" || manufacture_type == null)
 		{
 			alert('Please Select the Manufacture Type');
+      $('#manufacture_type').css("border", "1px solid red");
+      $('#manufacture_type').focus();
 		}
 		else if(name == "" || name == null)
 		{
 			alert('Please Select the Name');
+      $('#product_name').css("border", "1px solid red");
+      $('#product_name').focus();
 		}
 		else if(expiry_date == "" || expiry_date == null)
 		{
 			alert('Please Select the Expiry Date');
+      $('#expiry_date').css("border", "1px solid red");
+      $('#expiry_date').focus();
 		}
 		else if(original_price == "" || original_price == null)
 		{
 			alert('Please fill the Original Price');
+      $('#original_price').css("border", "1px solid red");
+      $('#original_price').focus();
 		}
 		else if(purchase_price == "" || purchase_price == null)
 		{
 			alert('Please fill the Purchase Price');
+      $('#purchase_price').css("border", "1px solid red");
+      $('#purchase_price').focus();
 		}
 		else if(selling_price == "" || selling_price == null)
 		{
 			alert('Please fill the Selling Price');
+      $('#selling_price').css("border", "1px solid red");
+      $('#selling_price').focus();
 		}
 
 		else{
@@ -489,7 +572,7 @@ $script = <<< JS
 		row.insertCell(0).innerHTML= rowCount;
 		row.insertCell(1).innerHTML= stockTypeName;
 		row.insertCell(2).innerHTML= manufactreName;
-		row.insertCell(3).innerHTML= name;
+		row.insertCell(3).innerHTML= product_name;
 		row.insertCell(4).innerHTML= expiry_date;
 		row.insertCell(5).innerHTML= original_price;
 		row.insertCell(6).innerHTML= purchase_price;
@@ -541,43 +624,77 @@ $script = <<< JS
 
 	});
 
+  $('#product_name').change(function(){
+
+    var product_name = $("#product_name").val();
+
+    $.ajax({
+          type:'post',
+          data:{
+            product_name:product_name
+            },
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            $('#productName').val(jsonResult[0]['product_name']);
+                    
+          }      
+      }); 
+
+  });
+
 	$('#insert').click(function(){
 
 		user_id;
 		vendorID;
-		var bilty_no 		= $('#bilty_no').val();
+    var bilty_no    = $('#bilty_no').val();
+		var bill_no 		= $('#bill_no').val();
 		var purchase_date 	= $('#purchase_date').val();
 		var dispatch_date 	= $('#dispatch_date').val();
 		var receiving_date 	= $('#receiving_date').val();
 		var total_amount 	= $('#tp').val();
 		var net_total 		= $('#nt').val();
 		var paid 			= $('#paid').val();
-	    var remaining 		= $('#remaining').val();
+	  var remaining 		= $('#remaining').val();
 		var status 			= $('#status').val();
 	    barcodeArray;
-	 	stockTypeArray;
-	 	manufacturerArray;
-	 	nameArray;
-	 	expiryDateArray;
-	 	originalPriceArray;
-	 	purchasePriceArray;
-	 	sellingPriceArray;
+  	 	stockTypeArray;
+  	 	manufacturerArray;
+  	 	nameArray;
+  	 	expiryDateArray;
+  	 	originalPriceArray;
+  	 	purchasePriceArray;
+  	 	sellingPriceArray;
 
  		if(bilty_no == "" || bilty_no == null )
  		{
  			alert('Please fill Bilty no');
+      $('#bilty_no').css("border", "1px solid red");
+      $('#bilty_no').focus();
  		}
+    else if(bill_no == "" || bill_no == null )
+    {
+      alert('Please fill Bilty no');
+      $('#bill_no').css("border", "1px solid red");
+      $('#bill_no').focus();
+    }
  		else if(purchase_date == "" || purchase_date == null )
  		{
  			alert('Please select purchase date');
+      $('#purchase_date').css("border", "1px solid red");
+      $('#purchase_date').focus();
  		}
  		else if(dispatch_date == "" || dispatch_date == null )
  		{
  			alert('Please select dispatch date');
+      $('#dispatch_date').css("border", "1px solid red");
+      $('#dispatch_date').focus();
  		}
  		else if(receiving_date == "" || receiving_date == null )
  		{
  			alert('Please select receiving date');
+      $('#receiving_date').css("border", "1px solid red");
+      $('#receiving_date').focus();
  		}
  		else
  		{
@@ -586,23 +703,24 @@ $script = <<< JS
 		        data:{
 		        	user_id:user_id,
 		        	vendorID:vendorID,
-					bilty_no:bilty_no, 		
-					purchase_date:purchase_date,
-					dispatch_date:dispatch_date, 	
-					receiving_date:receiving_date, 	
-					total_amount:total_amount, 	
-					net_total:net_total, 		
-					paid:paid, 			
-				    remaining:remaining,
-				    status:status, 		
-				    barcodeArray:barcodeArray,
-				 	stockTypeArray:stockTypeArray,
-				 	manufacturerArray:manufacturerArray,
-				 	nameArray:nameArray,
-				 	expiryDateArray:expiryDateArray,
-				 	originalPriceArray:originalPriceArray,
-				 	purchasePriceArray:purchasePriceArray,
-				 	sellingPriceArray:sellingPriceArray
+              bilty_no:bilty_no,    
+    					bill_no:bill_no, 		
+    					purchase_date:purchase_date,
+    					dispatch_date:dispatch_date, 	
+    					receiving_date:receiving_date, 	
+    					total_amount:total_amount, 	
+    					net_total:net_total, 		
+    					paid:paid, 			
+    			    remaining:remaining,
+    			    status:status, 		
+    			    barcodeArray:barcodeArray,
+    			 	  stockTypeArray:stockTypeArray,
+    				 	manufacturerArray:manufacturerArray,
+    				 	nameArray:nameArray,
+    				 	expiryDateArray:expiryDateArray,
+    				 	originalPriceArray:originalPriceArray,
+    				 	purchasePriceArray:purchasePriceArray,
+    				 	sellingPriceArray:sellingPriceArray
 		        	},
 		        url: "$url",
 		        success: function(result){ 

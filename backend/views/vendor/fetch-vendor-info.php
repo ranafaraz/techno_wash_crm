@@ -8,6 +8,36 @@
  		WHERE stock_type_id = '$stock_type'")->queryAll();
  	echo json_encode($stockType);
  	}
+ 	// manufacturer dependent dropdown
+	if(isset($_POST['stockType'])){
+	$stockTypeID = $_POST['stockType'];
+
+ 	$manufacturelists = Yii::$app->db->createCommand("SELECT *
+	FROM manufacture
+	WHERE stock_type_id = '$stockTypeID'")->queryAll();
+ 	echo json_encode($manufacturelists);
+ 	}
+ 	// product drop down
+ 	if(isset($_POST['manufactureType'])){
+	$manufactureTypeID = $_POST['manufactureType'];
+
+ 	$productlists = Yii::$app->db->createCommand("SELECT *
+	FROM products
+	WHERE manufacture_id = '$manufactureTypeID'")->queryAll();
+ 	echo json_encode($productlists);
+ 	}
+
+ 	// product Name
+ 	if(isset($_POST['product_name'])){
+	$product_nameID = $_POST['product_name'];
+
+ 	$productName = Yii::$app->db->createCommand("SELECT product_name
+	FROM products
+	WHERE product_id = '$product_nameID'")->queryAll();
+ 	echo json_encode($productName);
+ 	}
+
+
 
  	if(isset($_POST['manufacture_type'])){
 	$manufacture_type = $_POST['manufacture_type'];
@@ -22,6 +52,7 @@
 
  		&& isset($_POST['vendorID'])
  		&& isset($_POST['bilty_no'])
+ 		&& isset($_POST['bill_no'])
  	 	&& isset($_POST['purchase_date'])
  	 	&& isset($_POST['dispatch_date']) 
  	 	&& isset($_POST['receiving_date'])
@@ -42,6 +73,7 @@
 	 	$user_id 				= $_POST["user_id"];
 		$vendorID				= $_POST["vendorID"];
 		$bilty_no				= $_POST['bilty_no'];
+		$bill_no				= $_POST['bill_no'];
 		$purchase_date 			= $_POST['purchase_date'];
 		$dispatch_date 			= $_POST['dispatch_date'];
 		$receiving_date 		= $_POST['receiving_date'];
@@ -69,6 +101,7 @@
 
 		'vendor_id'   		=> $vendorID,
 		'bilty_no'    		=> $bilty_no,
+		'bill_no'    		=> $bill_no,
 		'purchase_date'    	=> $purchase_date,
 		'dispatch_date'    	=> $dispatch_date,
 		'receiving_date'    => $receiving_date,
@@ -88,6 +121,7 @@
 	    FROM purchase_invoice
 	    WHERE vendor_id						= '$vendorID'
 	    AND bilty_no						= '$bilty_no'
+	    AND bill_no						= '$bill_no'
 		AND CAST(purchase_date as DATE) 	= '$purchase_date'
 		AND CAST(dispatch_date as DATE) 	= '$dispatch_date'
 		AND CAST(receiving_date as DATE) 	= '$receiving_date'

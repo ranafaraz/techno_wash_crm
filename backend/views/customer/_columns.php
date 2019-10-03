@@ -27,11 +27,12 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'Name',
         'attribute'=>'customer_name',
         'width' => '170px',
         'headerOptions' => [
             // this should be on a CSS file as class instead of a inline style attribute...
-            'style' => 'text-align: center !important;vertical-align: middle !important'
+            'style' => ''
         ],
         'format' => 'raw',
         'value' => function($model, $key, $index, $column) {
@@ -53,6 +54,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'CNIC',
         'attribute'=>'customer_cnic',
     ],
     // [
@@ -61,6 +63,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'Contact No#',
         'attribute'=>'customer_contact_no',
     ],
     // [

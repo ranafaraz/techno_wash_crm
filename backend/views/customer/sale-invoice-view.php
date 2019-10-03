@@ -5,6 +5,99 @@ use yii\helpers\Html;
 
   $customerID = $_GET['customer_id'];
 
+  ?>
+
+  <?php 
+
+ if(isset($_POST['insert_collect']))
+ {
+   $customerID  = $_POST['custID'];
+   $invID       = $_POST['invID'];
+   $netTotal    = $_POST['net_total'];
+   $paid_amount = $_POST['paid_amount'];
+   $remaining   = $_POST['remaining'];
+   $collect     = $_POST['collect'];
+   $status      = $_POST['status'];
+   $netTotal    = $_POST['net_total'];
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'net_total'        => $netTotal,
+     'paid_amount'      => $paid_amount,
+     'remaining_amount' => $remaining,
+     'status'           => $status,
+     'created_by'       => $id,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID])->with('');
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
+
+ <?php 
+
+ if(isset($_POST['update_invoice']))
+ {
+   $customerID  = $_POST['custID'];
+   $invID       = $_POST['invID'];
+   $updateDate = $_POST['date'];
+   $updateDiscount = $_POST['update_discount'];
+   $updatepaidAmount = $_POST['paid_amount'];
+   $updatetotalamount = $_POST['total_amount'];
+   $updatenetTotal = $_POST['net_total'];
+   $updateremainingAmount = $_POST['remaining_amount'];
+   $updatestatus = $_POST['status'];
+   
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'date' => $updateDate,
+     'total_amount' => $updatetotalamount,
+     'discount' => $updateDiscount,
+     'net_total' => $updatenetTotal,
+     'paid_amount' => $updatepaidAmount,
+     'remaining_amount' => $updateremainingAmount,
+     'status' => $updatestatus,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
+  <?php
+
   // getting customer name
   $customerData = Yii::$app->db->createCommand("
     SELECT *
@@ -33,7 +126,7 @@ use yii\helpers\Html;
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'paid' OR status = 'Paid')
-    ORDER BY sale_inv_head_id DESC
+    ORDER BY `date` DESC
     ")->queryAll();
 
     $countpaidinvoiceData = count($paidinvoiceData);
@@ -42,6 +135,7 @@ use yii\helpers\Html;
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'Partially' OR status = 'Unpaid')
+    ORDER BY `date` DESC
     ")->queryAll();
     $countcreditinvoiceData = count($creditinvoiceData);
     $id =  Yii::$app->user->identity->id;
@@ -50,9 +144,6 @@ use yii\helpers\Html;
 
     $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
 
-
-$this->title = 'Customer Profile';
-$this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <!DOCTYPE html>
@@ -73,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12" style="margin-top: -20px">
-      <h2 style="color:#3C8DBC;"><?php echo $customerData[0]['customer_name']; ?></h2>
+      <h2 style="color:#3C8DBC;"><label style="color: #000000;">Customer:&ensp;</label><?php echo $customerData[0]['customer_name']; ?></h2>
     </div>
   </div>
   <div class="row">
@@ -92,7 +183,7 @@ $this->params['breadcrumbs'][] = $this->title;
               <li><a href="#customer_vehicles" data-toggle="tab">Customer Vehicles</a></li>
               <!-- <li><a href="#details" data-toggle="tab">Account Details</a></li> -->
             </ul>
-            <div class="tab-content">
+            <div class="tab-content" style="background-color: #efefef;">
               <div class="active tab-pane" id="invoice">
                
                   <div class="form-group">
@@ -165,7 +256,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					                <div class="form-group">
 					                  <label>Select Service</label>
 					                  <select name="services" class="form-control" id="services">
-					                    <option value="">Select Service</option>
+					                    <option value="">Select the Services</option>
 					                    <?php 
 
 					                    for ($j=0; $j <$countServices ; $j++) { 
@@ -193,7 +284,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				                <!-- stock div -->
 				                <input type="hidden" id="service_name" >
 				                <input type="hidden" id="stock_name">
-								<input type="hidden" id="vehicle_name" >
+								        <input type="hidden" id="vehicle_name" >
 				            </div>
 				          </div>
 						</div>
@@ -234,9 +325,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
                                     <th class="t-cen" style="vertical-align:middle;">Action</th>
                                 </tr>
                             </thead>
@@ -249,9 +341,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                         
                                     <tr>
                                         <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                                        <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
                                             echo $date; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
                                     </tr>   
                                 
@@ -283,9 +376,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Sale Invoice Head</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Total Amount</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Paid Amount</th>
                                     <th class="t-cen" style="vertical-align:middle;">Remaining Amount</th>
                                     <th class="t-cen" style="vertical-align:middle;">Status</th>
                                     <th class="t-cen" style="vertical-align:middle;">Action</th>
@@ -300,10 +395,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                         
                                     <tr>
                                         <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                                        <!-- <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
                                             echo $date;?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
+                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
                                         <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit"><i class="fa fa-edit"></i>
@@ -508,29 +605,31 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="form-group">
 					<label>Discount</label>
-					 <input type="radio" name="discountType" id="percentage"   checked > Percentage
-	
-					  <input type="radio" name="discountType" id="amount"> Amount
-					<input type="text" name="discount" class="form-control" id="disc" value="0">
+
+					  <input type="radio" name="discountType" id="amount" checked> Amount
+            <input type="radio" name="discountType" id="percentage"> Percent
+					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()">
+
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
 				</div>
                 <div class="form-group">
                   <label>Net Total</label>
-                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" onfocus="discountFun()">
+                  <input type="text" name="net_total" class="form-control" id="nt"readonly="">
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid">
+                  <input type="text" name="paid" class="form-control"  id="paid" oninput="cal_remaining()">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
-                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"
-                  onfocus="cal_remaining()"> 
+                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
                 </div>
                 <div class="form-group">
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
+                </div>
+                <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
                 <button class="btn btn-success btn-block btn-flat" id="insert" >
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
@@ -556,6 +655,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	let table;
 	let index = 1;
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
+  
 function discountFun(){
         // Getting the value from the original price
        originalPrice = parseInt(document.getElementById("tp").value);
@@ -582,8 +682,19 @@ function discountFun(){
             //alert(purchasePrice);
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
+             $('#remaining').val(purchasePrice);
               //alert(originalPrice);
-            } 
+            }
+            $('#insert').show(); 
+            if (purchasePrice < 0) {
+              $('#insert').hide();
+              $('#alert').css("display","block");
+              $('#alert').html("&ensp;Discount Cannot Be Greater Than Total Amount");
+            }else{
+              $('#alert').css("display","none");
+            }
+
+
       }
       function deleteRow(tableID) 
       {
@@ -613,16 +724,28 @@ function discountFun(){
       function cal_remaining(){
       	var paid = $('#paid').val();
       	var nt = $('#nt').val();
-      	var remaining =nt - paid;
+      	var remaining = nt - paid;
       	$('#remaining').val(remaining); 
-      	if (remaining ==0) {
-      		$('#status').val('paid');
+      	if (remaining == 0) {
+      		$('#status').val('Paid');
       	}
-      	else if (remaining < paid) {
-      		$('#status').val('Partially');
-      	}
-      
+
+      	else if (remaining == nt && paid <= 0) {
+      		$('#status').val('Unpaid');
+      	}        
+        else if (paid > 0) {
+          $('#status').val('Partially');
+        }
+
       	$('#insert').show();
+        if (remaining < 0) {
+          $('#insert').hide();
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        }else{
+          $('#alert').css("display","none");
+        }
+
       }
 
 </script>
@@ -634,6 +757,8 @@ $script = <<< JS
 	
 
 	$("#item_type").change(function(){
+    $('#selling_price').val("");
+    $('#price').val("");
 		 var item_type = $('#item_type').val();
 		 if(item_type == "Service")
 		 {
@@ -649,10 +774,10 @@ $script = <<< JS
 		 	$('#stock').hide();
 		 	$('#servic').hide();
 		 }
+
 	});
 
-
-	$("#services").change(function(){
+	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
 		//alert(serviceID);
 		$.ajax({
@@ -668,7 +793,10 @@ $script = <<< JS
             var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
-				    $('#tp').val(tp);
+            $('#tp').val(tp);
+            $('#nt').val(tp);
+            $('#remaining').val(tp);
+				    $('#status').val('Unpaid');
 
 				    var vehicle 						= $('#vehicle').val();
 						var services 						= $('#services').val();
@@ -681,8 +809,8 @@ $script = <<< JS
 						{
 									alert("Select the Vehicle name ");
 						}
-						else if (services=="" || services==null) {
-									alert("Select the Services ");
+						else if (services =="" || services==null) {
+									//alert("Select the Services ");
 						}
 						else
 						{
@@ -713,7 +841,8 @@ $script = <<< JS
 						
 
 					  // $('#vehicle').val("");
-						$('#services').val("");
+            $('#services').val("");
+
 						$('#remove_index').show();
 						for(var i = 1; i < table.rows.length; i++)
 			                {
@@ -727,7 +856,7 @@ $script = <<< JS
 			                }
 				
 	}
-        	}      
+        	}   
     	}); 
 	});
 
@@ -776,7 +905,7 @@ $script = <<< JS
     	}); 
 	});
 
-	$("#barcode").change(function(){
+	$("#barcode").on('change',function(){
 		var barcode = $("#barcode").val();
 		$.ajax({
 	        type:'post',
@@ -790,7 +919,10 @@ $script = <<< JS
 	        	var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['selling_price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
-				    $('#tp').val(tp);
+            $('#tp').val(tp);
+            $('#nt').val(tp);
+				    $('#remaining').val(tp);
+            $('#status').val('Unpaid');
 
 				    var vehicle 						= $('#vehicle').val();
 						var barcode             = jsonResult[0]['stock_id'];
@@ -826,16 +958,14 @@ $script = <<< JS
 						let row = table.insertRow(1);
 						  
 						//insert the coulmn against the row
-						row.insertCell(0).innerHTML= reg_name;
+						row.insertCell(0).innerHTML= rowCount;
 						row.insertCell(1).innerHTML= reg_name;
 						row.insertCell(2).innerHTML= servicesName;
 						row.insertCell(3).innerHTML= type;
 						row.insertCell(4).innerHTML= stock_price;
 
 
-					  // $('#vehicle').val("");
 						$('#barcode').val("");
-						//$('#selling_price').val("");
 						$('#barcode').focus();
 						$('#remove_index').show();
 
@@ -860,7 +990,7 @@ $script = <<< JS
 		var remove_value1= $('#remove_value').val();
 		//alert();
 			if(remove_value1 =="" || remove_value1==null){
-				alert("Please Select the services to remove");
+				alert("Please Select the Service/Item to remove");
 			}
 			else{
 			document.getElementById("myTableData").deleteRow(remove_value1);
@@ -876,7 +1006,12 @@ $script = <<< JS
 			$('#remove_value').val("");
 			$('#removed_value').val("");
 			//alert(amountArray);
-			$('#tp').val(nta);
+      $('#tp').val(nta);
+      $('#nt').val(nta);
+      $('#remaining').val(nta);
+      $('#status').val("Unpaid");
+      $('#disc').val("");
+      $('#paid').val("");
 			if(amountArray.length==0){
 			$('#mydata').hide();
 			$('#remove_index').hide();
@@ -945,8 +1080,8 @@ $script = <<< JS
 	        url: "$url",
 	        success: function(result){
 	        	//var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	alert('Data is inserted');
-            window.location = './sale-invoice-view?customer_id=$customerID';
+	        	alert('Bill is Added');
+            window.location = './sale-invoice-view?customer_id=$customerID/#paidd';
 	        	}      
     	});
 					}
@@ -959,44 +1094,3 @@ $script = <<< JS
 JS;
 $this->registerJs($script);
 ?>
-<?php 
-
- if(isset($_POST['insert_collect']))
- {
-   $customerID  = $_POST['custID'];
-   $invID       = $_POST['invID'];
-   $netTotal    = $_POST['net_total'];
-   $paid_amount = $_POST['paid_amount'];
-   $remaining   = $_POST['remaining'];
-   $collect     = $_POST['collect'];
-   $status      = $_POST['status'];
-   $netTotal    = $_POST['net_total'];
-
-   $id   =Yii::$app->user->identity->id;
-
-     // starting of transaction handling
-     $transaction = \Yii::$app->db->beginTransaction();
-     try {
-      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
-
-     'net_total'        => $netTotal,
-     'paid_amount'      => $paid_amount,
-     'remaining_amount' => $remaining,
-     'status'           => $status,
-     'created_by'       => $id,
-    ],
-       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
-
-    )->execute();
-     // transaction commit
-     $transaction->commit();
-        
-     } // closing of try block 
-     catch (Exception $e) {
-      // transaction rollback
-         $transaction->rollback();
-     } // closing of catch block
-     // closing of transaction handling
-}
-
- ?>
