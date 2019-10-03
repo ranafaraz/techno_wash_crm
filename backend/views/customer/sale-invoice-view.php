@@ -193,7 +193,8 @@ use yii\helpers\Html;
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>Date</label>
-                        <input type="date"  class="form-control" id="invoice_date">
+                        <?php $date = date("m/d/Y"); ?>
+                        <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>">
                       </div>
                     </div>
                     <div class="col-md-8">
@@ -225,7 +226,7 @@ use yii\helpers\Html;
 				            <div class="col-md-12">
 				                <div class="form-group">
 				                  <label>Select Vehicle</label>
-				                  <select name="customer_vehicle" class="form-control" id="vehicle">
+				                  <select name="customer_vehicle" class="form-control" id="vehicle" autofocus="">
 				                    <option value="">Select Vehicle</option>
 				                    <?php 
 				                    for ($i=0; $i <$countcustomerVehicles ; $i++) { 
@@ -255,7 +256,7 @@ use yii\helpers\Html;
 					                <div class="form-group">
 					                  <label>Select Service</label>
 					                  <select name="services" class="form-control" id="services">
-					                    <option value=""></option>
+					                    <option value="">Select the Services</option>
 					                    <?php 
 
 					                    for ($j=0; $j <$countServices ; $j++) { 
@@ -605,8 +606,8 @@ use yii\helpers\Html;
                 <div class="form-group">
 					<label>Discount</label>
 
-					  <input type="radio" name="discountType" id="amount" checked> Amount
-            <input type="radio" name="discountType" id="percentage"> Percent
+					  <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
+            <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
 					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()">
 
 					<input type="hidden" id="name" >
@@ -654,6 +655,15 @@ use yii\helpers\Html;
 	let table;
 	let index = 1;
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
+  function abc(){
+    $('#disc').val("");
+    $('#disc').focus();
+    var total = $('#tp').val();
+    $('#nt').val(total);
+    $('#remaining').val(total);
+    $('#paid').val("");
+     
+  }
   
 function discountFun(){
         // Getting the value from the original price
@@ -670,8 +680,13 @@ function discountFun(){
             
             purchasePrice = originalPrice-discountReceived;
             $('#nt').val(purchasePrice);
-            //alert(purchasePrice);
-              }
+            if($('#paid').val()!="" || $('#paid').val()!=null){
+              remaining = purchasePrice-$('#paid').val();
+              $('#remaining').val(remaining);
+            }
+
+              
+            }
             else if(document.getElementById('amount').checked)
             {
             	
@@ -681,8 +696,11 @@ function discountFun(){
             //alert(purchasePrice);
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
-             $('#remaining').val(purchasePrice);
-              //alert(originalPrice);
+             
+             if($('#paid').val()!="" || $('#paid').val()!=null){
+              remaining = purchasePrice-$('#paid').val();
+              $('#remaining').val(remaining);
+            }
             }
             $('#insert').show(); 
             if (purchasePrice < 0) {
@@ -728,12 +746,14 @@ function discountFun(){
       	if (remaining == 0) {
       		$('#status').val('Paid');
       	}
+
       	else if (remaining == nt && paid <= 0) {
       		$('#status').val('Unpaid');
       	}        
         else if (paid > 0) {
           $('#status').val('Partially');
         }
+
       	$('#insert').show();
         if (remaining < 0) {
           $('#insert').hide();
