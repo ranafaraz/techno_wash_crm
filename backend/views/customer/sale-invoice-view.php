@@ -102,7 +102,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>Date</label>
-                        <input type="date"  class="form-control" id="invoice_date">
+                        <?php $date = date("m/d/Y"); ?>
+                        <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>">
                       </div>
                     </div>
                     <div class="col-md-8">
@@ -134,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				            <div class="col-md-12">
 				                <div class="form-group">
 				                  <label>Select Vehicle</label>
-				                  <select name="customer_vehicle" class="form-control" id="vehicle">
+				                  <select name="customer_vehicle" class="form-control" id="vehicle" autofocus="">
 				                    <option value="">Select Vehicle</option>
 				                    <?php 
 				                    for ($i=0; $i <$countcustomerVehicles ; $i++) { 
@@ -620,9 +621,7 @@ function discountFun(){
       	else if (remaining < paid) {
       		$('#status').val('Partially');
       	}
-      	else if (remaining = nt) {
-      		$('#status').val('Unpaid');
-      	}
+      
       	$('#insert').show();
       }
 

@@ -58,17 +58,23 @@ use common\models\VehicleTypeSubCategory;
     <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true]) ?>
 
     </div>
+    <div class="col-md-4">
+    <?= $form->field($model, 'customer_father_name')->textInput(['maxlength' => true]) ?>
+
+    </div>
         <div class="col-md-4">
     <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
     
     </div>
+    </div>
+        
+    <!-- row 2 close -->
+    <div class="row">
         <div class="col-md-4">
     <?= $form->field($model, 'customer_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
     
+    
     </div>
-    </div>
-    <!-- row 2 close -->
-    <div class="row">
         <div class="col-md-4">
     <?= $form->field($model, 'customer_contact_no')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>      
     
@@ -78,14 +84,16 @@ use common\models\VehicleTypeSubCategory;
     <?= $form->field($model, 'customer_age')->textInput() ?>
     
     </div>
+</div>
+        
+    
+    <!-- row 3 close -->
+
+    <div class="row">
         <div class="col-md-4">
 
     <?= $form->field($model, 'customer_email')->textInput(['maxlength' => true]) ?>
     </div>
-    </div>
-    <!-- row 3 close -->
-
-    <div class="row">
         <div class="col-md-4">
 
     <?= $form->field($model, 'customer_address')->textInput(['maxlength' => true]) ?>  
@@ -95,13 +103,14 @@ use common\models\VehicleTypeSubCategory;
 
     <?= $form->field($model, 'customer_image')->fileInput(['maxlength' => true]) ?>
     </div>
-        <div class="col-md-4">
-
-    <?= $form->field($model, 'customer_occupation')->textInput(['maxlength' => true]) ?>
-    </div>
+       
 </div>
   <!-- row 4 close -->
   <div class="row">
+     <div class="col-md-4">
+
+    <?= $form->field($model, 'customer_occupation')->textInput(['maxlength' => true]) ?>
+    </div>
       <div class="col-md-4">
            <?= $form->field($model, 'customer_whatsapp')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
       </div>
