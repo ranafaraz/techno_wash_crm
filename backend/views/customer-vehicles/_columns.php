@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 return [
     [
@@ -14,24 +15,53 @@ return [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'customer_vehicle_id',
     // ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'customer_id',
+    //     'value'=>'customer.customer_name',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'Customer Name',
         'attribute'=>'customer_id',
-        'value'=>'customer.customer_name',
+        'width' => '170px',
+        'headerOptions' => [
+            // this should be on a CSS file as class instead of a inline style attribute...
+            'style' => ''
+        ],
+        'format' => 'raw',
+        'value' => function($model, $key, $index, $column) {
+            $CustmName  = Yii::$app->db->createCommand("
+            SELECT customer_name
+            FROM customer
+            WHERE customer_id = '$model->customer_id'
+            ")->queryAll();
+
+                        if (empty($model->customer_id) || empty($model->customer_id)) {
+                            return;
+                        }
+                        return Html::a($CustmName[0]['customer_name'], [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:white;', 'data' => ['pjax' => 0]] 
+                    );
+                    },
+        'contentOptions' => function ($model, $key, $index, $column) {
+        return ['class' => '','style' => 'background-color:' 
+            . (!empty($model->customer_id) && $model->customer_id / $model->customer_id < 2
+                ? '#3C8DBC' : 'black')];
+        },
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'vehicle_typ_sub_id',
-        'value'=>'vehicleTypSub.name',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'vehicle_typ_sub_id',
+    //     'value'=>'vehicleTypSub.name',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'registration_no',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'color',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'color',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'image',
