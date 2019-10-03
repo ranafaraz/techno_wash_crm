@@ -606,8 +606,8 @@ use yii\helpers\Html;
                 <div class="form-group">
 					<label>Discount</label>
 
-					  <input type="radio" name="discountType" id="amount" checked> Amount
-            <input type="radio" name="discountType" id="percentage"> Percent
+					  <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
+            <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
 					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()">
 
 					<input type="hidden" id="name" >
@@ -655,6 +655,15 @@ use yii\helpers\Html;
 	let table;
 	let index = 1;
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
+  function abc(){
+    $('#disc').val("");
+    $('#disc').focus();
+    var total = $('#tp').val();
+    $('#nt').val(total);
+    $('#remaining').val(total);
+    $('#paid').val("");
+     
+  }
   
 function discountFun(){
         // Getting the value from the original price
@@ -671,8 +680,13 @@ function discountFun(){
             
             purchasePrice = originalPrice-discountReceived;
             $('#nt').val(purchasePrice);
-            //alert(purchasePrice);
-              }
+            if($('#paid').val()!="" || $('#paid').val()!=null){
+              remaining = purchasePrice-$('#paid').val();
+              $('#remaining').val(remaining);
+            }
+
+              
+            }
             else if(document.getElementById('amount').checked)
             {
             	
@@ -682,8 +696,11 @@ function discountFun(){
             //alert(purchasePrice);
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
-             $('#remaining').val(purchasePrice);
-              //alert(originalPrice);
+             
+             if($('#paid').val()!="" || $('#paid').val()!=null){
+              remaining = purchasePrice-$('#paid').val();
+              $('#remaining').val(remaining);
+            }
             }
             $('#insert').show(); 
             if (purchasePrice < 0) {
@@ -1081,7 +1098,7 @@ $script = <<< JS
 	        success: function(result){
 	        	//var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
 	        	alert('Bill is Added');
-            window.location = './sale-invoice-view?customer_id=$customerID/#paidd';
+            window.location = './sale-invoice-view?customer_id=$customerID';
 	        	}      
     	});
 					}
