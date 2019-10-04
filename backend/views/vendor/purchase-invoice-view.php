@@ -28,6 +28,11 @@ use yii\helpers\Html;
     FROM manufacture
     ")->queryAll();
   $countManufacture = count($manufacture);
+  $paid_invoice = Yii::$app->db->createCommand("
+    SELECT *
+    FROM purchase_invoice where vendor_id = '$vendorID' AND status = 'Paid'
+    ")->queryAll();
+  $count_piad_invoice = count($paid_invoice);
 
 ?>
 <!DOCTYPE html>
@@ -35,6 +40,12 @@ use yii\helpers\Html;
 <head>
   <title></title>
 </head>
+<style type="text/css" media="screen">
+#myTableData thead tr:hover{
+      background-color: #ECF0F5;
+      cursor: pointer;
+    }
+</style>
 <body>
 <div class="container-fluid">
   <div class="row">
@@ -54,7 +65,7 @@ use yii\helpers\Html;
               <li class="active">
                 <a href="#invoice" data-toggle="tab">New Invoice</a>
               </li>
-              <li><a href="#previous" data-toggle="tab">Prevoius Invoices</a></li>
+              <li><a href="#paid_invoices" data-toggle="tab">Paid Invoices</a></li>
               <li><a href="#profile" data-toggle="tab">Vendor Profile</a></li>
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
@@ -112,7 +123,7 @@ use yii\helpers\Html;
 			            		<div class="form-group">
 				            		<label>Select Stock Type</label>
 				            		<select class="form-control" id="stock_type">
-				            			<option value=""></option>
+				            			<option value="">Select Stock Type</option>
 				            			<?php 
 				            			for ($i=0; $i <$countStockType ; $i++) {
 				            			?>
@@ -148,19 +159,19 @@ use yii\helpers\Html;
 			            	<div class="col-md-3">
 			            		<div class="form-group">
 				            		<label>Original Price</label>
-				            		<input type="number" class="form-control" id="original_price">
+                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="original_price" class="form-control">
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
 			            		<div class="form-group">
 				            		<label>Purchase Price</label>
-				            		<input type="number" class="form-control" id="purchase_price">
+                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="purchase_price" class="form-control" oninput="check_purchase_price()">
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
 			            		<div class="form-group">
 				            		<label>Selling Price</label>
-				            		<input type="number" class="form-control" id="selling_price">
+                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="selling_price" class="form-control" >
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
@@ -178,24 +189,35 @@ use yii\helpers\Html;
                 <div class="row">
                     <div class="col-md-12" >
                         <div class="row" id="mydata" style="display:none;">
+                          <div class="col-md-3">
+                            
+                          </div>
+                          <div class="col-md-4">
+                            <input type="hidden" class="form-control" id="remove_value1">
+                            <input type="text" class="form-control" id="remove_value">
+                          </div>
+                          <div class="col-md-2">
+                            <button type="button" class="btn btn-danger btn-flat" id="remove"> <i class="fa fa-times"></i> Remove</button>
+                          </div>
+                        
 							<div class="col-md-12">
+                <br>
 								<table class="table table-bordered" id="myTableData">
-									<thead style="background-color:#3C8DBC;color:white;">
+									<thead>
 										<tr>
-											<th>Sr #</th>
-											<th>ST.</th>
-											<th>Mnu.</th>
-											<th>Name</th>
-											<th>Exp. Date</th>
-											<th>Org. Price</th>
-											<th>Purchase Price</th>
-											<th>Sale Price</th>
+											<th style="background-color: #3C8DBC;color:white;">Sr #</th>
+											<th style="background-color: #3C8DBC;color:white;">ST.</th>
+											<th style="background-color: #3C8DBC;color:white;">Mnu.</th>
+											<th style="background-color: #3C8DBC;color:white;">Name</th>
+											<th style="background-color: #3C8DBC;color:white;">Exp. Date</th>
+											<th style="background-color: #3C8DBC;color:white;">Org. Price</th>
+											<th style="background-color: #3C8DBC;color:white;">Purch Price</th>
+											<th style="background-color: #3C8DBC;color:white;">Sale Price</th>
+                      <th style="background-color: #3C8DBC;color:white;">Barcode</th>
 										</tr>
 									</thead>
 									<tbody style="background-color:lightgray;color:black;">
-										<tr>
-											
-										</tr>
+										
 									</tbody>
 								</table>
 							</div>
@@ -204,8 +226,49 @@ use yii\helpers\Html;
                 </div>
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="previous">
+              <div class="tab-pane" id="paid_invoices">
+                <div class="row">
+                  <div class="col-md-12">
+                      <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Details</h3>
+                    </div>    
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">                      
+                        <table class="table table-bordered table-striped">
+                            <thead style="background-color: #367FA9;color:white;">
+                                <tr>
+                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
+                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <?php 
+                                  
+                                  
+                                    for ($i=0; $i <$count_piad_invoice ; $i++) {
+
+                                      ?>
+                                      <tr>
+                                        <td><?php echo $i+1; ?></td>
+                                        <td><?php echo $paid_invoice[$i]['receiving_date'] ?></td>
+                                        <td><?php echo $i+1; ?></td>
+                                        <td><?php echo $i+1; ?></td>
+                                      </tr>
+
+                                    <?php
+                                  }
+                                 ?>
+                              
+                            </tbody>
+                          </table>
+                        </div>
                       
+                    </div>
+                  </div>
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="profile">
@@ -283,8 +346,8 @@ use yii\helpers\Html;
                 <div class="form-group">
           					<label>Discount</label>
 
-                      <input type="radio" name="discountType" id="amount" checked> Amount
-          					 <input type="radio" name="discountType" id="percentage" > Percentage
+                      <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
+          					 <input type="radio" name="discountType" id="percentage"  onclick="abc()"> Percentage
           	
           					<input type="number" name="discount" class="form-control" id="disc" oninput="discountFun()">
           					<input type="hidden" id="name" >
@@ -333,6 +396,15 @@ use yii\helpers\Html;
 	let vendorID 			= <?php echo $vendorID; ?>;
 
 	let user_id= <?php echo $id; ?>;
+  function abc(){
+    $('#disc').val("");
+    $('#disc').focus();
+    var total = $('#tp').val();
+    $('#nt').val(total);
+    $('#remaining').val(total);
+    $('#paid').val("");
+     
+  }
 	function discountFun(){
         // Getting the value from the original price
        originalPrice = parseInt(document.getElementById("tp").value);
@@ -347,7 +419,12 @@ use yii\helpers\Html;
             discountReceived = parseInt((originalPrice*discount)/100);
             
             purchasePrice = originalPrice-discountReceived;
+            
             $('#nt').val(purchasePrice);
+            if($('#paid').val()!="" || $('#paid').val()!=null){
+              remaining = purchasePrice-$('#paid').val();
+              $('#remaining').val(remaining);
+            }
             //alert(purchasePrice);
               }
             else if(document.getElementById('amount').checked)
@@ -359,8 +436,11 @@ use yii\helpers\Html;
             //alert(purchasePrice);
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
-             $('#remaining').val(purchasePrice);
-              //alert(originalPrice);
+             
+              if($('#paid').val()!="" || $('#paid').val()!=null){
+                remaining = purchasePrice-$('#paid').val();
+                $('#remaining').val(remaining);
+              }
             } 
             $('#insert').show();
             if (purchasePrice < 0) {
@@ -370,6 +450,15 @@ use yii\helpers\Html;
             }else{
               $('#alert').css("display","none");
             }
+      }
+      function check_purchase_price(){
+        var input1 = Number(document.getElementById( "original_price" ).value);
+        var input2 = Number(document.getElementById( "purchase_price" ).value);
+        if (input1<input2) {
+          alert("The Purchase Price can not be greater than the original price")
+          $('#purchase_price').val("");
+          $('#purchase_price').css("border", "1px solid red");
+        }
       }
       function cal_remaining(){
       	var paid = $('#paid').val();
@@ -481,6 +570,8 @@ $script = <<< JS
               //alert(originalPrice);
             } 
 	});
+
+
 	$("#barcode").change(function(){
 
 		var barcode 			= $("#barcode").val();
@@ -577,10 +668,22 @@ $script = <<< JS
 		row.insertCell(5).innerHTML= original_price;
 		row.insertCell(6).innerHTML= purchase_price;
 		row.insertCell(7).innerHTML= selling_price;
+    row.insertCell(8).innerHTML= barcode;
 
 		$('#barcode').val("");
 		$('#barcode').focus();
 		}
+    table = document.getElementById("myTableData");
+    for(var i = 1; i < table.rows.length; i++)
+                      {
+                          table.rows[i].onclick = function()
+                          {
+                            // get the seected row index
+                            rIndex = this.rowIndex;
+                            document.getElementById("remove_value1").value = rIndex;
+                            document.getElementById("remove_value").value = this.cells[8].innerHTML;
+                          };
+                      }
 
 
 	});
@@ -642,7 +745,42 @@ $script = <<< JS
       }); 
 
   });
+  $('#remove').click(function(){
+      var remove_value = $('#remove_value1').val();
+        if(remove_value=="" || remove_value==null){
+          alert("Please select the row");
+        }
+        else{
+            document.getElementById("myTableData").deleteRow(remove_value);
+          var a =barcodeArray.length- remove_value;
+           // alert(sellingPriceArray[a]);
+             //alert(sellingPriceArray);
+            var nt=$('#tp').val();
+            var nta = nt-purchasePriceArray[a];
+            //alert(barcodeArray.length);
+            barcodeArray.splice(a,1);
+            stockTypeArray.splice(a,1);
+            manufacturerArray.splice(a,1);
+            nameArray.splice(a,1);
+            expiryDateArray.splice(a,1);
+            originalPriceArray.splice(a,1);
+            purchasePriceArray.splice(a,1);
+            sellingPriceArray.splice(a,1);
+             //alert(barcodeArray.length);
+             $('#tp').val(nta);
+             $('#remaining').val(nta);
+             $('#nt').val(nta);
+             $('#remove_value1').val("");
+             $('#remove_value').val("");
+            // alert(sellingPriceArray);
+             if(barcodeArray.length==0){
+              $('#bill_form').hide();
+              $('#mydata').hide();
+             }
 
+
+          }
+      });
 	$('#insert').click(function(){
 
 		user_id;
