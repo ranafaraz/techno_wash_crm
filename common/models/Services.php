@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $services_id
  * @property int $branch_id
+ * @property int $vehicle_type_id
  * @property string $name
  * @property int $price
  * @property string $description
@@ -17,8 +18,8 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property SaleInvoiceServicesDetail[] $saleInvoiceServicesDetails
  * @property Branches $branch
+ * @property VehicleType $vehicleType
  */
 class Services extends \yii\db\ActiveRecord
 {
@@ -36,12 +37,13 @@ class Services extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'name', 'price', 'description'], 'required'],
-            [['branch_id', 'price', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
+            [['branch_id', 'vehicle_type_id', 'name', 'price'], 'required'],
+            [['branch_id', 'vehicle_type_id', 'price', 'created_by', 'updated_by'], 'integer'],
+            [['created_at', 'updated_at', 'description', 'created_by', 'updated_by'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 200],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
+            [['vehicle_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => VehicleType::className(), 'targetAttribute' => ['vehicle_type_id' => 'vehical_type_id']],
         ];
     }
 
@@ -52,8 +54,9 @@ class Services extends \yii\db\ActiveRecord
     {
         return [
             'services_id' => 'Services ID',
-            'branch_id' => 'Branch Name',
-            'name' => 'Service Name',
+            'branch_id' => 'Branch',
+            'vehicle_type_id' => 'Vehicle Type',
+            'name' => 'Service',
             'price' => 'Price',
             'description' => 'Description',
             'created_by' => 'Created By',
@@ -66,16 +69,16 @@ class Services extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSaleInvoiceServicesDetails()
+    public function getBranch()
     {
-        return $this->hasMany(SaleInvoiceServicesDetail::className(), ['services_id' => 'services_id']);
+        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBranch()
+    public function getVehicleType()
     {
-        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
+        return $this->hasOne(VehicleType::className(), ['vehical_type_id' => 'vehicle_type_id']);
     }
 }

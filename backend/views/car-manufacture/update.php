@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\VehicleTypeSubCategory */
+/* @var $model common\models\CarManufacture */
 ?>
-<div class="vehicle-type-sub-category-update">
+<div class="car-manufacture-update">
 
     <?= $this->render('_form', [
         'model' => $model,

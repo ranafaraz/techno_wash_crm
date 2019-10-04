@@ -161,6 +161,7 @@ class CustomerController extends Controller
                     else {
                         $model->customer_image = 'uploads/default-image-name.png'; 
                     }
+                    $model->customer_registration_date   = new \yii\db\Expression('NOW()');
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';

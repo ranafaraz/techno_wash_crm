@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\VehicleTypeSubCategory;
+use common\models\CarManufacture;
 
 /**
- * VehicleTypeSubCategorySearch represents the model behind the search form about `common\models\VehicleTypeSubCategory`.
+ * CarManufactureSearch represents the model behind the search form about `common\models\CarManufacture`.
  */
-class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
+class CarManufactureSearch extends CarManufacture
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
     public function rules()
     {
         return [
-            [['vehicle_typ_sub_id', 'manufacture', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'created_at', 'updated_at'], 'safe'],
+            [['car_manufacture_id', 'vehical_type_id', 'created_by', 'updated_by'], 'integer'],
+            [['manufacturer', 'description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
      */
     public function search($params)
     {
-        $query = VehicleTypeSubCategory::find();
+        $query = CarManufacture::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,15 +56,16 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
         }
 
         $query->andFilterWhere([
-            'vehicle_typ_sub_id' => $this->vehicle_typ_sub_id,
-            'manufacture' => $this->manufacture,
+            'car_manufacture_id' => $this->car_manufacture_id,
+            'vehical_type_id' => $this->vehical_type_id,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'manufacturer', $this->manufacturer])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

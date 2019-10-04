@@ -8,16 +8,15 @@ use Yii;
  * This is the model class for table "vehicle_type_sub_category".
  *
  * @property int $vehicle_typ_sub_id
- * @property int $vehicle_type_id
+ * @property int $manufacture
  * @property string $name
- * @property string $manufacture
  * @property string $created_at
  * @property string $updated_at
  * @property int $created_by
  * @property int $updated_by
  *
  * @property CustomerVehicles[] $customerVehicles
- * @property VehicleType $vehicleType
+ * @property CarManufacture $manufacture0
  */
 class VehicleTypeSubCategory extends \yii\db\ActiveRecord
 {
@@ -35,13 +34,11 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-
-            [['vehicle_type_id', 'name', 'manufacture'], 'required'],
-            [['vehicle_type_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
+            [['name'], 'required'],
+            [['manufacture', 'created_by', 'updated_by'], 'integer'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by','manufacture'], 'safe'],
             [['name'], 'string', 'max' => 100],
-            [['manufacture'], 'string', 'max' => 200],
-            [['vehicle_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => VehicleType::className(), 'targetAttribute' => ['vehicle_type_id' => 'vehical_type_id']],
+            [['manufacture'], 'exist', 'skipOnError' => true, 'targetClass' => CarManufacture::className(), 'targetAttribute' => ['manufacture' => 'car_manufacture_id']],
         ];
     }
 
@@ -52,9 +49,8 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
     {
         return [
             'vehicle_typ_sub_id' => 'Vehicle Typ Sub ID',
-            'vehicle_type_id' => 'Vehicle Type',
-            'name' => 'Model',
             'manufacture' => 'Manufacture',
+            'name' => 'Name',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'created_by' => 'Created By',
@@ -73,8 +69,8 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVehicleType()
+    public function getManufacture0()
     {
-        return $this->hasOne(VehicleType::className(), ['vehical_type_id' => 'vehicle_type_id']);
+        return $this->hasOne(CarManufacture::className(), ['car_manufacture_id' => 'manufacture']);
     }
 }

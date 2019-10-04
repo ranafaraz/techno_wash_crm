@@ -26,28 +26,10 @@ use common\models\VehicleTypeSubCategory;
     ); ?>
 
     <div class="row">
-        <div class="col-md-6">
-
-            <label>Customter Registration Date</label>
-                <?= DateTimePicker::widget([
-                'model' => $model,
-                'attribute' => 'customer_registration_date',
-                'language' => 'en',
-                'size' => 'ms',
-                'clientOptions' => [
-                    'autoclose' => true,
-                    'convertFormat' => false,                    
-                    'format' => 'yyyy-mm-dd  hh:ii:ss',
-                    'todayBtn' => true
-                ]
-            ]);?>
-
-
-    </div>
-        <div class="col-md-6">
+        
+        <div class="col-md-4">
     <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
-                ['prompt'=>'Select Branch',]
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name')
                 )?>
 
     </div>
@@ -55,15 +37,15 @@ use common\models\VehicleTypeSubCategory;
 <!-- row 1 close -->
 <div class="row">
         <div class="col-md-4">
-    <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true,'id' => 'customerName', 'style'=>['text-transform'=>'uppercase']]) ?>
 
     </div>
     <div class="col-md-4">
-    <?= $form->field($model, 'customer_father_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'customer_father_name')->textInput(['maxlength' => true,'id'=>'fatherName']) ?>
 
     </div>
         <div class="col-md-4">
-    <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => 'Select Gender']) ?>
     
     </div>
     </div>
@@ -92,7 +74,12 @@ use common\models\VehicleTypeSubCategory;
     <div class="row">
         <div class="col-md-4">
 
-    <?= $form->field($model, 'customer_email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'customer_email')->widget(yii\widgets\MaskedInput::class, [
+                'name' => 'input-36',
+                'clientOptions' => [
+                    'alias' =>  'email'
+                ],
+            ]) ?>
     </div>
         <div class="col-md-4">
 
@@ -198,3 +185,13 @@ use common\models\VehicleTypeSubCategory;
     <?php ActiveForm::end(); ?>
     
 </div>
+<script>
+   function testInput(event) {
+   var value = String.fromCharCode(event.which);
+   var pattern = new RegExp(/[a-zåäö ]/i);
+   return pattern.test(value);
+}
+
+$('#customerName').bind('keypress', testInput);
+$('#fatherName').bind('keypress', testInput);
+</script>

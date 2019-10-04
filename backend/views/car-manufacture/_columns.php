@@ -10,47 +10,37 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-    //     [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'services_id',
-    // ],
-    [
+        [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'branch_id',
-        'value' => 'branch.branch_name',
+        'attribute'=>'car_manufacture_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'vehicle_type_id',
-        'value' => 'vehicleType.name',
+        'attribute'=>'vehical_type_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'attribute'=>'manufacturer',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'price',
+        'attribute'=>'description',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'description',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'created_by',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_by',
-    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',
     // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'created_by',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'updated_at',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'updated_by',
     // ],
     [
         'class' => 'kartik\grid\ActionColumn',
