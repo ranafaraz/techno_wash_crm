@@ -314,7 +314,7 @@ use yii\helpers\Html;
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="paidd">
-                      <div class="row">
+                  <div class="row">
                     <div class="col-md-12">
                         <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Details</h3>
                     </div>
@@ -932,7 +932,9 @@ $script = <<< JS
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
 	        	 $('#selling_price').val(jsonResult[0]['selling_price']);
 	        	 $('#stock_name').val(jsonResult[0]['name']);
-
+            var stock_name =jsonResult[0]['name']; 
+              
+  
 	        	var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['selling_price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
