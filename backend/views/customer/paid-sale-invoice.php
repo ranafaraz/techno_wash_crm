@@ -118,12 +118,14 @@ $customervehicleID = Yii::$app->db->createCommand("
 						// echo $customerVehID;
 						// echo $sihID;
 						$customervehicleData = Yii::$app->db->createCommand("
-					    SELECT cv.registration_no,cvst.name,vt.name as Name
+					    SELECT cm.manufacturer,cv.registration_no,cvst.name,vt.name as Name
 					    FROM ((customer_vehicles as cv
 					    INNER JOIN vehicle_type_sub_category as cvst
 					    ON cv.vehicle_typ_sub_id = cvst.vehicle_typ_sub_id)
+					    INNER JOIN car_manufacture as cm
+					    ON cm.car_manufacture_id = cvst.manufacture)
 					    INNER JOIN vehicle_type as vt
-					    ON vt.vehical_type_id = cvst.vehicle_type_id)
+					    ON vt.vehical_type_id = cm.vehical_type_id
 					    WHERE cv.customer_vehicle_id = '$customerVehID'
 					    ")->queryAll();
 					    //print_r($customervehicleData);
@@ -133,7 +135,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					<table class="table">
 						<thead style="background-color: #3C8DBC !important;color:white;">
 							<tr>
-								<th colspan="6" style="text-align: center;"><?php echo "VEH #: "."( ".$customervehicleData[0]['Name']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?></th>
+								<th colspan="6" style="text-align: center;"><?php echo "VEH #: "."( ".$customervehicleData[0]['Name']." - ".$customervehicleData[0]['manufacturer']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?></th>
 							</tr>
 							<tr>
 								<th>Sr #</th>

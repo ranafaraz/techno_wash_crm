@@ -256,13 +256,7 @@ use yii\helpers\Html;
 					                <div class="form-group">
 					                  <label>Select Service</label>
 					                  <select name="services" class="form-control" id="services">
-					                    <option value="">Select the Services</option>
-					                    <?php 
-
-					                    for ($j=0; $j <$countServices ; $j++) { 
-					                    ?>
-					                    <option value="<?php echo $services[$j]['services_id']; ?>"><?php echo $services[$j]['name'];?></option>
-					                    <?php } ?>
+					                    <option value="">Select Services</option>
 					                  </select>
 					                </div>
 					                <div class="form-group">
@@ -901,9 +895,15 @@ $script = <<< JS
               //alert(originalPrice);
             } 
 	});
-
+  // for vihicel name
 	$("#vehicle").change(function(){
 		var vehicle = $("#vehicle").val();
+     if(vehicle == null || vehicle ==""){
+      $('#types').hide();
+    }
+    else{
+      $('#types').show();
+    }
 		
 		//alert(vehicle);
 		$.ajax({
@@ -912,17 +912,35 @@ $script = <<< JS
 	        url: "$url",
 	        success: function(result){
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	 //$('#vehicle_name').val(jsonResult[0]['vehical_type_id']);
-             alert(jsonResult[0]['vehical_type_id']);
+	        	 $('#vehicle_name').val(jsonResult[0]['registration_no']);
+             //alert(jsonResult[0]['vehical_type_id']);
         	}      
     	}); 
-      if(vehicle == null || vehicle ==""){
-      $('#types').hide();
-    }
-    else{
-      $('#types').show();
-    }
+     
 	});
+  //for vehicel services
+  $("#vehicle").change(function(){
+    var customerVehicle = $("#vehicle").val();
+    
+    //alert(vehicle);
+    $.ajax({
+          type:'post',
+          data:{customerVehicle:customerVehicle},
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+
+          $('#services').empty();
+            $('#services').append("<option>"+"Select Services"+"</option>");
+            var options = '';
+                for(var i=0; i<jsonResult.length; i++) { 
+                    options += '<option value="'+jsonResult[i]['services_id']+'">'+jsonResult[i]['name']+'</option>';
+                }
+            // Append to the html
+            $('#services').append(options);
+          }      
+      }); 
+  });
 
 	$("#barcode").on('change',function(){
 		var barcode = $("#barcode").val();
