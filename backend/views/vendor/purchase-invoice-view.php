@@ -1,9 +1,68 @@
-<?php 
+<?php  
 use common\models\Branches;
 use yii\helpers\Html;
 
   $vendorID = $_GET['vendor_id'];
+
   $id=Yii::$app->user->identity->id;
+
+?>
+<?php 
+
+ if(isset($_POST['update_invoice']))
+ {
+   $piID  = $_POST['piID'];
+   $vendorID       = $_POST['vendorID'];
+   $bilty_no       = $_POST['bilty_no'];
+   $bill_no       = $_POST['bill_no'];
+   $purchase_date = $_POST['purchase_date'];
+   $dispatch_date = $_POST['dispatch_date'];
+   $receiving_date = $_POST['receiving_date'];
+   $updateDiscount = $_POST['update_discount'];
+   $updatepaidAmount = $_POST['paid_amount'];
+   $updatetotalamount = $_POST['total_amount'];
+   $updatenetTotal = $_POST['net_total'];
+   $updateremainingAmount = $_POST['remaining_amount'];
+   $updatestatus = $_POST['status'];
+   
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
+     'bilty_no' => $bilty_no,
+     'bill_no' => $bill_no,
+     'purchase_date' => $purchase_date,
+     'dispatch_date' => $dispatch_date,
+     'receiving_date' => $receiving_date,
+     'total_amount' => $updatetotalamount,
+     'discount' => $updateDiscount,
+     'net_total' => $updatenetTotal,
+     'paid_amount' => $updatepaidAmount,
+     'remaining_amount' => $updateremainingAmount,
+     'status' => $updatestatus,
+    ],
+       ['vendor_id' => $vendorID ,'purchase_invoice_id' => $piID]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+     \Yii::$app->response->redirect(['./purchase-invoice-view', 'customer_id' => $customerID]);
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
+
+ <?php
+
   // getting customer name
   $vendorData = Yii::$app->db->createCommand("
     SELECT *
@@ -12,8 +71,7 @@ use yii\helpers\Html;
     ")->queryAll();
 
   $branchId = $vendorData[0]['branch_id'];
-
-    $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
+  $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
 
    // getting stock type
   $stockType = Yii::$app->db->createCommand("
@@ -28,11 +86,23 @@ use yii\helpers\Html;
     FROM manufacture
     ")->queryAll();
   $countManufacture = count($manufacture);
+
+
   $paid_invoice = Yii::$app->db->createCommand("
     SELECT *
-    FROM purchase_invoice where vendor_id = '$vendorID' AND status = 'Paid'
+    FROM purchase_invoice 
+    WHERE vendor_id = '$vendorID' 
+    AND status = 'Paid' OR status = 'paid'
     ")->queryAll();
   $count_piad_invoice = count($paid_invoice);
+
+  $credit_invoice = Yii::$app->db->createCommand("
+    SELECT *
+    FROM purchase_invoice 
+    WHERE vendor_id = '$vendorID' 
+    AND status = 'Partially' OR status = 'Unpaid'
+    ")->queryAll();
+  $count_credit_invoice = count($credit_invoice);
 
 ?>
 <!DOCTYPE html>
@@ -45,6 +115,12 @@ use yii\helpers\Html;
       background-color: #ECF0F5;
       cursor: pointer;
     }
+body th{
+  vertical-align:middle !important;
+} 
+body td{
+  vertical-align:middle !important;
+}    
 </style>
 <body>
 <div class="container-fluid">
@@ -65,7 +141,8 @@ use yii\helpers\Html;
               <li class="active">
                 <a href="#invoice" data-toggle="tab">New Invoice</a>
               </li>
-              <li><a href="#paid_invoices" data-toggle="tab">Paid Invoices</a></li>
+              <li><a href="#paid_invoices" data-toggle="tab">Paid Invoices <span class="badge"><?=$count_piad_invoice?></span></a></li>
+              <li><a href="#payable" data-toggle="tab">Payable <span class="badge"><?=$count_credit_invoice?></span></a></li>
               <li><a href="#profile" data-toggle="tab">Vendor Profile</a></li>
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
@@ -238,11 +315,14 @@ use yii\helpers\Html;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
-                                    <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
-                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                    <th class="t-cen">Sr.#</th>
+                                    <!-- <th class="t-cen">Invoice #</th> -->
+                                    <th class="t-cen">Bilty No#</th>
+                                    <th class="t-cen">Bill No#</th>                              
+                                    <th class="t-cen">Net Total</th>
+                                    <th class="t-cen">Paid Amount</th>
+                                    <th class="t-cen">Receiving Date</th>
+                                    <th class="t-cen">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -254,9 +334,13 @@ use yii\helpers\Html;
                                       ?>
                                       <tr>
                                         <td><?php echo $i+1; ?></td>
-                                        <td><?php echo $paid_invoice[$i]['receiving_date'] ?></td>
-                                        <td><?php echo $i+1; ?></td>
-                                        <td><?php echo $i+1; ?></td>
+                                        <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td>
+                                        <td><?php echo $paid_invoice[$i]['bill_no']; ?></td>
+                                        <td><?php echo $paid_invoice[$i]['net_total']; ?></td>
+                                        <td><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
+                                        <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['receiving_date']));
+                                            echo $date; ?></td>
+                                            <td class="text-center"><a href="paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
                                       </tr>
 
                                     <?php
@@ -271,6 +355,69 @@ use yii\helpers\Html;
                   </div>
               </div>
               <!-- /.tab-pane -->
+              <div class="tab-pane" id="payable">
+                  <div class="row">
+                    <div class="col-md-8">
+                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Details</h3>
+                    </div>
+                            <?php
+                              $totalcreditAmount=0;
+                                for ($i=0; $i <$count_credit_invoice ; $i++) {
+                                     $totalcreditAmount += $credit_invoice[$i]['remaining_amount'];
+                                }        
+                            ?>
+                    <div class="col-md-4">
+                        <h3 class="text-danger" style="vertical-align: middle; margin-bottom: 20px !important;background-color: white;padding: 6px;border-radius: 3px;">Total Credit: <?= $totalcreditAmount;?></h3>
+                    </div>
+                </div>    
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">                      
+                        <table class="table table-bordered table-striped">
+                            <thead style="background-color: #367FA9;color:white;">
+                                <tr>
+                                    <th class="t-cen">Sr.#</th>
+                                    <!-- <th class="t-cen">Invoice #</th> -->
+                                    <th class="t-cen">Bilty No#</th>
+                                    <th class="t-cen">Bill No#</th>                              
+                                    <th class="t-cen">Net Total</th>
+                                    <th class="t-cen">Paid Amount</th>
+                                    <th class="t-cen">Remaining Amount</th>
+                                    <th class="t-cen">Receiving Date</th>
+                                    <th class="t-cen">Status</th>
+                                    <th class="t-cen">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+
+                                    for ($i=0; $i <$count_credit_invoice ; $i++) {
+                                        
+                                        ?>
+                                        
+                                    <tr>
+                                        <td><?php echo $i+1; ?></td>
+                                        <td><?php echo $credit_invoice[$i]['bilty_no']; ?></td>
+                                        <td><?php echo $credit_invoice[$i]['bill_no']; ?></td>
+                                        <td><?php echo $credit_invoice[$i]['net_total']; ?></td>
+                                        <td><?php echo $credit_invoice[$i]['paid_amount']; ?></td>
+                                        <td><?php echo $credit_invoice[$i]['remaining_amount']; ?></td>
+                                        <td><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['receiving_date']));
+                                            echo $date; ?></td>
+                                        <td style="vertical-align:middle;"><?php echo $credit_invoice[$i]['status']; ?></td>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
+                                        <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit"><i class="fa fa-edit"></i>
+                                        <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay"><i class="fa fa-file"></i></a></td>
+                                      </tr>   
+                                
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <!--- close tab pane --->
               <div class="tab-pane" id="profile">
             	<div class="row">
             		<div class="col-md-11">

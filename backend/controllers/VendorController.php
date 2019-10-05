@@ -31,7 +31,7 @@ class VendorController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','purchase-invoice-view','fetch-info','branch-details','customer-detail-view','fetch-vendor-info'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete', 'purchase-invoice-view', 'fetch-info', 'branch-details', 'customer-detail-view', 'fetch-vendor-info', 'paid-purchase-invoice', 'update-purchase-invoice', 'pay-purchase-invoice'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,6 +58,18 @@ class VendorController extends Controller
     public function actionPurchaseInvoiceView()
     {    
         return $this->render('purchase-invoice-view');
+    }
+    public function actionUpdatePurchaseInvoice()
+    {    
+        return $this->render('update-purchase-invoice');
+    }
+    public function actionPayPurchaseInvoice()
+    {    
+        return $this->render('pay-purchase-invoice');
+    }
+    public function actionPaidPurchaseInvoice()
+    {    
+        return $this->render('paid-purchase-invoice');
     }
     public function actionIndex()
     {    
@@ -94,6 +106,12 @@ class VendorController extends Controller
                 'model' => $this->findModel($id),
             ]);
         }
+    }
+
+    protected function beforeRun()
+    {
+        $this->controller->enableCsrfValidation = false;
+        return parent::beforeRun();
     }
 
     /**
