@@ -51,7 +51,7 @@ $countManufactureData = count($manufactureData);
 									for ($i=0; $i <$countManufactureData ; $i++) { 
 									$manufactureName = $manufactureData[$i]['name'];
 								?>
-				              	<li class="">
+				              	<li>
 				              	<a href="#<?php echo $manufactureName; ?>" data-toggle="tab">
 				              		<?php echo $manufactureName; ?>
 				              	</a>
