@@ -27,9 +27,9 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Services','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Create new Services','class'=>'btn btn-success']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -38,7 +38,7 @@ CrudAsset::register($this);
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-                'type' => 'primary', 
+                'type' => 'default', 
                 'heading' => '<i class="glyphicon glyphicon-list"></i> Services listing',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
