@@ -23,12 +23,27 @@
  	
  	if (isset($_POST["vehicle"])) {
  		$vehicle=$_POST["vehicle"];
- 		$register = Yii::$app->db->createCommand("
-	    SELECT 	registration_no
-	    FROM customer_vehicles
-	    WHERE 	customer_vehicle_id = $vehicle
+
+ 		$vehcID = Yii::$app->db->createCommand("
+	    SELECT vt.vehical_type_id
+	    FROM ((customer_vehicles as cv
+		INNER JOIN vehicle_type_sub_category as vtsc
+		ON cv.vehicle_typ_sub_id = vtsc.vehicle_typ_sub_id)
+		INNER JOIN car_manufacture as cm
+		ON cm.car_manufacture_id = vtsc.manufacture)
+		INNER JOIN vehicle_type as vt
+		ON vt.vehical_type_id = cm.vehical_type_id
+	    WHERE customer_vehicle_id = $vehicle
 	    ")->queryAll();
- 		   echo json_encode($register); 
+ 		$vehicleTypID = $vehcID[0]['vehical_type_id'];
+
+ 		$vehicleTypServices = Yii::$app->db->createCommand("
+	    SELECT *
+	    FROM services
+	    WHERE vehicle_type_id = '$vehicleTypID'
+	    ")->queryAll();
+
+ 		   echo json_encode($vehicleTypServices); 
  	}
  	
 	

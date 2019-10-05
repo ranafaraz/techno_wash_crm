@@ -904,12 +904,7 @@ $script = <<< JS
 
 	$("#vehicle").change(function(){
 		var vehicle = $("#vehicle").val();
-		if(vehicle == null || vehicle ==""){
-			$('#types').hide();
-		}
-		else{
-			$('#types').show();
-		}
+		
 		//alert(vehicle);
 		$.ajax({
 	        type:'post',
@@ -917,9 +912,16 @@ $script = <<< JS
 	        url: "$url",
 	        success: function(result){
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	 $('#vehicle_name').val(jsonResult[0]['registration_no']);
+	        	 //$('#vehicle_name').val(jsonResult[0]['vehical_type_id']);
+             alert(jsonResult[0]['vehical_type_id']);
         	}      
     	}); 
+      if(vehicle == null || vehicle ==""){
+      $('#types').hide();
+    }
+    else{
+      $('#types').show();
+    }
 	});
 
 	$("#barcode").on('change',function(){
