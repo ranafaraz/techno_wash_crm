@@ -162,14 +162,18 @@ use yii\helpers\Html;
 <body>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12" style="margin-top: -20px">
-      <h2 style="color:#3C8DBC;"><label style="color: #000000;">Customer:&ensp;</label><?php echo $customerData[0]['customer_name']; ?></h2>
-    </div>
-  </div>
-  <div class="row">
     <div class="col-md-9">
       <div class="box box-primary">
         <div class="box-body">
+          <div class="row">
+            <div class="col-md-8" style="margin-top:0px">
+              <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Customer:&ensp;</label><?php echo $customerData[0]['customer_name']; ?></p>
+            </div>
+            <div class="col-md-4">
+              <?php $date = date("m/d/Y"); ?>
+              <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>">
+            </div>
+          </div>
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active">
@@ -184,126 +188,120 @@ use yii\helpers\Html;
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
               <div class="active tab-pane" id="invoice">
-               
-                  <div class="form-group">
-                          <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
-                  </div> 
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Date</label>
-                        <?php $date = date("m/d/Y"); ?>
-                        <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>">
+                <div class="form-group">
+                        <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="container-fluid" style="margin-bottom:8px;">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Select Vehicle</label>
+                            <select name="customer_vehicle" class="form-control" id="vehicle" autofocus="">
+                              <option value="">Select Vehicle</option>
+                              <?php 
+                              for ($i=0; $i <$countcustomerVehicles ; $i++) { 
+                              $customerVehicleType = $customerVehicles[$i]['vehicle_typ_sub_id'];
+                              $VehicleReg = $customerVehicles[$i]['registration_no'];
+
+                              // getting vehicle type name
+                              $VehiclesName = Yii::$app->db->createCommand("
+                                SELECT *
+                                FROM vehicle_type_sub_category
+                                WHERE vehicle_typ_sub_id = '$customerVehicleType'
+                                ")->queryAll();
+                               ?>
+                              <option value="<?php echo $customerVehicles[$i]['customer_vehicle_id']; ?>"><?php echo $VehiclesName[0]['name']." - ".$VehicleReg; ?> </option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group" id="types">
+                            <label>Select Type</label>
+                            <select id="item_type" class="form-control">
+                              <option value="SelectType">Select Type</option>
+                              <option value="Service">Service</option>
+                              <option value="Stock">Stock</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div id="servic" style="display: none;">
+                            <div class="form-group">
+                              <label>Select Service</label>
+                              <select name="services" class="form-control" id="services">
+                                <option value="SelectServices">Select Services</option>
+                              </select>
+                            </div>
+                          <div class="form-group">
+                            <input type="hidden" name="amount" class="form-control" id="price" readonly="" >
+                          </div>
+                          </div>
+                          <div id="stock" style="display: none;">
+                            <div class="form-group">
+                              <label>Barcode </label>
+                              <input type="text" id="barcode" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <input type="hidden" class="form-control" id="selling_price" readonly="" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div id="pname" style="display: none;">
+                            <div class="form-group">
+                              <label>Product Name </label>
+                              <input type="text" id="product_name" class="form-control">
+                              <div id="product_list"></div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-md-8">
-	                    <div class="row" style="margin-top: 25px" id="remove_index">
-	                    	<div class="col-md-6">
-	                    		<input type="hidden" id="remove_value">
-	                    		<input type="text" placeholder="" class="form-control" id="removed_value" readonly="">
-	                    		
-	                    	</div>
-	                    	<div class="col-md-2">
-	                    		<button type="button" class="btn btn-warning btn-flat" id="remove"><i class="fa fa-times"></i> Remove</button>
-	                    	</div>
-	                    </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div id="quantity" style="display: none;">
+                            <div class="form-group">
+                              <label>Quantity </label>
+                              <input type="text" id="product_quantity" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 25px" id="remove_index">
+                        <div class="col-md-6">
+                          <input type="hidden" id="remove_value">
+                          <input type="text" placeholder="" class="form-control" id="removed_value" readonly="">
+                          
+                        </div>
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-warning btn-flat" id="remove"><i class="fa fa-times"></i> Remove</button>
+                        </div>
+                      </div><br>
+                      <div class="row" id="mydata" style="display: none;">
+                        <div class="col-md-12">
+                          <table class="table table-bordered" id="myTableData">
+                            <thead>
+                                <th style="background-color: skyblue">Sr # </th>
+                                <th style="background-color: skyblue">Vehicle </th>
+                                <th style="background-color: skyblue">Item</th>
+                                <th style="background-color: skyblue">Type</th>
+                                <th style="background-color: skyblue">Amount</th>
+                              
+                            </thead>
+                            <tbody>
+                              
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <input type="hidden" id="service_name">
+                      <input type="hidden" id="stock_name">
+                      <input type="hidden" id="vehicle_name">
                     </div>
                   </div>
-                </form>				
-                <div class="row">
-                    <div class="col-md-4" id=>
-                      <div class="box box-info">
-						<div class="box-body">
-				          <div class="container-fluid" style="margin-bottom:8px;">
-				            <div class="row">
-				              <div class="col-md-12" style="padding:10px;text-align: center;font-weight: bolder;font-size:20px;background-color: lightgray;">
-				                Add Items
-				              </div>
-				            </div>
-				          </div>
-				          <div class="row">
-				            <div class="col-md-12">
-				                <div class="form-group">
-				                  <label>Select Vehicle</label>
-				                  <select name="customer_vehicle" class="form-control" id="vehicle" autofocus="">
-				                    <option value="">Select Vehicle</option>
-				                    <?php 
-				                    for ($i=0; $i <$countcustomerVehicles ; $i++) { 
-				                    $customerVehicleType = $customerVehicles[$i]['vehicle_typ_sub_id'];
-				                    $VehicleReg = $customerVehicles[$i]['registration_no'];
-
-				                    // getting vehicle type name
-				                    $VehiclesName = Yii::$app->db->createCommand("
-				                      SELECT *
-				                      FROM vehicle_type_sub_category
-				                      WHERE vehicle_typ_sub_id = '$customerVehicleType'
-				                      ")->queryAll();
-				                     ?>
-				                    <option value="<?php echo $customerVehicles[$i]['customer_vehicle_id']; ?>"><?php echo $VehiclesName[0]['name']." - ".$VehicleReg; ?> </option>
-				                    <?php } ?>
-				                  </select>
-				                </div>
-				                <div class="form-group" id="types">
-				                	<label>Select Type</label>
-				                	<select id="item_type" class="form-control">
-				                		<option value="">Select Type</option>
-				                		<option value="Service">Service</option>
-				                		<option value="Stock">Stock</option>
-				                	</select>
-				                </div>
-				                <div id="servic" style="display: none;">
-					                <div class="form-group">
-					                  <label>Select Service</label>
-					                  <select name="services" class="form-control" id="services">
-					                    <option value="">Select Services</option>
-					                  </select>
-					                </div>
-					                <div class="form-group">
-					                  <label>Amount</label>
-					                  <input type="text" name="amount" class="form-control" id="price" readonly="" >
-					                </div>
-				                </div>
-				                <!-- services div -->
-				                <div id="stock" style="display: none;">
-					                <div class="form-group">
-					                  <label>Barcode </label>
-					                  <input type="text" id="barcode" class="form-control">
-					                </div>
-					                <div class="form-group">
-					                  <label>Amount</label>
-					                  <input type="text" class="form-control" id="selling_price" readonly="" >
-					                </div>
-				                </div>
-				                <!-- stock div -->
-				                <input type="hidden" id="service_name" >
-				                <input type="hidden" id="stock_name">
-								        <input type="hidden" id="vehicle_name" >
-				            </div>
-				          </div>
-						</div>
-					</div>
-                    </div>
-                    <div class="col-md-8" >
-
-                      <div class="row" id="mydata" style="display: none;">
-							<div class="col-md-12">
-								<table class="table table-bordered" id="myTableData">
-									<thead>
-                      <th style="background-color: skyblue">Sr # </th>
-											<th style="background-color: skyblue">Vehicle </th>
-											<th style="background-color: skyblue">Item</th>
-											<th style="background-color: skyblue">Type</th>
-											<th style="background-color: skyblue">Amount</th>
-										
-									</thead>
-									<tbody>
-										
-									</tbody>
-								</table>
-							</div>
-						</div>
-                    </div>
-                </div>
+                </div> 			
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="paidd">
@@ -765,8 +763,28 @@ $url = \yii\helpers\Url::to("customer/fetch-info");
 
 $script = <<< JS
 	
+  $("#product_name").keyup(function(){
+    var proName =  $("#product_name").val();
+    if(proName != '')
+    {
+      $.ajax({
+          type:'post',
+          data:{proName:proName},
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            $('#product_list').fadeIn();
+            $('#product_list').val(jsonResult);
+            console.log(jsonResult);
+
+          }      
+      });
+    }   
+
+  });
 
 	$("#item_type").change(function(){
+    $('#servic').val("SelectServices");
     $('#selling_price').val("");
     $('#price').val("");
 		 var item_type = $('#item_type').val();
@@ -774,10 +792,14 @@ $script = <<< JS
 		 {
 		 	$('#servic').show();
 		 	$('#stock').hide();
+      $('#pname').hide();
+      $('#quantity').hide();
 		 }
 		 else if(item_type == "Stock")
 		 {
 		 	$('#stock').show();
+      $('#pname').show();
+      $('#quantity').show();
 		 	$('#servic').hide();
 		 }
 		 else{
@@ -895,13 +917,21 @@ $script = <<< JS
             } 
 	});
   // for vihicel name
-	$("#vehicle").change(function(){
+	$("#vehicle").on("change",function(){
+    $('#item_type').val("SelectType");
 		var vehicle = $("#vehicle").val();
      if(vehicle == null || vehicle ==""){
+    
+      
       $('#types').hide();
+      $('#servic').hide();
+      $('#stock').hide();
+      $('#pname').hide();
+      $('#quantity').hide();
     }
     else{
       $('#types').show();
+      
     }
 		
 		//alert(vehicle);
@@ -1060,6 +1090,8 @@ $script = <<< JS
 			$('#types').hide();
 			$('#stock').hide();
 			$('#servic').hide();
+      $('#pname').hide();
+      $('#quantity').hide();
 				
 			}
 			}

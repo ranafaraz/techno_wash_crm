@@ -1,4 +1,19 @@
 <?php 
+
+
+	if(isset($_POST['proName'])){
+		$proName = $_POST['proName'];
+
+	 	$Fetch_products = Yii::$app->db->createCommand("
+		SELECT *
+		FROM products
+		WHERE product_name LIKE '%".$proName."%'
+		")->queryAll();
+	 	echo json_encode($Fetch_products);
+
+ 	}
+
+
 	if(isset($_POST['barcode'])){
 	$barcode = $_POST['barcode'];
 
