@@ -18,7 +18,6 @@ use yii\helpers\Html;
    $remaining   = $_POST['remaining'];
    $collect     = $_POST['collect'];
    $status      = $_POST['status'];
-   $netTotal    = $_POST['net_total'];
 
    $id   =Yii::$app->user->identity->id;
 
@@ -38,7 +37,7 @@ use yii\helpers\Html;
     )->execute();
      // transaction commit
      $transaction->commit();
-     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID])->with('');
+     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
         
      } // closing of try block 
      catch (Exception $e) {

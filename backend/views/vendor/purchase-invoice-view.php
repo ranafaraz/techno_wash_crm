@@ -9,6 +9,47 @@ use yii\helpers\Html;
 ?>
 <?php 
 
+ if(isset($_POST['insert_pay']))
+ {
+   $piID        = $_POST['piID'];
+   $vendorID    = $_POST['vendorID'];
+   $netTotal    = $_POST['net_total'];
+   $paid_amount = $_POST['paid_amount'];
+   $remaining   = $_POST['remaining'];
+   $pay         = $_POST['pay'];
+   $status      = $_POST['status'];
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
+
+     'net_total'        => $netTotal,
+     'paid_amount'      => $paid_amount,
+     'remaining_amount' => $remaining,
+     'status'           => $status,
+     'created_by'       => $id,
+    ],
+       ['vendor_id' => $vendorID ,'purchase_invoice_id' => $piID]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+     \Yii::$app->response->redirect(['./purchase-invoice-view', 'customer_id' => $customerID]);
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
+<?php 
+
  if(isset($_POST['update_invoice']))
  {
    $piID  = $_POST['piID'];

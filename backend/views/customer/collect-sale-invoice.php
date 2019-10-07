@@ -1,5 +1,5 @@
 <?php 
-
+ 
 	$customerID = $_GET['customerID'];
 	$sihID 		= $_GET['sihID'];
   	
@@ -24,6 +24,17 @@
 <html>
 <head>
 	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		$(window).keydown(function(event){
+			if(event.keycode == 13){
+				event.preventDefault();
+				return false;
+			}
+		});
+	});
+	</script>
 </head>
 <body>
 <div class="container-fluid">
@@ -78,7 +89,7 @@
 								</div>
 								<div class="form-group">
 									<label>Status</label>
-									<input type="text" name="status" id="status" class="form-control" readonly="">
+									<input type="text" name="status" id="status" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['status'];?>">
 								</div>
 								<input type="hidden" name="custID" value="<?php echo $customerID; ?>">
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">	
@@ -134,4 +145,20 @@
       		$('#insert').hide();
       	}
     }
+    
+
+
 </script>
+<?php 
+	$script=<<<JS
+	$(document).ready(function(){
+		$(window).keydown(function(event){
+			if(event.keycode == 13){
+				event.preventDefault();
+				return false;
+			}
+		});
+	});
+	JS;
+	$this->registerJs($script);
+?>

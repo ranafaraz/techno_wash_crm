@@ -1,4 +1,4 @@
-
+ 
 <?php 
 $sihID = $_GET['sihID'];
 	$paidinvoiceData = Yii::$app->db->createCommand("
@@ -291,7 +291,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 				<div class="col-md-6">
 					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
 					<p style="text-align: center;">
-						<i>IT Consultancy Provoided By:</i><br><b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
+						<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
 					</p>
 				</div>
 			</div>
