@@ -29,7 +29,7 @@ $customerData = Yii::$app->db->createCommand("
 			<div class="col-md-8 col-md-offset-2">
 			<div class="row">		
 			<div class="col-md-12">
-			    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Customer Invoice (<b><?php echo $customerData[0]['customer_name']; ?></b>)</h2>
+			    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Customer (<b><?php echo $customerData[0]['customer_name']; ?></b>) Invoice</h2>
 			</div>
 		</div>
 		<div class="row" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
@@ -85,11 +85,18 @@ $customerData = Yii::$app->db->createCommand("
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-md-12">
+								<div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center;" id="alert">
+	            				</div>								
+							</div>							
+						</div>
+						<br />
+						<div class="row">
 							<div class="col-md-2">
 								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
 							</div>
 							<div class="col-md-3">
-								<button type="submit" name="update_invoice" id="update" class="btn btn-success" style="display: none;width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
+								<button type="submit" name="update_invoice" id="update" class="btn btn-success" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
 							</div>
 						</div>				
 			</form>
@@ -104,7 +111,8 @@ $customerData = Yii::$app->db->createCommand("
  <?php } ?>
  <script>
  	function datechange(){
- 		$('#update').show();
+ 		$('#alert').css("display","none");
+      	$("#update").removeAttr("disabled");
  	}
 	function discEmpty(){
 		if(document.getElementById('percentage').checked)
@@ -169,10 +177,20 @@ $customerData = Yii::$app->db->createCommand("
         else if (paid > 0) {
           $('#status').val('Partially');
         }
-      	$('#update').show();
+      	//$('#update').show();
+      	$('#alert').css("display","none");
+      	$("#update").removeAttr("disabled");
 
       	if(remaining < 0){
-      		$('#update').hide();
+      		//$('#update').hide();
+      		$("#update").attr("disabled", true);
+      		$('#alert').css("display","block");
+            $('#alert').html("&ensp;Remaining Amount Cannot Be Negative");
+      	}
+      	var eremaining = $('#remaining').val();
+      	if(eremaining == '' || empty(eremaining)){
+      		//$('#update').hide();
+      		$("#update").attr("disabled", true);
       	}
       }
       

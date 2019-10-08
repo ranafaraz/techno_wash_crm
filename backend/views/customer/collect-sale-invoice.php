@@ -25,16 +25,6 @@
 <head>
 	<title></title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-		$(window).keydown(function(event){
-			if(event.keycode == 13){
-				event.preventDefault();
-				return false;
-			}
-		});
-	});
-	</script>
 </head>
 <body>
 <div class="container-fluid">
@@ -68,17 +58,18 @@
 									<input type="text" name="net_total" id="nt" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['net_total'];?>">
 								</div>
 								<div class="form-group">
+									<label>Credit</label>
+									<input type="text" name="remain" id="remain_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+
+									<input type="hidden" name="ramount" id="ramount" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+								</div>
+								<div class="form-group">
 									<label>Paid</label>
 									<input type="text" name="paid_amount" id="paid_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['paid_amount'];?>">
 
 									<input type="hidden" name="pamount" id="pamount" value="<?php echo $creditInvoiceData[0]['paid_amount'];?>">
 								</div>
-								<div class="form-group">
-									<label>Remaining</label>
-									<input type="text" name="remaining" id="remaining_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
-
-									<input type="hidden" name="ramount" id="ramount" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
-								</div>
+								
 								<input type="hidden" name="custID" value="<?php echo $customerID; ?>">
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">
 							</div>
@@ -91,17 +82,30 @@
 									<label>Status</label>
 									<input type="text" name="status" id="status" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['status'];?>">
 								</div>
+								<div class="form-group">
+									<label>Remaining</label>
+									<input type="text" name="remaining" id="remaining_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+
+									<input type="hidden" name="ramount" id="ramount" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+								</div>
 								<input type="hidden" name="custID" value="<?php echo $customerID; ?>">
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">	
 							</div>	
 						</div>
+						<div class="row" id="msg" style="display: none;">
+							<div class="col-md-12">
+								<div class="alert-danger glyphicon glyphicon-ban-circle" style="padding: 10px;" id="alert">
+	            				</div>
+	            				<hr>								
+							</div>
+						</div>
 						
 						<div class="row">
 							<div class="col-md-6">
-								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
+								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-warning" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
 							</div>
 							<div class="col-md-6">
-								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" style="display: none;width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
+								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
 							</div>
 						</div>
 					</form>
@@ -131,34 +135,32 @@
       	$('#paid_amount').val(collectedAmount); 
       	if (remainingAmount == 0 && nt == collectedAmount) {
       		$('#status').val('Paid');
-      		$('#insert').show();
+      		//$('#insert').show();
+      		$('#msg').css("display","none");
+      		$("#insert").removeAttr("disabled");
       	}
       	else if (remainingAmount > 0) {
       		$('#status').val('Partially');
-      		$('#insert').show();
+      		//$('#insert').show();
+      		$('#msg').css("display","none");
+      		$("#insert").removeAttr("disabled");
       	} else if (remainingAmount < 0) {
-      		alert("Amount is Greated..!");
-      		$('#collect_amount').val('');
-      		$('#insert').hide();
+      		//alert("Amount is Greated..!");
+      		$("#insert").attr("disabled", true);
+      		$('#msg').css("display","block");
+            $('#alert').html("&ensp;Collect Amount Cannot Be Lesser And Greater Than Remaining Amount");
+      		//$('#insert').hide();
       	}
       	if (collect < 0) {
-      		$('#insert').hide();
+      		//$('#insert').hide();
+      		$("#insert").attr("disabled", true);
+      		$('#msg').css("display","block");
+            $('#alert').html("&ensp;Collect Amount Cannot Be Negative");
+      	}
+      	var emp_collect = $('#collect_amount').val();
+      	if(emp_collect == '' || empty(emp_collect)){
+      		//$('#insert').hide();
+      		$("#insert").attr("disabled", true);
       	}
     }
-    
-
-
 </script>
-<?php 
-	$script=<<<JS
-	$(document).ready(function(){
-		$(window).keydown(function(event){
-			if(event.keycode == 13){
-				event.preventDefault();
-				return false;
-			}
-		});
-	});
-	JS;
-	$this->registerJs($script);
-?>

@@ -29,7 +29,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 			<div class="col-md-10 col-md-offset-1">
 			<div class="row">		
 			<div class="col-md-12">
-			    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Vendor Invoice (<b><?php echo $vendorData[0]['name']; ?></b>)</h2>
+			    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Vendor (<b><?php echo $vendorData[0]['name']; ?></b>) Invoice</h2>
 			</div>
 		</div>
 		<div class="row" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
@@ -99,12 +99,20 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 							<input type="hidden" name="vendorID" value="<?php echo $vendorID; ?>">	
 						</div>
 					</div>
+
 					<div class="row">
-						<div class="col-md-1">
-							<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+							<div class="col-md-12">
+								<div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center;" id="alert">
+	            				</div>								
+							</div>							
 						</div>
+						<br /> 
+					<div class="row">
 						<div class="col-md-2">
-							<button type="submit" name="update_invoice" id="update" class="btn btn-success" style="display: none;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
+							<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+						</div>
+						<div class="col-md-3">
+							<button type="submit" name="update_invoice" id="update" class="btn btn-success" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
 						</div>
 					</div>				
 			</form>
@@ -119,7 +127,8 @@ $updateinvoiceData = Yii::$app->db->createCommand("
  <?php } ?>
  <script>
  	function inputchange(){
- 		$('#update').show();
+ 		$('#alert').css("display","none");
+      	$("#update").removeAttr("disabled");
  	}
 	function discEmpty(){
 		if(document.getElementById('percentage').checked)
@@ -184,10 +193,20 @@ $updateinvoiceData = Yii::$app->db->createCommand("
         else if (paid > 0) {
           $('#status').val('Partially');
         }
-      	$('#update').show();
+      	//$('#update').show();
+      	$('#alert').css("display","none");
+      	$("#update").removeAttr("disabled");
 
       	if(remaining < 0){
-      		$('#update').hide();
+      		//$('#update').hide();
+      		$("#update").attr("disabled", true);
+      		$('#alert').css("display","block");
+            $('#alert').html("&ensp;Remaining Amount Cannot Be Negative");
+      	}
+      	var eremaining = $('#remaining').val();
+      	if(eremaining == '' || empty(eremaining)){
+      		//$('#update').hide();
+      		$("#update").attr("disabled", true);
       	}
       }
       

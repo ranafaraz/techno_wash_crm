@@ -109,23 +109,16 @@
 						    FROM stock_type
 						    WHERE stock_type_id = '$stocktypeid'
 						    ")->queryAll();
-
-						$manufacturerName = Yii::$app->db->createCommand("
-						    SELECT name
-						    FROM manufacture
-						    WHERE stock_type_id = '$stocktypeid'
-						    ")->queryAll();
-
-						
 					 ?>
 					<table class="table">
 						<thead style="background-color: #3C8DBC !important;color:white;">
 							<tr>
-								<th colspan="6" style="text-align: center;"><?php echo "Stock #: "."( ".$stockTypeName[0]['name']." - ".$manufacturerName[0]['name'].")";?></th>
+								<th colspan="6" style="text-align: center;"><?php echo "Stock #: "."<i>".$stockTypeName[0]['name'];"</i>"?></th>
 							</tr>
 							<tr>
 								<th>Sr #</th>
 								<th>Product</th>
+								<th>Manufacturer</th>
 								<th>Price</th>
 								<th>Quantity</th>
 								<th>Total</th>
@@ -162,16 +155,25 @@
 	 					    $quantity += $countStock;
 
 	 					    $productData = Yii::$app->db->createCommand("
-						    SELECT product_name
+						    SELECT product_name,manufacture_id
 						    FROM products
 						    WHERE product_id = '$stockName'
 	 					    ")->queryAll();
 	 					    $countproductData= count($productData);
 	 					    $totalProducts += $countproductData;
+
+	 					    $manufactureID = $productData[0]['manufacture_id'];
+	 					    $manufacturerName = Yii::$app->db->createCommand("
+						    SELECT name
+						    FROM manufacture
+						    WHERE manufacture_id = '$manufactureID'
+						    ")->queryAll();
+
 							?>
 							<tr>
 								<td><?php echo $j+1; ?></td>
 								<td><?php echo $productData[0]['product_name']; ?></td>
+								<td><?php echo $manufacturerName[0]['name']; ?></td>
 								<td><?php echo $stockData[0]['purchase_price']; ?></td>
 								<td><?php echo $countStock; ?></td>
 								<td>

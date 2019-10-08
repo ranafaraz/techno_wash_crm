@@ -166,12 +166,8 @@ use yii\helpers\Html;
       <div class="box box-primary">
         <div class="box-body">
           <div class="row">
-            <div class="col-md-8" style="margin-top:0px">
-              <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Customer:&ensp;</label><?php echo $customerData[0]['customer_name']; ?></p>
-            </div>
-            <div class="col-md-4">
-              <?php $date = date("m/d/Y"); ?>
-              <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>">
+            <div class="col-md-12" style="margin-top:0px">
+              <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Customer:&ensp;</label><b><i><?php echo $customerData[0]['customer_name']; ?></i></b></p>
             </div>
           </div>
           <div class="nav-tabs-custom">
@@ -194,6 +190,20 @@ use yii\helpers\Html;
                 <div class="row">
                   <div class="col-md-12">
                     <div class="container-fluid" style="margin-bottom:8px;">
+                      <div class="row" style="margin-top: -10px;">
+                        <div class="col-md-6">
+                          <label style="color:#3C8DBC;font-size: 16px;">
+                            Create New Invoice:
+                          </label>                    
+                        </div> 
+                        <div class="col-md-2">
+                          <label style="float: right;">Date:</label>
+                        </div>  
+                        <div class="col-md-4">
+                          <?php $date = date("m/d/Y"); ?>
+                          <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>" style="margin-top: -6px;">      
+                        </div>                 
+                      </div>
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
@@ -221,7 +231,7 @@ use yii\helpers\Html;
                           <div class="form-group" id="types">
                             <label>Select Type</label>
                             <select id="item_type" class="form-control">
-                              <option value="SelectType">Select Type</option>
+                              <option value="SelectType">Select Type...</option>
                               <option value="Service">Service</option>
                               <option value="Stock">Stock</option>
                             </select>
@@ -232,7 +242,7 @@ use yii\helpers\Html;
                             <div class="form-group">
                               <label>Select Service</label>
                               <select name="services" class="form-control" id="services">
-                                <option value="SelectServices">Select Services</option>
+                                <option value="SelectServices">Select Services...</option>
                               </select>
                             </div>
                           <div class="form-group">
@@ -622,6 +632,7 @@ use yii\helpers\Html;
                 </div>
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
+                <br />
                 <button class="btn btn-success btn-block btn-flat" id="insert" >
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
               
@@ -693,13 +704,16 @@ function discountFun(){
               $('#remaining').val(remaining);
             }
             }
-            $('#insert').show(); 
+            //$('#insert').show(); 
+            //$("#insert").removeAttr("disabled");
             if (purchasePrice < 0) {
-              $('#insert').hide();
+              //$('#insert').hide();
+              $("#insert").attr("disabled", true);
               $('#alert').css("display","block");
               $('#alert').html("&ensp;Discount Cannot Be Greater Than Total Amount");
             }else{
               $('#alert').css("display","none");
+              $("#insert").removeAttr("disabled");
             }
 
 
@@ -722,8 +736,6 @@ function discountFun(){
                     rowCount--;
                     i--;
                 }
-
-
             }
             }catch(e) {
                 alert(e);
@@ -745,13 +757,16 @@ function discountFun(){
           $('#status').val('Partially');
         }
 
-      	$('#insert').show();
+      	//$('#insert').show();
+        //$("#insert").removeAttr("disabled");
         if (remaining < 0) {
-          $('#insert').hide();
+          //$('#insert').hide();
+          $("#insert").attr("disabled", true);
           $('#alert').css("display","block");
           $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
         }else{
           $('#alert').css("display","none");
+          $("#insert").removeAttr("disabled");
         }
 
       }
@@ -762,7 +777,7 @@ $url = \yii\helpers\Url::to("customer/fetch-info");
 
 
 $script = <<< JS
-	
+
   $("#product_name").keyup(function(){
     var proName =  $("#product_name").val();
     if(proName != '')

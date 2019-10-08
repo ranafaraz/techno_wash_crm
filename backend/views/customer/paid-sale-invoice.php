@@ -176,6 +176,14 @@ $customervehicleID = Yii::$app->db->createCommand("
 						    WHERE stock_id = '$stockID'
 						    ")->queryAll();
 
+						    $stockName = $stockData[0]['name'];
+						    $productData = Yii::$app->db->createCommand("
+						    SELECT product_name,manufacture_id
+						    FROM products
+						    WHERE product_id = '$stockName'
+	 					    ")->queryAll();
+	 					    $countproductData= count($productData);
+
 						    $stockCount = Yii::$app->db->createCommand("
 						    SELECT item_id
 						    FROM sale_invoice_detail as sid
@@ -189,7 +197,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 							?>
 							<tr>
 								<td><?php echo $j+1; ?></td>
-								<td><?php echo $stockData[0]['name']; ?></td>
+								<td><?php echo $productData[0]['product_name']; ?></td>
 								<td><?php echo "STOCK"; ?></td>
 								<td><?php echo $stockData[0]['selling_price']; ?></td>
 								<td><?php echo $countStock; ?></td>

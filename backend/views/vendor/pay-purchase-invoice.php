@@ -74,17 +74,18 @@ tr td{
 									<input type="text" name="net_total" id="nt" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['net_total'];?>">
 								</div>
 								<div class="form-group">
+									<label>Credit</label>
+									<input type="text" name="remain" id="remain_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+
+									<input type="hidden" name="ramount" id="ramount" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+								</div>
+								<div class="form-group">
 									<label>Paid</label>
 									<input type="text" name="paid_amount" id="paid_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['paid_amount'];?>">
 
 									<input type="hidden" name="pamount" id="pamount" value="<?php echo $creditInvoiceData[0]['paid_amount'];?>">
 								</div>
-								<div class="form-group">
-									<label>Remaining</label>
-									<input type="text" name="remaining" id="remaining_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
-
-									<input type="hidden" name="ramount" id="ramount" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
-								</div>
+								
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
@@ -95,17 +96,30 @@ tr td{
 									<label>Status</label>
 									<input type="text" name="status" id="status" class="form-control" readonly="">
 								</div>
+								<div class="form-group">
+									<label>Remaining</label>
+									<input type="text" name="remaining" id="remaining_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+
+									<input type="hidden" name="ramount" id="ramount" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
+								</div>
 								<input type="hidden" name="vendorID" value="<?php echo $vendorID; ?>">
 								<input type="hidden" name="piID" value="<?php echo $purchaseInvID; ?>">	
 							</div>	
 						</div>
+						<div class="row" id="msg" style="display: none;">
+							<div class="col-md-12">
+								<div class="alert-danger glyphicon glyphicon-ban-circle" style="padding: 10px;" id="alert">
+	            				</div>
+	            				<hr>								
+							</div>												
+						</div>
 						
 						<div class="row">
 							<div class="col-md-6">
-								<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
+								<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-warning" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
 							</div>
 							<div class="col-md-6">
-								<button type="submit" name="insert_pay" id="insert" class="btn btn-success" style="display: none;width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Pay Invoice</button>
+								<button type="submit" name="insert_pay" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Pay Invoice</button>
 							</div>
 						</div>
 					</form>
@@ -127,30 +141,43 @@ tr td{
       	var remaining = parseInt($('#remaining_amount').val());
 
       	var remainingAmount = ramount - pay;
-      	var payedAmount = pay + pamount;
+      	var collectedAmount = pay + pamount;
       	// alert(remainingAmount);
-      	// alert(payedAmount);
+      	// alert(collectedAmount);
 
       	$('#remaining_amount').val(remainingAmount); 
-      	$('#paid_amount').val(payedAmount); 
-      	if (remainingAmount == 0 && nt == payedAmount) {
+      	$('#paid_amount').val(collectedAmount); 
+      	if (remainingAmount == 0 && nt == collectedAmount) {
       		$('#status').val('Paid');
-      		$('#insert').show();
+      		//$('#insert').show();
+      		$('#msg').css("display","none");
+      		$("#insert").removeAttr("disabled");
       	}
       	else if (remainingAmount > 0) {
       		$('#status').val('Partially');
-      		$('#insert').show();
+      		//$('#insert').show();
+      		$('#msg').css("display","none");
+      		$("#insert").removeAttr("disabled");
       	} else if (remainingAmount < 0) {
-      		alert("Amount is Greated..!");
-      		$('#pay_amount').val('');
-      		$('#insert').hide();
+      		//alert("Amount is Greated..!");
+      		$("#insert").attr("disabled", true);
+      		$('#msg').css("display","block");
+            $('#alert').html("&ensp;Pay Amount Cannot Be Lesser And Greater Than Reamaining Amount");
+      		//$('#insert').hide();
       	}
       	if (pay < 0) {
-      		$('#insert').hide();
+      		//$('#insert').hide();
+      		$("#insert").attr("disabled", true);
+      		$('#msg').css("display","block");
+            $('#alert').html("&ensp;Pay Amount Cannot Be Negative");
+      	}
+      	var emp_pay = $('#pay_amount').val();
+      	if(emp_pay == '' || empty(emp_pay)){
+      		//$('#insert').hide();
+      		$("#insert").attr("disabled", true);
       	}
     }
 </script>
-
 ?>
 
 <?php } ?>

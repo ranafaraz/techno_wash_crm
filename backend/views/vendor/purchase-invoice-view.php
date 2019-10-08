@@ -166,17 +166,14 @@ body td{
 <body>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
-      <h2 style="color:#3C8DBC;">Purchase Invoice: <?php echo $vendorData[0]['name']; ?></h2>
-    </div>
-    <div class="col-md-4">
-
-    </div>
-  </div>
-  <div class="row">
     <div class="col-md-9">
       <div class="box box-primary">
         <div class="box-body">
+          <div class="row">
+            <div class="col-md-12" style="margin-top:0px">
+              <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Vendor:&ensp;</label><b><i><?php echo $vendorData[0]['name']; ?></i></b></p>
+            </div>
+          </div>
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active">
@@ -359,8 +356,7 @@ body td{
                                     <th class="t-cen">Sr.#</th>
                                     <!-- <th class="t-cen">Invoice #</th> -->
                                     <th class="t-cen">Bilty No#</th>
-                                    <th class="t-cen">Bill No#</th>                              
-                                    <th class="t-cen">Net Total</th>
+                                    <th class="t-cen">Bill No#</th>
                                     <th class="t-cen">Paid Amount</th>
                                     <th class="t-cen">Receiving Date</th>
                                     <th class="t-cen">Action</th>
@@ -377,7 +373,6 @@ body td{
                                         <td><?php echo $i+1; ?></td>
                                         <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td>
                                         <td><?php echo $paid_invoice[$i]['bill_no']; ?></td>
-                                        <td><?php echo $paid_invoice[$i]['net_total']; ?></td>
                                         <td><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
                                         <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['receiving_date']));
                                             echo $date; ?></td>

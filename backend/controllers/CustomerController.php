@@ -158,6 +158,9 @@ class CustomerController extends Controller
                     //save the path in the db column
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
                     }
+                    else if (($model->customer_gender) == "Female"){
+                        $model->customer_image = 'uploads/default-image-female.png'; 
+                    }
                     else {
                         $model->customer_image = 'uploads/default-image-name.png'; 
                     }
