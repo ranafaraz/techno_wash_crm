@@ -254,9 +254,6 @@ use yii\helpers\Html;
                                 ?>
                                 <option value="<?php echo $allservices[$s]['service_id']; ?>"><?php echo $allservices[$s]['service_name']; ?></option>
                                 <?php } ?>
-=======
-                                <option value="SelectServices">Select Services...</option>
->>>>>>> d7c22b15b64437171307ba18272940c8f7c4f41d
                               </select>
                             </div>
                           <div class="form-group">
