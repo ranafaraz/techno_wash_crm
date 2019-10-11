@@ -121,22 +121,19 @@
                             [
                                 'label' => 'Vehicle',
                                 'icon' => 'car',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Vehicle Type', 'icon' => 'taxi', 'url' => './vehicle-type',],
-                                    ['label' => 'Sub Category', 'icon' => 'bars', 'url' => './vehicle-type-sub-category',],
-                                ],
+                                'url' => './vehicle-type',
+                                // 'items' => [
+                                //     ['label' => 'Vehicle Type', 'icon' => 'taxi', 'url' => '',],
+                                //     ['label' => 'Sub Category', 'icon' => 'bars', 'url' => './vehicle-type-sub-category',],
+                                // ],
                             ],
                             ['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./card-type"],],
                             ['label' => 'Services', 'icon' => 'strikethrough', 'url' => "./services"],
                             [
                                 'label' => 'Stock',
                                 'icon' => 'bar-chart',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Manufacturer', 'icon' => 'gavel', 'url' => './manufacture',],
-                                    ['label' => 'Stock Type', 'icon' => 'bars', 'url' => './stock-type',],
-                                ],
+                                'url' => './stock-type',
+                                
                             ],
                             // ['label' => 'User Types', 'icon' => 'user-circle-o', 'url' => ["./user-type"],],
                             ['label' => 'Employee Types', 'icon' => 'user-secret', 'url' => ["./employee-types"],],
