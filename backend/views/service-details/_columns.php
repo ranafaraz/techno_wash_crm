@@ -12,31 +12,46 @@ return [
     ],
     //     [
     //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'service_id',
+    //     'attribute'=>'service_detail_id',
+    // ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'branch_id',
+    //     'value' => 'branch.branch_name',
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'service_name',
+        'attribute'=>'vehicle_type_id',
+        'value' => 'vehicleType.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'description',
+        'attribute'=>'service_id',
+        'value' => 'service.service_name',
     ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'price',
+    ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'description',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'created_by',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'updated_by',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',
     // ],
     // [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'created_by',
-    // ],
-    // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'updated_at',
-    // ],
-    // [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'updated_by',
     // ],
     [
         'class' => 'kartik\grid\ActionColumn',

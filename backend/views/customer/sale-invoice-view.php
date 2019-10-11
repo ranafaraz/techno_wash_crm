@@ -222,7 +222,7 @@ use yii\helpers\Html;
                           <div class="form-group" id="types">
                             <label>Select Type</label>
                             <select id="item_type" class="form-control">
-                              <option value="SelectType">Select Type</option>
+                              <option value="">Select Type</option>
                               <option value="Service">Service</option>
                               <option value="Stock">Stock</option>
                             </select>
@@ -234,6 +234,17 @@ use yii\helpers\Html;
                               <label>Select Service</label>
                               <select name="services" class="form-control" id="services">
                                 <option value="SelectServices">Select Services</option>
+                                <?php 
+                                $allservices = Yii::$app->db->createCommand("
+                                SELECT *
+                                FROM services
+                                ")->queryAll();
+                                $countAll = count($allservices);
+                                  for ($s=0; $s <$countAll ; $s++) { 
+                                
+                                ?>
+                                <option value="<?php echo $allservices[$s]['service_id']; ?>"><?php echo $allservices[$s]['service_name']; ?></option>
+                                <?php } ?>
                               </select>
                             </div>
                           <div class="form-group">
@@ -255,7 +266,10 @@ use yii\helpers\Html;
                             <div class="form-group">
                               <label>Product Name </label>
                               <input type="text" id="product_name" class="form-control">
-                              <div id="product_list"></div>
+                              <div id="product_list">
+                                <ul>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -300,6 +314,7 @@ use yii\helpers\Html;
                       <input type="hidden" id="service_name">
                       <input type="hidden" id="stock_name">
                       <input type="hidden" id="vehicle_name">
+                      <input type="hidden" id="serviceDetailId">
                     </div>
                   </div>
                 </div> 			
@@ -768,19 +783,41 @@ $script = <<< JS
     var proName =  $("#product_name").val();
     if(proName != '')
     {
-      $.ajax({
-          type:'post',
-          data:{proName:proName},
-          url: "$url",
-          success: function(result){
-            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-            $('#product_list').fadeIn();
-            $('#product_list').val(jsonResult);
-            console.log(jsonResult);
+        $.ajax({
+            type:'post',
+            data:{proName:proName},
+            url: "$url",
+            success: function(result){
+               var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+              $('#product_list').empty();             
+              var output = '';
+            //   if (jsonResult) {
 
-          }      
-      });
-    }   
+               for (var k=0; k <jsonResult.length ; k++) {
+
+                 var pname = jsonResult[k]['product_name'];
+                 output += '<li>' + pname + '</li>';
+               }
+            //   }
+            //   else
+            //   {
+            //    output .= '<li>No record found</li>';
+            //   }
+            //   output .= '</ul>';
+
+
+            //    // $('#product_list').fadeIn();
+                 $('#product_list').append(output);
+              console.log(jsonResult);
+
+
+            }      
+        });
+    }
+    else {
+              $('#product_list').fadeOut();
+              $('#product_list').html("");
+    }  
 
   });
 
@@ -810,18 +847,40 @@ $script = <<< JS
 
 	});
 
+  //   $("#service").change(function(){
+  //   var service = $("#service").val();
+    
+  //   //alert(vehicle);
+  //   $.ajax({
+  //         type:'post',
+  //         data:{service:service},
+  //         url: "$url",
+  //         success: function(result){
+  //           var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1)); 
+
+  //           alert(jsonResult);   
+  //     }); 
+  // });
+
+
 	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
+    var customerVehicle = $("#vehicle").val()
 		//alert(serviceID);
 		$.ajax({
 	        type:'post',
-	        data:{serviceID:serviceID},
+	        data:{
+            serviceID:serviceID,
+            customerVehicle:customerVehicle
+            },
 	        url: "$url",
 	        success: function(result){
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            console.log(jsonResult);
 	        	
-           $('#price').val(jsonResult[0]['price']);
-           $('#service_name').val(jsonResult[0]['name']);
+          $('#price').val(jsonResult[0]['price']);
+          $('#serviceDetailId').val(jsonResult[0]['service_detail_id']);
+          $('#service_name').val(jsonResult[0]['service_name']);
 
             var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['price'];
@@ -832,7 +891,7 @@ $script = <<< JS
 				    $('#status').val('Unpaid');
 
 				    var vehicle 						= $('#vehicle').val();
-						var services 						= $('#services').val();
+						var services 						= $('#serviceDetailId').val();
 						var price 							= $('#price').val();
 						var servicesName				=$('#service_name').val();
 						var reg_name 						= $('#vehicle_name').val();
@@ -919,7 +978,6 @@ $script = <<< JS
 	});
   // for vihicel name
 	$("#vehicle").on("change",function(){
-    $('#item_type').val("SelectType");
 		var vehicle = $("#vehicle").val();
      if(vehicle == null || vehicle ==""){
     
@@ -931,6 +989,7 @@ $script = <<< JS
       $('#quantity').hide();
     }
     else{
+      $('#types').val("");
       $('#types').show();
       
     }
@@ -948,30 +1007,7 @@ $script = <<< JS
     	}); 
      
 	});
-  //for vehicel services
-  $("#vehicle").change(function(){
-    var customerVehicle = $("#vehicle").val();
-    
-    //alert(vehicle);
-    $.ajax({
-          type:'post',
-          data:{customerVehicle:customerVehicle},
-          url: "$url",
-          success: function(result){
-            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-
-          $('#services').empty();
-            $('#services').append("<option>"+"Select Services"+"</option>");
-            var options = '';
-                for(var i=0; i<jsonResult.length; i++) { 
-                    options += '<option value="'+jsonResult[i]['services_id']+'">'+jsonResult[i]['name']+'</option>';
-                }
-            // Append to the html
-            $('#services').append(options);
-          }      
-      }); 
-  });
-
+  
 	$("#barcode").on('change',function(){
 		var barcode = $("#barcode").val();
 		$.ajax({
@@ -981,10 +1017,8 @@ $script = <<< JS
 	        success: function(result){
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
 	        	 $('#selling_price').val(jsonResult[0]['selling_price']);
-	        	 $('#stock_name').val(jsonResult[0]['name']);
-            var stock_name =jsonResult[0]['name']; 
-              
-  
+	        	 $('#stock_name').val(jsonResult[0]['product_name']);
+                     
 	        	var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['selling_price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
@@ -1086,6 +1120,7 @@ $script = <<< JS
 			$('#remove_index').hide();
 			$('#bill_form').hide();
 			$('#price').val("");
+      $('#selling_price').val("");
 			$('#vehicle').val("");
 			$('#item_type').val("");
 			$('#types').hide();

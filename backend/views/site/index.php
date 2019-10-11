@@ -9,42 +9,42 @@ $currentDate = date('Y-m-d');
 //echo $currentDate;
 
 // Wash count queries
-$serviceWashID  = Yii::$app->db->createCommand("
-            SELECT services_id
-            FROM services
-            WHERE name = 'Wash'
-            ")->queryAll();
-$washId = $serviceWashID[0]['services_id'];
+// $serviceWashID  = Yii::$app->db->createCommand("
+//             SELECT services_id
+//             FROM services
+//             WHERE name = 'Wash'
+//             ")->queryAll();
+//$washId = $serviceWashID[0]['services_id'];
 
-$countWash  = Yii::$app->db->createCommand("
-            SELECT COUNT(sid.item_id)
-            FROM sale_invoice_head as sih
-            INNER JOIN sale_invoice_detail as sid
-            ON sih.sale_inv_head_id = sid.sale_inv_head_id
-            WHERE CAST(date as DATE) = '$currentDate'
-            AND sid.item_type = 'Service'
-            AND sid.item_id = '$washId'
-            ")->queryAll();
+// $countWash  = Yii::$app->db->createCommand("
+//             SELECT COUNT(sid.item_id)
+//             FROM sale_invoice_head as sih
+//             INNER JOIN sale_invoice_detail as sid
+//             ON sih.sale_inv_head_id = sid.sale_inv_head_id
+//             WHERE CAST(date as DATE) = '$currentDate'
+//             AND sid.item_type = 'Service'
+//             AND sid.item_id = '$washId'
+//             ")->queryAll();
 
-// // Body wax count queries
-$serviceBodyWaxID  = Yii::$app->db->createCommand("
-            SELECT services_id
-            FROM services
-            WHERE name = 'Wax'
-            ")->queryAll();
-$bodyWaxId = $serviceBodyWaxID[0]['services_id'];
+// // // Body wax count queries
+// $serviceBodyWaxID  = Yii::$app->db->createCommand("
+//             SELECT services_id
+//             FROM services
+//             WHERE name = 'Wax'
+//             ")->queryAll();
+// $bodyWaxId = $serviceBodyWaxID[0]['services_id'];
 
 
 
-$countbodyWax  = Yii::$app->db->createCommand("
-            SELECT COUNT(sid.item_id)
-            FROM sale_invoice_head as sih
-            INNER JOIN sale_invoice_detail as sid
-            ON sih.sale_inv_head_id = sid.sale_inv_head_id
-            WHERE CAST(date as DATE) = '$currentDate'
-            AND sid.item_type = 'Service'
-            AND sid.item_id = '$bodyWaxId'
-            ")->queryAll();
+// $countbodyWax  = Yii::$app->db->createCommand("
+//             SELECT COUNT(sid.item_id)
+//             FROM sale_invoice_head as sih
+//             INNER JOIN sale_invoice_detail as sid
+//             ON sih.sale_inv_head_id = sid.sale_inv_head_id
+//             WHERE CAST(date as DATE) = '$currentDate'
+//             AND sid.item_type = 'Service'
+//             AND sid.item_id = '$bodyWaxId'
+//             ")->queryAll();
 ?>
 
 <div class="site-index">
@@ -96,21 +96,21 @@ $countbodyWax  = Yii::$app->db->createCommand("
 
       <div class="row">
         <div class="col-md-3">
-          <a href="./car-wash-details?serviceID=<?php echo $washId; ?>">
+          <a href="./car-wash-details?serviceID=<?php //echo $washId; ?>">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-"></i> Today's<br>Car Wash</p><br>
-                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;"><?php echo $countWash[0]['COUNT(sid.item_id)']; ?></b>
+                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;"><?php//echo $countWash[0]['COUNT(sid.item_id)']; ?></b>
               </div>
             </div>
           </a>
         </div>
         <div class="col-md-3">
-          <a href="./car-wash-details?serviceID=<?php echo $bodyWaxId; ?>">
+          <a href="./car-wash-details?serviceID=<?php //echo $bodyWaxId; ?>">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-"></i> Today's<br>Body Wax</p><br>
-                <b style="background-color:#DD4B39;color:white;padding:10px;border-radius: 20px;"><?php echo $countbodyWax[0]['COUNT(sid.item_id)']; ?></b>
+                <b style="background-color:#DD4B39;color:white;padding:10px;border-radius: 20px;"><?php //echo $countbodyWax[0]['COUNT(sid.item_id)']; ?></b>
               </div>
             </div>
           </a>

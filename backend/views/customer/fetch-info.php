@@ -3,12 +3,28 @@
 
 	if(isset($_POST['proName'])){
 		$proName = $_POST['proName'];
-
-	 	$Fetch_products = Yii::$app->db->createCommand("
-		SELECT *
+		//$output = '';
+	 	$z = Yii::$app->db->createCommand("
+		SELECT product_name
 		FROM products
 		WHERE product_name LIKE '%".$proName."%'
 		")->queryAll();
+		//$countP = count($Fetch_products);
+		// $output = '<ul>';
+		// if ($Fetch_products) {
+
+		// 	for ($k=0; $k <$countP ; $k++) {
+		// 	 	$pNAME = $Fetch_products[$k]['product_name'];
+		// 		$output .= '<li>'.$pNAME.'</li>';
+		// 	}
+		// }
+		// else
+		// {
+		// 	$output .= '<li>No record found</li>';
+		// }
+		// $output .= '</ul>';
+		//echo $output;
+		
 	 	echo json_encode($Fetch_products);
 
  	}
@@ -17,37 +33,21 @@
 	if(isset($_POST['barcode'])){
 	$barcode = $_POST['barcode'];
 
- 	$Fetch_info = Yii::$app->db->createCommand("SELECT * FROM stock WHERE barcode = '$barcode'")->queryAll();
- 	echo json_encode($Fetch_info);
+ 	$stock = Yii::$app->db->createCommand("
+	    SELECT st.*, prod.product_name
+	    FROM stock as st
+	    INNER JOIN products as prod
+	    ON st.name = prod.product_id
+	    WHERE st.barcode = '$barcode'
+	    ")->queryAll();
+ 	echo json_encode($stock);
  	}
 
 
  	if(isset($_POST['serviceID']))
  	{
- 		 $serviceID = $_POST['serviceID'];
- 		 // getting services amount
-		$services = Yii::$app->db->createCommand("
-	    SELECT price,name
-	    FROM services
-	    WHERE services_id = $serviceID
-	    ")->queryAll();
-
-	   echo json_encode($services); 
- 	}
-
- 	
- 	if (isset($_POST["vehicle"])) {
- 		$vehicle=$_POST["vehicle"];
- 		$register = Yii::$app->db->createCommand("
-	    SELECT 	registration_no
-	    FROM customer_vehicles
-	    WHERE 	customer_vehicle_id = $vehicle
-	    ")->queryAll();
- 		   echo json_encode($register); 
- 	}
-
- 	if (isset($_POST["customerVehicle"])) {
- 		$customerVehicle=$_POST["customerVehicle"];
+ 		$serviceID = $_POST['serviceID'];
+ 		$customerVehicle = $_POST['customerVehicle'];
 
  		$vehcID = Yii::$app->db->createCommand("
 	    SELECT vt.vehical_type_id
@@ -62,27 +62,28 @@
 	    ")->queryAll();
  		$vehicleTypID = $vehcID[0]['vehical_type_id'];
 
- 		$vehicleTypServices = Yii::$app->db->createCommand("
-	    SELECT *
-	    FROM services
-	    WHERE vehicle_type_id = '$vehicleTypID'
+ 		$serviceDetails = Yii::$app->db->createCommand("
+	    SELECT sd.*,s.service_name
+	    FROM service_details as sd
+	    INNER JOIN services as s
+	    ON sd.service_id = s.service_id
+	    WHERE sd.vehicle_type_id = '$vehicleTypID'
+	    AND s.service_id = '$serviceID'
 	    ")->queryAll();
+ 		 
 
- 		   echo json_encode($vehicleTypServices); 
+	   echo json_encode($serviceDetails); 
  	}
- 	
-	
-	if(isset($_POST['barcode']))
- 	{
- 		 $barcode = $_POST['barcode'];
- 		 // getting services amount
-		$stock = Yii::$app->db->createCommand("
-	    SELECT *
-	    FROM stock
-	    WHERE barcode = '$barcode'
-	    ")->queryAll();
 
-	   echo json_encode($stock); 
+ 	
+ 	if (isset($_POST["vehicle"])) {
+ 		$vehicle=$_POST["vehicle"];
+ 		$register = Yii::$app->db->createCommand("
+	    SELECT 	registration_no
+	    FROM customer_vehicles
+	    WHERE 	customer_vehicle_id = $vehicle
+	    ")->queryAll();
+ 		   echo json_encode($register); 
  	}
 
  	 if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
@@ -171,7 +172,7 @@
         $transaction->rollback();
 	} // closing of catch block
 	// closing of transaction handling
-echo json_encode($insert_invoice_detail);
+	echo json_encode($insert_invoice_detail);
 	
 	
 }

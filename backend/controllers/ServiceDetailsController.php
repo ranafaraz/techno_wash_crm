@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Services;
-use common\models\ServicesSearch;
+use common\models\ServiceDetails;
+use common\models\ServiceDetailsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +12,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * ServicesController implements the CRUD actions for Services model.
+ * ServiceDetailsController implements the CRUD actions for ServiceDetails model.
  */
-class ServicesController extends Controller
+class ServiceDetailsController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,12 +33,12 @@ class ServicesController extends Controller
     }
 
     /**
-     * Lists all Services models.
+     * Lists all ServiceDetails models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new ServicesSearch();
+        $searchModel = new ServiceDetailsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +49,7 @@ class ServicesController extends Controller
 
 
     /**
-     * Displays a single Services model.
+     * Displays a single ServiceDetails model.
      * @param integer $id
      * @return mixed
      */
@@ -59,7 +59,7 @@ class ServicesController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Services #".$id,
+                    'title'=> "ServiceDetails #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -74,7 +74,7 @@ class ServicesController extends Controller
     }
 
     /**
-     * Creates a new Services model.
+     * Creates a new ServiceDetails model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -82,7 +82,7 @@ class ServicesController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Services();  
+        $model = new ServiceDetails();  
 
         if($request->isAjax){
             /*
@@ -91,7 +91,7 @@ class ServicesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Services",
+                    'title'=> "Create new ServiceDetails",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -107,15 +107,15 @@ class ServicesController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Services",
-                    'content'=>'<span class="text-success">Create Services success</span>',
+                    'title'=> "Create new ServiceDetails",
+                    'content'=>'<span class="text-success">Create ServiceDetails success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Services",
+                    'title'=> "Create new ServiceDetails",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -129,7 +129,7 @@ class ServicesController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->service_id]);
+                return $this->redirect(['view', 'id' => $model->service_detail_id]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -140,7 +140,7 @@ class ServicesController extends Controller
     }
 
     /**
-     * Updates an existing Services model.
+     * Updates an existing ServiceDetails model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -158,7 +158,7 @@ class ServicesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Services #".$id,
+                    'title'=> "Update ServiceDetails #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -173,7 +173,7 @@ class ServicesController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Services #".$id,
+                    'title'=> "ServiceDetails #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -182,7 +182,7 @@ class ServicesController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Services #".$id,
+                    'title'=> "Update ServiceDetails #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -195,7 +195,7 @@ class ServicesController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->service_id]);
+                return $this->redirect(['view', 'id' => $model->service_detail_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -205,7 +205,7 @@ class ServicesController extends Controller
     }
 
     /**
-     * Delete an existing Services model.
+     * Delete an existing ServiceDetails model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -233,7 +233,7 @@ class ServicesController extends Controller
     }
 
      /**
-     * Delete multiple existing Services model.
+     * Delete multiple existing ServiceDetails model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -264,15 +264,15 @@ class ServicesController extends Controller
     }
 
     /**
-     * Finds the Services model based on its primary key value.
+     * Finds the ServiceDetails model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Services the loaded model
+     * @return ServiceDetails the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Services::findOne($id)) !== null) {
+        if (($model = ServiceDetails::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

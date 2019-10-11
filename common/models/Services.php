@@ -7,19 +7,15 @@ use Yii;
 /**
  * This is the model class for table "services".
  *
- * @property int $services_id
- * @property int $branch_id
- * @property int $vehicle_type_id
- * @property string $name
- * @property int $price
+ * @property int $service_id
+ * @property string $service_name
  * @property string $description
- * @property int $created_by
- * @property int $updated_by
  * @property string $created_at
+ * @property int $created_by
  * @property string $updated_at
+ * @property int $updated_by
  *
- * @property Branches $branch
- * @property VehicleType $vehicleType
+ * @property ServiceDetails[] $serviceDetails
  */
 class Services extends \yii\db\ActiveRecord
 {
@@ -37,13 +33,11 @@ class Services extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'vehicle_type_id', 'name', 'price'], 'required'],
-            [['branch_id', 'vehicle_type_id', 'price', 'created_by', 'updated_by'], 'integer'],
+            [['service_name'], 'required'],
             [['created_at', 'updated_at', 'description', 'created_by', 'updated_by'], 'safe'],
-            [['name'], 'string', 'max' => 100],
-            [['description'], 'string', 'max' => 200],
-            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
-            [['vehicle_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => VehicleType::className(), 'targetAttribute' => ['vehicle_type_id' => 'vehical_type_id']],
+            [['created_by', 'updated_by'], 'integer'],
+            [['service_name'], 'string', 'max' => 50],
+            [['description'], 'string', 'max' => 100],
         ];
     }
 
@@ -53,32 +47,21 @@ class Services extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'services_id' => 'Services ID',
-            'branch_id' => 'Branch',
-            'vehicle_type_id' => 'Vehicle Type',
-            'name' => 'Service',
-            'price' => 'Price',
+            'service_id' => 'Service ID',
+            'service_name' => 'Service Name',
             'description' => 'Description',
-            'created_by' => 'Created By',
-            'updated_by' => 'Updated By',
             'created_at' => 'Created At',
+            'created_by' => 'Created By',
             'updated_at' => 'Updated At',
+            'updated_by' => 'Updated By',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBranch()
+    public function getServiceDetails()
     {
-        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVehicleType()
-    {
-        return $this->hasOne(VehicleType::className(), ['vehical_type_id' => 'vehicle_type_id']);
+        return $this->hasMany(ServiceDetails::className(), ['service_id' => 'service_id']);
     }
 }

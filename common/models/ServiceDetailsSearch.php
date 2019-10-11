@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Services;
+use common\models\ServiceDetails;
 
 /**
- * ServicesSearch represents the model behind the search form about `common\models\Services`.
+ * ServiceDetailsSearch represents the model behind the search form about `common\models\ServiceDetails`.
  */
-class ServicesSearch extends Services
+class ServiceDetailsSearch extends ServiceDetails
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ServicesSearch extends Services
     public function rules()
     {
         return [
-            [['service_id', 'created_by', 'updated_by'], 'integer'],
-            [['service_name', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['service_detail_id', 'branch_id', 'vehicle_type_id', 'service_id', 'price', 'created_by', 'updated_by'], 'integer'],
+            [['description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ServicesSearch extends Services
      */
     public function search($params)
     {
-        $query = Services::find();
+        $query = ServiceDetails::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,15 +56,18 @@ class ServicesSearch extends Services
         }
 
         $query->andFilterWhere([
+            'service_detail_id' => $this->service_detail_id,
+            'branch_id' => $this->branch_id,
+            'vehicle_type_id' => $this->vehicle_type_id,
             'service_id' => $this->service_id,
-            'created_at' => $this->created_at,
+            'price' => $this->price,
             'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'service_name', $this->service_name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

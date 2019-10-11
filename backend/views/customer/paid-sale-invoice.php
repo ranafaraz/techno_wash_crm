@@ -55,11 +55,12 @@ $customervehicleID = Yii::$app->db->createCommand("
 <head>
 	<title>Paid Sale Invoice</title>
 </head>
-<body>
+<body style="font-size:15px;">
 	<style type="text/css" media="print">
 		footer,#print_button{
 			display: none;
 		}
+
 	</style>
 	<div class="container-fluid">
 		<div class="row">
@@ -115,7 +116,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 						$totalAmount = 0;
 						for ($i=0; $i <$countcustomervehicleID ; $i++) {
 						$customerVehID = $customervehicleID[$i]['customer_vehicle_id'];
-						// echo $customerVehID;
+						//echo $customerVehID;
 						// echo $sihID;
 						$customervehicleData = Yii::$app->db->createCommand("
 					    SELECT cm.manufacturer,cv.registration_no,cvst.name,vt.name as Name
@@ -128,9 +129,6 @@ $customervehicleID = Yii::$app->db->createCommand("
 					    ON vt.vehical_type_id = cm.vehical_type_id
 					    WHERE cv.customer_vehicle_id = '$customerVehID'
 					    ")->queryAll();
-					    //print_r($customervehicleData);
-
-						
 					 ?>
 					<table class="table">
 						<thead style="background-color: #3C8DBC !important;color:white;">
@@ -156,7 +154,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 						    AND item_type = 'Stock'
 						    ")->queryAll();
 						    $countStockDetails = count($stockDetails);
-						    //print_r($stockDetails);
+						    
 
 						    $serviceDetails = Yii::$app->db->createCommand("
 						    SELECT DISTINCT(item_id)
@@ -165,7 +163,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 						    AND customer_vehicle_id = '$customerVehID'
 						    AND item_type = 'Service'
 						    ")->queryAll();
-						    //print_r($serviceDetails);
+						    
 						    $countServiceDetails = count($serviceDetails);
 
 						    for ($j=0; $j <$countStockDetails ; $j++) { 
@@ -203,10 +201,13 @@ $customervehicleID = Yii::$app->db->createCommand("
 							for ($k=0; $k <$countServiceDetails ; $k++) { 
 						    $serviceID = $serviceDetails[$k]['item_id'];
 						    $serviceData = Yii::$app->db->createCommand("
-						    SELECT name,price
-						    FROM services
-						    WHERE services_id = '$serviceID'
+						    SELECT sd.price,s.service_name 
+						    FROM service_details as sd
+						    INNER JOIN services as s
+						    ON sd.service_id = s.service_id
+						    WHERE sd.service_detail_id = '$serviceID'
 						    ")->queryAll();
+
 						    $servicesCount = Yii::$app->db->createCommand("
 						    SELECT item_id
 						    FROM sale_invoice_detail as sid
@@ -220,7 +221,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 							?>
 							<tr>
 								<td><?php echo $k+1; ?></td>
-								<td><?php echo $serviceData[0]['name']; ?></td>
+								<td><?php echo $serviceData[0]['service_name']; ?></td>
 								<td><?php echo "SERVICE"; ?></td>
 								<td><?php echo $serviceData[0]['price']; ?></td>
 								<td><?php echo $countService; ?></td>
@@ -233,7 +234,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 							<?php } ?>
 						</tbody>
 					</table>
-					<?php } ?>
+					<?php  } ?>
 				</div>
 				<div class="col-sm-6 col-md-offset-3">
 					<table class="table table-bordered" >
