@@ -5,27 +5,26 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 //$this->title = 'SMART EDUCATION';
+ // $vvv = Yii::$app->user->identity->branch_id;
+ // echo $vvv;
 $currentDate = date('Y-m-d');
 //echo $currentDate;
-
-// Wash count queries
-// $serviceWashID  = Yii::$app->db->createCommand("
-//             SELECT services_id
-//             FROM services
-//             WHERE name = 'Wash'
-//             ")->queryAll();
-//$washId = $serviceWashID[0]['services_id'];
-
-// $countWash  = Yii::$app->db->createCommand("
-//             SELECT COUNT(sid.item_id)
-//             FROM sale_invoice_head as sih
-//             INNER JOIN sale_invoice_detail as sid
-//             ON sih.sale_inv_head_id = sid.sale_inv_head_id
-//             WHERE CAST(date as DATE) = '$currentDate'
-//             AND sid.item_type = 'Service'
-//             AND sid.item_id = '$washId'
-//             ")->queryAll();
-
+$WASH = 1;
+  $countWash  = Yii::$app->db->createCommand("
+  SELECT s.service_name,sid.discount_per_service
+  FROM services as s
+  INNER JOIN service_details as sd
+  ON s.service_id = sd.service_id
+  INNER JOIN sale_invoice_detail as sid
+  ON sid.item_id = sd.service_detail_id
+  INNER JOIN sale_invoice_head as sih
+  ON sih.sale_inv_head_id = sid.sale_inv_head_id
+  WHERE s.service_id = '$WASH'
+  AND sid.item_type = 'Service'
+  AND CAST(date as DATE) = '$currentDate'
+  ")->queryAll();
+  $countwash = count($countWash);
+  echo $countwash;
 // // // Body wax count queries
 // $serviceBodyWaxID  = Yii::$app->db->createCommand("
 //             SELECT services_id
@@ -50,7 +49,6 @@ $currentDate = date('Y-m-d');
 <div class="site-index">
     <!-- Main content -->
     <section class="content">
-
       <div class="row">
         <div class="col-md-3">
           <a href="./customer">
@@ -99,8 +97,28 @@ $currentDate = date('Y-m-d');
           <a href="./car-wash-details?serviceID=<?php //echo $washId; ?>">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
-                <p><i class="glyphicon glyphicon-"></i> Today's<br>Car Wash</p><br>
-                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;"><?php//echo $countWash[0]['COUNT(sid.item_id)']; ?></b>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered">
+                      <tr>
+                        <th>WASH</th>
+                        <td>
+                          <b style="background-color:;color:black;padding:5px;border-radius: 20px;"><?php echo $countwash; ?></b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <?php 
+                          $washSum = 0; 
+                          for ($m=0; $m <$countwash ; $m++) { 
+                          $washSum += $countWash[$m]['discount_per_service'];
+                          ?>
+                        <?php } ?>
+                        <th>Amount</th>
+                        <td><?php echo $washSum; ?></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </a>
