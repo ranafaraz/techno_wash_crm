@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 /**
  * ServicesController implements the CRUD actions for Services model.
@@ -22,6 +23,20 @@ class ServicesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','service-detail-view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -55,22 +70,23 @@ class ServicesController extends Controller
      */
     public function actionView($id)
     {   
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "Services #".$id,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
+        return $this->render('service-detail-view');
+        // $request = Yii::$app->request;
+        // if($request->isAjax){
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
+        //     return [
+        //             'title'=> "Services #".$id,
+        //             'content'=>$this->renderAjax('view', [
+        //                 'model' => $this->findModel($id),
+        //             ]),
+        //             'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+        //                     Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        //         ];    
+        // }else{
+        //     return $this->render('view', [
+        //         'model' => $this->findModel($id),
+        //     ]);
+        // }
     }
 
     /**
