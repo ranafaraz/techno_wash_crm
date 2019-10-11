@@ -1,4 +1,4 @@
-
+ 
 <?php 
 $sihID = $_GET['sihID'];
 	$paidinvoiceData = Yii::$app->db->createCommand("
@@ -174,6 +174,14 @@ $customervehicleID = Yii::$app->db->createCommand("
 						    WHERE stock_id = '$stockID'
 						    ")->queryAll();
 
+						    $stockName = $stockData[0]['name'];
+						    $productData = Yii::$app->db->createCommand("
+						    SELECT product_name,manufacture_id
+						    FROM products
+						    WHERE product_id = '$stockName'
+	 					    ")->queryAll();
+	 					    $countproductData= count($productData);
+
 						    $stockCount = Yii::$app->db->createCommand("
 						    SELECT item_id
 						    FROM sale_invoice_detail as sid
@@ -187,7 +195,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 							?>
 							<tr>
 								<td><?php echo $j+1; ?></td>
-								<td><?php echo $stockData[0]['name']; ?></td>
+								<td><?php echo $productData[0]['product_name']; ?></td>
 								<td><?php echo "STOCK"; ?></td>
 								<td><?php echo $stockData[0]['selling_price']; ?></td>
 								<td><?php echo $countStock; ?></td>
@@ -292,7 +300,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 				<div class="col-md-6">
 					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
 					<p style="text-align: center;">
-						<i>IT Consultancy Provoided By:</i><br><b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
+						<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
 					</p>
 				</div>
 			</div>

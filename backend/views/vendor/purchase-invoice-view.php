@@ -9,6 +9,47 @@ use yii\helpers\Html;
 ?>
 <?php 
 
+ if(isset($_POST['insert_pay']))
+ {
+   $piID        = $_POST['piID'];
+   $vendorID    = $_POST['vendorID'];
+   $netTotal    = $_POST['net_total'];
+   $paid_amount = $_POST['paid_amount'];
+   $remaining   = $_POST['remaining'];
+   $pay         = $_POST['pay'];
+   $status      = $_POST['status'];
+
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
+
+     'net_total'        => $netTotal,
+     'paid_amount'      => $paid_amount,
+     'remaining_amount' => $remaining,
+     'status'           => $status,
+     'created_by'       => $id,
+    ],
+       ['vendor_id' => $vendorID ,'purchase_invoice_id' => $piID]
+
+    )->execute();
+     // transaction commit
+     $transaction->commit();
+     \Yii::$app->response->redirect(['./purchase-invoice-view', 'customer_id' => $customerID]);
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
+<?php 
+
  if(isset($_POST['update_invoice']))
  {
    $piID  = $_POST['piID'];
@@ -125,17 +166,14 @@ body td{
 <body>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
-      <h2 style="color:#3C8DBC;">Purchase Invoice: <?php echo $vendorData[0]['name']; ?></h2>
-    </div>
-    <div class="col-md-4">
-
-    </div>
-  </div>
-  <div class="row">
     <div class="col-md-9">
       <div class="box box-primary">
         <div class="box-body">
+          <div class="row">
+            <div class="col-md-12" style="margin-top:0px">
+              <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Vendor:&ensp;</label><b><i><?php echo $vendorData[0]['name']; ?></i></b></p>
+            </div>
+          </div>
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active">
@@ -318,8 +356,7 @@ body td{
                                     <th class="t-cen">Sr.#</th>
                                     <!-- <th class="t-cen">Invoice #</th> -->
                                     <th class="t-cen">Bilty No#</th>
-                                    <th class="t-cen">Bill No#</th>                              
-                                    <th class="t-cen">Net Total</th>
+                                    <th class="t-cen">Bill No#</th>
                                     <th class="t-cen">Paid Amount</th>
                                     <th class="t-cen">Receiving Date</th>
                                     <th class="t-cen">Action</th>
@@ -336,7 +373,6 @@ body td{
                                         <td><?php echo $i+1; ?></td>
                                         <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td>
                                         <td><?php echo $paid_invoice[$i]['bill_no']; ?></td>
-                                        <td><?php echo $paid_invoice[$i]['net_total']; ?></td>
                                         <td><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
                                         <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['receiving_date']));
                                             echo $date; ?></td>
