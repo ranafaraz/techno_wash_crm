@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a3fbf31dda7af7f741718b10e12f7f2",
+    "content-hash": "9765e5cf0179c22f1ceff8f9c4b86ce1",
     "packages": [
         {
             "name": "2amigos/yii2-date-time-picker-widget",
@@ -137,7 +137,7 @@
             "version": "v4.3.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:fullcalendar/fullcalendar.git",
+                "url": "https://github.com/fullcalendar/fullcalendar.git",
                 "reference": "ac20b8a1acb79c50c9f5a108bb92d2f54575b700"
             },
             "dist": {
@@ -772,16 +772,16 @@
         },
         {
             "name": "kartik-v/yii2-dialog",
-            "version": "v1.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-dialog.git",
-                "reference": "c38616d719f52530749457c022ca6134d0ad31ce"
+                "reference": "6106d070695897ed4cf7a4c69897167bc6a76268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/c38616d719f52530749457c022ca6134d0ad31ce",
-                "reference": "c38616d719f52530749457c022ca6134d0ad31ce",
+                "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/6106d070695897ed4cf7a4c69897167bc6a76268",
+                "reference": "6106d070695897ed4cf7a4c69897167bc6a76268",
                 "shasum": ""
             },
             "require": {
@@ -819,7 +819,7 @@
                 "modal",
                 "yii2"
             ],
-            "time": "2018-10-09T08:08:51+00:00"
+            "time": "2019-05-25T07:13:34+00:00"
         },
         {
             "name": "kartik-v/yii2-dynagrid",
@@ -5647,7 +5647,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/yii2-widget-select2": 20,
-        "kartik-v/yii2-widget-datepicker": 20
+        "kartik-v/yii2-widget-datepicker": 20,
+        "kartik-v/yii2-dialog": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

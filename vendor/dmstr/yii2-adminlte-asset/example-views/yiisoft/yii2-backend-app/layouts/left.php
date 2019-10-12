@@ -72,8 +72,8 @@
                 'items' => [
                     // ['label' => 'Menus', 'options' => ['class' => 'header center']],
                      ['label' => 'Home', 'icon' => 'dashboard', 'url' => "./home"],
-                     ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
-                     ['label' => 'Customer Vehicles', 'icon' => 'arrow-right', 'url' => "./customer-vehicles"],
+                     //['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
+                     ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles"],
                      [
                         'label' => 'Employee',
                         'icon' => 'user-o',
@@ -85,7 +85,7 @@
                             ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
                         ],
                     ],
-                     ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./membership"],
+                     ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./under-construction"],
                      ['label' => 'Vendor', 'icon' => 'male', 'url' => ["./vendor"],],
                     //  [
                     //     'label' => 'Stock',
@@ -98,8 +98,8 @@
                     // ],
                     // ['label' => 'Sale Invoice', 'icon' => 'file-text-o', 'url' => "./sale-invoice-head"],
                     // ['label' => 'Users', 'icon' => 'user', 'url' => "./home"],
-                    ['label' => 'Accounts', 'icon' => 'server', 'url' => "./home"],
-                    ['label' => 'Reports', 'icon' => 'book', 'url' => "./home"],
+                    ['label' => 'Accounts', 'icon' => 'server', 'url' => ["./under-construction"]],
+                    ['label' => 'Reports', 'icon' => 'book', 'url' => ["./under-construction"]],
                     //['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     //['label' => 'Login', 'url' => ["../login"], 'visible' => Yii::$app->user->isGuest],
 
@@ -127,7 +127,7 @@
                                 //     ['label' => 'Sub Category', 'icon' => 'bars', 'url' => './vehicle-type-sub-category',],
                                 // ],
                             ],
-                            ['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./card-type"],],
+                            ['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./under-construction"],],
                             ['label' => 'Services', 'icon' => 'strikethrough', 'url' => "./services"],
                             [
                                 'label' => 'Stock',
@@ -142,8 +142,8 @@
                                 'icon' => 'usd',
                                 'url' => '#',
                                 'items' => [
-                                    ['label' => 'Wage Type', 'icon' => 'won', 'url' => './wage-type',],
-                                    ['label' => 'Allowance Type', 'icon' => 'credit-card-alt', 'url' => './allowance-type',],
+                                    ['label' => 'Wage Type', 'icon' => 'won', 'url' => './under-construction',],
+                                    ['label' => 'Allowance Type', 'icon' => 'credit-card-alt', 'url' => './under-construction',],
                                 ],
                             ],
                             

@@ -24,7 +24,6 @@ $WASH = 1;
   AND CAST(date as DATE) = '$currentDate'
   ")->queryAll();
   $countwash = count($countWash);
-  echo $countwash;
 // // // Body wax count queries
 // $serviceBodyWaxID  = Yii::$app->db->createCommand("
 //             SELECT services_id
@@ -51,7 +50,7 @@ $WASH = 1;
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="./customer">
+          <a href="./under-construction">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-user"></i> Today's Visitors</p><br>
@@ -61,7 +60,7 @@ $WASH = 1;
           </a>
         </div>
         <div class="col-md-3">
-          <a href="./customer">
+          <a href="./under-construction">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-user"></i> Today's Expenses</p><br>
@@ -71,7 +70,7 @@ $WASH = 1;
           </a>
         </div>
         <div class="col-md-3">
-          <a href="./customer">
+          <a href="./under-construction">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-user"></i> Today's Income</p><br>
@@ -81,7 +80,7 @@ $WASH = 1;
           </a>
         </div>
         <div class="col-md-3">
-          <a href="./customer">
+          <a href="./under-construction">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="fa fa-money"></i> Today's Profit</p><br>
@@ -203,8 +202,7 @@ $WASH = 1;
         </div>
       </div>
       <!-- Message of the day close -->
-      
-      
+
 </section>
 <!-- Script for tooltip -->
 <script>
@@ -259,3 +257,4 @@ $WASH = 1;
   }
   setInterval(clock, 1000)
 </script>
+

@@ -198,7 +198,7 @@
         "version_normalized": "4.3.1.0",
         "source": {
             "type": "git",
-            "url": "git@github.com:fullcalendar/fullcalendar.git",
+            "url": "https://github.com/fullcalendar/fullcalendar.git",
             "reference": "ac20b8a1acb79c50c9f5a108bb92d2f54575b700"
         },
         "dist": {
@@ -1258,30 +1258,30 @@
     },
     {
         "name": "kartik-v/yii2-dialog",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-dialog.git",
-            "reference": "c38616d719f52530749457c022ca6134d0ad31ce"
+            "reference": "6106d070695897ed4cf7a4c69897167bc6a76268"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/c38616d719f52530749457c022ca6134d0ad31ce",
-            "reference": "c38616d719f52530749457c022ca6134d0ad31ce",
+            "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/6106d070695897ed4cf7a4c69897167bc6a76268",
+            "reference": "6106d070695897ed4cf7a4c69897167bc6a76268",
             "shasum": ""
         },
         "require": {
             "kartik-v/yii2-krajee-base": ">=2.0.0"
         },
-        "time": "2018-10-09T08:08:51+00:00",
+        "time": "2019-05-25T07:13:34+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
                 "dev-master": "1.0.x-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "kartik\\dialog\\": "src"

@@ -229,11 +229,13 @@ $customerData = Yii::$app->db->createCommand("
 		if(document.getElementById('percentage').checked)
               {
               	$('#disc').val("");
+              	$('#paid_amount').val("");
               	$('#disc').focus();
               }
               else if(document.getElementById('amount').checked)
             {
             	$('#disc').val("");
+            	$('#paid_amount').val("");
             	$('#disc').focus();
 
             }
@@ -266,6 +268,7 @@ $customerData = Yii::$app->db->createCommand("
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
              $('#update_disc').val(discount);
+             $('#paid_amount').val("");
 
               //alert(originalPrice);
               
