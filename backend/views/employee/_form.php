@@ -56,22 +56,11 @@ use dosamigos\datetimepicker\DateTimePicker;
     </div>
         <div class="col-md-4">   
 
-    <?= $form->field($model, 'salary_id')->dropDownList(
-                ArrayHelper::map(Salary::find()->all(),'salary_id','salary_id'),
-                ['prompt'=>'Select Salary',]
-                )?>
+    <?= $form->field($model, 'salary_id')->textInput(['maxlength' => true]) ?>
     </div>
     </div>
     <!-- row 1 close -->
     <div class="row">
-        <div class="col-md-4">
-
-    <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
-                ['prompt'=>'Select Branch',]
-                )?>
-
-    </div>
         <div class="col-md-4">
     <?= $form->field($model, 'emp_type_id')->dropDownList(
                 ArrayHelper::map(EmployeeTypes::find()->all(),'emp_type_id','emp_type_name'),
@@ -118,7 +107,7 @@ use dosamigos\datetimepicker\DateTimePicker;
     </div>
         <div class="col-md-4">
     
-    <?= $form->field($model, 'emp_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'emp_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
 
     </div>
     </div>
@@ -138,7 +127,7 @@ use dosamigos\datetimepicker\DateTimePicker;
         
         <div class="col-md-4">
 
-    <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
         </div>
     </div>
     <!-- row 5 close -->

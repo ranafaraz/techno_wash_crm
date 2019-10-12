@@ -248,11 +248,27 @@ use yii\helpers\Url;
           <a href="./credit-sale-invoices">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
-                <p>
-                  <i class="glyphicon glyphicon-"></i> 
-                Credit Invoices <br><?php echo "Rs.".$creditSum; ?>
-                </p><br>
-                <b style="background-color:#00C0EF;color:white;padding:10px;border-radius: 20px;"><?php echo $count; ?></b>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Total</span> Credit Invoices</th>
+                      </tr>
+                      <tr>
+                        <th>Count</th>
+                        <td>
+                          <b style="border-radius: 20px;"><?php echo $count; ?></b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Amount</th>
+                        <td><?php echo "Rs.".$creditSum; ?></td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </a>
