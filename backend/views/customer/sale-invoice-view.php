@@ -166,8 +166,15 @@ use yii\helpers\Html;
       <div class="box box-primary">
         <div class="box-body">
           <div class="row">
-            <div class="col-md-12" style="margin-top:0px">
+            <div class="col-md-6" style="margin-top:0px">
               <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Customer:&ensp;</label><b><i><?php echo $customerData[0]['customer_name']; ?></i></b></p>
+            </div>
+            <div class="col-md-2" style="margin-top: 10px">
+              <label style="float: right;">Date:</label>
+            </div>  
+            <div class="col-md-4" style="margin-top: 10px">
+              <?php $date = date("m/d/Y"); ?>
+              <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>" style="margin-top: -6px;">      
             </div>
           </div>
           <div class="nav-tabs-custom">
@@ -196,13 +203,7 @@ use yii\helpers\Html;
                             Create New Invoice:
                           </label>                    
                         </div> 
-                        <div class="col-md-2">
-                          <label style="float: right;">Date:</label>
-                        </div>  
-                        <div class="col-md-4">
-                          <?php $date = date("m/d/Y"); ?>
-                          <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>" style="margin-top: -6px;">      
-                        </div>                 
+                                        
                       </div>
                       <div class="row">
                         <div class="col-md-3">
@@ -242,7 +243,7 @@ use yii\helpers\Html;
                             <div class="form-group">
                               <label>Select Service</label>
                               <select name="services" class="form-control" id="services">
-                                <option value="SelectServices">Select Services</option>
+                                <option value="">Select Services</option>
                                 <?php 
                                 $allservices = Yii::$app->db->createCommand("
                                 SELECT *
