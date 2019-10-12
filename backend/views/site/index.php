@@ -91,10 +91,34 @@ use yii\helpers\Url;
   $countundercarriage = count($countUnderCarriage);
 ?>
 
-<div class="site-index">
+<div class="" style="margin-top:-35px;padding:-20px;">
     <!-- Main content -->
     <section class="content">
       <div class="row">
+        <div class="col-md-12">
+          <div class="box box-warning">
+            <div class="box-body">
+              <!-- Message of the day start -->
+              <div class="row">
+                <div class="col-md-6">
+                  <p style="font-size:25px;line-height:2 "><i class="glyphicon glyphicon-hand-right"></i> <span style="color:#FAB61C;">Admin</span> Dashboard</p>
+                </div>
+                <div class="col-md-6"> 
+                    <div class="info-box-content" style="color:#FAB61C;">
+                      <h4 style="float:right">
+                        <span style="color:#000000;" id="hr"></span>
+                        <span style="color:#000000;" id="min"></span>
+                        <span style="color:#000000;" id="sec"></span> -
+                        <?php echo date('l d-M-Y');?> 
+                      </h4>  
+                      <br><br>
+                    </div>
+                  <!-- /.info-box -->
+                </div>
+              </div>
+              <!-- Message of the day close -->
+              <!-- dashborad widgets start here -->
+              <div class="row">
         <div class="col-md-3">
           <a href="./customer">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
@@ -287,40 +311,11 @@ use yii\helpers\Url;
       <!-- Small boxes (Stat box) -->
       
       <!-- /.row -->
-
-      <!-- Message of the day start -->
-      <div class="row">
-        <div class="col-md-12 col-sm-6 col-xs-12">
-          <div class="info-box callout-warning" style="border-left:4px solid #FAB61C;border-right:4px solid #FAB61C;border-top-right-radius:20px;
-          border-bottom-right-radius:20px;">
-            <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
-            <div class="info-box-content">
-              <h4 style="float: left;color:#FAB61C;">Message of the day!</h4>  
-              <h4 style="float:right">
-                <span id="hr"></span>
-                <span id="min"></span>
-                <span id="sec"></span> -
-                <?php echo date('l d-M-Y');?> 
-              </h4>  
-              <br><br>
-              <div class="progress">
-                <div class="progress-bar" style="width: 100%"></div>
-              </div>
-                <span class="progress-description">
-                    <marquee onmouseover="this.stop();" onmouseout="this.start();">
-                      
-                    </marquee>
-                </span>
             </div>
-            <!-- /.info-box-content -->
           </div>
-          <!-- /.info-box -->
         </div>
-      </div>
-      <!-- Message of the day close -->
-      
-      
-</section>
+      </div>   
+    </section>
 <!-- Script for tooltip -->
 <script>
   $(document).ready(function(){
