@@ -5,13 +5,10 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
 //$this->title = 'SMART EDUCATION';
- // $vvv = Yii::$app->user->identity->branch_id;
- // echo $vvv;
-$currentDate = date('Y-m-d');
-//echo $currentDate;
-$WASH = 1;
+  $currentDate = date('Y-m-d');
+  $WASH = 1;
   $countWash  = Yii::$app->db->createCommand("
-  SELECT s.service_name,sid.discount_per_service
+  SELECT s.service_name,sd.vehicle_type_id,sid.discount_per_service
   FROM services as s
   INNER JOIN service_details as sd
   ON s.service_id = sd.service_id
@@ -24,26 +21,74 @@ $WASH = 1;
   AND CAST(date as DATE) = '$currentDate'
   ")->queryAll();
   $countwash = count($countWash);
-  echo $countwash;
-// // // Body wax count queries
-// $serviceBodyWaxID  = Yii::$app->db->createCommand("
-//             SELECT services_id
-//             FROM services
-//             WHERE name = 'Wax'
-//             ")->queryAll();
-// $bodyWaxId = $serviceBodyWaxID[0]['services_id'];
 
+  // counter for WAX
+  $WAX = 2;
+  $countWax  = Yii::$app->db->createCommand("
+  SELECT s.service_name,sd.vehicle_type_id,sid.discount_per_service
+  FROM services as s
+  INNER JOIN service_details as sd
+  ON s.service_id = sd.service_id
+  INNER JOIN sale_invoice_detail as sid
+  ON sid.item_id = sd.service_detail_id
+  INNER JOIN sale_invoice_head as sih
+  ON sih.sale_inv_head_id = sid.sale_inv_head_id
+  WHERE s.service_id = '$WAX'
+  AND sid.item_type = 'Service'
+  AND CAST(date as DATE) = '$currentDate'
+  ")->queryAll();
+  $countwax = count($countWax);
 
+  // counter for interior protection
+  $interiorProtection = 3;
+  $countInteriorProt  = Yii::$app->db->createCommand("
+  SELECT s.service_name,sd.vehicle_type_id,sid.discount_per_service
+  FROM services as s
+  INNER JOIN service_details as sd
+  ON s.service_id = sd.service_id
+  INNER JOIN sale_invoice_detail as sid
+  ON sid.item_id = sd.service_detail_id
+  INNER JOIN sale_invoice_head as sih
+  ON sih.sale_inv_head_id = sid.sale_inv_head_id
+  WHERE s.service_id = '$interiorProtection'
+  AND sid.item_type = 'Service'
+  AND CAST(date as DATE) = '$currentDate'
+  ")->queryAll();
+  $countinteriorprot = count($countInteriorProt);
 
-// $countbodyWax  = Yii::$app->db->createCommand("
-//             SELECT COUNT(sid.item_id)
-//             FROM sale_invoice_head as sih
-//             INNER JOIN sale_invoice_detail as sid
-//             ON sih.sale_inv_head_id = sid.sale_inv_head_id
-//             WHERE CAST(date as DATE) = '$currentDate'
-//             AND sid.item_type = 'Service'
-//             AND sid.item_id = '$bodyWaxId'
-//             ")->queryAll();
+  // counter for engine dressing
+  $engineDressing = 4;
+  $countEngineDressing  = Yii::$app->db->createCommand("
+  SELECT s.service_name,sd.vehicle_type_id,sid.discount_per_service
+  FROM services as s
+  INNER JOIN service_details as sd
+  ON s.service_id = sd.service_id
+  INNER JOIN sale_invoice_detail as sid
+  ON sid.item_id = sd.service_detail_id
+  INNER JOIN sale_invoice_head as sih
+  ON sih.sale_inv_head_id = sid.sale_inv_head_id
+  WHERE s.service_id = '$engineDressing'
+  AND sid.item_type = 'Service'
+  AND CAST(date as DATE) = '$currentDate'
+  ")->queryAll();
+  $countenginedressing = count($countEngineDressing);
+
+  // counter for under carriage
+  $underCarriage = 9;
+  $countUnderCarriage  = Yii::$app->db->createCommand("
+  SELECT s.service_name,sd.vehicle_type_id,sid.discount_per_service
+  FROM services as s
+  INNER JOIN service_details as sd
+  ON s.service_id = sd.service_id
+  INNER JOIN sale_invoice_detail as sid
+  ON sid.item_id = sd.service_detail_id
+  INNER JOIN sale_invoice_head as sih
+  ON sih.sale_inv_head_id = sid.sale_inv_head_id
+  WHERE s.service_id = '$underCarriage'
+  AND sid.item_type = 'Service'
+  AND CAST(date as DATE) = '$currentDate'
+  ")->queryAll();
+  $countundercarriage = count($countUnderCarriage);
 ?>
 
 <div class="site-index">
@@ -91,19 +136,22 @@ $WASH = 1;
           </a>
         </div>
       </div>
-
       <div class="row">
         <div class="col-md-3">
-          <a href="./car-wash-details?serviceID=<?php //echo $washId; ?>">
+          <a href="./car-wash-details?serviceID=<?php echo $WASH; ?>">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <div class="row">
                   <div class="col-md-12">
                     <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Today's</span> WASH</th>
+                      </tr>
                       <tr>
-                        <th>WASH</th>
+                        <th>Count</th>
                         <td>
-                          <b style="background-color:;color:black;padding:5px;border-radius: 20px;"><?php echo $countwash; ?></b>
+                          <b style="border-radius: 20px;"><?php echo $countwash; ?></b>
                         </td>
                       </tr>
                       <tr>
@@ -116,6 +164,7 @@ $WASH = 1;
                         <th>Amount</th>
                         <td><?php echo $washSum; ?></td>
                       </tr>
+                      </thead>
                     </table>
                   </div>
                 </div>
@@ -124,11 +173,61 @@ $WASH = 1;
           </a>
         </div>
         <div class="col-md-3">
-          <a href="./car-wash-details?serviceID=<?php //echo $bodyWaxId; ?>">
+          <a href="./car-wash-details?polish">
             <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
-                <p><i class="glyphicon glyphicon-"></i> Today's<br>Body Wax</p><br>
-                <b style="background-color:#DD4B39;color:white;padding:10px;border-radius: 20px;"><?php //echo $countbodyWax[0]['COUNT(sid.item_id)']; ?></b>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Today's</span> POLISHES</th>
+                      </tr>
+                      <tr>
+                        <th>Count</th>
+                        <td>
+                          <b style="border-radius: 20px;">
+                          <?php
+                            // total count of all types of polishes 
+                            $polishCount = $countwax + $countinteriorprot + $countenginedressing + $countundercarriage;
+                            echo $polishCount;
+                          ?>
+                          </b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <?php 
+                          $waxSum             = 0;
+                          $intProtSum         = 0;
+                          $engineDressingSum  = 0;
+                          $underCarriageSum   = 0;
+
+                          // loop for WAX total amount 
+                          for ($w=0; $w <$countwax ; $w++) { 
+                          $waxSum += $countWax[$w]['discount_per_service'];
+                          }
+                          // loop for interior protection total amount 
+                          for ($p=0; $p <$countinteriorprot ; $p++) { 
+                          $intProtSum += $countInteriorProt[$p]['discount_per_service'];
+                          }
+                          // loop for Engine Dressing total amount 
+                          for ($e=0; $e <$countenginedressing ; $e++) { 
+                          $engineDressingSum += $countEngineDressing[$e]['discount_per_service'];
+                          }
+                          // loop for under Carriage total amount 
+                          for ($u=0; $u <$countundercarriage ; $u++) { 
+                          $underCarriageSum += $countUnderCarriage[$u]['discount_per_service'];
+                          }
+                          // total sum of all types of polishes in a current date
+                          $totalSUM = $waxSum + $intProtSum + $engineDressingSum + $underCarriageSum;
+                        ?>
+                        <th>Amount</th>
+                        <td><?php echo $totalSUM; ?></td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </a>
