@@ -51,14 +51,14 @@ class Employee extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_type_id', 'branch_id', 'salary_id', 'emp_name', 'emp_cnic', 'emp_father_name', 'emp_contact', 'emp_email', 'emp_gender', 'emp_qualification', 'emp_reference', 'joining_date', 'learning_date', 'status'], 'required'],
+            [['emp_type_id', 'salary_id', 'emp_name', 'emp_cnic', 'emp_father_name', 'emp_contact', 'emp_email', 'emp_gender', 'emp_qualification', 'emp_reference', 'joining_date', 'learning_date', 'status'], 'required'],
             [['emp_type_id', 'branch_id', 'salary_id', 'created_by', 'updated_by'], 'integer'],
             [['emp_gender', 'status'], 'string'],
             [['joining_date', 'learning_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['emp_name', 'emp_father_name', 'emp_reference'], 'string', 'max' => 200],
             [['emp_cnic', 'emp_contact'], 'string', 'max' => 15],
             [['emp_email', 'emp_image', 'emp_qualification'], 'string', 'max' => 255],
-            [['salary_id'], 'exist', 'skipOnError' => true, 'targetClass' => Salary::className(), 'targetAttribute' => ['salary_id' => 'salary_id']],
+            // [['salary_id'], 'exist', 'skipOnError' => true, 'targetClass' => Salary::className(), 'targetAttribute' => ['salary_id' => 'salary_id']],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
             [['emp_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => EmployeeTypes::className(), 'targetAttribute' => ['emp_type_id' => 'emp_type_id']],
         ];
@@ -96,10 +96,10 @@ class Employee extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSalary()
-    {
-        return $this->hasOne(Salary::className(), ['salary_id' => 'salary_id']);
-    }
+    // public function getSalary()
+    // {
+    //     return $this->hasOne(Salary::className(), ['salary_id' => 'salary_id']);
+    // }
 
     /**
      * @return \yii\db\ActiveQuery

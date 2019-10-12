@@ -93,7 +93,10 @@
 							</div>	
 						</div>
 						<div class="row" id="msg" style="display: none;">
-							<div class="col-md-12">
+							<div class="col-md-1">
+								
+							</div>
+							<div class="col-md-10">
 								<div class="alert-danger glyphicon glyphicon-ban-circle" style="padding: 10px;" id="alert">
 	            				</div>
 	            				<hr>								
@@ -148,14 +151,14 @@
       		//alert("Amount is Greated..!");
       		$("#insert").attr("disabled", true);
       		$('#msg').css("display","block");
-            $('#alert').html("&ensp;Collect Amount Cannot Be Lesser And Greater Than Remaining Amount");
+            $('#alert').html("&ensp;Please Enter the Valid  amount");
       		//$('#insert').hide();
       	}
       	if (collect < 0) {
       		//$('#insert').hide();
       		$("#insert").attr("disabled", true);
       		$('#msg').css("display","block");
-            $('#alert').html("&ensp;Collect Amount Cannot Be Negative");
+            $('#alert').html("&ensp;Please Enter the Valid Amount");
       	}
       	var emp_collect = $('#collect_amount').val();
       	if(emp_collect == '' || empty(emp_collect)){

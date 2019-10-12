@@ -135,10 +135,11 @@
                                 'url' => './stock-type',
                                 
                             ],
+                            //['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./card-type"],],
                             // ['label' => 'User Types', 'icon' => 'user-circle-o', 'url' => ["./user-type"],],
-                            ['label' => 'Employee Types', 'icon' => 'user-secret', 'url' => ["./employee-types"],],
+                            // ['label' => 'Employee Types', 'icon' => 'user-secret', 'url' => ["./employee-types"],],
                             [
-                                'label' => 'Salary',
+                                'label' => 'Employee',
                                 'icon' => 'usd',
                                 'url' => '#',
                                 'items' => [
