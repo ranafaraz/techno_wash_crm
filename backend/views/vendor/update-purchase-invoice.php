@@ -201,7 +201,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
       		//$('#update').hide();
       		$("#update").attr("disabled", true);
       		$('#alert').css("display","block");
-            $('#alert').html("&ensp;Remaining Amount Cannot Be Negative");
+            $('#alert').html("&ensp;Please Enter A Valid Amount");
       	}
       	var eremaining = $('#remaining').val();
       	if(eremaining == '' || empty(eremaining)){
