@@ -19,12 +19,12 @@ return [
         'attribute'=>'emp_type_id',
         'value' => 'empType.emp_type_name',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'branch_id',
-        'value' => 'branch.branch_name',
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'branch_id',
+    //     'value' => 'branch.branch_name',
 
-    ],
+    // ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'salary_id',
@@ -38,14 +38,14 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_cnic',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'emp_father_name',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'emp_contact',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'emp_father_name',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'emp_contact',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'emp_email',
@@ -58,6 +58,14 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'emp_gender',
     // ],
+    // [ 
+       // 'class'=>'\kartik\grid\DataColumn', 
+       // 'attribute'=>'emp_age', 
+   // ], 
+   // [ 
+       // 'class'=>'\kartik\grid\DataColumn', 
+       // 'attribute'=>'emp_address', 
+   // ]
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'emp_qualification',
@@ -101,7 +109,7 @@ return [
         'urlCreator' => function($action, $model, $key, $index) { 
                 return Url::to([$action,'id'=>$key]);
         },
-        'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
+        'viewOptions'=>['role'=>'','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api

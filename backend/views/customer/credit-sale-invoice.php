@@ -83,7 +83,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					<p style="text-align: center;">
 						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
 					</p>
-					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Paid Cash Memo</h3>
+					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Credit Cash Memo</h3>
 					
 					<div class="row">
 						<div class="col-md-12">
@@ -262,35 +262,44 @@ $customervehicleID = Yii::$app->db->createCommand("
 			</div>
 
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-5">
 					
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>Total Amount</th>
-								<th><?php echo $bill[0]['total_amount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Total Amount</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Invoice Discount</th>
-								<th><?php echo $bill[0]['discount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Invoice Discount</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['discount']; ?></th>
 							</tr>
 							<tr>
-								<th>Net Bill</th>
-								<th><?php echo $bill[0]['net_total']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Net Bill</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['net_total']; ?></th>
 							</tr>
 							<tr>
-								<th>Paid</th>
-								<th><?php echo $bill[0]['paid_amount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Paid</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Remaining</th>
-								<th><?php echo $bill[0]['remaining_amount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Remaining</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Status</th>
-								<th><?php echo $bill[0]['status']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Status</th>
+								<?php
+								 $status = $bill[0]['status'];
+								 if (($status == "Unpaid") || ($status == "unpaid")) {
+								 	?>
+									<th style="text-align: center;background-color: #DD4B39;color: white;"><?php echo $bill[0]['status']; ?></th>
+								<?php }elseif (($status == "Partially") || ($status == "partially")) {
+									?>
+									<th style="text-align: center;background-color:#FAB61C;color: white;"><?php echo $bill[0]['status']; ?> Paid</th>
+								<?php } ?>
+								
 							</tr>
 						</thead>
 					</table>

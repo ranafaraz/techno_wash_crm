@@ -18,8 +18,8 @@ class CustomerVehiclesSearch extends CustomerVehicles
     public function rules()
     {
         return [
-            [['customer_vehicle_id', 'customer_id', 'vehicle_typ_sub_id', 'created_by', 'updated_by'], 'integer'],
-            [['registration_no', 'color', 'image', 'created_at', 'updated_at'], 'safe'],
+            [['customer_vehicle_id','created_by', 'updated_by'], 'integer'],
+            [['customer_id', 'vehicle_typ_sub_id', 'registration_no', 'color', 'image', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -55,10 +55,13 @@ class CustomerVehiclesSearch extends CustomerVehicles
             return $dataProvider;
         }
 
+        $query->joinWith('customer');
+        $query->joinWith('vehicleTypSub');
+
         $query->andFilterWhere([
             'customer_vehicle_id' => $this->customer_vehicle_id,
-            'customer_id' => $this->customer_id,
-            'vehicle_typ_sub_id' => $this->vehicle_typ_sub_id,
+            //'customer_id' => $this->customer_id,
+            //'vehicle_typ_sub_id' => $this->vehicle_typ_sub_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
@@ -67,7 +70,9 @@ class CustomerVehiclesSearch extends CustomerVehicles
 
         $query->andFilterWhere(['like', 'registration_no', $this->registration_no])
             ->andFilterWhere(['like', 'color', $this->color])
-            ->andFilterWhere(['like', 'image', $this->image]);
+            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'customer.customer_name', $this->customer_id])
+            ->andFilterWhere(['like', 'vehicleTypSub.name', $this->vehicle_typ_sub_id]);
 
         return $dataProvider;
     }

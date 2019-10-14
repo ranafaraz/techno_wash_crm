@@ -2,9 +2,6 @@
 use common\models\Customer; 
 use common\models\Branches;
 use yii\helpers\Html;
-use kartik\select2\Select2;
-use yii\helpers\ArrayHelper;
-use common\models\Products;
 
   $customerID = $_GET['customer_id'];
 
@@ -152,7 +149,6 @@ use common\models\Products;
 <html>
 <head>
   <title></title>
-   <meta charset="utf-8">
   <style type="text/css" media="screen">
   	#remove_index,#types{
   		display: none;
@@ -201,6 +197,14 @@ use common\models\Products;
                 <div class="row">
                   <div class="col-md-12">
                     <div class="container-fluid" style="margin-bottom:8px;">
+                      <div class="row" style="margin-top: -10px;">
+                        <div class="col-md-6">
+                          <label style="color:#3C8DBC;font-size: 16px;">
+                            Create New Invoice:
+                          </label>                    
+                        </div> 
+                                        
+                      </div>
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
@@ -271,14 +275,11 @@ use common\models\Products;
                           <div id="pname" style="display: none;">
                             <div class="form-group">
                               <label>Product Name </label>
-                              <?php 
-                                echo Select2::widget([
-                                'name' => 'product_name',
-                                'value' => '',
-                                'data' => ArrayHelper::map(Products::find()->all(),'product_id','product_name'),
-                                'options' => ['multiple' => true, 'placeholder' => 'Select Product','id' => 'productid']
-                              ]);
-                              ?>
+                              <input type="text" id="product_name" class="form-control">
+                              <div id="product_list">
+                                <ul>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -311,7 +312,6 @@ use common\models\Products;
                                 <th style="background-color: skyblue">Vehicle </th>
                                 <th style="background-color: skyblue">Item</th>
                                 <th style="background-color: skyblue">Type</th>
-                                <th style="background-color: skyblue">Quantity</th>
                                 <th style="background-color: skyblue">Amount</th>
                               
                             </thead>
@@ -325,9 +325,6 @@ use common\models\Products;
                       <input type="hidden" id="stock_name">
                       <input type="hidden" id="vehicle_name">
                       <input type="hidden" id="serviceDetailId">
-                      <input type="hidden" id="productSellingPrice">
-                      <input type="hidden" id="productName">
-                      <input type="hidden" id="quantity">
                     </div>
                   </div>
                 </div> 			
@@ -349,7 +346,7 @@ use common\models\Products;
                                     <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
                                     <th class="t-cen" style="vertical-align:middle;">Amount</th>
-                                    <th class="text-center" style="vertical-align:middle;">Action</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -425,7 +422,7 @@ use common\models\Products;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
                                          <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View"><i class="fa fa-eye"></i>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
                                         <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit"><i class="fa fa-edit"></i>
                                         <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
                                     </tr>   
@@ -654,7 +651,7 @@ use common\models\Products;
                 </div>
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
-                <hr>
+                <br />
                 <button class="btn btn-success btn-block btn-flat" id="insert" >
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
               
@@ -797,12 +794,56 @@ function discountFun(){
 <?php
 $url = \yii\helpers\Url::to("customer/fetch-info");
 
+
 $script = <<< JS
-$("#item_type").change(function(){
-  $('#servic').val("SelectServices");
-  $('#selling_price').val("");
-  $('#price').val("");
-		var item_type = $('#item_type').val();
+
+  $("#product_name").keyup(function(){
+    var proName =  $("#product_name").val();
+    if(proName != '')
+    {
+        $.ajax({
+            type:'post',
+            data:{proName:proName},
+            url: "$url",
+            success: function(result){
+               var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+              $('#product_list').empty();             
+              var output = '';
+            //   if (jsonResult) {
+
+               for (var k=0; k <jsonResult.length ; k++) {
+
+                 var pname = jsonResult[k]['product_name'];
+                 output += '<li>' + pname + '</li>';
+               }
+            //   }
+            //   else
+            //   {
+            //    output .= '<li>No record found</li>';
+            //   }
+            //   output .= '</ul>';
+
+
+            //    // $('#product_list').fadeIn();
+                 $('#product_list').append(output);
+              console.log(jsonResult);
+
+
+            }      
+        });
+    }
+    else {
+              $('#product_list').fadeOut();
+              $('#product_list').html("");
+    }  
+
+  });
+
+	$("#item_type").change(function(){
+    $('#servic').val("SelectServices");
+    $('#selling_price').val("");
+    $('#price').val("");
+		 var item_type = $('#item_type').val();
 		 if(item_type == "Service")
 		 {
 		 	$('#servic').show();
@@ -814,6 +855,7 @@ $("#item_type").change(function(){
 		 {
 		 	$('#stock').show();
       $('#pname').show();
+      $('#quantity').show();
 		 	$('#servic').hide();
 		 }
 		 else{
@@ -823,13 +865,21 @@ $("#item_type").change(function(){
 
 	});
 
-  $("#pname").focusin(function(){
-    $('#quantity').show(); 
-  });
-  $("#barcode").focusin(function(){
-    $('#quantity').hide();
+  //   $("#service").change(function(){
+  //   var service = $("#service").val();
+    
+  //   //alert(vehicle);
+  //   $.ajax({
+  //         type:'post',
+  //         data:{service:service},
+  //         url: "$url",
+  //         success: function(result){
+  //           var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1)); 
 
-  });
+  //           alert(jsonResult);   
+  //     }); 
+  // });
+
 
 	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
@@ -864,54 +914,58 @@ $("#item_type").change(function(){
 						var servicesName				=$('#service_name').val();
 						var reg_name 						= $('#vehicle_name').val();
 						var type                =$('#item_type').val();
-            var quantity                =1;
 						
 						if (vehicle=="" || vehicle==null)
 						{
-							alert("Select the Vehicle name ");
+									alert("Select the Vehicle name ");
 						}
 						else if (services =="" || services==null) {
 									//alert("Select the Services ");
-						} else {
-  						vehicleArray.push(vehicle);
-  						serviceArray.push(services);
-  						amountArray.push(price);
-  						ItemTypeArray.push(type);
+						}
+						else
+						{
+						vehicleArray.push(vehicle);
+						serviceArray.push(services);
+						amountArray.push(price);
+						ItemTypeArray.push(type);
 
-  						$("#mydata").show();
-  						$('#bill_form').show();
-  						//document.getElementById('insertdata').disabled=false;
-  						$('#insertdata').attr("disabled", false);
-  						let table = document.getElementById("myTableData");
+						$("#mydata").show();
+						$('#bill_form').show();
+						//document.getElementById('insertdata').disabled=false;
+						$('#insertdata').attr("disabled", false);
+						let table = document.getElementById("myTableData");
 
-  						//count the table row
-  						let rowCount = table.rows.length;
-  						
-  						//insert the new row
-  						let row = table.insertRow(1);
-  						
-  						//insert the coulmn against the row
-  						row.insertCell(0).innerHTML=rowCount;
-              row.insertCell(1).innerHTML=reg_name;
-  						row.insertCell(2).innerHTML= servicesName;
-  						row.insertCell(3).innerHTML= type;
-              row.insertCell(4).innerHTML= quantity;
-  						row.insertCell(5).innerHTML= price;
-  						
-  					  // $('#vehicle').val("");
-              $('#services').val("");
+						//count the table row
+						let rowCount = table.rows.length;
+						
+						//insert the new row
+						let row = table.insertRow(1);
+						
+						//insert the coulmn against the row
+						row.insertCell(0).innerHTML=rowCount;
+            row.insertCell(1).innerHTML=reg_name;
+						row.insertCell(2).innerHTML= servicesName;
+						row.insertCell(3).innerHTML= type;
+						row.insertCell(4).innerHTML= price;
+						
+						
 
-  						$('#remove_index').show();
-  						for(var i = 1; i < table.rows.length; i++){
-                table.rows[i].onclick = function()
-                {
-                  // get the seected row index
-                  rIndex = this.rowIndex;
-                  document.getElementById("remove_value").value = rIndex;
-                  document.getElementById("removed_value").value = this.cells[2].innerHTML;
-                };
-              }
-	          }
+					  // $('#vehicle').val("");
+            $('#services').val("");
+
+						$('#remove_index').show();
+						for(var i = 1; i < table.rows.length; i++)
+			                {
+			                    table.rows[i].onclick = function()
+			                    {
+			                      // get the seected row index
+			                      rIndex = this.rowIndex;
+			                      document.getElementById("remove_value").value = rIndex;
+			                     document.getElementById("removed_value").value = this.cells[2].innerHTML;
+			                    };
+			                }
+				
+	}
         	}   
     	}); 
 	});
@@ -997,8 +1051,6 @@ $("#item_type").change(function(){
 						var servicesName				=$('#stock_name').val();
 						var reg_name 						= $('#vehicle_name').val();
 						var type                =$('#item_type').val();
-            var quantity            =1;
-
 						
 						if (vehicle=="" || vehicle==null)
 						{
@@ -1031,8 +1083,7 @@ $("#item_type").change(function(){
 						row.insertCell(1).innerHTML= reg_name;
 						row.insertCell(2).innerHTML= servicesName;
 						row.insertCell(3).innerHTML= type;
-            row.insertCell(4).innerHTML= quantity;
-						row.insertCell(5).innerHTML= stock_price;
+						row.insertCell(4).innerHTML= stock_price;
 
 
 						$('#barcode').val("");
@@ -1055,95 +1106,6 @@ $("#item_type").change(function(){
         	}      
     	}); 
 	});
-
-  $('#product_quantity').on("change",function(){
-  var productID  = parseInt($("#productid").val());
-  var pro_quantity=$("#product_quantity").val();
-  if(pro_quantity ==""){
-  }
-  else{
-     pro_quantity      = parseInt(pro_quantity);
-  //alert(productID);
-    $.ajax({
-          type:'post',
-          data:{productID:productID},
-          url: "$url",
-          success: function(result){
-            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-             $('#productName').val(jsonResult[0]['product_name']);
-             $("#productSellingPrice").val(jsonResult[0]['selling_price']);
-
-            var totalAmount = parseInt($('#tp').val());
-            var tprice = jsonResult[0]['selling_price'];
-            var totalPrice = tprice*pro_quantity;
-            var totalprices = parseInt(totalAmount)+parseInt(totalPrice);
-            $('#tp').val(totalprices);
-            $('#nt').val(totalprices);
-            $('#remaining').val(totalprices);
-
-            var vehicle             = $('#vehicle').val();
-            var barcode             = parseInt($("#product_name").val());
-            var stock_price         = $("#productSellingPrice").val();
-            
-            var servicesName        =$('#productName').val();
-            var reg_name            = $('#vehicle_name').val();
-            var type                =$('#item_type').val();
-            if (vehicle=="" || vehicle==null)
-            {
-                  alert("Select the Vehicle name ");
-            }
-            else if (services=="" || services==null) {
-                  alert("Select the Services ");
-            } 
-            else
-            {
-            vehicleArray.push(vehicle);
-            serviceArray.push(barcode);
-            amountArray.push(stock_price);
-            ItemTypeArray.push(type);
-
-            $("#mydata").show();
-            $('#bill_form').show();
-            //document.getElementById('insertdata').disabled=false;
-            $('#insertdata').attr("disabled", false);
-            let table = document.getElementById("myTableData");
-
-            //count the table row
-            let rowCount = table.rows.length;
-
-            //insert the new row
-            let row = table.insertRow(1);
-              
-            //insert the coulmn against the row
-            row.insertCell(0).innerHTML= rowCount;
-            row.insertCell(1).innerHTML= reg_name;
-            row.insertCell(2).innerHTML= servicesName;
-            row.insertCell(3).innerHTML= type;
-            row.insertCell(4).innerHTML= pro_quantity;
-            row.insertCell(5).innerHTML= stock_price;
-
-
-            // $('#barcode').val("");
-            // $('#barcode').focus();
-            $('#remove_index').show();
-
-                
-                for(var i = 1; i < table.rows.length; i++)
-                      {
-                          table.rows[i].onclick = function()
-                          {
-                            // get the seected row index
-                            rIndex = this.rowIndex;
-                            document.getElementById("remove_value").value = rIndex;
-                             document.getElementById("removed_value").value = this.cells[2].innerHTML;
-                           
-                          };
-                      }}     
-          }      
-      });
-    }
-  });
-
 	$('#remove').click(function(){
 
 		var remove_value1= $('#remove_value').val();

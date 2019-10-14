@@ -94,7 +94,7 @@ tr td{
 								</div>
 								<div class="form-group">
 									<label>Status</label>
-									<input type="text" name="status" id="status" class="form-control" readonly="">
+									<input type="text" name="status" id="status" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['status'];?>">
 								</div>
 								<div class="form-group">
 									<label>Remaining</label>

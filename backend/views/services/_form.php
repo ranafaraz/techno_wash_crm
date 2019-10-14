@@ -6,8 +6,12 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Services */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-<div class="services-form">
+<div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Create New Service</h2>
+        </div>
+</div>
+<div class="services-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
     <?php $form = ActiveForm::begin(); ?>
 
