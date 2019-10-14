@@ -2,6 +2,9 @@
 use common\models\Customer; 
 use common\models\Branches;
 use yii\helpers\Html;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use common\models\Products;
 
   $customerID = $_GET['customer_id'];
 
@@ -149,6 +152,7 @@ use yii\helpers\Html;
 <html>
 <head>
   <title></title>
+   <meta charset="utf-8">
   <style type="text/css" media="screen">
   	#remove_index,#types{
   		display: none;
@@ -275,11 +279,14 @@ use yii\helpers\Html;
                           <div id="pname" style="display: none;">
                             <div class="form-group">
                               <label>Product Name </label>
-                              <input type="text" id="product_name" class="form-control">
-                              <div id="product_list">
-                                <ul>
-                                </ul>
-                              </div>
+                              <?php 
+                                echo Select2::widget([
+                                'name' => 'product_name',
+                                'value' => '',
+                                'data' => ArrayHelper::map(Products::find()->all(),'product_id','product_name'),
+                                'options' => ['multiple' => true, 'placeholder' => 'Select Product','id' => 'productid']
+                              ]);
+                              ?>
                             </div>
                           </div>
                         </div>
@@ -312,6 +319,7 @@ use yii\helpers\Html;
                                 <th style="background-color: skyblue">Vehicle </th>
                                 <th style="background-color: skyblue">Item</th>
                                 <th style="background-color: skyblue">Type</th>
+                                <th style="background-color: skyblue">Quantity</th>
                                 <th style="background-color: skyblue">Amount</th>
                               
                             </thead>
@@ -325,6 +333,9 @@ use yii\helpers\Html;
                       <input type="hidden" id="stock_name">
                       <input type="hidden" id="vehicle_name">
                       <input type="hidden" id="serviceDetailId">
+                      <input type="hidden" id="productSellingPrice">
+                      <input type="hidden" id="productName">
+                      <input type="hidden" id="quantity">
                     </div>
                   </div>
                 </div> 			
@@ -794,56 +805,12 @@ function discountFun(){
 <?php
 $url = \yii\helpers\Url::to("customer/fetch-info");
 
-
 $script = <<< JS
-
-  $("#product_name").keyup(function(){
-    var proName =  $("#product_name").val();
-    if(proName != '')
-    {
-        $.ajax({
-            type:'post',
-            data:{proName:proName},
-            url: "$url",
-            success: function(result){
-               var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-              $('#product_list').empty();             
-              var output = '';
-            //   if (jsonResult) {
-
-               for (var k=0; k <jsonResult.length ; k++) {
-
-                 var pname = jsonResult[k]['product_name'];
-                 output += '<li>' + pname + '</li>';
-               }
-            //   }
-            //   else
-            //   {
-            //    output .= '<li>No record found</li>';
-            //   }
-            //   output .= '</ul>';
-
-
-            //    // $('#product_list').fadeIn();
-                 $('#product_list').append(output);
-              console.log(jsonResult);
-
-
-            }      
-        });
-    }
-    else {
-              $('#product_list').fadeOut();
-              $('#product_list').html("");
-    }  
-
-  });
-
-	$("#item_type").change(function(){
-    $('#servic').val("SelectServices");
-    $('#selling_price').val("");
-    $('#price').val("");
-		 var item_type = $('#item_type').val();
+$("#item_type").change(function(){
+  $('#servic').val("SelectServices");
+  $('#selling_price').val("");
+  $('#price').val("");
+		var item_type = $('#item_type').val();
 		 if(item_type == "Service")
 		 {
 		 	$('#servic').show();
@@ -855,7 +822,6 @@ $script = <<< JS
 		 {
 		 	$('#stock').show();
       $('#pname').show();
-      $('#quantity').show();
 		 	$('#servic').hide();
 		 }
 		 else{
@@ -865,21 +831,13 @@ $script = <<< JS
 
 	});
 
-  //   $("#service").change(function(){
-  //   var service = $("#service").val();
-    
-  //   //alert(vehicle);
-  //   $.ajax({
-  //         type:'post',
-  //         data:{service:service},
-  //         url: "$url",
-  //         success: function(result){
-  //           var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1)); 
+  $("#pname").focusin(function(){
+    $('#quantity').show(); 
+  });
+  $("#barcode").focusin(function(){
+    $('#quantity').hide();
 
-  //           alert(jsonResult);   
-  //     }); 
-  // });
-
+  });
 
 	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
@@ -914,58 +872,54 @@ $script = <<< JS
 						var servicesName				=$('#service_name').val();
 						var reg_name 						= $('#vehicle_name').val();
 						var type                =$('#item_type').val();
+            var quantity                =1;
 						
 						if (vehicle=="" || vehicle==null)
 						{
-									alert("Select the Vehicle name ");
+							alert("Select the Vehicle name ");
 						}
 						else if (services =="" || services==null) {
 									//alert("Select the Services ");
-						}
-						else
-						{
-						vehicleArray.push(vehicle);
-						serviceArray.push(services);
-						amountArray.push(price);
-						ItemTypeArray.push(type);
+						} else {
+  						vehicleArray.push(vehicle);
+  						serviceArray.push(services);
+  						amountArray.push(price);
+  						ItemTypeArray.push(type);
 
-						$("#mydata").show();
-						$('#bill_form').show();
-						//document.getElementById('insertdata').disabled=false;
-						$('#insertdata').attr("disabled", false);
-						let table = document.getElementById("myTableData");
+  						$("#mydata").show();
+  						$('#bill_form').show();
+  						//document.getElementById('insertdata').disabled=false;
+  						$('#insertdata').attr("disabled", false);
+  						let table = document.getElementById("myTableData");
 
-						//count the table row
-						let rowCount = table.rows.length;
-						
-						//insert the new row
-						let row = table.insertRow(1);
-						
-						//insert the coulmn against the row
-						row.insertCell(0).innerHTML=rowCount;
-            row.insertCell(1).innerHTML=reg_name;
-						row.insertCell(2).innerHTML= servicesName;
-						row.insertCell(3).innerHTML= type;
-						row.insertCell(4).innerHTML= price;
-						
-						
+  						//count the table row
+  						let rowCount = table.rows.length;
+  						
+  						//insert the new row
+  						let row = table.insertRow(1);
+  						
+  						//insert the coulmn against the row
+  						row.insertCell(0).innerHTML=rowCount;
+              row.insertCell(1).innerHTML=reg_name;
+  						row.insertCell(2).innerHTML= servicesName;
+  						row.insertCell(3).innerHTML= type;
+              row.insertCell(4).innerHTML= quantity;
+  						row.insertCell(5).innerHTML= price;
+  						
+  					  // $('#vehicle').val("");
+              $('#services').val("");
 
-					  // $('#vehicle').val("");
-            $('#services').val("");
-
-						$('#remove_index').show();
-						for(var i = 1; i < table.rows.length; i++)
-			                {
-			                    table.rows[i].onclick = function()
-			                    {
-			                      // get the seected row index
-			                      rIndex = this.rowIndex;
-			                      document.getElementById("remove_value").value = rIndex;
-			                     document.getElementById("removed_value").value = this.cells[2].innerHTML;
-			                    };
-			                }
-				
-	}
+  						$('#remove_index').show();
+  						for(var i = 1; i < table.rows.length; i++){
+                table.rows[i].onclick = function()
+                {
+                  // get the seected row index
+                  rIndex = this.rowIndex;
+                  document.getElementById("remove_value").value = rIndex;
+                  document.getElementById("removed_value").value = this.cells[2].innerHTML;
+                };
+              }
+	          }
         	}   
     	}); 
 	});
@@ -1051,6 +1005,8 @@ $script = <<< JS
 						var servicesName				=$('#stock_name').val();
 						var reg_name 						= $('#vehicle_name').val();
 						var type                =$('#item_type').val();
+            var quantity            =1;
+
 						
 						if (vehicle=="" || vehicle==null)
 						{
@@ -1083,7 +1039,8 @@ $script = <<< JS
 						row.insertCell(1).innerHTML= reg_name;
 						row.insertCell(2).innerHTML= servicesName;
 						row.insertCell(3).innerHTML= type;
-						row.insertCell(4).innerHTML= stock_price;
+            row.insertCell(4).innerHTML= quantity;
+						row.insertCell(5).innerHTML= stock_price;
 
 
 						$('#barcode').val("");
@@ -1106,6 +1063,95 @@ $script = <<< JS
         	}      
     	}); 
 	});
+
+  $('#product_quantity').on("change",function(){
+  var productID  = parseInt($("#productid").val());
+  var pro_quantity=$("#product_quantity").val();
+  if(pro_quantity ==""){
+  }
+  else{
+     pro_quantity      = parseInt(pro_quantity);
+  //alert(productID);
+    $.ajax({
+          type:'post',
+          data:{productID:productID},
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+             $('#productName').val(jsonResult[0]['product_name']);
+             $("#productSellingPrice").val(jsonResult[0]['selling_price']);
+
+            var totalAmount = parseInt($('#tp').val());
+            var tprice = jsonResult[0]['selling_price'];
+            var totalPrice = tprice*pro_quantity;
+            var totalprices = parseInt(totalAmount)+parseInt(totalPrice);
+            $('#tp').val(totalprices);
+            $('#nt').val(totalprices);
+            $('#remaining').val(totalprices);
+
+            var vehicle             = $('#vehicle').val();
+            var barcode             = parseInt($("#product_name").val());
+            var stock_price         = $("#productSellingPrice").val();
+            
+            var servicesName        =$('#productName').val();
+            var reg_name            = $('#vehicle_name').val();
+            var type                =$('#item_type').val();
+            if (vehicle=="" || vehicle==null)
+            {
+                  alert("Select the Vehicle name ");
+            }
+            else if (services=="" || services==null) {
+                  alert("Select the Services ");
+            } 
+            else
+            {
+            vehicleArray.push(vehicle);
+            serviceArray.push(barcode);
+            amountArray.push(stock_price);
+            ItemTypeArray.push(type);
+
+            $("#mydata").show();
+            $('#bill_form').show();
+            //document.getElementById('insertdata').disabled=false;
+            $('#insertdata').attr("disabled", false);
+            let table = document.getElementById("myTableData");
+
+            //count the table row
+            let rowCount = table.rows.length;
+
+            //insert the new row
+            let row = table.insertRow(1);
+              
+            //insert the coulmn against the row
+            row.insertCell(0).innerHTML= rowCount;
+            row.insertCell(1).innerHTML= reg_name;
+            row.insertCell(2).innerHTML= servicesName;
+            row.insertCell(3).innerHTML= type;
+            row.insertCell(4).innerHTML= pro_quantity;
+            row.insertCell(5).innerHTML= stock_price;
+
+
+            // $('#barcode').val("");
+            // $('#barcode').focus();
+            $('#remove_index').show();
+
+                
+                for(var i = 1; i < table.rows.length; i++)
+                      {
+                          table.rows[i].onclick = function()
+                          {
+                            // get the seected row index
+                            rIndex = this.rowIndex;
+                            document.getElementById("remove_value").value = rIndex;
+                             document.getElementById("removed_value").value = this.cells[2].innerHTML;
+                           
+                          };
+                      }}     
+          }      
+      });
+    }
+  });
+
 	$('#remove').click(function(){
 
 		var remove_value1= $('#remove_value').val();

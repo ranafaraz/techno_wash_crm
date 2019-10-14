@@ -1,34 +1,18 @@
-<?php 
-
-
-	if(isset($_POST['proName'])){
-		$proName = $_POST['proName'];
-		//$output = '';
-	 	$z = Yii::$app->db->createCommand("
-		SELECT product_name
-		FROM products
-		WHERE product_name LIKE '%".$proName."%'
+<?php
+	if(isset($_POST['productID']))
+	{
+		$productID = $_POST['productID'];
+		$productData = Yii::$app->db->createCommand("
+		SELECT p.product_name,s.selling_price
+		FROM products as p 
+		INNER JOIN stock as s
+		ON s.name = p.product_id
+		WHERE p.product_id = '$productID'
+		AND s.status = 'In-stock'
 		")->queryAll();
-		//$countP = count($Fetch_products);
-		// $output = '<ul>';
-		// if ($Fetch_products) {
+		echo json_encode($productData);
 
-		// 	for ($k=0; $k <$countP ; $k++) {
-		// 	 	$pNAME = $Fetch_products[$k]['product_name'];
-		// 		$output .= '<li>'.$pNAME.'</li>';
-		// 	}
-		// }
-		// else
-		// {
-		// 	$output .= '<li>No record found</li>';
-		// }
-		// $output .= '</ul>';
-		//echo $output;
-		
-	 	echo json_encode($Fetch_products);
-
- 	}
-
+	}
 
 	if(isset($_POST['barcode'])){
 	$barcode = $_POST['barcode'];
@@ -173,9 +157,6 @@
 	} // closing of catch block
 	// closing of transaction handling
 	echo json_encode($insert_invoice_detail);
-	
-	
 }
 		
 ?>
-<!--  -->
