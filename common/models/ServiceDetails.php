@@ -55,9 +55,9 @@ class ServiceDetails extends \yii\db\ActiveRecord
     {
         return [
             'service_detail_id' => 'Service Detail ID',
-            'branch_id' => 'Branch ID',
-            'vehicle_type_id' => 'Vehicle Type ID',
-            'service_id' => 'Service ID',
+            'branch_id' => 'Branch',
+            'vehicle_type_id' => 'Vehicle Type',
+            'service_id' => 'Service',
             'price' => 'Price',
             'description' => 'Description',
             'created_by' => 'Created By',

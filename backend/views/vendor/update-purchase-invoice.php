@@ -12,7 +12,8 @@ $vendorData = Yii::$app->db->createCommand("
 $updateinvoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM purchase_invoice
-    WHERE purchase_invoice_id = '$purchaseInvID' AND vendor_id = '$vendorID' AND (status = 'Unpaid' OR status = 'Partially')
+    WHERE purchase_invoice_id = '$purchaseInvID' 
+    AND vendor_id = '$vendorID'
     ")->queryAll();
     $countupdateinvoiceData = count($updateinvoiceData);
 

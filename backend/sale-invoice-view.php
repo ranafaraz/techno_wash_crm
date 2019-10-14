@@ -197,6 +197,14 @@ use yii\helpers\Html;
                 <div class="row">
                   <div class="col-md-12">
                     <div class="container-fluid" style="margin-bottom:8px;">
+                      <div class="row" style="margin-top: -10px;">
+                        <div class="col-md-6">
+                          <label style="color:#3C8DBC;font-size: 16px;">
+                            Create New Invoice:
+                          </label>                    
+                        </div> 
+                                        
+                      </div>
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
@@ -338,7 +346,7 @@ use yii\helpers\Html;
                                     <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
                                     <th class="t-cen" style="vertical-align:middle;">Amount</th>
-                                    <th class="text-center" style="vertical-align:middle;">Action</th>
+                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -414,7 +422,7 @@ use yii\helpers\Html;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
                                          <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View"><i class="fa fa-eye"></i>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
                                         <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit"><i class="fa fa-edit"></i>
                                         <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
                                     </tr>   
@@ -643,7 +651,7 @@ use yii\helpers\Html;
                 </div>
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
-                <hr>
+                <br />
                 <button class="btn btn-success btn-block btn-flat" id="insert" >
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
               
@@ -938,8 +946,9 @@ $script = <<< JS
             row.insertCell(1).innerHTML=reg_name;
 						row.insertCell(2).innerHTML= servicesName;
 						row.insertCell(3).innerHTML= type;
-            row.insertCell(4).innerHTML= price;
-							
+						row.insertCell(4).innerHTML= price;
+						
+						
 
 					  // $('#vehicle').val("");
             $('#services').val("");

@@ -12,7 +12,7 @@ use common\models\Services;
 ?>
 <div class="row">
         <div class="col-md-12">
-            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Create New Service Details</h2>
+            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Service Details</h2>
         </div>
 </div>
 <div class="services-details-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
@@ -22,8 +22,7 @@ use common\models\Services;
     <div class="row">
         <div class="col-md-4">
             <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
-                ['prompt' => 'Select Branch']
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name')
     )?>
         </div>
         <div class="col-md-4">

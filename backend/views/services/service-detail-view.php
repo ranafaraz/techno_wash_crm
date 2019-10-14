@@ -20,12 +20,14 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<table class="table table-striped table-hover table-responsive">
+				<div class="table-responsive">
+				<table class="table table-striped table-bordered">
 					<thead>
 						<tr>
-							<th>Sr</th>
-							<th>Vihicle Type</th>
-							<th>Price</th>
+							<th style="background-color: #367FA9;color: #fff;">Sr.#</th>
+							<th style="background-color: #367FA9;color: #fff;">Service Name</th>
+							<th style="background-color: #367FA9;color: #fff;">Vehicle Type</th>
+							<th style="background-color: #367FA9;color: #fff;">Price</th>
 							
 						</tr>
 					</thead>
@@ -41,6 +43,7 @@
 								?>
 								<tr>
 									<td><?php echo $i+1;?></td>
+									<td><?php echo $services[$i]['service_name'];?></td>
 									<td><?php echo $vehicle_type_name[0]['name'];?></td>
 									<td><?php echo $services[$i]['price'];?></td>
 
@@ -50,6 +53,7 @@
 						?>
 					</tbody>
 				</table>
+			  </div>
 			</div>
 		</div>
 	</div>

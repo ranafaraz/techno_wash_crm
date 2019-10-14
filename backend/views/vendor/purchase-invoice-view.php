@@ -2,9 +2,6 @@
 use common\models\Branches;
 use yii\helpers\Html;
 
-  $vendorID = $_GET['vendor_id'];
-
-  $id=Yii::$app->user->identity->id;
 
 ?>
 <?php 
@@ -104,6 +101,10 @@ use yii\helpers\Html;
 
  <?php
 
+  $vendorID = $_GET['vendor_id'];
+
+  $id=Yii::$app->user->identity->id;
+
   // getting customer name
   $vendorData = Yii::$app->db->createCommand("
     SELECT *
@@ -128,12 +129,11 @@ use yii\helpers\Html;
     ")->queryAll();
   $countManufacture = count($manufacture);
 
-
   $paid_invoice = Yii::$app->db->createCommand("
     SELECT *
     FROM purchase_invoice 
-    WHERE vendor_id = '$vendorID' 
-    AND status = 'Paid' OR status = 'paid'
+    WHERE vendor_id = '$vendorID'
+    AND (status = 'Paid' OR status = 'paid')
     ")->queryAll();
   $count_piad_invoice = count($paid_invoice);
 
@@ -141,7 +141,7 @@ use yii\helpers\Html;
     SELECT *
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
-    AND status = 'Partially' OR status = 'Unpaid'
+    AND (status = 'Partially' OR status = 'Unpaid')
     ")->queryAll();
   $count_credit_invoice = count($credit_invoice);
 
@@ -359,7 +359,7 @@ body td{
                                     <th class="t-cen">Bill No#</th>
                                     <th class="t-cen">Paid Amount</th>
                                     <th class="t-cen">Receiving Date</th>
-                                    <th class="t-cen">Action</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -376,7 +376,12 @@ body td{
                                         <td><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
                                         <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['receiving_date']));
                                             echo $date; ?></td>
-                                            <td class="text-center"><a href="paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View</a></td>
+                                            <td class="text-center">
+                                              <a href="paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-info"><i class="fa fa-eye"></i>
+                                              </a>&ensp;
+                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i>
+                                              </a>
+                                            </td>
                                       </tr>
 
                                     <?php
@@ -552,11 +557,14 @@ body td{
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
                 </div>
+                <div class="form-group">
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
-                <button class="btn btn-success btn-block btn-flat" id="insert" style="display: none;">
+                <hr>
+                <button class="btn btn-success btn-block btn-flat" id="insert">
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
-              
+                </div>
+               
             </div>
           </div>
         </div>
@@ -627,11 +635,14 @@ body td{
             } 
             $('#insert').show();
             if (purchasePrice < 0) {
-              $('#insert').hide();
+              //$('#insert').hide();
+              $("#insert").attr("disabled", true);
               $('#alert').css("display","block");
               $('#alert').html("&ensp;Discount Cannot Be Greater Than Total Amount");
             }else{
+              
               $('#alert').css("display","none");
+              $("#insert").removeAttr("disabled");
             }
       }
       function check_purchase_price(){
@@ -663,11 +674,13 @@ body td{
         }
         $('#insert').show();
         if (remaining < 0) {
-          $('#insert').hide();
+          //$('#insert').hide();
+          $("#insert").attr("disabled", true);
           $('#alert').css("display","block");
           $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
         }else{
           $('#alert').css("display","none");
+          $("#insert").removeAttr("disabled");
         }
       }
 </script>

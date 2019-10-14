@@ -6,6 +6,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Employee */
 $empName = $model->emp_name;
 $empImage = $model->emp_image;
+$branch_id = $model->branch_id;
 ?>
 <div class="row">
     <div class="col-md-6">
@@ -19,8 +20,11 @@ $empImage = $model->emp_image;
 <div class="employee-view" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
     <?php
+    
     $created_by = $model->created_by; // get the created_by (id)
     $updated_by = $model->updated_by;  // get the updated_by (id)
+
+    $branchName = Yii::$app->db->createCommand("SELECT branch_name FROM branches WHERE branch_id = '$branch_id'")->queryAll();
 
     // query to get the username by created_by (id) from table user
     $createdBy = Yii::$app->db->createCommand("SELECT username FROM user WHERE id = '$created_by'")->queryAll();
@@ -46,7 +50,12 @@ $empImage = $model->emp_image;
         'attributes' => [
             //'emp_id',          
             'empType.emp_type_name',
-            'branch.branch_name',
+            //'branch.branch_name',
+            [
+             'attribute' => 'branch_id',
+             'format'=>'raw',
+             'value'=> $branchName,
+            ],
             'salary_id',
             'emp_name',
             'emp_father_name',

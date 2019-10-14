@@ -91,7 +91,7 @@ class ServiceDetailsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new ServiceDetails",
+                    'title'=> "",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -158,7 +158,7 @@ class ServiceDetailsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update ServiceDetails #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -173,7 +173,7 @@ class ServiceDetailsController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "ServiceDetails #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -182,7 +182,7 @@ class ServiceDetailsController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update ServiceDetails #".$id,
+                    'title'=> "",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

@@ -139,7 +139,7 @@ use common\models\Branches;
 					            					</tr>
 					            					<tr>
 					            						<th class="text-center bg-color" style="vertical-align:middle;">Customer Image:</th>
-					            						<th class="t-cen" style="background-color: white;">
+					            						<th style="background-color: white;vertical-align:middle;">
 					            							<img src="<?php echo $customerData->customer_image; ?>" class="img-rounded" alt="Image" style="width:150px; height:120px;"/>
 					            						</th>
 					            					</tr>
