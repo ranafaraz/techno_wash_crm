@@ -833,6 +833,7 @@ $("#item_type").change(function(){
 
 	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
+    $('#product_quantity').val("");
     var customerVehicle = $("#vehicle").val()
 		//alert(serviceID);
 		$.ajax({
@@ -1059,7 +1060,7 @@ $("#item_type").change(function(){
   $('#product_quantity').on("change",function(){
   var productID  = parseInt($("#productid").val());
   var pro_quantity=$("#product_quantity").val();
-  if(pro_quantity ==""){
+  if(pro_quantity =="" || pro_quantity == null ){
   }
   else{
      pro_quantity      = parseInt(pro_quantity);
@@ -1184,6 +1185,7 @@ $("#item_type").change(function(){
 			$('#servic').hide();
       $('#pname').hide();
       $('#quantity').hide();
+      $('#product_quantity').val("");
 				
 			}
 			}
