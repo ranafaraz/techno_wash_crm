@@ -20,11 +20,10 @@ $empName = $model->emp_name;
 </div>
 <div class="employee-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-    <div class="row">
+ <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-4">
-
-    <label>Employee Joining Date</label>
+          <label>Employee Joining Date</label>
                 <?= DateTimePicker::widget([
                 'model' => $model,
                 'attribute' => 'joining_date',
@@ -38,10 +37,9 @@ $empName = $model->emp_name;
                 ]
             ]);?>
 
-     </div>
-     <div class="col-md-4">
-
-     <label>Employee Learning Date</label>
+    </div>
+        <div class="col-md-4">
+         <label>Employee Learning Date</label>
                 <?= DateTimePicker::widget([
                 'model' => $model,
                 'attribute' => 'learning_date',
@@ -54,102 +52,86 @@ $empName = $model->emp_name;
                     'todayBtn' => true
                 ]
             ]);?>
-    </div>
-        <div class="col-md-4">   
-
-    <?= $form->field($model, 'salary_id')->dropDownList(
-                ArrayHelper::map(Salary::find()->all(),'salary_id','salary_id'),
-                ['prompt'=>'Select Salary',]
-                )?>
-    </div>
+        </div>
+        <div class="col-md-4">
+                <?= $form->field($model, 'branch_id')->dropDownList(
+                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
+                ['prompt'=>'Select Branch',]
+                )?>     
+        </div>        
     </div>
     <!-- row 1 close -->
     <div class="row">
         <div class="col-md-4">
-
-    <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
-                ['prompt'=>'Select Branch',]
-                )?>
-
-    </div>
-        <div class="col-md-4">
-    <?= $form->field($model, 'emp_type_id')->dropDownList(
+                <?= $form->field($model, 'emp_type_id')->dropDownList(
                 ArrayHelper::map(EmployeeTypes::find()->all(),'emp_type_id','emp_type_name'),
                 ['prompt'=>'Select Emp Type',]
                 )?>
-    </div>
-        <div class="col-md-4">                    
-
-    <?= $form->field($model, 'emp_name')->textInput(['maxlength' => true]) ?> 
-    </div>
+       </div>
+       <div class="col-md-4">                      
+            <?= $form->field($model, 'emp_name')->textInput(['maxlength' => true]) ?> 
+       </div>
+       <div class="col-md-4">
+            <?= $form->field($model, 'emp_father_name')->textInput(['maxlength' => true]) ?>
+       </div>
     </div>
     <!-- row 2 close -->
 
     <div class="row">
         <div class="col-md-4">
-    
-    <?= $form->field($model, 'emp_father_name')->textInput(['maxlength' => true]) ?>
-
-    </div>
+        <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
+        </div>
         <div class="col-md-4">
-
-    <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
-
-    </div>
+        <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
+        </div>
         <div class="col-md-4">
-    
-    <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
-    
-    </div>
+        <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true]) ?>
+        </div>
     </div>
     <!-- row 3 close -->
 
     <div class="row">
-        <div class="col-md-4">
-
-    <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true]) ?>
-    
-
-    </div>
-        <div class="col-md-4">
-
-    <?= $form->field($model, 'emp_image')->fileInput(['maxlength' => true]) ?>
-
-    </div>
-        <div class="col-md-4">
-    
-    <?= $form->field($model, 'emp_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => '']) ?>
-
-    </div>
+      <div class="col-md-4">
+        <?= $form->field($model, 'emp_image')->fileInput(['maxlength' => true]) ?>
+      </div>
+      <div class="col-md-4">
+        <?= $form->field($model, 'emp_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
+      </div>
+      <div class="col-md-4">
+        <?= $form->field($model, 'emp_age')->textInput() ?>   
+      </div>
     </div>
     <!-- row 4 close -->
 
     <div class="row">
         <div class="col-md-4">
-
-    <?= $form->field($model, 'emp_qualification')->textInput(['maxlength' => true]) ?>
-
-    </div>
+            <?= $form->field($model, 'emp_qualification')->textInput(['maxlength' => true]) ?>
+        </div>
         <div class="col-md-4">
-
-    <?= $form->field($model, 'emp_reference')->textInput(['maxlength' => true]) ?>
-
-    </div>
+            <?= $form->field($model, 'emp_address')->textInput(['maxlength' => true]) ?>
+        </div>
         
         <div class="col-md-4">
-
-    <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ], ['prompt' => '']) ?>
+            <?= $form->field($model, 'emp_reference')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
     <!-- row 5 close -->
-
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'salary_id')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+   
+   
   
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+    <?php if (!Yii::$app->request->isAjax){ ?>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+    <?php } ?>
 
     <?php ActiveForm::end(); ?>
     

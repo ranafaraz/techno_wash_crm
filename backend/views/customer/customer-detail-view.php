@@ -84,31 +84,31 @@ use common\models\Branches;
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer Gender:</th>
+					            						<th class="bg-color" style="padding: 12px;">Gender:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_gender; ?>
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer CNIC:</th>
+					            						<th class="bg-color" style="padding: 12px;">CNIC #:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_cnic; ?>
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer Address:</th>
+					            						<th class="bg-color" style="padding: 12px;">Address:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_address; ?>
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer Contact No:</th>
+					            						<th class="bg-color" style="padding: 12px;">Contact No:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_contact_no; ?>
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer Registration Date:</th>
+					            						<th class="bg-color" style="padding: 12px;">Registration Date:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_registration_date; ?>
 					            						</th>
@@ -120,25 +120,25 @@ use common\models\Branches;
 					            			<table class="table table-bordered">
 					            				<thead>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer Age:</th>
+					            						<th class="bg-color" style="padding: 12px;">Age:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_age; ?>
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer Email:</th>
+					            						<th class="bg-color" style="padding: 12px;">Email:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_email; ?>
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Customer Occupation:</th>
+					            						<th class="bg-color" style="padding: 12px;">Occupation:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $customerData->customer_occupation; ?>
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="text-center bg-color" style="vertical-align:middle;">Customer Image:</th>
+					            						<th class="text-center bg-color" style="vertical-align:middle;">Image:</th>
 					            						<th style="background-color: white;vertical-align:middle;">
 					            							<img src="<?php echo $customerData->customer_image; ?>" class="img-rounded" alt="Image" style="width:150px; height:120px;"/>
 					            						</th>

@@ -201,27 +201,7 @@ class EmployeeController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
-                $model->emp_image = UploadedFile::getInstance($model,'emp_image');
-                if (!empty($model->emp_image)) {
-                    // making the name of image file
-                    $imageName = $model->emp_name.'_photo';
-                    // getting the extension of image file
-                    $imageExtension = $model->emp_image->extension;
-                    // save the path of the image in backend/web/uploads
-                    $model->emp_image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
-                    //save the path in the db column
-                    $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
-                }
-                else{
-                    $model->emp_image = $empImage;
-                }
-
-                $model->created_by = Yii::$app->user->identity->id; 
-                $model->created_at = new \yii\db\Expression('NOW()');
-                $model->updated_by = '0';
-                $model->updated_at = '0'; 
-                $model->save();
+            }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "",
@@ -245,7 +225,27 @@ class EmployeeController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
+            if ($model->load($request->post()) && $model->validate()) {
+                    $model->emp_image = UploadedFile::getInstance($model,'emp_image');
+                if (!empty($model->emp_image)) {
+                    // making the name of image file
+                    $imageName = $model->emp_name.'_photo';
+                    // getting the extension of image file
+                    $imageExtension = $model->emp_image->extension;
+                    // save the path of the image in backend/web/uploads
+                    $model->emp_image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
+                    //save the path in the db column
+                    $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
+                }
+                else{
+                    $model->emp_image = $empImage;
+                }
+
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0'; 
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->emp_id]);
             } else {
                 return $this->render('update', [
