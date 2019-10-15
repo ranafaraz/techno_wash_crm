@@ -290,6 +290,7 @@ use common\models\Products;
                               <label>Quantity </label>
                               <input type="text" id="product_quantity" class="form-control">
                             </div>
+                            <input type="hidden" id="hide_quantity" class="form-control">
                           </div>
                         </div>
                       </div>
@@ -670,6 +671,7 @@ use common\models\Products;
 	let serviceArray 				= new Array();
 	let amountArray 				= new Array();
 	let ItemTypeArray       = new Array();
+  let quantityArray       = new Array();
 	let user_id = <?php echo $id; ?>;
 	let customer_id        = <?php echo $customerID; ?>;
 	let rIndex;
@@ -875,6 +877,7 @@ $("#item_type").change(function(){
   						serviceArray.push(services);
   						amountArray.push(price);
   						ItemTypeArray.push(type);
+              quantityArray.push(quantity);
 
   						$("#mydata").show();
   						$('#bill_form').show();
@@ -938,6 +941,7 @@ $("#item_type").change(function(){
               //alert(originalPrice);
             } 
 	});
+
   // for vihicel name
 	$("#vehicle").on("change",function(){
 		var vehicle = $("#vehicle").val();
@@ -1011,6 +1015,7 @@ $("#item_type").change(function(){
 						serviceArray.push(barcode);
 						amountArray.push(stock_price);
 						ItemTypeArray.push(type);
+            quantityArray.push(quantity);
 
 						$("#mydata").show();
 						$('#bill_form').show();
@@ -1080,12 +1085,14 @@ $("#item_type").change(function(){
             $('#remaining').val(totalprices);
 
             var vehicle             = $('#vehicle').val();
-            var barcode             = parseInt($("#product_name").val());
+            var productid             = parseInt($("#productid").val());
             var stock_price         = $("#productSellingPrice").val();
             
             var servicesName        =$('#productName').val();
             var reg_name            = $('#vehicle_name').val();
             var type                =$('#item_type').val();
+            var quantity            =$('#product_quantity').val();
+
             if (vehicle=="" || vehicle==null)
             {
                   alert("Select the Vehicle name ");
@@ -1096,9 +1103,10 @@ $("#item_type").change(function(){
             else
             {
             vehicleArray.push(vehicle);
-            serviceArray.push(barcode);
+            serviceArray.push(productid);
             amountArray.push(stock_price);
             ItemTypeArray.push(type);
+            quantityArray.push(quantity);
 
             $("#mydata").show();
             $('#bill_form').show();
@@ -1134,6 +1142,8 @@ $("#item_type").change(function(){
                             rIndex = this.rowIndex;
                             document.getElementById("remove_value").value = rIndex;
                              document.getElementById("removed_value").value = this.cells[2].innerHTML;
+                             var q = this.cells[4].innerHTML;
+                             $("#hide_quantity").val(q);
                            
                           };
                       }}     
@@ -1152,37 +1162,45 @@ $("#item_type").change(function(){
 			else{
 			document.getElementById("myTableData").deleteRow(remove_value1);
 			var a =amountArray.length - remove_value1;
-			//alert(amountArray);
 			var nt=$('#tp').val();
-			var nta = nt-amountArray[a];
+      var qty = $("#hide_quantity").val();
+      //alert(qty);
+      if(qty =="1"){
+        var nta = nt-amountArray[a];
+      }else{
+       var qty_amount = amountArray[a]*qty;
+       var nta = nt-qty_amount;
+      }
+
 			amountArray.splice(a,1);
 			vehicleArray.splice(a,1);
 			serviceArray.splice(a,1); 
-			
  			ItemTypeArray.splice(a,1);
+      quantityArray.splice(a,1);
+
 			$('#remove_value').val("");
 			$('#removed_value').val("");
-			//alert(amountArray);
       $('#tp').val(nta);
       $('#nt').val(nta);
       $('#remaining').val(nta);
       $('#status').val("Unpaid");
       $('#disc').val("");
       $('#paid').val("");
-			if(amountArray.length==0){
-			$('#mydata').hide();
-			$('#remove_index').hide();
-			$('#bill_form').hide();
-			$('#price').val("");
-      $('#selling_price').val("");
-			$('#vehicle').val("");
-			$('#item_type').val("");
-			$('#types').hide();
-			$('#stock').hide();
-			$('#servic').hide();
-      $('#pname').hide();
-      $('#quantity').hide();
-      $('#product_quantity').val("");
+
+  		if(amountArray.length==0){
+  			$('#mydata').hide();
+  			$('#remove_index').hide();
+  			$('#bill_form').hide();
+  			$('#price').val("");
+        $('#selling_price').val("");
+  			$('#vehicle').val("");
+  			$('#item_type').val("");
+  			$('#types').hide();
+  			$('#stock').hide();
+  			$('#servic').hide();
+        $('#pname').hide();
+        $('#quantity').hide();
+        $('#product_quantity').val("");
 				
 			}
 			}
@@ -1192,11 +1210,14 @@ $("#item_type").change(function(){
 
 	$('#insert').click(function(){
 			var invoice_date = $('#invoice_date').val();
+      pro_quantity
 			customer_id;
 			vehicleArray;
 			serviceArray; 
 			amountArray;
  			ItemTypeArray;
+      quantityArray;
+
  			var total_amount = $('#tp').val();
  			var net_total = $('#nt').val();
  			var paid = $('#paid').val();
@@ -1225,17 +1246,18 @@ $("#item_type").change(function(){
 			        type:'post',
 			        data:{
 			        	user_id:user_id,
-						vehicleArray:vehicleArray,
+						    vehicleArray:vehicleArray,
 	        			invoice_date:invoice_date,
-						customer_id:customer_id,
-						paid:paid,
-						remaining:remaining,
-						status:status,
-						serviceArray:serviceArray,
-						amountArray:amountArray,
-						ItemTypeArray:ItemTypeArray,
-						total_amount:total_amount,
-						net_total:net_total
+    						customer_id:customer_id,
+    						paid:paid,
+    						remaining:remaining,
+    						status:status,
+    						serviceArray:serviceArray,
+    						amountArray:amountArray,
+    						ItemTypeArray:ItemTypeArray,
+    						total_amount:total_amount,
+                quantityArray:quantityArray,
+    						net_total:net_total,
 						
 	        	},
 	        url: "$url",
