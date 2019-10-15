@@ -130,8 +130,11 @@ class EmployeeController extends Controller
                     //save the path in the db column
                     $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
                 }
-                else{
-                    $model->emp_image = 'uploads/'.'default-image-name.png';
+                else if (($model->emp_gender) == "Female"){
+                        $model->emp_image = 'uploads/default-image-female.png'; 
+                }
+                else {
+                    $model->emp_image = 'uploads/default-image-name.png'; 
                 }
                 $connection= \Yii::$app->db;
                 $model->branch_id = Yii::$app->user->identity->branch_id; 
