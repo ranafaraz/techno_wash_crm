@@ -200,10 +200,10 @@ use common\models\Branches;
 					            				<tbody>
 					            							
 					            						<tr>
-					            							<td style="vertical-align:middle;"><?php echo $EmployeeData->emp_name; ?></td>
-					            							<td style="vertical-align:middle;"><?php echo $EmployeeData->emp_cnic; ?></td>
-					            							<td style="vertical-align:middle;"><?php echo $EmployeeData->salary_id; ?></td>
-					            							<td class="text-center" style="vertical-align:middle;"><a href="Employee-update?id=" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
+					            							<td class="t-cen" style="vertical-align:middle;"><?php echo $EmployeeData->emp_name; ?></td>
+					            							<td class="t-cen" style="vertical-align:middle;"><?php echo $EmployeeData->emp_cnic; ?></td>
+					            							<td class="t-cen" style="vertical-align:middle;"><?php echo $EmployeeData->salary_id; ?></td>
+					            							<td class="t-cen" class="text-center" style="vertical-align:middle;"><a href="Employee-update?id=" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
 					            						</tr>	
 					            				</tbody>
 					            			</table>

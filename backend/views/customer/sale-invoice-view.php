@@ -475,31 +475,31 @@ use common\models\Products;
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer Gender:</th>
+                        <th class="bg-color" style="padding: 12px;">Gender:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_gender']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer CNIC:</th>
+                        <th class="bg-color" style="padding: 12px;">CNIC:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_cnic']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer Address:</th>
+                        <th class="bg-color" style="padding: 12px;">Address:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_address']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer Contact No:</th>
+                        <th class="bg-color" style="padding: 12px;">Contact No:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_contact_no']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer Registration Date:</th>
+                        <th class="bg-color" style="padding: 12px;">Registration Date:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_registration_date']; ?>
                         </th>
@@ -511,36 +511,33 @@ use common\models\Products;
                   <table class="table table-bordered">
                     <thead>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer Age:</th>
+                        <th class="bg-color" style="padding: 12px;">Age:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_age']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer Email:</th>
+                        <th class="bg-color" style="padding: 12px;">Email:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_email']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Customer Occupation:</th>
+                        <th class="bg-color" style="padding: 12px;">Occupation:</th>
                         <th class="t-cen" style="background-color: white;">
                           <?php echo $customerData[0]['customer_occupation']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="text-center bg-color" style="vertical-align:middle;">Customer Image:</th>
+                        <th class="text-center bg-color" style="vertical-align:middle;">Image:</th>
                         <th class="t-cen" style="background-color: white;">
-                          <img src="<?php echo $customerData[0]['customer_image']; ?>" class="img-rounded" alt="Image" style="width:150px; height:120px;"/>
+                          <img src="<?php echo $customerData[0]['customer_image']; ?>" class="img-rounded" alt="Image" style="width:160px; height:150px;"/>
                         </th>
                       </tr>
                     </thead>
                   </table>
                 </div>
               </div> 
-
-
-
               </div>
               <div class="tab-pane" id="customer_vehicles">
                 <div class="row">
@@ -590,7 +587,7 @@ use common\models\Products;
                           <td style="vertical-align:middle;"><?php echo $vehicleSubType[0]['name']; ?></td>
                           <td style="vertical-align:middle;"><?php echo $customerVehicles[$i]['registration_no']; ?></td>
                           <td style="vertical-align:middle;"><?php echo $customerVehicles[$i]['color']; ?></td>
-                          <td class="text-center" style="vertical-align:middle;"><img src="<?php echo $customerVehicles[$i]['image']; ?>" class="img-thumbnail" alt="Image" style="width:150px; height:100px;"/></td>
+                          <td class="text-center" style="vertical-align:middle;"><img src="<?php echo $customerVehicles[$i]['image']; ?>" class="img-thumbnail" alt="Image" style="width:140px; height:100px;"/></td>
                           <td class="text-center" style="vertical-align:middle;"><a href="customer-vehicles-update?id=<?php echo $customerVehicles[$i]['customer_vehicle_id'] ?>" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
                         </tr> 
                       

@@ -18,7 +18,7 @@ use dosamigos\datetimepicker\DateTimePicker;
 </div>
 <div class="employee-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+ <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-6">
           <label>Employee Joining Date</label>
