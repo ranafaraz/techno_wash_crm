@@ -22,13 +22,10 @@ return [
     // [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'branch_id',
-    //     'value' => 'branch.branch_name',
-
     // ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'salary_id',
-
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -36,16 +33,28 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'emp_cnic',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_father_name',
     ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_father_position',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'emp_contact',
+        'attribute'=>'emp_cnic',
     ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_contact',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_emergency_contact',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_emergency_contact_relation',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'emp_email',
@@ -58,33 +67,61 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'emp_gender',
     // ],
-    // [ 
-       // 'class'=>'\kartik\grid\DataColumn', 
-       // 'attribute'=>'emp_age', 
-   // ], 
-   // [ 
-       // 'class'=>'\kartik\grid\DataColumn', 
-       // 'attribute'=>'emp_address', 
-   // ]
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'emp_qualification',
+        // 'attribute'=>'emp_marital_status',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'emp_reference',
+        // 'attribute'=>'emp_dob',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'joining_date',
+        // 'attribute'=>'emp_birth_place',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'learning_date',
+        // 'attribute'=>'emp_religion',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'status',
+        // 'attribute'=>'emp_blood_group',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_nationality',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_passport_no',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'passport_expiry_date',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_residence',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_present_address',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_permanent_address',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_joining_date',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_learning_date',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'emp_status',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
@@ -110,7 +147,7 @@ return [
                 return Url::to([$action,'id'=>$key]);
         },
         'viewOptions'=>['role'=>'','title'=>'View','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'','title'=>'Update', 'data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',

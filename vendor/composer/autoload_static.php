@@ -133,6 +133,7 @@ class ComposerStaticInit0c51b51caa7b76089a6868de9dd1f3ad
         'd' => 
         array (
             'dosamigos\\datetimepicker\\' => 25,
+            'dosamigos\\datepicker\\' => 21,
             'dmstr\\' => 6,
         ),
         'c' => 
@@ -324,6 +325,10 @@ class ComposerStaticInit0c51b51caa7b76089a6868de9dd1f3ad
         'dosamigos\\datetimepicker\\' => 
         array (
             0 => __DIR__ . '/..' . '/2amigos/yii2-date-time-picker-widget/src',
+        ),
+        'dosamigos\\datepicker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-date-picker-widget/src',
         ),
         'dmstr\\' => 
         array (

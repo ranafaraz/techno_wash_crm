@@ -150,7 +150,7 @@ class CustomerController extends Controller
 
                     $model->customer_image = UploadedFile::getInstance($model,'customer_image');
 
-                // checking the field
+                // checking the field 
                 if(!empty($model->customer_image)){
                     // making the name of the image file
                     $imageName = $model->customer_name.'_photo';

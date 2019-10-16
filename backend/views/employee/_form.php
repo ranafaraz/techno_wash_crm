@@ -5,6 +5,7 @@ use common\models\Salary;
 use common\models\EmployeeTypes;
 use yii\helpers\ArrayHelper;
 use dosamigos\datetimepicker\DateTimePicker;
+use kartik\date\DatePicker;
 
 
 /* @var $this yii\web\View */
@@ -24,7 +25,7 @@ use dosamigos\datetimepicker\DateTimePicker;
           <label>Employee Joining Date</label>
                 <?= DateTimePicker::widget([
                 'model' => $model,
-                'attribute' => 'joining_date',
+                'attribute' => 'emp_joining_date',
                 'language' => 'en',
                 'size' => 'ms',
                 'clientOptions' => [
@@ -40,7 +41,7 @@ use dosamigos\datetimepicker\DateTimePicker;
          <label>Employee Learning Date</label>
                 <?= DateTimePicker::widget([
                 'model' => $model,
-                'attribute' => 'learning_date',
+                'attribute' => 'emp_learning_date',
                 'language' => 'en',
                 'size' => 'ms',
                 'clientOptions' => [
@@ -50,14 +51,14 @@ use dosamigos\datetimepicker\DateTimePicker;
                     'todayBtn' => true
                 ]
             ]);?>
-        </div>        
+        </div>     
     </div>
     <!-- row 1 close -->
     <div class="row">
         <div class="col-md-4">
                 <?= $form->field($model, 'emp_type_id')->dropDownList(
                 ArrayHelper::map(EmployeeTypes::find()->all(),'emp_type_id','emp_type_name'),
-                ['prompt'=>'Select Emp Type',]
+                ['prompt'=>'Select Position...',]
                 )?>
        </div>
        <div class="col-md-4">                      
@@ -71,50 +72,106 @@ use dosamigos\datetimepicker\DateTimePicker;
 
     <div class="row">
         <div class="col-md-4">
-        <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
+            <?= $form->field($model, 'emp_father_position')->textInput(['maxlength' => true]) ?>
+        
         </div>
         <div class="col-md-4">
-        <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
+            <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
+        
         </div>
         <div class="col-md-4">
-        <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
         </div>
     </div>
     <!-- row 3 close -->
 
     <div class="row">
       <div class="col-md-4">
-        <?= $form->field($model, 'emp_image')->fileInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'emp_emergency_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
       </div>
       <div class="col-md-4">
-        <?= $form->field($model, 'emp_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
+            <?= $form->field($model, 'emp_emergency_contact_relation')->textInput(['maxlength' => true]) ?>
       </div>
       <div class="col-md-4">
-        <?= $form->field($model, 'emp_age')->textInput() ?>   
+            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true]) ?>   
       </div>
     </div>
     <!-- row 4 close -->
 
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_qualification')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'emp_image')->fileInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_address')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'emp_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
         </div>
         
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_reference')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'emp_marital_status')->dropDownList([ 'Single' => 'Single', 'Married' => 'Married', ]) ?>
         </div>
     </div>
     <!-- row 5 close -->
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
+            <?= '<label>Date of Birth</label>';
+                echo DatePicker::widget([
+                'model' => $model,
+                'attribute' => 'emp_dob',
+                'options' => ['placeholder' => 'Select Date of Birth...'],
+                'pluginOptions' => [
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'autoclose' => true
+                ]
+            ]);?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'salary_id')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'emp_birth_place')->textInput(['maxlength' => true]) ?>
         </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_religion')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_blood_group')->dropDownList([ 'A+' => 'A+', 'A-' => 'A-', 'B+' => 'B+', 'B-' => 'B-', 'AB+' => 'AB+', 'AB-' => 'AB-', 'O+' => 'O+', 'O-' => 'O-', ], ['prompt' => 'Select Blood Group...']) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_nationality')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_passport_no')->textInput(['maxlength' => true]) ?>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+             <?= '<label>Passport Expiry Date</label>';
+                echo DatePicker::widget([
+                'model' => $model,
+                'attribute' => 'passport_expiry_date',
+                'options' => ['placeholder' => 'Select Expiry date...'],
+                'pluginOptions' => [
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'autoclose' => true
+                ]
+            ]);?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_residence')->dropDownList([ 'Owned' => 'Owned', 'Rented' => 'Rented', 'Parents' => 'Parents', 'relatives' => 'Relatives', 'others' => 'Others', ], ['prompt' => 'Select Residence...']) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_present_address')->textInput(['maxlength' => true]) ?>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_permanent_address')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'emp_status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
+        </div>      
     </div>
    
    
