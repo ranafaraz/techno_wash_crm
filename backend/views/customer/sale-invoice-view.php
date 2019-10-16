@@ -293,6 +293,19 @@ use common\models\Products;
                             <input type="hidden" id="hide_quantity" class="form-control">
                           </div>
                         </div>
+                        <div class="col-md-3">
+                          <div id="availbleStock" style="display: none;">
+                            <div class="form-group">
+                              <label>Available Stock </label>
+                              <input type="text" id="availble_stock" class="form-control" readonly="">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3" id="alertDiv">
+                          <p id="message" style="display:none;">
+                            
+                          </p>
+                        </div>
                       </div>
                       <div class="row" style="margin-top: 25px" id="remove_index">
                         <div class="col-md-6">
@@ -823,10 +836,22 @@ $("#item_type").change(function(){
 	});
 
   $("#pname").focusin(function(){
-    $('#quantity').show(); 
+    $('#quantity').show();
+    $('#availbleStock').show();
+   // $('#message').val("");
+    //$('#availbleStock').val("");
+    $('#availbleStock').val("");
+
+
   });
+
   $("#barcode").focusin(function(){
     $('#quantity').hide();
+    $('#availbleStock').hide();
+    $('#availble_stock').val("");
+    $('#message').hide();
+    $('#productid').val('').trigger("change");
+    
 
   });
 
@@ -1058,13 +1083,62 @@ $("#item_type").change(function(){
         	}      
     	}); 
 	});
+  $('#productid').on("change",function(){
+   var PRODUCTid = parseInt($('#productid').val());
+   //$('#message').val("");
+    $.ajax({
+          type:'post',
+          data:{PRODUCTid:PRODUCTid},
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+             var count = jsonResult.length;
+             if(count > 0){
+               $("#availble_stock").val(count);
+              $("#message").removeAttr("Style");
+              $("#message").html("Stock available");
+              $("#message").css({
+                "background-color":"#008D4C",
+                "color":"white",
+                "padding":"15px",
+                "text-align":"center",
+                });
+              
+             }
+             // else{
+             //    $("#availble_stock").val(count);
+             //  $("#message").html("Stock is not available");
+             //  $("#message").css({
+             //    "background-color":"red",
+             //    "color":"white",
+             //    "padding":"15px",
+             //    "text-align":"center",
+             //    });
+             // }
+             
+          }      
+    });
+
+  });
 
   $('#product_quantity').on("change",function(){
   var productID  = parseInt($("#productid").val());
   var pro_quantity=$("#product_quantity").val();
+  var avastock = $("#availble_stock").val();
+  // var remainStock = avastock - pro_quantity;
+  // $("#availble_stock").val(remainStock);
   if(pro_quantity =="" || pro_quantity == null ){
   }
+  else if(pro_quantity > avastock )
+  {
+    //alert("not available");
+    $("#product_quantity").css("border", "1px solid red");
+    $("#product_quantity").val("");
+    //$("#message").html("not a valid stock");
+  }
   else{
+    $("#product_quantity").css("border", "");
+    $("#product_quantity").val("");
      pro_quantity      = parseInt(pro_quantity);
   //alert(productID);
     $.ajax({
@@ -1128,9 +1202,8 @@ $("#item_type").change(function(){
             row.insertCell(4).innerHTML= pro_quantity;
             row.insertCell(5).innerHTML= stock_price;
 
-
-            // $('#barcode').val("");
-            // $('#barcode').focus();
+            $("#product_quantity").val("");
+            $("#product_quantity").focus("");
             $('#remove_index').show();
 
                 
@@ -1164,12 +1237,14 @@ $("#item_type").change(function(){
 			var a =amountArray.length - remove_value1;
 			var nt=$('#tp').val();
       var qty = $("#hide_quantity").val();
-      //alert(qty);
-      if(qty =="1"){
-        var nta = nt-amountArray[a];
+      //var nta = nt-amountArray[a];
+
+      if(qty > 1){
+        var qty_amount = amountArray[a]*qty;
+        var nta = nt-qty_amount;
+        
       }else{
-       var qty_amount = amountArray[a]*qty;
-       var nta = nt-qty_amount;
+        var nta = nt-amountArray[a];
       }
 
 			amountArray.splice(a,1);
@@ -1201,6 +1276,7 @@ $("#item_type").change(function(){
         $('#pname').hide();
         $('#quantity').hide();
         $('#product_quantity').val("");
+        $('#nta').val("");
 				
 			}
 			}
@@ -1210,7 +1286,7 @@ $("#item_type").change(function(){
 
 	$('#insert').click(function(){
 			var invoice_date = $('#invoice_date').val();
-      pro_quantity
+      //pro_quantity
 			customer_id;
 			vehicleArray;
 			serviceArray; 

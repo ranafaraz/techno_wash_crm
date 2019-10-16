@@ -1,4 +1,18 @@
 <?php
+
+	if(isset($_POST['PRODUCTid']))
+	{
+		$PRODUCTid = $_POST['PRODUCTid'];
+		$availbleStock = Yii::$app->db->createCommand("
+		SELECT *
+		FROM stock
+		WHERE name = '$PRODUCTid'
+		AND status = 'In-stock'
+		")->queryAll();
+		echo json_encode($availbleStock);
+
+	}
+
 	if(isset($_POST['productID']))
 	{
 		$productID = $_POST['productID'];
@@ -70,30 +84,31 @@
  		   echo json_encode($register); 
  	}
 
- 	 if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
- 	  && isset($_POST['total_amount']) && isset($_POST['net_total']) 
- 	  && isset($_POST['paid']) && isset($_POST['remaining'])
- 	 && isset($_POST['status']) && isset($_POST['vehicleArray'])
- 	   && isset($_POST['serviceArray']) && isset($_POST['amountArray'])
- 	    && isset($_POST['ItemTypeArray']) && isset($_POST['pro_quantity']))
+ 	if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
+ 	&& isset($_POST['total_amount']) && isset($_POST['net_total']) 
+ 	&& isset($_POST['paid']) && isset($_POST['remaining'])
+ 	&& isset($_POST['status']) && isset($_POST['vehicleArray'])
+ 	&& isset($_POST['serviceArray']) && isset($_POST['amountArray'])
+ 	&& isset($_POST['ItemTypeArray']))
  	{
- 		$total_amount = $_POST["total_amount"];
- 		$invoice_date= $_POST["invoice_date"];
-	 	$customer_id= $_POST['customer_id'];
-		$net_total = $_POST['net_total'];
-		$paid = $_POST['paid'];
-		$remaining = $_POST['remaining'];
-		$status = $_POST["status"];
-		$vehicleArray = $_POST['vehicleArray']; 
-		$serviceArray = $_POST["serviceArray"];
-		$amountArray = $_POST['amountArray'];
-		$ItemTypeArray = $_POST['ItemTypeArray'];
-		$user_id = $_POST["user_id"];
-		$quantityArray = $_POST["quantityArray"];
-		$disc_amount = $total_amount - $net_total;
-		$countItemArray = count($vehicleArray);
+
+	$total_amount = $_POST["total_amount"];
+	$invoice_date= $_POST["invoice_date"];
+	$customer_id= $_POST['customer_id'];
+	$net_total = $_POST['net_total'];
+	$paid = $_POST['paid'];
+	$remaining = $_POST['remaining'];
+	$status = $_POST["status"];
+	$vehicleArray = $_POST['vehicleArray']; 
+	$serviceArray = $_POST["serviceArray"];
+	$amountArray = $_POST['amountArray'];
+	$ItemTypeArray = $_POST['ItemTypeArray'];
+	$user_id = $_POST["user_id"];
+	$quantityArray = $_POST["quantityArray"];
+	$disc_amount = $total_amount - $net_total;
+	$countItemArray = count($vehicleArray);
 		
-		//starting of transaction handling
+	//starting of transaction handling
 	$transaction = \Yii::$app->db->beginTransaction();
 	try {
 		 $insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
@@ -164,7 +179,8 @@
 		        }
 	    			    			
 	    		}
-	    	} else {
+	    	} //closing of quantity if 
+	    	else {
 		    	$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
 
 					'sale_inv_head_id'  	=> $selectedInvHeadID,
@@ -183,8 +199,8 @@
 		                        ['stock_id' => $serviceArray[$j]]
 		            )->execute();
 		        }
-	    	}
-	    } // end of for loop
+	    	} // closing of quantity else
+	    } // end of for loop itemarray
 	    // transaction commit
     	$transaction->commit();
 	    echo json_encode($insert_invoice_detail);
@@ -197,6 +213,6 @@
 	} // closing of catch block
 	// closing of transaction handling
 	echo json_encode($insert_invoice_detail);
-}
+} // closing of isset
 		
 ?>
