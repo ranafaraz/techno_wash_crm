@@ -704,8 +704,13 @@ use common\models\Products;
 function discountFun(){
         // Getting the value from the original price
        originalPrice = parseInt(document.getElementById("tp").value);
-       // alert(originalPrice);
-      //discountType  = parseInt(document.getElementById("discountType").value);
+
+       disco = document.getElementById("disc").value;
+       if (disco =="" || disco == null) {
+              $('#nt').val(originalPrice);
+              $('#remaining').val(originalPrice);
+              $('#paid').val("");
+          }else{      
         
           if(document.getElementById('percentage').checked)
               {
@@ -727,7 +732,8 @@ function discountFun(){
             {
             	
             discount = parseInt(document.getElementById("disc").value);
-                  
+
+
             purchasePrice = originalPrice - discount;
             //alert(purchasePrice);
               //discountReceived = discount;
@@ -749,9 +755,11 @@ function discountFun(){
               $('#alert').css("display","none");
               $("#insert").removeAttr("disabled");
             }
-
-
+            $('#paid').val(""); 
+            $('#remaining').val(purchasePrice);
       }
+      }
+
       function deleteRow(tableID) 
       {
             try {
@@ -855,13 +863,6 @@ $("#item_type").change(function(){
     $('#productid').val('').trigger("change");  
   });
 
-    $("#disc").on('focus',function(){
-      $('#disc').val("");
-    });
-    $("#paid").on('focus',function(){
-      $('#paid').val("");
-    });
-
 
 	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
@@ -952,30 +953,30 @@ $("#item_type").change(function(){
     	}); 
 	});
 
-	$("#disc").change(function(){
-		 var totalAmount = $('#tp').val();
+	// $("#disc").change(function(){
+	// 	 var totalAmount = $('#tp').val();
 
-		 if($("#percentage").checked)
-              {
+	// 	 if($("#percentage").checked)
+ //              {
               	
-            discount = parseInt($("#disc").val());
+ //            discount = parseInt($("#disc").val());
             
-            discountReceived = parseInt((totalAmount*discount)/100);
+ //            discountReceived = parseInt((totalAmount*discount)/100);
             
-            purchasePrice = totalAmount-discountReceived;
-            $('#nt').val(purchasePrice);
-              }
-            else if(document.getElementById("#amount").checked)
-            {
+ //            purchasePrice = totalAmount-discountReceived;
+ //            $('#nt').val(purchasePrice);
+ //              }
+ //            else if(document.getElementById("#amount").checked)
+ //            {
             	
-            discount = parseInt(document.getElementById("disc").value);
+ //            discount = parseInt(document.getElementById("disc").value);
                   
-            purchasePrice = originalPrice - discount;
-              //discountReceived = discount;
-             //$('#nt').val(purchasePrice);
-              //alert(originalPrice);
-            } 
-	});
+ //            purchasePrice = originalPrice - discount;
+ //              //discountReceived = discount;
+ //             //$('#nt').val(purchasePrice);
+ //              //alert(originalPrice);
+ //            } 
+	// });
 
   // for vihicel name
 	$("#vehicle").on("change",function(){
@@ -1138,7 +1139,7 @@ $("#item_type").change(function(){
   var avastock = $("#availble_stock").val();
   // var remainStock = avastock - pro_quantity;
   // $("#availble_stock").val(remainStock);
-  if(pro_quantity =="" || pro_quantity == null ){
+  if(pro_quantity =="" || pro_quantity == null){
   }
   else if(pro_quantity > avastock )
   {
