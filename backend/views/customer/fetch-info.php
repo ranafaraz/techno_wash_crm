@@ -1,5 +1,4 @@
 <?php
-
 	if(isset($_POST['PRODUCTid']))
 	{
 		$PRODUCTid = $_POST['PRODUCTid'];
@@ -37,6 +36,7 @@
 	    INNER JOIN products as prod
 	    ON st.name = prod.product_id
 	    WHERE st.barcode = '$barcode'
+	    AND st.status = 'In-stock'
 	    ")->queryAll();
  	echo json_encode($stock);
  	}
@@ -107,7 +107,6 @@
 	$quantityArray = $_POST["quantityArray"];
 	$disc_amount = $total_amount - $net_total;
 	$countItemArray = count($vehicleArray);
-		
 	//starting of transaction handling
 	$transaction = \Yii::$app->db->beginTransaction();
 	try {
@@ -137,10 +136,13 @@
 		AND	paid_amount			= '$paid'
 		AND remaining_amount	= '$remaining'
 		AND	status				= '$status'
+		ORDER BY sale_inv_head_id DESC
 	    ")->queryAll();
 	
 	$selectedInvHeadID = $select_invoice[0]['sale_inv_head_id'];
-	for ($j=0; $j <$countItemArray ; $j++) { 
+
+	for ($j=0; $j <$countItemArray ; $j++) {
+
 		$quantity = $quantityArray[$j];
 
 	    	if($quantity > 1){
@@ -151,12 +153,12 @@
 				    FROM stock
 				    WHERE name = '$product_id'
 				    AND status = 'In-stock'
-				    LIMIT $quantity
+				    LIMIT '$quantity'
 				    ")->queryAll();
 	    		$count = count($selectProduct);
 
-	    		for ($i=0; $i < $count; $i++) { 
-	    			$prod_id = $selectProduct[$i]['stock_id'];
+	    		for ($i=0; $i<4; $i++) { 
+	    			//$prod_id = $selectProduct[$i]['stock_id'];
 
 	    			$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
 
@@ -168,15 +170,15 @@
 					'created_by'			=> $user_id,
 					])->execute();
 
-	    			if ($ItemTypeArray[$j] == "Stock") {
+	    			// if ($ItemTypeArray[$i] == "Stock") {
 
-		    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
-								'status'		=> "Sold",	
-								'updated_by'	=> $user_id
-		                        ],
-		                        ['stock_id' => $prod_id]
-		            )->execute();
-		        }
+		    		// $examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+								// 'status'		=> "Sold",	
+								// 'updated_by'	=> $user_id
+		      //                   ],
+		      //                   ['stock_id' => $prod_id[$j]]
+		      //       )->execute();
+		      //   }
 	    			    			
 	    		}
 	    	} //closing of quantity if 

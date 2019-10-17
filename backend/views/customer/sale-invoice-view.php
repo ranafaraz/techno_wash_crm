@@ -287,7 +287,7 @@ use common\models\Products;
                         <div class="col-md-3">
                           <div id="quantity" style="display: none;">
                             <div class="form-group">
-                              <label>Quantity </label>
+                              <label>Quantity</label>
                               <input type="text" id="product_quantity" class="form-control">
                             </div>
                             <input type="hidden" id="hide_quantity" class="form-control">
@@ -296,7 +296,7 @@ use common\models\Products;
                         <div class="col-md-3">
                           <div id="availbleStock" style="display: none;">
                             <div class="form-group">
-                              <label>Available Stock </label>
+                              <label>Available Stock</label>
                               <input type="text" id="availble_stock" class="form-control" readonly="">
                             </div>
                           </div>
@@ -821,12 +821,16 @@ $("#item_type").change(function(){
 		 	$('#stock').hide();
       $('#pname').hide();
       $('#quantity').hide();
+      $('#quantity').hide();
+      $('#availbleStock').hide();
+      $('#message').hide();
 		 }
 		 else if(item_type == "Stock")
 		 {
 		 	$('#stock').show();
-      $('#pname').show();
+      $('#pname').hide();
 		 	$('#servic').hide();
+      $('#productid').val('').trigger("change");
 		 }
 		 else{
 		 	$('#stock').hide();
@@ -1167,6 +1171,7 @@ $("#item_type").change(function(){
             var type                =$('#item_type').val();
             var quantity            =$('#product_quantity').val();
 
+
             if (vehicle=="" || vehicle==null)
             {
                   alert("Select the Vehicle name ");
@@ -1277,6 +1282,8 @@ $("#item_type").change(function(){
         $('#quantity').hide();
         $('#product_quantity').val("");
         $('#nta').val("");
+        $("#availbleStock").hide();
+        $("#message").hide();
 				
 			}
 			}

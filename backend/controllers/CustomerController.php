@@ -145,8 +145,7 @@ class CustomerController extends Controller
                 ];         
             }else if($model->load($request->post())){
 
-                    $modelCustomerVehicles = Model::createMultiple(CustomerVehicles::classname()); 
-                    Model::loadMultiple($modelCustomerVehicles, Yii::$app->request->post()); 
+                     
 
                     $model->customer_image = UploadedFile::getInstance($model,'customer_image');
 
@@ -171,7 +170,10 @@ class CustomerController extends Controller
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
-                    $model->updated_at = '0';                    
+                    $model->updated_at = '0';
+
+                    $modelCustomerVehicles = Model::createMultiple(CustomerVehicles::classname()); 
+                    Model::loadMultiple($modelCustomerVehicles, Yii::$app->request->post());                    
 
                     // validate all models
                     $valid = $model->validate();
