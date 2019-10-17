@@ -12,6 +12,7 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model common\models\Employee */
 /* @var $form yii\widgets\ActiveForm */
+$empId = $model->emp_id;
 $empName = $model->emp_name;
 ?>
 <div class="row">
@@ -175,12 +176,12 @@ $empName = $model->emp_name;
             <?= $form->field($model, 'emp_status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
         </div>      
     </div>
-   
-   
   
     <?php if (!Yii::$app->request->isAjax){ ?>
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <div class="form-group">            
+            <a href="./employee-detail-view?id=<?php echo $empId;?>" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : '<i class="glyphicon glyphicon-open"></i> Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     <?php } ?>
 

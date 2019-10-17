@@ -621,11 +621,11 @@ use common\models\Products;
       </div>
     </div>
     <div class="col-md-3" id="bill_form" style="display: none;">
-      <div class="box box-success">
+      <div class="box box-primary">
         <div class="box-body">
         	<div class="container-fluid" style="margin-bottom:8px;">
             <div class="row">
-              <div class="col-md-12" style="padding:10px;text-align: center;font-weight: bolder;font-size:20px;background-color: lightgray;">
+              <div class="col-md-12" style="padding:10px;text-align: center;font-weight: bolder;font-size:20px;background-color: #3C8DBC;color:white;">
                 Bill
               </div>
             </div>
@@ -642,7 +642,7 @@ use common\models\Products;
 
 					  <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
             <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
-					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()">
+					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()">
 
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
@@ -653,7 +653,7 @@ use common\models\Products;
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid" oninput="cal_remaining()">
+                  <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
@@ -845,8 +845,6 @@ $("#item_type").change(function(){
    // $('#message').val("");
     //$('#availbleStock').val("");
     $('#availbleStock').val("");
-
-
   });
 
   $("#barcode").focusin(function(){
@@ -854,10 +852,16 @@ $("#item_type").change(function(){
     $('#availbleStock').hide();
     $('#availble_stock').val("");
     $('#message').hide();
-    $('#productid').val('').trigger("change");
-    
-
+    $('#productid').val('').trigger("change");  
   });
+
+    $("#disc").on('focus',function(){
+      $('#disc').val("");
+    });
+    $("#paid").on('focus',function(){
+      $('#paid').val("");
+    });
+
 
 	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
@@ -883,9 +887,11 @@ $("#item_type").change(function(){
 				    var tprice = jsonResult[0]['price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
             $('#tp').val(tp);
-            $('#nt').val(tp);
-            $('#remaining').val(tp);
-				    $('#status').val('Unpaid');
+            //var after_disc =  $('#disc').val();
+            //$('#nt').val(tp);
+            //$('#remaining').val(tp);
+				    //$('#status').val('Unpaid');
+            discountFun();
 
 				    var vehicle 						= $('#vehicle').val();
 						var services 						= $('#serviceDetailId').val();
@@ -1018,9 +1024,10 @@ $("#item_type").change(function(){
 				    var tprice = jsonResult[0]['selling_price'];
 				    var tp = parseInt(totalAmount)+parseInt(tprice);
             $('#tp').val(tp);
-            $('#nt').val(tp);
-				    $('#remaining').val(tp);
-            $('#status').val('Unpaid');
+            //$('#nt').val(tp);
+				    //$('#remaining').val(tp);
+            //$('#status').val('Unpaid');
+            discountFun();
 
 				    var vehicle 						= $('#vehicle').val();
 						var barcode             = jsonResult[0]['stock_id'];
