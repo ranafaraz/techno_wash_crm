@@ -35,7 +35,11 @@
 				<a href="./home" class="btn btn-success">
 					<i class="glyphicon glyphicon-home"> HOME</i>
 				</a>
-			Service Category: <b style="color:#000000;"><?php echo $countWash[0]['service_name']; ?></b></h3> 
+			Service Category: <b style="color:#000000;"><?php 
+			if (!empty($countWash)) {
+				echo $countWash[0]['service_name'];
+			}
+			 ?></b></h3> 
 		</div>
 	</div>
 	<div class="row">
@@ -63,6 +67,8 @@
 		          WHERE customer.customer_id = '$custID'
 		          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
 		          ")->queryAll();
+		          if (!empty($washDetails)) {
+		          
 	              ?>          
 				<tr>
 					<td><?php echo $m+1; ?></td>
@@ -70,7 +76,9 @@
 					<td><?php echo $washDetails[0]['registration_no']; ?></td>
 					<td><?php echo $countWash[$m]['discount_per_service']; ?></td>
 				</tr>
-				<?php } ?>
+				<?php }
+					}
+				 ?>
 			</tbody>
 		</table>
 	</div>
@@ -239,6 +247,7 @@
 		          WHERE customer.customer_id = '$custID'
 		          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
 		          ")->queryAll();
+		          if (!empty($waxDetails)) {
 	              ?>          
 				<tr>
 					<td><?php echo $waxDetails[0]['customer_name']; ?></td>
@@ -246,7 +255,9 @@
 					<td><?php echo $countWax[$w]['service_name']; ?></td>
 					<td><?php echo $countWax[$w]['discount_per_service']; ?></td>
 				</tr>
-				<?php } ?>
+				<?php }
+					}
+				 ?>
 			
 				<?php
 				// loop for Interior Protection   
@@ -261,6 +272,7 @@
 		          WHERE customer.customer_id = '$custID'
 		          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
 		          ")->queryAll();
+		          if (!empty($interiorDetails)) {
 	              ?>          
 				<tr>
 					<td><?php echo $interiorDetails[0]['customer_name']; ?></td>
@@ -268,14 +280,16 @@
 					<td><?php echo $countInteriorProt[$p]['service_name']; ?></td>
 					<td><?php echo $countInteriorProt[$p]['discount_per_service']; ?></td>
 				</tr>
-				<?php } ?>
+				<?php }
+					}
+				 ?>
 
 				<?php
 				// loop for Engine Dressing   
 	              for ($e=0; $e <$countenginedressing ; $e++) { 
 	              $custID = $countEngineDressing[$e]['customer_id'];
 	              $custVehicleID = $countEngineDressing[$e]['customer_vehicle_id'];
-	              $interiorDetails  = Yii::$app->db->createCommand("
+	              $engineDressingDetails  = Yii::$app->db->createCommand("
 		          SELECT customer.customer_name,customer_vehicles.registration_no
 		          FROM customer
 		          INNER JOIN customer_vehicles
@@ -283,21 +297,24 @@
 		          WHERE customer.customer_id = '$custID'
 		          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
 		          ")->queryAll();
+		          if (!empty($engineDressingDetails)) {
 	              ?>          
 				<tr>
-					<td><?php echo $interiorDetails[0]['customer_name']; ?></td>
-					<td><?php echo $interiorDetails[0]['registration_no']; ?></td>
+					<td><?php echo $engineDressingDetails[0]['customer_name']; ?></td>
+					<td><?php echo $engineDressingDetails[0]['registration_no']; ?></td>
 					<td><?php echo $countEngineDressing[$e]['service_name']; ?></td>
 					<td><?php echo $countEngineDressing[$e]['discount_per_service']; ?></td>
 				</tr>
-				<?php } ?>
+				<?php } 
+					}
+				?>
 
 				<?php
 				// loop for Under Carriage   
 	              for ($u=0; $u <$countundercarriage ; $u++) { 
 	              $custID = $countUnderCarriage[$u]['customer_id'];
 	              $custVehicleID = $countUnderCarriage[$u]['customer_vehicle_id'];
-	              $interiorDetails  = Yii::$app->db->createCommand("
+	              $underCarriageDetails  = Yii::$app->db->createCommand("
 		          SELECT customer.customer_name,customer_vehicles.registration_no
 		          FROM customer
 		          INNER JOIN customer_vehicles
@@ -305,14 +322,17 @@
 		          WHERE customer.customer_id = '$custID'
 		          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
 		          ")->queryAll();
+		          if (!empty($underCarriageDetails)) {
 	              ?>          
 				<tr>
-					<td><?php echo $interiorDetails[0]['customer_name']; ?></td>
-					<td><?php echo $interiorDetails[0]['registration_no']; ?></td>
+					<td><?php echo $underCarriageDetails[0]['customer_name']; ?></td>
+					<td><?php echo $underCarriageDetails[0]['registration_no']; ?></td>
 					<td><?php echo $countUnderCarriage[$u]['service_name']; ?></td>
 					<td><?php echo $countUnderCarriage[$u]['discount_per_service']; ?></td>
 				</tr>
-				<?php } ?>
+				<?php }
+					}
+				 ?>
 			</tbody>
 		</table>
 	</div>
