@@ -269,28 +269,28 @@ $customervehicleID = Yii::$app->db->createCommand("
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>Total Amount</th>
+								<th style="background-color:white;color:black;">Total Amount</th>
 								<th><?php echo $bill[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Invoice Discount</th>
+								<th style="background-color:white;color:black;">Invoice Discount</th>
 								<th><?php echo $bill[0]['discount']; ?></th>
 							</tr>
 							<tr>
-								<th>Net Bill</th>
+								<th style="background-color:white;color:black;">Net Bill</th>
 								<th><?php echo $bill[0]['net_total']; ?></th>
 							</tr>
 							<tr>
-								<th>Paid</th>
+								<th style="background-color:white;color:black;">Paid</th>
 								<th><?php echo $bill[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Remaining</th>
+								<th style="background-color:white;color:black;">Remaining</th>
 								<th><?php echo $bill[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Status</th>
-								<th><?php echo $bill[0]['status']; ?></th>
+								<th style="background-color:white;color:black;">Status</th>
+								<th style="background-color:#68c968;color:white;text-align: center;"><?php echo $bill[0]['status']; ?></th>
 							</tr>
 						</thead>
 					</table>

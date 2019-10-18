@@ -441,7 +441,8 @@ use common\models\Products;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View"><i class="fa fa-eye"></i>
                                         <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit"><i class="fa fa-edit"></i>
-                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a></td>
+                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a>
+                                        </td>
                                     </tr>   
                                 
                                 <?php } ?>
