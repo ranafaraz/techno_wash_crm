@@ -380,8 +380,8 @@ use common\models\Products;
                                             echo $date; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">
-                                          <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="label label-info"><i class="fa fa-eye"></i></a>
-                                          <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="label label-info"><i class="fa fa-edit"></i></a>
+                                          <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View</a>
+                                          <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
                                         </td>
                                     </tr>   
                                 
@@ -413,7 +413,7 @@ use common\models\Products;
                         <table class="table table-bordered table-striped">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <!-- <th class="t-cen" style="vertical-align:middle;">Sr #</th> -->
                                     <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
                                     <th class="t-cen" style="vertical-align:middle;">Date</th>
                                     <th class="t-cen" style="vertical-align:middle;">Total Amount</th>
@@ -431,7 +431,7 @@ use common\models\Products;
                                         ?>
                                         
                                     <tr>
-                                        <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
+                                        <!-- <td style="vertical-align:middle;"><?php //echo $i+1; ?></td> -->
                                         <!-- <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
                                         <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
                                             echo $date;?></td>
@@ -439,9 +439,9 @@ use common\models\Products;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
                                          <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View"><i class="fa fa-eye"></i>
-                                        <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit"><i class="fa fa-edit"></i>
-                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect"><i class="fa fa-file"></i></a>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View</a>
+                                        <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
                                         </td>
                                     </tr>   
                                 

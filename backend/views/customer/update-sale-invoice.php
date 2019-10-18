@@ -93,7 +93,7 @@ $customerData = Yii::$app->db->createCommand("
 						<br />
 						<div class="row">
 							<div class="col-md-2">
-								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i> Back</a>						
 							</div>
 							<div class="col-md-3">
 								<button type="submit" name="update_invoice" id="update" class="btn btn-success" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								

@@ -27,8 +27,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row">
+<div class="container-fluid">	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
 			<div class="box box-default">
 				<div class="box-body">
@@ -105,7 +104,7 @@
 						
 						<div class="row">
 							<div class="col-md-6">
-								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-warning" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
+								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
 							</div>
 							<div class="col-md-6">
 								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
@@ -166,4 +165,7 @@
       		$("#insert").attr("disabled", true);
       	}
     }
+    $(document).ready(function(){
+		$('#collect_amount').focus();
+	});
 </script>
