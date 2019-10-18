@@ -34,7 +34,7 @@ if (Yii::$app->controller->action->id === 'login') {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
-        <link rel="shortcut icon" href="images/brookfield_logo.jpg" type="image/jpg">
+        <link rel="shortcut icon" href="userphotos/logo.png" type="image/jpg">
         <?php $this->head() ?>
         <style type="text/css">
             body{
