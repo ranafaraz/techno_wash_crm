@@ -37,7 +37,7 @@ use common\models\VehicleTypeSubCategory;
 <!-- row 1 close -->
 <div class="row">
         <div class="col-md-4">
-    <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true,'id' => 'customerName', 'style'=>['text-transform'=>'uppercase']]) ?>
+    <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true,'id' => 'customerName']) ?>
 
     </div>
     <div class="col-md-4">
@@ -83,7 +83,7 @@ use common\models\VehicleTypeSubCategory;
     </div>
         <div class="col-md-4">
 
-    <?= $form->field($model, 'customer_address')->textInput(['maxlength' => true]) ?>  
+    <?= $form->field($model, 'customer_address')->textInput(['maxlength' => true,'id'=>'customer_address']) ?>  
 
     </div>
         <div class="col-md-4">
@@ -96,7 +96,7 @@ use common\models\VehicleTypeSubCategory;
   <div class="row">
      <div class="col-md-4">
 
-    <?= $form->field($model, 'customer_occupation')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'customer_occupation')->textInput(['maxlength' => true,'id'=>'customer_occupation']) ?>
     </div>
       <div class="col-md-4">
            <?= $form->field($model, 'customer_whatsapp')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
@@ -128,7 +128,7 @@ use common\models\VehicleTypeSubCategory;
                     'vehicle_typ_sub_id',  
                     'registration_no',
                     'color',
-                    'image',
+                    // 'image',
                 ],
             ]); ?>
 
@@ -155,14 +155,14 @@ use common\models\VehicleTypeSubCategory;
                                         ['prompt'=>'Select Vehicle Sub Type']
                                 )?>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <?= $form->field($value, "[{$i}]registration_no")->textInput() ?>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <?= $form->field($value, "[{$i}]color")->textInput() ?>
                             </div>
-                            <div class="col-sm-3">
-                                <?= $form->field($value, "[{$i}]image")->fileInput() ?>
+                            <div class="col-sm-4">
+                                <?php //$form->field($value, "[{$i}]image")->fileInput() ?>
                             </div>
                         </div><!-- .row -->
                     </div>
@@ -194,4 +194,45 @@ use common\models\VehicleTypeSubCategory;
 
 $('#customerName').bind('keypress', testInput);
 $('#fatherName').bind('keypress', testInput);
+
+$("#customerName").bind('keyup', function (e) {
+    // if (e.which >= 97 && e.which <= 122) {
+    //     var newKey = e.which - 32;
+    //     // I have tried setting those
+    //     e.keyCode = newKey;
+    //     e.charCode = newKey;
+    // }
+
+    $("#customerName").val(($("#customerName").val()).toUpperCase());
+});
+$("#fatherName").bind('keyup', function (e) {
+    // if (e.which >= 97 && e.which <= 122) {
+    //     var newKey = e.which - 32;
+    //     // I have tried setting those
+    //     e.keyCode = newKey;
+    //     e.charCode = newKey;
+    // }
+
+    $("#fatherName").val(($("#fatherName").val()).toUpperCase());
+});
+$("#customer_address").bind('keyup', function (e) {
+    // if (e.which >= 97 && e.which <= 122) {
+    //     var newKey = e.which - 32;
+    //     // I have tried setting those
+    //     e.keyCode = newKey;
+    //     e.charCode = newKey;
+    // }
+
+    $("#customer_address").val(($("#customer_address").val()).toUpperCase());
+});
+$("#customer_occupation").bind('keyup', function (e) {
+    // if (e.which >= 97 && e.which <= 122) {
+    //     var newKey = e.which - 32;
+    //     // I have tried setting those
+    //     e.keyCode = newKey;
+    //     e.charCode = newKey;
+    // }
+
+    $("#customer_occupation").val(($("#customer_occupation").val()).toUpperCase());
+});
 </script>

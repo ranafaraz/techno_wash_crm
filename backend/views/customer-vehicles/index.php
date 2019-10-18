@@ -40,7 +40,7 @@ CrudAsset::register($this);
             'panel' => [
                 'type' => 'default', 
                 'heading' => '<i class="glyphicon glyphicon-list"></i> Sale Invoice listing',
-                'before'=>'<em><b  style="color:red;font-size:16px;font-family:Comic Sans MS;">* Click On Customer Name To Initiate Sale Invoice.</b></em>',
+                'before'=>'<em><b  style="color:red;font-size:16px;font-family:georgia;">* Click On Customer Name To Initiate Sale Invoice.</b></em>',
                 // 'after'=>BulkButtonWidget::widget([
                 //             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
                 //                 ["bulk-delete"] ,

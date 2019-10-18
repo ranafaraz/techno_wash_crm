@@ -184,23 +184,7 @@ class CustomerController extends Controller
                         try {
                             if ($flag = $model->save(false)) {
                                 foreach ($modelCustomerVehicles as $value) {
-                                    $value->image = UploadedFile::getInstance($value,'image');
-
-                                    // checking the field
-                                    if(!empty($value->image)){
-                                        // making the name of the image file
-                                        $imageName = $value->registration_no.'_photo';
-                                        // getting extension of the image file
-                                        $imageExtension = $value->image->extension;
-                                        // save the path of the image in backend/web/uploads 
-                                        $value->image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
-                                        //save the path in the db column
-                                        $value->image = 'uploads/'.$imageName.'.'.$imageExtension;
-                                    }
-                                    else {
-                                       $value->image = 'uploads/default-car-image.png';
-                                    }
-
+                                    $value->image = 'uploads/default-car-image.png';
                                     $value->customer_id = $model->customer_id;
                                     $value->created_at = new \yii\db\Expression('NOW()');
                                     $value->created_by = Yii::$app->user->identity->id; 

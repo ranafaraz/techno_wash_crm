@@ -1006,7 +1006,9 @@ $("#item_type").change(function(){
             //$('#nt').val(tp);
 				    //$('#remaining').val(tp);
             //$('#status').val('Unpaid');
+            $('#disc').val("");
             discountFun();
+
 
 				    var vehicle 						= $('#vehicle').val();
 						var barcode             = jsonResult[0]['stock_id'];
