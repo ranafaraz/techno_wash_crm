@@ -892,6 +892,8 @@ $("#item_type").change(function(){
             //$('#nt').val(tp);
             //$('#remaining').val(tp);
 				    //$('#status').val('Unpaid');
+
+            $('#disc').val("");
             discountFun();
 
 				    var vehicle 						= $('#vehicle').val();
@@ -953,30 +955,6 @@ $("#item_type").change(function(){
     	}); 
 	});
 
-	// $("#disc").change(function(){
-	// 	 var totalAmount = $('#tp').val();
-
-	// 	 if($("#percentage").checked)
- //              {
-              	
- //            discount = parseInt($("#disc").val());
-            
- //            discountReceived = parseInt((totalAmount*discount)/100);
-            
- //            purchasePrice = totalAmount-discountReceived;
- //            $('#nt').val(purchasePrice);
- //              }
- //            else if(document.getElementById("#amount").checked)
- //            {
-            	
- //            discount = parseInt(document.getElementById("disc").value);
-                  
- //            purchasePrice = originalPrice - discount;
- //              //discountReceived = discount;
- //             //$('#nt').val(purchasePrice);
- //              //alert(originalPrice);
- //            } 
-	// });
 
   // for vihicel name
 	$("#vehicle").on("change",function(){

@@ -742,30 +742,30 @@ $script = <<< JS
       });
   });
 
-	$("#disc").change(function(){
-		 var totalAmount = $('#tp').val();
+	// $("#disc").change(function(){
+	// 	 var totalAmount = $('#tp').val();
 
-		 if($("#percentage").checked)
-              {
+	// 	 if($("#percentage").checked)
+ //              {
               	
-            discount = parseInt($("#disc").val());
+ //            discount = parseInt($("#disc").val());
             
-            discountReceived = parseInt((totalAmount*discount)/100);
+ //            discountReceived = parseInt((totalAmount*discount)/100);
             
-            purchasePrice = totalAmount-discountReceived;
-            $('#nt').val(purchasePrice);
-              }
-            else if(document.getElementById("#amount").checked)
-            {
+ //            purchasePrice = totalAmount-discountReceived;
+ //            $('#nt').val(purchasePrice);
+ //              }
+ //            else if(document.getElementById("#amount").checked)
+ //            {
             	
-            discount = parseInt(document.getElementById("disc").value);
+ //            discount = parseInt(document.getElementById("disc").value);
                   
-            purchasePrice = originalPrice - discount;
-              //discountReceived = discount;
-             //$('#nt').val(purchasePrice);
-              //alert(originalPrice);
-            } 
-	});
+ //            purchasePrice = originalPrice - discount;
+ //              //discountReceived = discount;
+ //             //$('#nt').val(purchasePrice);
+ //              //alert(originalPrice);
+ //            } 
+	// });
 
 
 	$("#barcode").change(function(){
@@ -787,6 +787,8 @@ $script = <<< JS
 		var tp = parseInt(totalAmount)+parseInt(purchase_price);
 		$('#tp').val(tp);
             $('#nt').val(tp);
+            $('#disc').val("");
+            $('#paid').val("");
             $('#remaining').val(tp);
             $('#status').val('Unpaid');
 		if(stock_type == "" || stock_type == null)
