@@ -18,6 +18,8 @@ use Yii;
  * @property int $updated_by
  * @property string $created_at
  * @property string $updated_at
+ *
+ * @property Employee $emp
  */
 class EmpLanguage extends \yii\db\ActiveRecord
 {
@@ -35,13 +37,13 @@ class EmpLanguage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_lang_id', 'emp_id', 'emp_language', 'lang_read', 'lang_wirte', 'lang_speak', 'lang_remarks', 'created_by', 'updated_by'], 'required'],
-            [['emp_lang_id', 'emp_id', 'created_by', 'updated_by'], 'integer'],
+            [['emp_id', 'emp_language', 'lang_read', 'lang_wirte', 'lang_speak', 'lang_remarks', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'created_by', 'updated_by'], 'integer'],
             [['lang_read', 'lang_wirte', 'lang_speak'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['emp_language'], 'string', 'max' => 200],
             [['lang_remarks'], 'string', 'max' => 255],
-            [['emp_lang_id'], 'unique'],
+            [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
     }
 
@@ -63,5 +65,13 @@ class EmpLanguage extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmp()
+    {
+        return $this->hasOne(Employee::className(), ['emp_id' => 'emp_id']);
     }
 }

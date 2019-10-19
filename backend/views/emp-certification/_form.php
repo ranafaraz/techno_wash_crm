@@ -11,8 +11,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'emp_certificate_id')->textInput() ?>
-
     <?= $form->field($model, 'emp_id')->textInput() ?>
 
     <?= $form->field($model, 'certificate_from')->textInput() ?>

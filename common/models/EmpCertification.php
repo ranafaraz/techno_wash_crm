@@ -36,11 +36,10 @@ class EmpCertification extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_certificate_id', 'emp_id', 'certificate_from', 'certificate_to', 'certificate_course_detail', 'certificate_insititute', 'created_by', 'updated_by'], 'required'],
-            [['emp_certificate_id', 'emp_id', 'created_by', 'updated_by'], 'integer'],
+            [['emp_id', 'certificate_from', 'certificate_to', 'certificate_course_detail', 'certificate_insititute', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'created_by', 'updated_by'], 'integer'],
             [['certificate_from', 'certificate_to', 'created_at', 'updated_at'], 'safe'],
             [['certificate_course_detail', 'certificate_insititute'], 'string', 'max' => 255],
-            [['emp_certificate_id'], 'unique'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
     }

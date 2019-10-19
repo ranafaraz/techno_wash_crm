@@ -38,13 +38,12 @@ class EmpAcademic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_academic_id', 'emp_id', 'from_date', 'to_date', 'institute', 'degree_diploma', 'division_grade', 'major_subjects', 'created_by', 'updated_by'], 'required'],
-            [['emp_academic_id', 'emp_id', 'created_by', 'updated_by'], 'integer'],
-            [['from_date', 'to_date', 'created_at', 'updated_at'], 'safe'],
+            [['from_date', 'to_date', 'institute', 'degree_diploma', 'division_grade', 'major_subjects'], 'required'],
+            [['emp_id', 'created_by', 'updated_by'], 'integer'],
+            [['from_date', 'to_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['institute', 'major_subjects'], 'string', 'max' => 250],
             [['degree_diploma'], 'string', 'max' => 200],
             [['division_grade'], 'string', 'max' => 20],
-            [['emp_academic_id'], 'unique'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
     }
@@ -57,11 +56,11 @@ class EmpAcademic extends \yii\db\ActiveRecord
         return [
             'emp_academic_id' => 'Emp Academic ID',
             'emp_id' => 'Emp ID',
-            'from_date' => 'From Date',
-            'to_date' => 'To Date',
+            'from_date' => 'Start Date',
+            'to_date' => 'End Date',
             'institute' => 'Institute',
-            'degree_diploma' => 'Degree Diploma',
-            'division_grade' => 'Division Grade',
+            'degree_diploma' => 'Degree/Diploma',
+            'division_grade' => 'Division/Grade',
             'major_subjects' => 'Major Subjects',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',

@@ -38,13 +38,12 @@ class EmpWorkHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_w_h_id', 'emp_id', 'work_from', 'work_to', 'name_of_employeer', 'position_held', 'monthly_gross_salary', 'reason_for_leaving', 'created_by', 'updated_by'], 'required'],
-            [['emp_w_h_id', 'emp_id', 'created_by', 'updated_by'], 'integer'],
+            [['emp_id', 'work_from', 'work_to', 'name_of_employeer', 'position_held', 'monthly_gross_salary', 'reason_for_leaving', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'created_by', 'updated_by'], 'integer'],
             [['work_from', 'work_to', 'created_at', 'updated_at'], 'safe'],
             [['monthly_gross_salary'], 'number'],
             [['name_of_employeer', 'position_held'], 'string', 'max' => 200],
             [['reason_for_leaving'], 'string', 'max' => 255],
-            [['emp_w_h_id'], 'unique'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
     }

@@ -68,11 +68,11 @@ class Employee extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_type_id', 'emp_name', 'emp_father_name', 'emp_father_position', 'emp_cnic', 'emp_contact', 'emp_emergency_contact', 'emp_emergency_contact_relation', 'emp_email', 'emp_gender', 'emp_marital_status', 'emp_dob', 'emp_birth_place', 'emp_religion', 'emp_blood_group', 'emp_nationality', 'emp_residence', 'emp_present_address', 'emp_permanent_address','emp_joining_date', 'emp_learning_date', 'emp_status'], 'required'],
+            [['emp_type_id', 'emp_name', 'emp_father_name', 'emp_cnic', 'emp_contact', 'emp_email', 'emp_gender', 'emp_marital_status', 'emp_dob', 'emp_birth_place', 'emp_religion', 'emp_blood_group', 'emp_nationality', 'emp_residence', 'emp_present_address', 'emp_permanent_address','emp_joining_date', 'emp_learning_date', 'emp_status'], 'required'],
             [['emp_type_id', 'branch_id', 'created_by', 'updated_by'], 'integer'],
             [['salary_id'], 'number'],
             [['emp_gender', 'emp_marital_status', 'emp_residence', 'emp_status','emp_blood_group'], 'string'],
-            [['emp_dob', 'passport_expiry_date', 'emp_joining_date', 'emp_learning_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'emp_image'], 'safe'],
+            [['emp_dob', 'passport_expiry_date', 'emp_joining_date', 'emp_learning_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'emp_image', 'emp_emergency_contact', 'emp_emergency_contact_relation'], 'safe'],
             [['emp_name', 'emp_father_name', 'emp_father_position'], 'string', 'max' => 200],
             [['emp_cnic', 'emp_contact', 'emp_emergency_contact', 'emp_emergency_contact_relation'], 'string', 'max' => 15],
             [['emp_email', 'emp_image'], 'string', 'max' => 255],
@@ -157,6 +157,11 @@ class Employee extends \yii\db\ActiveRecord
     {
         return $this->hasMany(EmpGrossSalary::className(), ['emp_id' => 'emp_id']);
     }
+
+     public function getEmpLanguages() 
+   { 
+       return $this->hasMany(EmpLanguage::className(), ['emp_id' => 'emp_id']); 
+   }
 
     /**
      * @return \yii\db\ActiveQuery
