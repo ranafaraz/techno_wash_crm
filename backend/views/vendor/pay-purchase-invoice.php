@@ -131,6 +131,10 @@ tr td{
 </body>
 </html>
 <script>
+	 $(document).ready(function(){
+		$('#pay_amount').focus();
+	});
+	 
 	function cal_remaining(){
 
       	var paid = parseInt($('#paid_amount').val());
@@ -177,6 +181,7 @@ tr td{
       		$("#insert").attr("disabled", true);
       	}
     }
+
 </script>
 ?>
 
