@@ -7,7 +7,7 @@ use yii\helpers\Html;
 ?>
 <div class="vehicle-type-sub-category-update">
 
-    <?= $this->render('_form1', [
+    <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 

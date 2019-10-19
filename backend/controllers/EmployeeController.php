@@ -10,6 +10,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\web\UploadedFile;
+
+use yii\filters\AccessControl;
 
 /**
  * EmployeeController implements the CRUD actions for Employee model.
@@ -22,6 +25,20 @@ class EmployeeController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','employee-detail-view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -55,22 +72,23 @@ class EmployeeController extends Controller
      */
     public function actionView($id)
     {   
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
+        return $this->render('employee-detail-view');
+        // $request = Yii::$app->request;
+        // if($request->isAjax){
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
+        //     return [
+        //             'title'=> "",
+        //             'content'=>$this->renderAjax('view', [
+        //                 'model' => $this->findModel($id),
+        //             ]),
+        //             'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+        //                     Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        //         ];    
+        // }else{
+        //     return $this->render('view', [
+        //         'model' => $this->findModel($id),
+        //     ]);
+        // }
     }
 
     /**
@@ -100,6 +118,7 @@ class EmployeeController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->validate()){
+                //var_dump($model);
                 $model->emp_image = UploadedFile::getInstance($model,'emp_image');
                 if (!empty($model->emp_image)) {
                     // making the name of image file
@@ -111,10 +130,14 @@ class EmployeeController extends Controller
                     //save the path in the db column
                     $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
                 }
-                else{
-                    $model->emp_image = 'uploads/'.'default.png';
+                else if (($model->emp_gender) == "Female"){
+                        $model->emp_image = 'uploads/default-image-female.png'; 
                 }
-
+                else {
+                    $model->emp_image = 'uploads/default-image-name.png'; 
+                }
+                $connection= \Yii::$app->db;
+                $model->branch_id = Yii::$app->user->identity->branch_id; 
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
@@ -182,27 +205,7 @@ class EmployeeController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
-                $model->emp_image = UploadedFile::getInstance($model,'emp_image');
-                if (!empty($model->emp_image)) {
-                    // making the name of image file
-                    $imageName = $model->emp_name.'_photo';
-                    // getting the extension of image file
-                    $imageExtension = $model->emp_image->extension;
-                    // save the path of the image in backend/web/uploads
-                    $model->emp_image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
-                    //save the path in the db column
-                    $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
-                }
-                else{
-                    $model->emp_image = $empImage;
-                }
-
-                $model->created_by = Yii::$app->user->identity->id; 
-                $model->created_at = new \yii\db\Expression('NOW()');
-                $model->updated_by = '0';
-                $model->updated_at = '0'; 
-                $model->save();
+            }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "",
@@ -226,7 +229,27 @@ class EmployeeController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
+            if ($model->load($request->post()) && $model->validate()) {
+                    $model->emp_image = UploadedFile::getInstance($model,'emp_image');
+                if (!empty($model->emp_image)) {
+                    // making the name of image file
+                    $imageName = $model->emp_name.'_photo';
+                    // getting the extension of image file
+                    $imageExtension = $model->emp_image->extension;
+                    // save the path of the image in backend/web/uploads
+                    $model->emp_image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
+                    //save the path in the db column
+                    $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
+                }
+                else{
+                    $model->emp_image = $empImage;
+                }
+
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0'; 
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->emp_id]);
             } else {
                 return $this->render('update', [

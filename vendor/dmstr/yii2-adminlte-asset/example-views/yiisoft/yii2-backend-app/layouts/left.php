@@ -8,13 +8,16 @@
 <style type="text/css">
     .main-sidebar{
         font-family: georgia;
+        background-color: #fab61c !important;
+
     }
     .sidebar a{
         font-size: 13px;
+        color: #000000 !important;
     }
     .sidebar a:hover{
         font-weight: bold;
-        background-color: #3C8DBC !important;
+        background-color: #000000 !important;
         color: #ffffff !important;
         border-radius: 2px !important;
     }
@@ -69,33 +72,37 @@
                 'items' => [
                     // ['label' => 'Menus', 'options' => ['class' => 'header center']],
                      ['label' => 'Home', 'icon' => 'dashboard', 'url' => "./home"],
-                     ['label' => 'Customer', 'icon' => 'arrow-right', 'url' => "./customer"],
-                     //['label' => 'Customer Vehicles', 'icon' => 'arrow-right', 'url' => "./customer-vehicles"],
-                     [
-                        'label' => 'Employee',
-                        'icon' => 'arrow-right',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Add Employee', 'icon' => 'chevron-right', 'url' => './employee',],
-                            ['label' => 'Employee Salary', 'icon' => 'chevron-right', 'url' => './salary',],
-                            ['label' => 'Employee Allowance', 'icon' => 'chevron-right', 'url' => './employee-allowances',],
-                        ],
-                    ],
-                     ['label' => 'Membership', 'icon' => 'arrow-right', 'url' => "./membership"],
-                     ['label' => 'Services', 'icon' => 'arrow-right', 'url' => "./services"],
-                     [
-                        'label' => 'Stock',
-                        'icon' => 'arrow-right',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Manage Stock', 'icon' => 'chevron-right', 'url' => './stock',],
-                            ['label' => 'Stock Issues', 'icon' => 'chevron-right', 'url' => './stock-issue',],
-                        ],
-                    ],
-                    ['label' => 'Sale Invoice', 'icon' => 'arrow-right', 'url' => "./sale-invoice-head"],
-                    ['label' => 'Users', 'icon' => 'arrow-right', 'url' => "./home"],
-                    ['label' => 'Accounts', 'icon' => 'arrow-right', 'url' => "./home"],
-                    ['label' => 'Reports', 'icon' => 'arrow-right', 'url' => "./home"],
+                     ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
+                     ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles"],
+                     
+                     ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./employee"],
+                    //  [
+                    //     'label' => 'Employee',
+                    //     'icon' => 'user-o',
+                    //     'url' => '#',
+                    //     'items' => [
+                    //         ['label' => 'Add Employee', 'icon' => 'user-plus', 'url' => './employee',],
+                    //         ['label' => 'Employee Salary', 'icon' => 'money', 'url' => './salary',],
+                    //         ['label' => 'Employee Allowance', 'icon' => 'credit-card', 'url' => './employee-allowances',],
+                    //         ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
+                    //     ],
+                    // ],
+                     ['label' => 'Vendor', 'icon' => 'male', 'url' => ["./vendor"],],
+                      ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./under-construction"],
+
+                    //  [
+                    //     'label' => 'Stock',
+                    //     'icon' => 'bar-chart',
+                    //     'url' => '#',
+                    //     'items' => [
+                    //         // ['label' => 'Manage Stock', 'icon' => 'meetup', 'url' => './stock',],
+                            
+                    //     ],
+                    // ],
+                    // ['label' => 'Sale Invoice', 'icon' => 'file-text-o', 'url' => "./sale-invoice-head"],
+                    // ['label' => 'Users', 'icon' => 'user', 'url' => "./home"],
+                    ['label' => 'Accounts', 'icon' => 'server', 'url' => ["./under-construction"]],
+                    ['label' => 'Reports', 'icon' => 'book', 'url' => ["./under-construction"]],
                     //['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     //['label' => 'Login', 'url' => ["../login"], 'visible' => Yii::$app->user->isGuest],
 
@@ -112,39 +119,38 @@
                         'icon' => 'cogs',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Organization', 'icon' => 'caret-right', 'url' => ["./organization"],],
-                            ['label' => 'Branches', 'icon' => 'caret-right', 'url' => ["./branches"],],
+                            ['label' => 'Organization', 'icon' => 'building-o', 'url' => ["./organization"],],
+                            ['label' => 'Branches', 'icon' => 'university', 'url' => ["./branches"],],
                             [
                                 'label' => 'Vehicle',
-                                'icon' => 'caret-right',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Vehicle Type', 'icon' => 'chevron-right', 'url' => './vehicle-type',],
-                                    ['label' => 'Sub Category', 'icon' => 'chevron-right', 'url' => './vehicle-type-sub-category',],
-                                ],
+                                'icon' => 'car',
+                                'url' => './vehicle-type',
+                                // 'items' => [
+                                //     ['label' => 'Vehicle Type', 'icon' => 'taxi', 'url' => '',],
+                                //     ['label' => 'Sub Category', 'icon' => 'bars', 'url' => './vehicle-type-sub-category',],
+                                // ],
                             ],
-                            ['label' => 'Card Type', 'icon' => 'caret-right', 'url' => ["./card-type"],],
+                            ['label' => 'Services', 'icon' => 'strikethrough', 'url' => "./services"],
                             [
                                 'label' => 'Stock',
-                                'icon' => 'caret-right',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Manufacturer', 'icon' => 'chevron-right', 'url' => './manufacture',],
-                                    ['label' => 'Stock Type', 'icon' => 'chevron-right', 'url' => './stock-type',],
-                                ],
+                                'icon' => 'bar-chart',
+                                'url' => './stock-type',
+                                
                             ],
-                            ['label' => 'User Types', 'icon' => 'caret-right', 'url' => ["./user-type"],],
-                            ['label' => 'Employee Types', 'icon' => 'caret-right', 'url' => ["./employee-types"],],
+                             ['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./under-construction"],],
+                            // ['label' => 'User Types', 'icon' => 'user-circle-o', 'url' => ["./user-type"],],
+                            // ['label' => 'Employee Types', 'icon' => 'user-secret', 'url' => ["./employee-types"],],
                             [
-                                'label' => 'Salary',
-                                'icon' => 'caret-right',
+                                'label' => 'Employee',
+                                'icon' => 'users',
                                 'url' => '#',
                                 'items' => [
-                                    ['label' => 'Wage Type', 'icon' => 'chevron-right', 'url' => './wage-type',],
-                                    ['label' => 'Allowance Type', 'icon' => 'chevron-right', 'url' => './allowance-type',],
+                                    ['label' => 'Employee Type', 'icon' => 'user-secret', 'url' => './employee-types',],
+                                    ['label' => 'Wage Type', 'icon' => 'won', 'url' => './under-construction',],
+                                    ['label' => 'Allowance Type', 'icon' => 'credit-card-alt', 'url' => './under-construction',],
                                 ],
                             ],
-                            ['label' => 'Vendor', 'icon' => 'caret-right', 'url' => ["./vendor"],],
+                            
                             // [
                             //     'label' => 'Subjects',
                             //     'icon' => 'caret-right',

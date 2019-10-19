@@ -18,7 +18,7 @@ class ManufactureSearch extends Manufacture
     public function rules()
     {
         return [
-            [['manufacture_id', 'created_by', 'updated_by'], 'integer'],
+            [['manufacture_id', 'stock_type_id', 'created_by', 'updated_by'], 'integer'],
             [['name', 'description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -57,6 +57,7 @@ class ManufactureSearch extends Manufacture
 
         $query->andFilterWhere([
             'manufacture_id' => $this->manufacture_id,
+            'stock_type_id' => $this->stock_type_id,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,

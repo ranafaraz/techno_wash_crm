@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 /**
  * ServicesController implements the CRUD actions for Services model.
@@ -22,6 +23,20 @@ class ServicesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','service-detail-view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -55,22 +70,23 @@ class ServicesController extends Controller
      */
     public function actionView($id)
     {   
-        $request = Yii::$app->request;
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
-        }
+        return $this->render('service-detail-view');
+        // $request = Yii::$app->request;
+        // if($request->isAjax){
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
+        //     return [
+        //             'title'=> "Services #".$id,
+        //             'content'=>$this->renderAjax('view', [
+        //                 'model' => $this->findModel($id),
+        //             ]),
+        //             'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+        //                     Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        //         ];    
+        // }else{
+        //     return $this->render('view', [
+        //         'model' => $this->findModel($id),
+        //     ]);
+        // }
     }
 
     /**
@@ -99,7 +115,7 @@ class ServicesController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
+            }else if($model->load($request->post())){
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
@@ -107,7 +123,7 @@ class ServicesController extends Controller
                 $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create New Services",
+                    'title'=> "Create new Services",
                     'content'=>'<span class="text-success">Create Services success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -115,7 +131,7 @@ class ServicesController extends Controller
                 ];         
             }else{           
                 return [
-                    'title'=> "Create New Services",
+                    'title'=> "Create new Services",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -129,7 +145,7 @@ class ServicesController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->services_id]);
+                return $this->redirect(['view', 'id' => $model->service_id]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -165,7 +181,7 @@ class ServicesController extends Controller
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->validate()){
+            }else if($model->load($request->post())){
                 $model->updated_by = Yii::$app->user->identity->id;
                 $model->updated_at = new \yii\db\Expression('NOW()');
                 $model->created_by = $model->created_by;
@@ -195,7 +211,7 @@ class ServicesController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->services_id]);
+                return $this->redirect(['view', 'id' => $model->service_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,

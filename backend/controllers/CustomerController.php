@@ -35,8 +35,7 @@ class CustomerController extends Controller
                         'allow' => true,
                     ],
                     [
-
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-invoice-view','credit-invoice-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-sale-invoice','collect-sale-invoice','update-sale-invoice','credit-sale-invoice'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -60,14 +59,20 @@ class CustomerController extends Controller
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
+    public function actionCollectSaleInvoice(){
+        return $this->render('collect-sale-invoice');
+    }
+    public function actionUpdateSaleInvoice(){
+        return $this->render('update-sale-invoice');
+    }
+    public function actionCreditSaleInvoice(){
+        return $this->render('credit-sale-invoice');
+    }
     public function actionSaleInvoiceView(){
         return $this->render('sale-invoice-view');
     }
-    public function actionPaidInvoiceView(){
-        return $this->render('paid-invoice-view');
-    }
-    public function actionCreditInvoiceView(){
-        return $this->render('credit-invoice-view');
+    public function actionPaidSaleInvoice(){
+        return $this->render('paid-sale-invoice');
     }
     public function actionFetchInfo(){
         return $this->render('fetch-info');
@@ -140,12 +145,11 @@ class CustomerController extends Controller
                 ];         
             }else if($model->load($request->post())){
 
-                    $modelCustomerVehicles = Model::createMultiple(CustomerVehicles::classname()); 
-                    Model::loadMultiple($modelCustomerVehicles, Yii::$app->request->post()); 
+                     
 
                     $model->customer_image = UploadedFile::getInstance($model,'customer_image');
 
-                // checking the field
+                // checking the field 
                 if(!empty($model->customer_image)){
                     // making the name of the image file
                     $imageName = $model->customer_name.'_photo';
@@ -156,13 +160,20 @@ class CustomerController extends Controller
                     //save the path in the db column
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
                     }
+                    else if (($model->customer_gender) == "Female"){
+                        $model->customer_image = 'uploads/default-image-female.png'; 
+                    }
                     else {
                         $model->customer_image = 'uploads/default-image-name.png'; 
                     }
+                    $model->customer_registration_date   = new \yii\db\Expression('NOW()');
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
-                    $model->updated_at = '0';                    
+                    $model->updated_at = '0';
+
+                    $modelCustomerVehicles = Model::createMultiple(CustomerVehicles::classname()); 
+                    Model::loadMultiple($modelCustomerVehicles, Yii::$app->request->post());                    
 
                     // validate all models
                     $valid = $model->validate();
@@ -173,23 +184,7 @@ class CustomerController extends Controller
                         try {
                             if ($flag = $model->save(false)) {
                                 foreach ($modelCustomerVehicles as $value) {
-                                    $value->image = UploadedFile::getInstance($value,'image');
-
-                                    // checking the field
-                                    if(!empty($value->image)){
-                                        // making the name of the image file
-                                        $imageName = $value->registration_no.'_photo';
-                                        // getting extension of the image file
-                                        $imageExtension = $value->image->extension;
-                                        // save the path of the image in backend/web/uploads 
-                                        $value->image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
-                                        //save the path in the db column
-                                        $value->image = 'uploads/'.$imageName.'.'.$imageExtension;
-                                    }
-                                    else {
-                                       $value->image = 'uploads/default-car-image.png';
-                                    }
-
+                                    $value->image = 'uploads/default-car-image.png';
                                     $value->customer_id = $model->customer_id;
                                     $value->created_at = new \yii\db\Expression('NOW()');
                                     $value->created_by = Yii::$app->user->identity->id; 

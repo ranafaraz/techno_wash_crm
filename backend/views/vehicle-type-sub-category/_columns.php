@@ -16,16 +16,12 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'vehicle_type_id',
-        'value'=>'vehicleType.name',
+        'attribute'=>'manufacture',
+        'value' => 'manufacture0.manufacturer',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'name',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'manufacture',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
@@ -40,8 +36,8 @@ return [
     //     'attribute'=>'created_by',
     // ],
     // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_by',
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'updated_by',
     // ],
     [
         'class' => 'kartik\grid\ActionColumn',

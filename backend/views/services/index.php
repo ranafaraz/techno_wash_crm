@@ -26,8 +26,10 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    Html::a('<i class="glyphicon glyphicon-plus">Add Services</i>', ['create'],
                     ['role'=>'modal-remote','title'=> 'Create new Services','class'=>'btn btn-success']).
+                      Html::a('<i class="glyphicon glyphicon-plus">Add Details</i>', ['./service-details/create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Services','class'=>'btn btn-info']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
                     '{toggleData}'.
@@ -60,7 +62,6 @@ CrudAsset::register($this);
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrudModal",
-    "size"=>"modal-lg",
     "footer"=>"",// always need it for jquery plugin
 ])?>
 <?php Modal::end(); ?>

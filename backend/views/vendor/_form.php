@@ -17,14 +17,22 @@ use common\models\Branches;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'branch_id')->dropDownList(
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'branch_id')->dropDownList(
                 ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
                 ['prompt'=>'Select Branch',]
-    )?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'ntn')->textInput() ?>
+            )?>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'ntn')->textInput() ?>
+        </div>       
+    </div>
 
     
 

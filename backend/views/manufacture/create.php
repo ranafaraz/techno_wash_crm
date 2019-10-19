@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="manufacture-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'modelProducts' => $modelProducts,
     ]) ?>
 </div>

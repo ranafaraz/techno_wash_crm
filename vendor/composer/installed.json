@@ -1,5 +1,68 @@
 [
     {
+        "name": "2amigos/yii2-date-picker-widget",
+        "version": "1.0.7",
+        "version_normalized": "1.0.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/2amigos/yii2-date-picker-widget.git",
+            "reference": "d09c2444e8c2329e38528bba77002dd65186c1ff"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/2amigos/yii2-date-picker-widget/zipball/d09c2444e8c2329e38528bba77002dd65186c1ff",
+            "reference": "d09c2444e8c2329e38528bba77002dd65186c1ff",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/bootstrap-datepicker": "1.7.0",
+            "yiisoft/yii2": ">=2.0.9",
+            "yiisoft/yii2-bootstrap": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.*"
+        },
+        "time": "2017-07-05T05:52:03+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            },
+            "asset-installer-paths": {
+                "bower-asset-library": "vendor/bower"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "dosamigos\\datepicker\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "2amigOS! Consulting Group",
+                "email": "hola@2amigos.us",
+                "homepage": "http://2amigos.us",
+                "role": "Developer"
+            }
+        ],
+        "description": "Bootstrap DatePicker widget for Yii2.",
+        "homepage": "http://yiiwheels.com/extension/bootstrap-datepicker",
+        "keywords": [
+            "2amigos",
+            "datepicker",
+            "extension",
+            "widget",
+            "yii",
+            "yii 2",
+            "yii2"
+        ]
+    },
+    {
         "name": "2amigos/yii2-date-time-picker-widget",
         "version": "1.0.4",
         "version_normalized": "1.0.4.0",
@@ -193,17 +256,36 @@
         ]
     },
     {
+        "name": "bower-asset/bootstrap-datepicker",
+        "version": "v1.7.0",
+        "version_normalized": "1.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/uxsolutions/bootstrap-datepicker.git",
+            "reference": "d364be5b066b38f3675a5a1dc174ce1ab1f3360e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/uxsolutions/bootstrap-datepicker/zipball/d364be5b066b38f3675a5a1dc174ce1ab1f3360e",
+            "reference": "d364be5b066b38f3675a5a1dc174ce1ab1f3360e"
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.7.1,<4.0.0"
+        },
+        "type": "bower-asset",
+        "installation-source": "dist",
+        "license": [
+            "Apache-2.0"
+        ]
+    },
+    {
         "name": "bower-asset/fullcalendar",
         "version": "v4.3.1",
         "version_normalized": "4.3.1.0",
         "source": {
             "type": "git",
-            "url": "git@github.com:fullcalendar/fullcalendar.git",
-<<<<<<< HEAD
+            "url": "https://github.com/fullcalendar/fullcalendar.git",
             "reference": "ac20b8a1acb79c50c9f5a108bb92d2f54575b700"
-=======
-            "reference": "36193f5972269f18de51d9130f29e8afc7ce39de"
->>>>>>> 2e686ad37c7d8290e2b34fa4e55ba492dc58ae01
         },
         "dist": {
             "type": "zip",
@@ -809,32 +891,30 @@
     },
     {
         "name": "doctrine/lexer",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/lexer.git",
-            "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea"
+            "reference": "1febd6c3ef84253d7c815bed85fc622ad207a9f8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/lexer/zipball/e17f069ede36f7534b95adec71910ed1b49c74ea",
-            "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea",
+            "url": "https://api.github.com/repos/doctrine/lexer/zipball/1febd6c3ef84253d7c815bed85fc622ad207a9f8",
+            "reference": "1febd6c3ef84253d7c815bed85fc622ad207a9f8",
             "shasum": ""
         },
         "require": {
-            "php": "^7.2"
+            "php": ">=5.3.2"
         },
         "require-dev": {
-            "doctrine/coding-standard": "^6.0",
-            "phpstan/phpstan": "^0.11.8",
-            "phpunit/phpunit": "^8.2"
+            "phpunit/phpunit": "^4.5"
         },
-        "time": "2019-07-30T19:33:28+00:00",
+        "time": "2019-06-08T11:03:04+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.1.x-dev"
+                "dev-master": "1.0.x-dev"
             }
         },
         "installation-source": "dist",
@@ -849,12 +929,12 @@
         ],
         "authors": [
             {
-                "name": "Guilherme Blanco",
-                "email": "guilhermeblanco@gmail.com"
-            },
-            {
                 "name": "Roman Borschel",
                 "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
             },
             {
                 "name": "Johannes Schmitt",
@@ -1264,30 +1344,30 @@
     },
     {
         "name": "kartik-v/yii2-dialog",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-dialog.git",
-            "reference": "c38616d719f52530749457c022ca6134d0ad31ce"
+            "reference": "6106d070695897ed4cf7a4c69897167bc6a76268"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/c38616d719f52530749457c022ca6134d0ad31ce",
-            "reference": "c38616d719f52530749457c022ca6134d0ad31ce",
+            "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/6106d070695897ed4cf7a4c69897167bc6a76268",
+            "reference": "6106d070695897ed4cf7a4c69897167bc6a76268",
             "shasum": ""
         },
         "require": {
             "kartik-v/yii2-krajee-base": ">=2.0.0"
         },
-        "time": "2018-10-09T08:08:51+00:00",
+        "time": "2019-05-25T07:13:34+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
                 "dev-master": "1.0.x-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "kartik\\dialog\\": "src"
@@ -3152,17 +3232,17 @@
     },
     {
         "name": "phpunit/phpunit",
-        "version": "7.5.15",
-        "version_normalized": "7.5.15.0",
+        "version": "7.5.16",
+        "version_normalized": "7.5.16.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sebastianbergmann/phpunit.git",
-            "reference": "d79c053d972856b8b941bb233e39dc521a5093f0"
+            "reference": "316afa6888d2562e04aeb67ea7f2017a0eb41661"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d79c053d972856b8b941bb233e39dc521a5093f0",
-            "reference": "d79c053d972856b8b941bb233e39dc521a5093f0",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/316afa6888d2562e04aeb67ea7f2017a0eb41661",
+            "reference": "316afa6888d2562e04aeb67ea7f2017a0eb41661",
             "shasum": ""
         },
         "require": {
@@ -3201,7 +3281,7 @@
             "ext-xdebug": "*",
             "phpunit/php-invoker": "^2.0"
         },
-        "time": "2019-08-21T07:05:16+00:00",
+        "time": "2019-09-14T09:08:39+00:00",
         "bin": [
             "phpunit"
         ],
@@ -3762,17 +3842,17 @@
     },
     {
         "name": "sebastian/exporter",
-        "version": "3.1.1",
-        "version_normalized": "3.1.1.0",
+        "version": "3.1.2",
+        "version_normalized": "3.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sebastianbergmann/exporter.git",
-            "reference": "06a9a5947f47b3029d76118eb5c22802e5869687"
+            "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/06a9a5947f47b3029d76118eb5c22802e5869687",
-            "reference": "06a9a5947f47b3029d76118eb5c22802e5869687",
+            "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/68609e1261d215ea5b21b7987539cbfbe156ec3e",
+            "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e",
             "shasum": ""
         },
         "require": {
@@ -3783,7 +3863,7 @@
             "ext-mbstring": "*",
             "phpunit/phpunit": "^6.0"
         },
-        "time": "2019-08-11T12:43:14+00:00",
+        "time": "2019-09-14T09:02:43+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

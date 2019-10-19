@@ -10,7 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel common\models\CustomerVehiclesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Customer Vehicles';
+$this->title = 'Sale Invoice';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -26,7 +26,7 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['./customer/create'],
                     ['role'=>'modal-remote','title'=> 'Create new Customer Vehicles','class'=>'btn btn-success']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
@@ -39,20 +39,20 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Customer Vehicles listing',
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
-                                ["bulk-delete"] ,
-                                [
-                                    "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
-                                ]),
-                        ]).                        
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Sale Invoice listing',
+                'before'=>'<em><b  style="color:red;font-size:16px;font-family:georgia;">* Click On Customer Name To Initiate Sale Invoice.</b></em>',
+                // 'after'=>BulkButtonWidget::widget([
+                //             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                //                 ["bulk-delete"] ,
+                //                 [
+                //                     "class"=>"btn btn-danger btn-xs",
+                //                     'role'=>'modal-remote-bulk',
+                //                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                //                     'data-request-method'=>'post',
+                //                     'data-confirm-title'=>'Are you sure?',
+                //                     'data-confirm-message'=>'Are you sure want to delete this item'
+                //                 ]),
+                //         ]).                        
                         '<div class="clearfix"></div>',
             ]
         ])?>

@@ -27,18 +27,19 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'Name',
         'attribute'=>'customer_name',
         'width' => '170px',
         'headerOptions' => [
             // this should be on a CSS file as class instead of a inline style attribute...
-            'style' => 'text-align: center !important;vertical-align: middle !important'
+            'style' => ''
         ],
         'format' => 'raw',
         'value' => function($model, $key, $index, $column) {
                         if (empty($model->customer_id) || empty($model->customer_id)) {
                             return;
                         }
-                        return Html::a($model->customer_name, [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_self','style'=>'color:white;', 'data' => ['pjax' => 0]] 
+                        return Html::a($model->customer_name, [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:white;', 'data' => ['pjax' => 0]] 
                     );
                     },
         'contentOptions' => function ($model, $key, $index, $column) {
@@ -53,6 +54,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'CNIC',
         'attribute'=>'customer_cnic',
     ],
     // [
@@ -61,6 +63,7 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'label' => 'Contact No#',
         'attribute'=>'customer_contact_no',
     ],
     // [
