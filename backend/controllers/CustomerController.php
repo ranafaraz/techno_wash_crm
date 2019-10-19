@@ -157,7 +157,7 @@ class CustomerController extends Controller
                     $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
                     }
                     else {
-                        $model->customer_image = 'uploads/default-image-name.jpg'; 
+                        $model->customer_image = 'uploads/default-image-name.png'; 
                     }
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
