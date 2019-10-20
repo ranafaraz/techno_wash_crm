@@ -37,12 +37,11 @@ class EmpTraining extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_trainind_id', 'emp_id', 'train_from_date', 'train_to_date', 'training_course', 'training_institute', 'training_certificate', 'created_by', 'updated_by'], 'required'],
-            [['emp_trainind_id', 'emp_id', 'created_by', 'updated_by'], 'integer'],
+            [['emp_id', 'train_from_date', 'train_to_date', 'training_course', 'training_institute', 'training_certificate', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'created_by', 'updated_by'], 'integer'],
             [['train_from_date', 'train_to_date', 'created_at', 'updated_at'], 'safe'],
             [['training_course', 'training_certificate'], 'string', 'max' => 200],
             [['training_institute'], 'string', 'max' => 250],
-            [['emp_trainind_id'], 'unique'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
     }

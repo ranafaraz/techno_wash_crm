@@ -39,13 +39,12 @@ class EmpGrossSalary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_gro_sal_id', 'emp_id', 'gross_salary', 'bonus', 'car', 'car_fuel', 'car_maintenance', 'retirement_benefits', 'others', 'created_by', 'updated_by'], 'required'],
-            [['emp_gro_sal_id', 'emp_id', 'created_by', 'updated_by'], 'integer'],
+            [['emp_id', 'gross_salary', 'bonus', 'car', 'car_fuel', 'car_maintenance', 'retirement_benefits', 'others', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'created_by', 'updated_by'], 'integer'],
             [['gross_salary', 'bonus'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['car', 'car_fuel', 'car_maintenance'], 'string', 'max' => 200],
             [['retirement_benefits', 'others'], 'string', 'max' => 255],
-            [['emp_gro_sal_id'], 'unique'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
     }

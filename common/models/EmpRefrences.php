@@ -36,14 +36,13 @@ class EmpRefrences extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_ref_id', 'emp_id', 'ref_name', 'ref_address', 'ref_occupation', 'ref_contact', 'created_by', 'updated_by'], 'required'],
-            [['emp_ref_id', 'emp_id', 'created_by', 'updated_by'], 'integer'],
+            [['emp_id', 'ref_name', 'ref_address', 'ref_occupation', 'ref_contact', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['ref_name'], 'string', 'max' => 200],
             [['ref_address'], 'string', 'max' => 255],
             [['ref_occupation'], 'string', 'max' => 100],
             [['ref_contact'], 'string', 'max' => 15],
-            [['emp_ref_id'], 'unique'],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
     }

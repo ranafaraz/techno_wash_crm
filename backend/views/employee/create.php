@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="employee-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'modelEmpAcademy'=>(empty($modelEmpAcademy)) ? [new EmpAcademic] : $modelEmpAcademy,
     ]) ?>
 </div>
