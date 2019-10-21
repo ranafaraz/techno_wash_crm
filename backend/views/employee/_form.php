@@ -207,10 +207,7 @@ use johnitvn\ajaxcrud\CrudAsset;
                         <div class="clearfix"></div>
                     </div>
                     <div class="panel-body">
-                        <?php
-                            // necessary for update action.
-                            
-                        ?>
+                        
                         <div class="row">
                             <div class="col-sm-4">
                                 <?= $form->field($value, "[{$i}]from_date")->widget(\yii\jui\DatePicker::classname(), [
@@ -253,12 +250,85 @@ use johnitvn\ajaxcrud\CrudAsset;
         </div>  
     </div>
     <!-- Emp Academic dynamic form close -->
+
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4><i class="glyphicon glyphicon-envelope"></i> Employee Certification Info:</h4></div>
+            <div class="panel-body">
+            <?php DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items2', // required: css class selector
+                'widgetItem' => '.item2', // required: css class
+                'limit' => 22, // the maximum times, an element can be cloned (default 999)
+                'min' => 1, // 0 or 1 (default 1)
+                'insertButton' => '.add-item2', // css class
+                'deleteButton' => '.remove-item2', // css class
+                'model' => $modelEmpCertificate[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'certificate_from',  
+                    'certificate_to',
+                    'certificate_course_detail',
+                    'certificate_insititute',
+                ],
+            ]); ?>
+
+            <div class="container-items2"><!-- widgetContainer -->
+            <?php foreach ($modelEmpCertificate as $j => $empCertificate): ?>
+                <div class="item2 panel panel-success"><!-- widgetBody -->
+                    <div class="panel-heading">
+                        <h3 class="panel-title pull-left">Certificate Information</h3>
+                        <div class="pull-right">
+                            <button type="button" class="add-item2 btn btn-success btn-xs"><i class="glyphijon glyphicon-plus"></i></button>
+                            <button type="button" class="remove-item2 btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                        
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <?= $form->field($empCertificate, "[{$j}]certificate_from")->widget(\yii\jui\DatePicker::classname(), [
+                                            'language' => 'en',
+                                            'inline' => false,
+                                            'dateFormat' => "yyyy-MM-dd",
+                                            'options' => ['class' => 'form-control picker']
+                                ]) ?>
+                            </div>
+                            <div class="col-sm-4">
+                                <?= $form->field($empCertificate, "[{$j}]certificate_to")->widget(\yii\jui\DatePicker::classname(), [
+                                            'language' => 'en',
+                                            'inline' => false,
+                                            'dateFormat' => "yyyy-MM-dd",
+                                            'options' => ['class' => 'form-control picker']
+                                ]) ?>
+                            </div>
+                            <div class="col-sm-4">
+                                <?= $form->field($empCertificate, "[{$j}]certificate_course_detail")->textInput() ?>
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col-sm-4">
+                                <?= $form->field($empCertificate, "[{$j}]certificate_insititute")->textInput() ?>
+                            </div>
+                        </div><!-- .row -->
+                    </div>
+                </div>
+            <?php endforeach; ?>
+            </div>
+            <?php DynamicFormWidget::end(); ?>
+            </div>
+        </div>  
+    </div>
+    <!-- Emp Certification dynamic form close -->
    
    
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <a href="./employee" class="btn btn-danger"><i class="glyphicon glyphicon-backward"></i> Back</a>
+	        <?= Html::submitButton($model->isNewRecord ? '<i class="    glyphicon glyphicon-floppy-save"></i> Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
 

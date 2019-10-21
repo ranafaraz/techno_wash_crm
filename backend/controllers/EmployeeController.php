@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Employee;
 use common\models\EmpAcademic;
+use common\models\EmpCertification;
 use common\models\EmployeeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -54,6 +55,12 @@ class EmployeeController extends Controller
      * Lists all Employee models.
      * @return mixed
      */
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+
+    
     public function actionIndex()
     {    
         $searchModel = new EmployeeSearch();
@@ -103,9 +110,8 @@ class EmployeeController extends Controller
         $request = Yii::$app->request;
         $model = new Employee(); 
         $modelEmpAcademy = [new EmpAcademic]; 
-        
-
-        
+        $modelEmpCertificate = [new EmpCertification]; 
+  
             /*
             *   Process for non-ajax request
             */
@@ -134,12 +140,16 @@ class EmployeeController extends Controller
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0';
-                $modelEmpAcademy = Model::createMultiple(EmpAcademic::classname()); 
+
+                $modelEmpAcademy = Model::createMultiple(EmpAcademic::classname());
+                $modelEmpCertificate = Model::createMultiple(EmpCertification::classname());
+
                     Model::loadMultiple($modelEmpAcademy, Yii::$app->request->post());                    
+                    Model::loadMultiple($modelEmpCertificate, Yii::$app->request->post());                    
 
                     // validate all models
                     $validm = $model->validate();
-                    $valid = Model::validateMultiple($modelEmpAcademy) && $validm;
+                    $valid = Model::validateMultiple($modelEmpAcademy , $modelEmpCertificate) && $validm;
 
                     if ($valid) {
                         $transaction = \Yii::$app->db->beginTransaction();
@@ -158,6 +168,20 @@ class EmployeeController extends Controller
                                         break;
                                     }
                                 } // modelEmpAcademy foreach end
+
+                                foreach ($modelEmpCertificate as $modelcertificate) { 
+                                    $modelcertificate->emp_id = $model->emp_id;
+                                    $modelcertificate->created_at = new \yii\db\Expression('NOW()');
+                                    $modelcertificate->created_by = Yii::$app->user->identity->id; 
+                                    $modelcertificate->updated_by = '0';
+                                    $modelcertificate->updated_at = '0';
+
+                                    if (! ($flag = $modelcertificate->save(false))) {
+                                        $transaction->rollBack();
+                                        break;
+                                    }
+                                } // modelEmpCertificate foreach end
+
                             } // closing of if model
                             
                             if ($flag) {
@@ -175,6 +199,7 @@ class EmployeeController extends Controller
                 return $this->render('create', [
                     'model' => $model,
                     'modelEmpAcademy'=>(empty($modelEmpAcademy)) ? [new EmpAcademic] : $modelEmpAcademy,
+                    'modelEmpCertificate'=>(empty($modelEmpCertificate)) ? [new EmpCertification] : $modelEmpCertificate,
                 ]);
             }
         

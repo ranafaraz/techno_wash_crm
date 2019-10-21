@@ -36,9 +36,9 @@ class EmpCertification extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_id', 'certificate_from', 'certificate_to', 'certificate_course_detail', 'certificate_insititute', 'created_by', 'updated_by'], 'required'],
+            [['certificate_from', 'certificate_to', 'certificate_course_detail', 'certificate_insititute'], 'required'],
             [['emp_id', 'created_by', 'updated_by'], 'integer'],
-            [['certificate_from', 'certificate_to', 'created_at', 'updated_at'], 'safe'],
+            [['certificate_from', 'certificate_to', 'created_at', 'updated_at', 'created_by', 'updated_by','emp_id'], 'safe'],
             [['certificate_course_detail', 'certificate_insititute'], 'string', 'max' => 255],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
         ];
@@ -52,8 +52,8 @@ class EmpCertification extends \yii\db\ActiveRecord
         return [
             'emp_certificate_id' => 'Emp Certificate ID',
             'emp_id' => 'Emp ID',
-            'certificate_from' => 'Certificate From',
-            'certificate_to' => 'Certificate To',
+            'certificate_from' => 'Certificate Start Date',
+            'certificate_to' => 'Certificate End Date',
             'certificate_course_detail' => 'Certificate Course Detail',
             'certificate_insititute' => 'Certificate Insititute',
             'created_by' => 'Created By',

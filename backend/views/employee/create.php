@@ -11,5 +11,6 @@ use yii\helpers\Html;
     <?= $this->render('_form', [
         'model' => $model,
         'modelEmpAcademy'=>(empty($modelEmpAcademy)) ? [new EmpAcademic] : $modelEmpAcademy,
+        'modelEmpCertificate'=>(empty($modelEmpCertificate)) ? [new EmpCertification] : $modelEmpCertificate,
     ]) ?>
 </div>
