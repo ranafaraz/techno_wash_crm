@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use common\models\Branches;
 use common\models\VehicleType;
 use common\models\Services;
 
@@ -21,11 +20,6 @@ use common\models\Services;
 
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name')
-    )?>
-        </div>
-        <div class="col-md-4">
              <?= $form->field($model, 'vehicle_type_id')->dropDownList(
                 ArrayHelper::map(VehicleType::find()->all(),'vehical_type_id','name'),
                 ['prompt' => 'Select vehicle type']
@@ -37,13 +31,13 @@ use common\models\Services;
                 ['prompt' => 'Select Service']
     )?>
         </div>
-    </div>
-    <!-- row 1 close -->
-    <div class="row">
         <div class="col-md-4">
             <?= $form->field($model, 'price')->textInput() ?>
         </div>
-        <div class="col-md-8">
+    </div>
+    <!-- row 1 close -->
+    <div class="row">
+        <div class="col-md-12">
             <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
