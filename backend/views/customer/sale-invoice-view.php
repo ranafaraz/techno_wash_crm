@@ -1084,20 +1084,20 @@ $("#item_type").change(function(){
             var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
              var count = jsonResult.length;
              if(count > 0){
-               $("#availble_stock").val(count);
-              $("#message").removeAttr("Style");
-              $("#message").html("Stock available");
-              $("#message").css({
+                $("#availble_stock").val(count);
+                $("#message").removeAttr("Style");
+                $("#message").html("Stock available");
+                $("#message").css({
                 "color":"#008D4C",
                 "text-align":"left",
                 "margin-top":"25px",
                 });
               
              }
-             else{
+             else if(count == 0){
                 $("#availble_stock").val(count);
-              $("#message").html("Stock is not available");
-              $("#message").css({
+                $("#message").html("Stock is not available");
+                $("#message").css({
                 "color":"red",
                 "text-align":"left",
                 "margin-top":"25px",

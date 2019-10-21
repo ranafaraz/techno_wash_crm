@@ -12,8 +12,6 @@ if(isset($_POST['insert_model']))
 	$modelName  = $_POST['model_name'];
 	$user_id   =Yii::$app->user->identity->id;
 	$count = count($modelName);
-	echo $count ;
-	die();
 	for($i=0; $i<$count; $i++){
 		if(!empty($modelName[$i])){
 			$car_manufac = $carmanufactureId[$i];
