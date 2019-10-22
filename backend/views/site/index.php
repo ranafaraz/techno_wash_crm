@@ -195,7 +195,7 @@ use yii\helpers\Url;
                           ?>
                         <?php } ?>
                         <th>Amount</th>
-                        <td><?php echo $washSum; ?></td>
+                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;"><?php echo "Rs. ".number_format($washSum); ?></td>
                       </tr>
                       </thead>
                     </table>
@@ -255,7 +255,12 @@ use yii\helpers\Url;
                           $totalSUM = $waxSum + $intProtSum + $engineDressingSum + $underCarriageSum;
                         ?>
                         <th>Amount</th>
-                        <td><?php echo $totalSUM; ?></td>
+                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;"><?php 
+                        //echo $totalSUM;
+                        echo "Rs. ".number_format($totalSUM);
+                         ?>
+                           
+                        </td>
                       </tr>
                       </thead>
                     </table>
@@ -296,7 +301,12 @@ use yii\helpers\Url;
                       </tr>
                       <tr>
                         <th>Amount</th>
-                        <td><?php echo "Rs.".$creditSum; ?></td>
+                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;"><?php 
+                        //echo $totalSUM;
+                        echo "Rs. ".number_format($creditSum);
+                         ?>
+                           
+                        </td>
                       </tr>
                       </thead>
                     </table>

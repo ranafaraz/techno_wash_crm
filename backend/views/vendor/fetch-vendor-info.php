@@ -90,6 +90,7 @@
 		$originalPriceArray 	= $_POST['originalPriceArray'];
 		$purchasePriceArray 	= $_POST['purchasePriceArray'];
 		$sellingPriceArray 		= $_POST['sellingPriceArray'];
+		$quantityArray 			= $_POST['quantityArray'];
 
 		$disc_amount = $total_amount - $net_total;
 		$countStockTypeArray = count($stockTypeArray);
@@ -136,7 +137,30 @@
 	$selectedPurchInvID = $select_purchase_invoice[0]['purchase_invoice_id'];
 
 	for ($j=0; $j <$countStockTypeArray ; $j++) { 
-	    	
+
+		$qty = $quantityArray[$j];
+
+		if($qty > 1){
+
+			for ($i=0; $i <$qty ; $i++) { 
+				$insert_stock = Yii::$app->db->createCommand()->insert('stock',[
+
+				'stock_type_id'  		=> $stockTypeArray[$j],
+				'purchase_invoice_id'   => $selectedPurchInvID,
+				'manufacture_id'    	=> $manufacturerArray[$j],
+				'barcode'    			=> $barcodeArray[$j],
+				'name'  				=> $nameArray[$j],
+				'expiry_date'  			=> $expiryDateArray[$j],
+				'original_price'  		=> $originalPriceArray[$j],
+				'purchase_price'  		=> $purchasePriceArray[$j],
+				'selling_price'  		=> $sellingPriceArray[$j],
+				'status'  				=> "In-stock",
+				'created_by'			=> $user_id,
+				])->execute();
+			}
+		}	
+	    else 
+	    {
 	    	$insert_stock = Yii::$app->db->createCommand()->insert('stock',[
 
 				'stock_type_id'  		=> $stockTypeArray[$j],
@@ -151,7 +175,8 @@
 				'status'  				=> "In-stock",
 				'created_by'			=> $user_id,
 				])->execute();
-	    } // end of for loop
+	    	}
+	} // end of for loop
 	    // transaction commit
     	$transaction->commit();
 	    echo json_encode($insert_stock);
