@@ -36,8 +36,16 @@ use common\models\Branches;
 <body>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="box box-danger">
+		<div class="col-md-12" style="margin-top: -20px">
+			<h2 style="color:#3C8DBC;">
+	      	<a href="./customer" class="btn btn-success">
+		      	<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
+			</a>&ensp;<?php echo "Customer: ".$customerData->customer_name;?>
+	      	<!-- <a href="./update-stock" class="btn btn-info btn-xs" style="">
+					<i class="glyphicon glyphicon-edit"></i>  Update Stock
+				</a> -->
+	        </h2>
+		  <div class="box box-primary">
 				<div class="box-body" style="padding:20px;">
 					<div class="nav-tabs-custom">
 			            <ul class="nav nav-tabs">

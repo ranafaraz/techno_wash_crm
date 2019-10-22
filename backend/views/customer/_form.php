@@ -25,16 +25,7 @@ use common\models\VehicleTypeSubCategory;
 
     ); ?>
 
-    <div class="row">
-        
-        <div class="col-md-4">
-    <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name')
-                )?>
-
-    </div>
-</div>
-<!-- row 1 close -->
+<!-- row 1 start -->
 <div class="row">
         <div class="col-md-4">
     <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true,'id' => 'customerName']) ?>
@@ -50,7 +41,7 @@ use common\models\VehicleTypeSubCategory;
     </div>
     </div>
         
-    <!-- row 2 close -->
+    <!-- row 1 close -->
     <div class="row">
         <div class="col-md-4">
     <?= $form->field($model, 'customer_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
@@ -69,7 +60,7 @@ use common\models\VehicleTypeSubCategory;
 </div>
         
     
-    <!-- row 3 close -->
+    <!-- row 2 close -->
 
     <div class="row">
         <div class="col-md-4">
@@ -92,7 +83,7 @@ use common\models\VehicleTypeSubCategory;
     </div>
        
 </div>
-  <!-- row 4 close -->
+  <!-- row 3 close -->
   <div class="row">
      <div class="col-md-4">
 
@@ -103,9 +94,6 @@ use common\models\VehicleTypeSubCategory;
       </div>
       <div class="col-md-4">
            <?= $form->field($model, 'customer_social_media')->textInput(['maxlength' => true]) ?>
-      </div>
-      <div class="col-md-4">
-          
       </div>
   </div>
 
