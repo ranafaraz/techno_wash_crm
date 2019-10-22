@@ -4,20 +4,20 @@
 	$purchaseInvID = $_GET['piID'];
 	$vendorID = $_GET['vendorID'];
 
-	$paidinvoiceData = Yii::$app->db->createCommand("
+	$creditinvoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
     AND  purchase_invoice_id = '$purchaseInvID'
-    AND (status = 'Paid' OR status = 'paid')
+    AND (status = 'Unpaid' OR status = 'Partially')
     ")->queryAll();
-    $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
-    $time = date('h:i a',strtotime($paidinvoiceData[0]['created_at']));
+    $date = date('d-M-Y',strtotime($creditinvoiceData[0]['created_at']));
+    $time = date('h:i a',strtotime($creditinvoiceData[0]['created_at']));
 
     // echo $date."<br>";
     // echo $time;
     
-    $vendorId = $paidinvoiceData[0]['vendor_id'];
+    $vendorId = $creditinvoiceData[0]['vendor_id'];
 
     $vendorData  = Yii::$app->db->createCommand("
     SELECT name
@@ -39,7 +39,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Paid Purchase Invoice</title>
+	<title>Credit Purchase Invoice</title>
 </head>
 <body>
 	<style type="text/css" media="print">
@@ -68,7 +68,7 @@
 					<p style="text-align: center;">
 						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
 					</p>
-					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Paid Purchase Memo</h3>
+					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Credit Purchase Memo</h3>
 					
 					<div class="row">
 						<div class="col-md-12">
@@ -89,9 +89,9 @@
 									</tr>
 									<tr>
 										<th>Bilty No.#</th>
-										<td><?=$paidinvoiceData[0]['bilty_no'];?></td>
+										<td><?=$creditinvoiceData[0]['bilty_no'];?></td>
 										<th>Bill No.#</th>
-										<td><?=$paidinvoiceData[0]['bill_no'];?></td>
+										<td><?=$creditinvoiceData[0]['bill_no'];?></td>
 									</tr>
 								</thead>
 								
@@ -206,35 +206,44 @@
 			</div>
 
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-5">
 					
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>Total Amount</th>
-								<th><?php echo $paidinvoiceData[0]['total_amount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Total Amount</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Invoice Discount</th>
-								<th><?php echo $paidinvoiceData[0]['discount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Invoice Discount</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['discount']; ?></th>
 							</tr>
 							<tr>
-								<th>Net Bill</th>
-								<th><?php echo $paidinvoiceData[0]['net_total']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Net Bill</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['net_total']; ?></th>
 							</tr>
 							<tr>
-								<th>Paid</th>
-								<th><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Paid</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Remaining</th>
-								<th><?php echo $paidinvoiceData[0]['remaining_amount']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Remaining</th>
+								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
-								<th>Status</th>
-								<th><?php echo $paidinvoiceData[0]['status']; ?></th>
+								<th style="text-align: center;background-color: #fff;">Status</th>
+								<?php
+								 $status = $creditinvoiceData[0]['status'];
+								 if (($status == "Unpaid") || ($status == "unpaid")) {
+								 	?>
+									<th style="text-align: center;background-color: #DD4B39;color: white;"><?php echo $creditinvoiceData[0]['status']; ?></th>
+								<?php }elseif (($status == "Partially") || ($status == "partially")) {
+									?>
+									<th style="text-align: center;background-color:#FAB61C;color: white;"><?php echo $creditinvoiceData[0]['status']; ?> Paid</th>
+								<?php } ?>
+								
 							</tr>
 						</thead>
 					</table>

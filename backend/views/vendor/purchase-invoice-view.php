@@ -385,9 +385,9 @@ body td{
                                         <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['receiving_date']));
                                             echo $date; ?></td>
                                             <td class="text-center">
-                                              <a href="paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-info"><i class="fa fa-eye"></i>
+                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View
                                               </a>&ensp;
-                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i>
+                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update
                                               </a>
                                             </td>
                                       </tr>
@@ -454,9 +454,13 @@ body td{
                                         <td><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['receiving_date']));
                                             echo $date; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $credit_invoice[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="" title="View"><i class="fa fa-eye"></i>
-                                        <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit"><i class="fa fa-edit"></i>
-                                        <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay"><i class="fa fa-file"></i></a></td>
+                                        <td class="text-center" style="vertical-align:middle;">
+                                          <a href="./credit-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View
+                                              </a>
+                                          <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+
+                                          <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Pay</a>
+                                        </td>
                                       </tr>   
                                 
                                 <?php } ?>
@@ -608,6 +612,14 @@ body td{
 	function discountFun(){
         // Getting the value from the original price
        originalPrice = parseInt(document.getElementById("tp").value);
+
+       disco = document.getElementById("disc").value;
+       if (disco =="" || disco == null) {
+              $('#nt').val(originalPrice);
+              $('#remaining').val(originalPrice);
+              $('#paid').val("");
+          }else{
+
        // alert(originalPrice);
       //discountType  = parseInt(document.getElementById("discountType").value);
         
@@ -654,6 +666,7 @@ body td{
               $("#insert").removeAttr("disabled");
             }
       }
+    }
       function check_purchase_price(){
         var input1 = Number(document.getElementById( "original_price" ).value);
         var input2 = Number(document.getElementById( "purchase_price" ).value);

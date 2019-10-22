@@ -31,7 +31,7 @@ class VendorController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete', 'purchase-invoice-view', 'fetch-info', 'branch-details', 'customer-detail-view', 'fetch-vendor-info', 'paid-purchase-invoice', 'update-purchase-invoice', 'pay-purchase-invoice'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete', 'purchase-invoice-view', 'fetch-info', 'branch-details', 'customer-detail-view', 'fetch-vendor-info', 'paid-purchase-invoice', 'update-purchase-invoice', 'pay-purchase-invoice', 'credit-purchase-invoice'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -71,6 +71,12 @@ class VendorController extends Controller
     {    
         return $this->render('paid-purchase-invoice');
     }
+     public function actionCreditPurchaseInvoice()
+    {    
+        return $this->render('credit-purchase-invoice');
+    }
+
+
     public function actionIndex()
     {    
         $searchModel = new VendorSearch();
