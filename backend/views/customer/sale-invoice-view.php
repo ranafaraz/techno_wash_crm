@@ -1077,26 +1077,9 @@ $("#item_type").change(function(){
         	}      
     	}); 
 	});
-  $('#productid').on("change",function(){
+   $('#productid').on("change",function(){
    var PRODUCTid = parseInt($('#productid').val());
-   var avastock = $("#availble_stock").val();
-
-   if(!tempProductArray || !tempProductArray.length){
-      tempProductArray.push(PRODUCTid);
-      tempquantityArray.push(avastock);
-  } else {
-      for(var n=0; n < tempProductArray.length; ){
-        if(tempProductArray[n] == PRODUCTid){
-          var a_stock = tempquantityArray[n]
-
-
-        } else {
-          tempProductArray.push(PRODUCTid);
-          tempquantityArray.push(avastock);
-        }
-
-      }
-  }
+   
 
    //$('#message').val("");
     $.ajax({
