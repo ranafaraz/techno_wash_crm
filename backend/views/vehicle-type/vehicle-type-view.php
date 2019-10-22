@@ -75,7 +75,10 @@ $countcarmanufactureData = count($carmanufactureData);
 <div class="container-fluid">
   	<div class="row">
 	    <div class="col-md-9" style="margin-top: -20px">
-	      <h2 style="color:#3C8DBC;"><?php echo "Vehicle Type: ".$vehicleTypeData[0]['name']; ?>
+	      <h2 style="color:#3C8DBC;">
+	      	<a href="./vehicle-type" class="btn btn-success">
+		      	<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
+			</a>&ensp;<?php echo "Vehicle Type: ".$vehicleTypeData[0]['name']; ?>
 	      	<!-- <a href="./update-stock" class="btn btn-info btn-xs" style="">
 					<i class="glyphicon glyphicon-edit"></i>  Update Stock
 				</a> -->
