@@ -4,6 +4,43 @@ use common\models\Branches;
 use yii\helpers\Html;
 
 $stockTypeID = $_GET['id'];
+if(isset($_POST['insert_product']))
+ {
+	$manufactureId  = $_POST['manufacture_id'];
+	$productName  = $_POST['product_name'];
+	$productDescription  = $_POST['product_description'];
+	$user_id   =Yii::$app->user->identity->id;
+	$count = count($productName);
+	for($i=0; $i<$count; $i++){
+		if(!empty($productName[$i])){
+			$manufacture = $manufactureId[$i];
+			$proName = $productName[$i];
+			$proDescription = $productDescription[$i];
+			 // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_model = Yii::$app->db->createCommand()->insert('products',[
+     'manufacture_id'      => $manufacture,
+     'product_name'      		=> $proName,
+     'description'      		=> $proDescription,
+     'created_at' 		=> new \yii\db\Expression('NOW()'),
+     'updated_at' 		=> '0',
+     'created_by'       => $user_id,
+	 'updated_by' 		=> '0',
+    ])->execute();
+     // transaction commit
+     $transaction->commit();
+    Yii::$app->session->setFlash('success', "Product added successfuly");
+        
+     } // closing of try block 
+     catch (Exception $e) {
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+		}
+	}		
+}
 
 // getting stock Type name
 $stockTypeName = Yii::$app->db->createCommand("
@@ -34,7 +71,12 @@ $countManufactureData = count($manufactureData);
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-9" style="margin-top: -20px">
-      <h2 style="color:#3C8DBC;"><?php echo "Stock Type: ".$stockTypeName[0]['name']; ?>
+
+      <h2 style="color:#3C8DBC;">
+      	<a href="./stock-type" class="btn btn-success">
+      		<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
+		</a>
+				&ensp;<?php echo "Stock Type: ".$stockTypeName[0]['name']; ?>
       	<!-- <a href="./update-stock" class="btn btn-info btn-xs" style="">
 				<i class="glyphicon glyphicon-edit"></i>  Update Stock
 			</a> -->
@@ -76,10 +118,35 @@ $countManufactureData = count($manufactureData);
 									?>
 					            <div class="tab-pane" id="<?php echo $manufactureName; ?>">
 					               <div class="row">
-					               	<div class="col-md-8">
+					               	<div class="col-md-2">
 					               		 <p style="color:#3C8DBC;font-size:20px;"><?php echo $manufactureName; ?>
 					               		 </p>
 					               	</div>
+					               	<form action="" method="POST" accept-charset="utf-8">
+					               	<div class="col-md-1">
+				               			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
+
+				               			<input type="hidden" name="manufacture_id[]" id="manufactureID" class="form-control" value="<?php echo $manufactureID; ?>">
+
+				               			<label class="pull-right">Product Name</label>
+				               		</div>
+					               	<div class="col-md-3">
+					               		<div class="form-group">
+											<input type="text" name="product_name[]" id="productName" class="form-control">
+										</div>
+					               	</div>
+					               	<div class="col-md-1">
+					               		<label>Product Description</label>
+					               	</div>
+					               	<div class="col-md-3">
+					               		<div class="form-group">
+											<input type="text" name="product_description[]" id="productDescription" class="form-control">
+										</div>
+					               	</div>
+					               	<div class="col-md-2">
+					               		<button type="submit" name="insert_product" id="insert_btn" class="btn btn-success glyphicon glyphicon-plus"> Add Product</button>
+					               	</div>
+					               	</form>
 					               </div>
 					               <div class="row">
 					               	<div class="col-md-12">

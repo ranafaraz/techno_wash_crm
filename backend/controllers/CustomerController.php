@@ -145,8 +145,6 @@ class CustomerController extends Controller
                 ];         
             }else if($model->load($request->post())){
 
-                     
-
                     $model->customer_image = UploadedFile::getInstance($model,'customer_image');
 
                 // checking the field 
@@ -167,6 +165,7 @@ class CustomerController extends Controller
                         $model->customer_image = 'uploads/default-image-name.png'; 
                     }
                     $model->customer_registration_date   = new \yii\db\Expression('NOW()');
+                    $model->branch_id = Yii::$app->user->identity->branch_id; 
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
@@ -184,6 +183,7 @@ class CustomerController extends Controller
                         try {
                             if ($flag = $model->save(false)) {
                                 foreach ($modelCustomerVehicles as $value) {
+                                    
                                     $value->image = 'uploads/default-car-image.png';
                                     $value->customer_id = $model->customer_id;
                                     $value->created_at = new \yii\db\Expression('NOW()');

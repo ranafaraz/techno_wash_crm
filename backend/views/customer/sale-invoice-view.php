@@ -276,7 +276,7 @@ use common\models\Products;
                                 'name' => 'product_name',
                                 'value' => '',
                                 'data' => ArrayHelper::map(Products::find()->all(),'product_id','product_name'),
-                                'options' => ['multiple' => true, 'placeholder' => 'Select Product','id' => 'productid']
+                                'options' => ['placeholder' => 'Select Product','id' => 'productid']
                               ]);
                               ?>
                             </div>
@@ -341,7 +341,6 @@ use common\models\Products;
                       <input type="hidden" id="serviceDetailId">
                       <input type="hidden" id="productSellingPrice">
                       <input type="hidden" id="productName">
-                      <input type="hidden" id="quantity">
                     </div>
                   </div>
                 </div> 			
@@ -686,6 +685,10 @@ use common\models\Products;
 	let amountArray 				= new Array();
 	let ItemTypeArray       = new Array();
   let quantityArray       = new Array();
+
+  let tempProductArray    = new Array();
+  let tempquantityArray   = new Array();
+
 	let user_id = <?php echo $id; ?>;
 	let customer_id        = <?php echo $customerID; ?>;
 	let rIndex;
@@ -837,7 +840,7 @@ $("#item_type").change(function(){
 		 else if(item_type == "Stock")
 		 {
 		 	$('#stock').show();
-      $('#pname').hide();
+      $('#pname').show();
 		 	$('#servic').hide();
       $('#productid').val('').trigger("change");
 		 }
@@ -851,8 +854,6 @@ $("#item_type").change(function(){
   $("#pname").focusin(function(){
     $('#quantity').show();
     $('#availbleStock').show();
-   // $('#message').val("");
-    //$('#availbleStock').val("");
     $('#availbleStock').val("");
   });
 
@@ -900,10 +901,10 @@ $("#item_type").change(function(){
 				    var vehicle 						= $('#vehicle').val();
 						var services 						= $('#serviceDetailId').val();
 						var price 							= $('#price').val();
-						var servicesName				=$('#service_name').val();
+						var servicesName				= $('#service_name').val();
 						var reg_name 						= $('#vehicle_name').val();
-						var type                =$('#item_type').val();
-            var quantity                =1;
+						var type                = $('#item_type').val();
+            var quantity            = 1;
 						
 						if (vehicle=="" || vehicle==null)
 						{
@@ -1014,10 +1015,10 @@ $("#item_type").change(function(){
 				    var vehicle 						= $('#vehicle').val();
 						var barcode             = jsonResult[0]['stock_id'];
 						var stock_price 				= $('#selling_price').val();
-						var servicesName				=$('#stock_name').val();
+						var servicesName				= $('#stock_name').val();
 						var reg_name 						= $('#vehicle_name').val();
-						var type                =$('#item_type').val();
-            var quantity            =1;
+						var type                = $('#item_type').val();
+            var quantity            = 1;
 
 						
 						if (vehicle=="" || vehicle==null)
@@ -1078,6 +1079,25 @@ $("#item_type").change(function(){
 	});
   $('#productid').on("change",function(){
    var PRODUCTid = parseInt($('#productid').val());
+   var avastock = $("#availble_stock").val();
+
+   if(!tempProductArray || !tempProductArray.length){
+      tempProductArray.push(PRODUCTid);
+      tempquantityArray.push(avastock);
+  } else {
+      for(var n=0; n < tempProductArray.length; ){
+        if(tempProductArray[n] == PRODUCTid){
+          var a_stock = tempquantityArray[n]
+
+
+        } else {
+          tempProductArray.push(PRODUCTid);
+          tempquantityArray.push(avastock);
+        }
+
+      }
+  }
+
    //$('#message').val("");
     $.ajax({
           type:'post',
@@ -1087,137 +1107,120 @@ $("#item_type").change(function(){
             var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
              var count = jsonResult.length;
              if(count > 0){
-               $("#availble_stock").val(count);
-              $("#message").removeAttr("Style");
-              $("#message").html("Stock available");
-              $("#message").css({
-                "background-color":"#008D4C",
-                "color":"white",
-                "padding":"15px",
-                "text-align":"center",
+                $("#availble_stock").val(count);
+                $("#message").removeAttr("Style");
+                $("#message").html("Stock available");
+                $("#message").css({
+                "color":"#008D4C",
+                "text-align":"left",
+                "margin-top":"25px",
                 });
               
              }
-             // else{
-             //    $("#availble_stock").val(count);
-             //  $("#message").html("Stock is not available");
-             //  $("#message").css({
-             //    "background-color":"red",
-             //    "color":"white",
-             //    "padding":"15px",
-             //    "text-align":"center",
-             //    });
-             // }
-             
+             else if(count == 0){
+                $("#availble_stock").val(count);
+                $("#message").html("Stock is not available");
+                $("#message").css({
+                "color":"red",
+                "text-align":"left",
+                "margin-top":"25px",
+                });
+             } 
           }      
     });
 
   });
 
-  $('#product_quantity').on("change",function(){
+$('#product_quantity').on("change",function(){
   var productID  = parseInt($("#productid").val());
-  var pro_quantity=$("#product_quantity").val();
+  var pro_quantity=parseInt($("#product_quantity").val());
   var avastock = $("#availble_stock").val();
   // var remainStock = avastock - pro_quantity;
   // $("#availble_stock").val(remainStock);
   if(pro_quantity =="" || pro_quantity == null){
-  }
-  else if(pro_quantity > avastock )
-  {
+  } else if(pro_quantity > avastock ) {
     //alert("not available");
     $("#product_quantity").css("border", "1px solid red");
     $("#product_quantity").val("");
     //$("#message").html("not a valid stock");
-  }
-  else{
+  } else{
     $("#product_quantity").css("border", "");
     $("#product_quantity").val("");
-     pro_quantity      = parseInt(pro_quantity);
-  //alert(productID);
     $.ajax({
-          type:'post',
-          data:{productID:productID},
-          url: "$url",
-          success: function(result){
-            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-             $('#productName').val(jsonResult[0]['product_name']);
-             $("#productSellingPrice").val(jsonResult[0]['selling_price']);
+      type:'post',
+      data:{productID:productID},
+      url: "$url",
+      success: function(result){
+        var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+        $('#productName').val(jsonResult[0]['product_name']);
+        $("#productSellingPrice").val(jsonResult[0]['selling_price']);
 
-            var totalAmount = parseInt($('#tp').val());
-            var tprice = jsonResult[0]['selling_price'];
-            var totalPrice = tprice*pro_quantity;
-            var totalprices = parseInt(totalAmount)+parseInt(totalPrice);
-            $('#tp').val(totalprices);
-            $('#nt').val(totalprices);
-            $('#remaining').val(totalprices);
+        var totalAmount = parseInt($('#tp').val());
+        var tprice = jsonResult[0]['selling_price'];
+        var totalPrice = tprice*pro_quantity;
+        var totalprices = parseInt(totalAmount)+parseInt(totalPrice);
+        $('#tp').val(totalprices);
+        $('#nt').val(totalprices);
+        $('#remaining').val(totalprices);
 
-            var vehicle             = $('#vehicle').val();
-            var productid             = parseInt($("#productid").val());
-            var stock_price         = $("#productSellingPrice").val();
+        var vehicle             = $('#vehicle').val();
+        var productid           = parseInt($("#productid").val());
+        var stock_price         = $("#productSellingPrice").val();
+        var servicesName        = $('#productName').val();
+        var reg_name            = $('#vehicle_name').val();
+        var type                = "Product";
+        var quantity            = pro_quantity;
+
+        if (vehicle=="" || vehicle==null) {
+          alert("Select the Vehicle name ");
+        } else if (services=="" || services==null) {
+          alert("Select the Services ");
+        } else {
+          vehicleArray.push(vehicle);
+          serviceArray.push(productid);
+          amountArray.push(stock_price);
+          ItemTypeArray.push(type);
+          quantityArray.push(quantity);
+
+          $("#mydata").show();
+          $('#bill_form').show();
+          //document.getElementById('insertdata').disabled=false;
+          $('#insertdata').attr("disabled", false);
+          let table = document.getElementById("myTableData");
+
+          //count the table row
+          let rowCount = table.rows.length;
+
+          //insert the new row
+          let row = table.insertRow(1);
             
-            var servicesName        =$('#productName').val();
-            var reg_name            = $('#vehicle_name').val();
-            var type                =$('#item_type').val();
-            var quantity            =$('#product_quantity').val();
+          //insert the coulmn against the row
+          row.insertCell(0).innerHTML= rowCount;
+          row.insertCell(1).innerHTML= reg_name;
+          row.insertCell(2).innerHTML= servicesName;
+          row.insertCell(3).innerHTML= type;
+          row.insertCell(4).innerHTML= pro_quantity;
+          row.insertCell(5).innerHTML= stock_price;
 
+          $("#product_quantity").val("");
+          $("#product_quantity").focus("");
+          $('#remove_index').show();
 
-            if (vehicle=="" || vehicle==null)
-            {
-                  alert("Select the Vehicle name ");
-            }
-            else if (services=="" || services==null) {
-                  alert("Select the Services ");
-            } 
-            else
-            {
-            vehicleArray.push(vehicle);
-            serviceArray.push(productid);
-            amountArray.push(stock_price);
-            ItemTypeArray.push(type);
-            quantityArray.push(quantity);
-
-            $("#mydata").show();
-            $('#bill_form').show();
-            //document.getElementById('insertdata').disabled=false;
-            $('#insertdata').attr("disabled", false);
-            let table = document.getElementById("myTableData");
-
-            //count the table row
-            let rowCount = table.rows.length;
-
-            //insert the new row
-            let row = table.insertRow(1);
-              
-            //insert the coulmn against the row
-            row.insertCell(0).innerHTML= rowCount;
-            row.insertCell(1).innerHTML= reg_name;
-            row.insertCell(2).innerHTML= servicesName;
-            row.insertCell(3).innerHTML= type;
-            row.insertCell(4).innerHTML= pro_quantity;
-            row.insertCell(5).innerHTML= stock_price;
-
-            $("#product_quantity").val("");
-            $("#product_quantity").focus("");
-            $('#remove_index').show();
-
-                
-                for(var i = 1; i < table.rows.length; i++)
-                      {
-                          table.rows[i].onclick = function()
-                          {
-                            // get the seected row index
-                            rIndex = this.rowIndex;
-                            document.getElementById("remove_value").value = rIndex;
-                             document.getElementById("removed_value").value = this.cells[2].innerHTML;
-                             var q = this.cells[4].innerHTML;
-                             $("#hide_quantity").val(q);
-                           
-                          };
-                      }}     
-          }      
-      });
-    }
-  });
+          for(var i = 1; i < table.rows.length; i++) {
+            table.rows[i].onclick = function(){
+              // get the seected row index
+              rIndex = this.rowIndex;
+              document.getElementById("remove_value").value = rIndex;
+              document.getElementById("removed_value").value = this.cells[2].innerHTML;
+              var q = this.cells[4].innerHTML;
+              $("#hide_quantity").val(q);          
+            };
+          }
+        }     
+      }      
+    });
+  }
+});
 
 	$('#remove').click(function(){
 
@@ -1262,6 +1265,7 @@ $("#item_type").change(function(){
   			$('#bill_form').hide();
   			$('#price').val("");
         $('#selling_price').val("");
+        $("#productSellingPrice").val("");
   			$('#vehicle').val("");
   			$('#item_type').val("");
   			$('#types').hide();
@@ -1289,6 +1293,7 @@ $("#item_type").change(function(){
 			amountArray;
  			ItemTypeArray;
       quantityArray;
+      //alert(quantityArray);
 
  			var total_amount = $('#tp').val();
  			var net_total = $('#nt').val();
@@ -1334,12 +1339,16 @@ $("#item_type").change(function(){
 	        	},
 	        url: "$url",
 	        success: function(result){
-	        	//var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	alert('Bill is Added');
+            console.log(result);
+            if(result){
+              alert('Bill is Added');
             window.location = './sale-invoice-view?customer_id=$customerID';
-	        	}      
-    	});
-					}
+            } else {
+              alert('Something wrong.!');
+            }
+	        }      
+    	  });
+			}
 				
 
 		});

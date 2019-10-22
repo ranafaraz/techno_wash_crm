@@ -68,6 +68,11 @@ class VehicleTypeController extends Controller
      * @param integer $id
      * @return mixed
      */
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+    
     public function actionView($id)
     {   
         return $this->render('vehicle-type-view');

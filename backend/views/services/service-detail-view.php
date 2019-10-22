@@ -9,17 +9,23 @@
 		ON s.service_id = sd.service_id
 		WHERE s.service_id = '$service_id'")->queryAll();
 	$count_setrvices =  count($services);
-	// echo $count_setrvices;	
-	$this->title = 'Service Details ';
-	$this->params['breadcrumbs'][] = $this->title;
-?>
+	// echo $count_setrvices;
+	//$this->title = 'Service Details';
+	//$this->params['breadcrumbs'][] = $this->title;
+	?>
+
 <!DOCTYPE html>
 <html>
 
 <body>
 	<div class="container-fluid">
+
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12" style="margin-top: -20px">
+				<h2 style="color:#3C8DBC;">
+		      	<a href="./services" class="btn btn-success">
+		      		<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
+				</a>&ensp;Service Details</h2>
 				<div class="table-responsive">
 				<table class="table table-striped table-bordered">
 					<thead>
