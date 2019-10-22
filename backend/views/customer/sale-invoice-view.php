@@ -685,6 +685,10 @@ use common\models\Products;
 	let amountArray 				= new Array();
 	let ItemTypeArray       = new Array();
   let quantityArray       = new Array();
+
+  let tempProductArray    = new Array();
+  let tempquantityArray   = new Array();
+
 	let user_id = <?php echo $id; ?>;
 	let customer_id        = <?php echo $customerID; ?>;
 	let rIndex;
@@ -1073,8 +1077,10 @@ $("#item_type").change(function(){
         	}      
     	}); 
 	});
-  $('#productid').on("change",function(){
+   $('#productid').on("change",function(){
    var PRODUCTid = parseInt($('#productid').val());
+   
+
    //$('#message').val("");
     $.ajax({
           type:'post',

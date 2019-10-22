@@ -298,6 +298,14 @@ body td{
 			            	<input type="hidden" id="stockTypeName">
 			            	<input type="hidden" id="manufactreName">
                     <input type="hidden" id="productName">
+			            </div>
+			            <div class="row">
+			            	<div class="col-md-3">
+			            		<div class="fomr-group">
+			            			<label>Quantity</label>
+			            			<input type="number" name="" class="form-control" id="quantity">
+			            		</div>
+			            	</div>
 			            </div>		
                 	</div>
                 </div><hr>			
@@ -328,7 +336,7 @@ body td{
 											<th style="background-color: #3C8DBC;color:white;">Org. Price</th>
 											<th style="background-color: #3C8DBC;color:white;">Purch Price</th>
 											<th style="background-color: #3C8DBC;color:white;">Sale Price</th>
-                      <th style="background-color: #3C8DBC;color:white;">Barcode</th>
+                      						<th style="background-color: #3C8DBC;color:white;">Qty</th>
 										</tr>
 									</thead>
 									<tbody style="background-color:lightgray;color:black;">
@@ -584,6 +592,7 @@ body td{
 	let originalPriceArray  = new Array();
 	let purchasePriceArray  = new Array();
 	let sellingPriceArray   = new Array();
+	let quantityArray   = new Array();
 	let vendorID 			= <?php echo $vendorID; ?>;
 
 	let user_id= <?php echo $id; ?>;
@@ -742,32 +751,6 @@ $script = <<< JS
       });
   });
 
-	// $("#disc").change(function(){
-	// 	 var totalAmount = $('#tp').val();
-
-	// 	 if($("#percentage").checked)
- //              {
-              	
- //            discount = parseInt($("#disc").val());
-            
- //            discountReceived = parseInt((totalAmount*discount)/100);
-            
- //            purchasePrice = totalAmount-discountReceived;
- //            $('#nt').val(purchasePrice);
- //              }
- //            else if(document.getElementById("#amount").checked)
- //            {
-            	
- //            discount = parseInt(document.getElementById("disc").value);
-                  
- //            purchasePrice = originalPrice - discount;
- //              //discountReceived = discount;
- //             //$('#nt').val(purchasePrice);
- //              //alert(originalPrice);
- //            } 
-	// });
-
-
 	$("#barcode").change(function(){
 
 		var barcode 			= $("#barcode").val();
@@ -778,12 +761,13 @@ $script = <<< JS
 		var original_price 		= $("#original_price").val();
 		var purchase_price 		= $("#purchase_price").val();
 		var selling_price 		= $("#selling_price").val();
-
+		var qty					= 1;
 		var stockTypeName 		=  $('#stockTypeName').val();
 		var manufactreName 		=  $('#manufactreName').val();
-    var product_name    =  $('#productName').val();
+    	var product_name    	=  $('#productName').val();
 
 		var totalAmount = parseInt($('#tp').val());
+
 		var tp = parseInt(totalAmount)+parseInt(purchase_price);
 		$('#tp').val(tp);
             $('#nt').val(tp);
@@ -843,6 +827,7 @@ $script = <<< JS
 		originalPriceArray.push(original_price);
 		purchasePriceArray.push(purchase_price);
 		sellingPriceArray.push(selling_price);
+		quantityArray.push(qty);
 
 		$("#mydata").show();
 		$('#bill_form').show();
@@ -866,7 +851,7 @@ $script = <<< JS
 		row.insertCell(5).innerHTML= original_price;
 		row.insertCell(6).innerHTML= purchase_price;
 		row.insertCell(7).innerHTML= selling_price;
-    row.insertCell(8).innerHTML= barcode;
+    	row.insertCell(8).innerHTML= qty;
 
 		$('#barcode').val("");
 		$('#barcode').focus();
@@ -884,6 +869,125 @@ $script = <<< JS
                       }
 
 
+	});
+
+	$("#quantity").change(function(){
+
+		var qty 				= parseInt($('#quantity').val());
+		var stock_type 			= $("#stock_type").val();
+		var manufacture_type 	= $("#manufacture_type").val();
+		var name 				= $("#product_name").val();
+		var expiry_date 		= $("#expiry_date").val();
+		var original_price 		= $("#original_price").val();
+		var purchase_price 		= $("#purchase_price").val();
+		var selling_price 		= $("#selling_price").val();
+		var stockTypeName 		= $('#stockTypeName').val();
+		var manufactreName 		= $('#manufactreName').val();
+    	var product_name    	= $('#productName').val();
+    	var barcode				= ''; 
+
+    	var totalAmount = parseInt($('#tp').val());
+		var pp = parseInt(purchase_price)*qty;
+		var tp = parseInt(totalAmount)+pp;
+		$('#tp').val(tp);
+        $('#nt').val(tp);
+        $('#disc').val("");
+        $('#paid').val("");
+        $('#remaining').val(tp);
+        $('#status').val('Unpaid');
+
+        if(stock_type == "" || stock_type == null)
+		{
+			alert('Please Select the Stock Type');
+		    $('#stock_type').css("border", "1px solid red");
+		    $('#stock_type').focus();
+		}
+		else if(manufacture_type == "" || manufacture_type == null)
+		{
+			alert('Please Select the Manufacture Type');
+	      	$('#manufacture_type').css("border", "1px solid red");
+	      	$('#manufacture_type').focus();
+		}
+		else if(name == "" || name == null)
+		{
+			alert('Please Select the Name');
+	      	$('#product_name').css("border", "1px solid red");
+	      	$('#product_name').focus();
+		}
+		else if(expiry_date == "" || expiry_date == null)
+		{
+			alert('Please Select the Expiry Date');
+	      	$('#expiry_date').css("border", "1px solid red");
+	      	$('#expiry_date').focus();
+		}
+		else if(original_price == "" || original_price == null)
+		{
+			alert('Please fill the Original Price');
+	      	$('#original_price').css("border", "1px solid red");
+	      	$('#original_price').focus();
+		}
+		else if(purchase_price == "" || purchase_price == null)
+		{
+			alert('Please fill the Purchase Price');
+		    $('#purchase_price').css("border", "1px solid red");
+		    $('#purchase_price').focus();
+		}
+		else if(selling_price == "" || selling_price == null)
+		{
+			alert('Please fill the Selling Price');
+	      	$('#selling_price').css("border", "1px solid red");
+	      	$('#selling_price').focus();
+		}
+		else
+		{
+			barcodeArray.push(barcode);
+			stockTypeArray.push(stock_type);
+			manufacturerArray.push(manufacture_type);
+			nameArray.push(name);
+			expiryDateArray.push(expiry_date);
+			originalPriceArray.push(original_price);
+			purchasePriceArray.push(purchase_price);
+			sellingPriceArray.push(selling_price);
+			quantityArray.push(qty);
+
+			$("#mydata").show();
+			$('#bill_form').show();
+			$('#insertdata').attr("disabled", false);
+
+			let table = document.getElementById("myTableData");
+
+			//count the table row
+			let rowCount = table.rows.length;
+
+			//insert the new row
+			let row = table.insertRow(1);
+		  
+			//insert the coulmn against the row
+
+			row.insertCell(0).innerHTML= rowCount;
+			row.insertCell(1).innerHTML= stockTypeName;
+			row.insertCell(2).innerHTML= manufactreName;
+			row.insertCell(3).innerHTML= product_name;
+			row.insertCell(4).innerHTML= expiry_date;
+			row.insertCell(5).innerHTML= original_price;
+			row.insertCell(6).innerHTML= purchase_price;
+			row.insertCell(7).innerHTML= selling_price;
+	    	row.insertCell(8).innerHTML= qty;
+
+			$('#quantity').val("");
+			$('#quantity').focus();
+		}
+			table = document.getElementById("myTableData");
+	    	for(var i = 1; i < table.rows.length; i++)
+            {
+	              table.rows[i].onclick = function()
+	              {
+	                // get the seected row index
+	                rIndex = this.rowIndex;
+	                document.getElementById("remove_value1").value = rIndex;
+	                document.getElementById("remove_value").value = this.cells[8].innerHTML;
+	              };
+            }
 	});
 
 
@@ -1001,6 +1105,7 @@ $script = <<< JS
   	 	originalPriceArray;
   	 	purchasePriceArray;
   	 	sellingPriceArray;
+  	 	quantityArray;
 
  		if(bilty_no == "" || bilty_no == null )
  		{
@@ -1056,7 +1161,8 @@ $script = <<< JS
     				 	expiryDateArray:expiryDateArray,
     				 	originalPriceArray:originalPriceArray,
     				 	purchasePriceArray:purchasePriceArray,
-    				 	sellingPriceArray:sellingPriceArray
+    				 	sellingPriceArray:sellingPriceArray,
+    				 	quantityArray:quantityArray
 		        	},
 		        url: "$url",
 		        success: function(result){ 
