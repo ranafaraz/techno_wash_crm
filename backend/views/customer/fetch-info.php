@@ -141,6 +141,15 @@
 				
 				$selectedInvHeadID = $select_invoice[0]['sale_inv_head_id'];
 
+				$insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
+
+				'sale_inv_head_id' => $selectedInvHeadID,
+				'transaction_date'    	=> new \yii\db\Expression('NOW()'),
+				'paid_amount'    		=> $paid,
+				'created_by'			=> $user_id,
+
+			])->execute();
+
 				for ($j=0; $j <$countItemArray ; $j++) {
 					$itemType = $ItemTypeArray[$j];
 					$quantity = $quantityArray[$j];

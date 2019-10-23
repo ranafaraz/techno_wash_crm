@@ -307,5 +307,4 @@ $customerData = Yii::$app->db->createCommand("
       		$("#update").attr("disabled", true);
       	}
       }
-      
  </script>

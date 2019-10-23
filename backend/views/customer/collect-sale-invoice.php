@@ -119,6 +119,9 @@
 </body>
 </html>
 <script>
+	 $(document).ready(function(){
+		$('#collect_amount').focus();
+	});
 	function cal_remaining(){
 
       	var paid = parseInt($('#paid_amount').val());
@@ -165,7 +168,5 @@
       		$("#insert").attr("disabled", true);
       	}
     }
-    $(document).ready(function(){
-		$('#collect_amount').focus();
-	});
+   
 </script>

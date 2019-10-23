@@ -32,6 +32,15 @@ use yii\helpers\Html;
        ['vendor_id' => $vendorID ,'purchase_invoice_id' => $piID]
 
     )->execute();
+
+      $purchase_invoice_amount = Yii::$app->db->createCommand()->insert('purchase_invoice_amount_detail',[
+
+    'purchase_invoice_id' => $piID,
+    'transaction_date'    => date('y-m-d'),
+    'paid_amount'       => $pay,
+    'created_by'      => $id,
+
+  ])->execute();
      // transaction commit
      $transaction->commit();
      \Yii::$app->response->redirect(['./purchase-invoice-view', 'customer_id' => $customerID]);
