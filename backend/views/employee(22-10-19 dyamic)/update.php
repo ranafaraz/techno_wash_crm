@@ -2,13 +2,13 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
 /* @var $model common\models\Employee */
-
 ?>
-<div class="employee-create">
-    <?= $this->render('_form', [
+<div class="employee-update">
+
+    <?= $this->render('_form1', [
         'model' => $model,
     ]) ?>
+
 </div>

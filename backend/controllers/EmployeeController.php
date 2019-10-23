@@ -108,16 +108,26 @@ class EmployeeController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Employee(); 
-        $modelEmpAcademy = [new EmpAcademic]; 
-        $modelEmpCertificate = [new EmpCertification]; 
-  
-            /*
-            *   Process for non-ajax request
-            */
-            if ($model->load($request->post())) {
-                //var_dump($model);
-                $model->emp_image = UploadedFile::getInstance($model,'emp_image');
+        $model = new Employee();
+            
+        if($request->isAjax){
+           /*
+           *  Process for ajax request
+           */
+           Yii::$app->response->format = Response::FORMAT_JSON;
+           if($request->isGet){
+               return [
+                   'title'=> "",
+                   'content'=>$this->renderAjax('create', [
+                       'model' => $model,
+                   ]),
+                   'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                               Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+       
+               ];       
+           }else if($model->load($request->post())){
+
+            $model->emp_image = UploadedFile::getInstance($model,'emp_image');
                 if (!empty($model->emp_image)) {
                     // making the name of image file
                     $imageName = $model->emp_name.'_photo';
@@ -140,69 +150,38 @@ class EmployeeController extends Controller
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0';
-
-                $modelEmpAcademy = Model::createMultiple(EmpAcademic::classname());
-                $modelEmpCertificate = Model::createMultiple(EmpCertification::classname());
-
-                    Model::loadMultiple($modelEmpAcademy, Yii::$app->request->post());                    
-                    Model::loadMultiple($modelEmpCertificate, Yii::$app->request->post());                    
-
-                    // validate all models
-                    $validm = $model->validate();
-                    $valid = Model::validateMultiple($modelEmpAcademy , $modelEmpCertificate) && $validm;
-
-                    if ($valid) {
-                        $transaction = \Yii::$app->db->beginTransaction();
-                        try {
-                            if ($flag = $model->save(false)) {
-                                foreach ($modelEmpAcademy as $value) {
-
-                                    $value->emp_id = $model->emp_id;
-                                    $value->created_at = new \yii\db\Expression('NOW()');
-                                    $value->created_by = Yii::$app->user->identity->id; 
-                                    $value->updated_by = '0';
-                                    $value->updated_at = '0';    
-
-                                    if (! ($flag = $value->save(false))) {
-                                        $transaction->rollBack();
-                                        break;
-                                    }
-                                } // modelEmpAcademy foreach end
-
-                                foreach ($modelEmpCertificate as $modelcertificate) { 
-                                    $modelcertificate->emp_id = $model->emp_id;
-                                    $modelcertificate->created_at = new \yii\db\Expression('NOW()');
-                                    $modelcertificate->created_by = Yii::$app->user->identity->id; 
-                                    $modelcertificate->updated_by = '0';
-                                    $modelcertificate->updated_at = '0';
-
-                                    if (! ($flag = $modelcertificate->save(false))) {
-                                        $transaction->rollBack();
-                                        break;
-                                    }
-                                } // modelEmpCertificate foreach end
-
-                            } // closing of if model
-                            
-                            if ($flag) {
-                                $transaction->commit();
-                                return $this->redirect('employee');
-                                //return $this->redirect(['index']);
-                            }
-                        } catch (Exception $e) {
-                            $transaction->rollBack();
-                            echo $e;
-                        }
-                    }
-                
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                    'modelEmpAcademy'=>(empty($modelEmpAcademy)) ? [new EmpAcademic] : $modelEmpAcademy,
-                    'modelEmpCertificate'=>(empty($modelEmpCertificate)) ? [new EmpCertification] : $modelEmpCertificate,
-                ]);
-            }
-        
+                $model->save();
+               return [
+                   'forceReload'=>'#crud-datatable-pjax',
+                   'title'=> "Create new Employee",
+                   'content'=>'<span class="text-success">Create Employee success</span>',
+                   'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                           Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+       
+               ];       
+           }else{         
+               return [
+                   'title'=> "Create new Employee",
+                   'content'=>$this->renderAjax('create', [
+                       'model' => $model,
+                   ]),
+                   'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                               Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+       
+               ];       
+           }
+       }else{
+           /*
+           *  Process for non-ajax request
+           */
+           if ($model->load($request->post()) && $model->save()) {
+               return $this->redirect(['view', 'id' => $model->emp_id]);
+           } else {
+               return $this->render('create', [
+                   'model' => $model,
+               ]);
+           }
+       }
        
     }
 
