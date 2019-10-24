@@ -67,16 +67,20 @@ use common\models\Products;
 
  if(isset($_POST['update_invoice']))
  {
-   $customerID  = $_POST['custID'];
-   $invID       = $_POST['invID'];
-   $net_total   = $_POST['net_total'];
-   $updateDate = $_POST['date'];
-   $updateDiscount = $_POST['update_discount'];
-   $updatepaidAmount = $_POST['paid_amount'];
-   $updatetotalamount = $_POST['total_amount'];
-   $updatenetTotal = $_POST['net_total'];
-   $updateremainingAmount = $_POST['remaining_amount'];
-   $updatestatus = $_POST['status'];
+   $customerID              = $_POST['custID'];
+   $invID                   = $_POST['invID'];
+  // $net_total               = $_POST['net_total'];
+   $updateDate              = $_POST['date'];
+   $updateDiscount          = $_POST['update_discount'];
+   $updatetotalamount       = $_POST['total_amount'];
+   $updatedpaidAmount       = $_POST['paid_amount'];
+   $updatenetTotal          = $_POST['net_total'];
+   $updateremainingAmount   = $_POST['remaining_amount'];
+   $updatestatus            = $_POST['status'];
+
+   $transactionDateArray    = $_POST['transaction_date'];
+   $paidAmountArray         = $_POST['detail_paid_amount'];
+   $saleInvAmountIDArray    = $_POST['saleInvAmountID'];
    
 
    $id   =Yii::$app->user->identity->id;
@@ -90,7 +94,7 @@ use common\models\Products;
      'total_amount' => $updatetotalamount,
      'discount' => $updateDiscount,
      'net_total' => $updatenetTotal,
-     'paid_amount' => $updatepaidAmount,
+     'paid_amount' => $updatedpaidAmount,
      'remaining_amount' => $updateremainingAmount,
      'status' => $updatestatus,
     ],
@@ -98,25 +102,17 @@ use common\models\Products;
 
     )->execute();
 
+    $countpaidAmountArray = count($paidAmountArray);
 
-    $amountDetailData = Yii::$app->db->createCommand("
-    SELECT *
-    FROM sale_invoice_amount_detail
-    WHERE sale_inv_head_id = $invID
-    ORDER BY  s_inv_amount_detail DESC
-    ")->queryAll();
-    $amountDetailId = $amountDetailData[0]['s_inv_amount_detail'];
-    $amountDetailPaidAmount = $amountDetailData[0]['paid_amount'];
+    for($i=0; $i<$countpaidAmountArray; $i++){
+      $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
+      'transaction_date' => $transactionDateArray[$i],
+      'paid_amount' => $paidAmountArray[$i],
+      ],
+         ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $saleInvAmountIDArray[$i]]
 
-    $paid = $amountDetailPaidAmount - $updateremainingAmount;
-
-    $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
-      'transaction_date' => $updateDate,
-      'paid_amount' => $paid,
-    ],
-       ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $amountDetailId]
-
-    )->execute();
+      )->execute();
+    }
      // transaction commit
      $transaction->commit();
      \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
@@ -471,7 +467,7 @@ use common\models\Products;
                                          <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View</a>
-                                        <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
                                         <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
                                         </td>
                                     </tr>   
