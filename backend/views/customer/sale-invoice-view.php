@@ -69,6 +69,7 @@ use common\models\Products;
  {
    $customerID  = $_POST['custID'];
    $invID       = $_POST['invID'];
+   $net_total   = $_POST['net_total'];
    $updateDate = $_POST['date'];
    $updateDiscount = $_POST['update_discount'];
    $updatepaidAmount = $_POST['paid_amount'];
@@ -97,11 +98,23 @@ use common\models\Products;
 
     )->execute();
 
-      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
 
-     'paid_amount' => $updatepaidAmount,
+    $amountDetailData = Yii::$app->db->createCommand("
+    SELECT *
+    FROM sale_invoice_amount_detail
+    WHERE sale_inv_head_id = $invID
+    ORDER BY  s_inv_amount_detail DESC
+    ")->queryAll();
+    $amountDetailId = $amountDetailData[0]['s_inv_amount_detail'];
+    $amountDetailPaidAmount = $amountDetailData[0]['paid_amount'];
+
+    $paid = $amountDetailPaidAmount - $updateremainingAmount;
+
+    $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
+      'transaction_date' => $updateDate,
+      'paid_amount' => $paid,
     ],
-       ['sale_inv_head_id' => $invID ,'transaction_date' => $updateDate]
+       ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $amountDetailId]
 
     )->execute();
      // transaction commit
@@ -399,7 +412,7 @@ use common\models\Products;
                                         <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">
                                           <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View</a>
-                                          <!-- <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a> -->
+                                          <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
                                         </td>
                                     </tr>   
                                 
