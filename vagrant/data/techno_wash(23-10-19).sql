@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2019 at 11:15 AM
+-- Generation Time: Oct 23, 2019 at 08:31 PM
 -- Server version: 10.1.22-MariaDB
 -- PHP Version: 7.1.4
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `techno_wash_db`
+-- Database: `techno_wash`
 --
 
 -- --------------------------------------------------------
@@ -38,14 +38,6 @@ CREATE TABLE `allowance_type` (
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `allowance_type`
---
-
-INSERT INTO `allowance_type` (`allowance_type_id`, `branch_id`, `allowance_name`, `amount`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 2, 'some allowance', 1200, '2019-09-12 19:43:55', '2019-09-12 19:43:55', 140, 140),
-(2, 1, 'another allowance here', 1000, '2019-09-12 19:39:56', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -168,7 +160,7 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`branch_id`, `org_id`, `branch_code`, `branch_name`, `branch_type`, `branch_location`, `branch_contact_no`, `branch_email`, `status`, `branch_head_name`, `branch_head_contact_no`, `branch_head_email`, `created_at`, `updated_at`, `created_by`, `updated_by`, `delete_status`) VALUES
-(1, 1, 'BWP-001', 'Khalid and Son', 'Franchise', 'BWP', '+92-300-3546545', 'bwp@gmail.com', 'Active', 'Khalid', '+92-300-6545654', 'khalid@gmail.com', '2019-09-10 13:07:44', '0000-00-00 00:00:00', 1, 0, 1),
+(1, 1, 'BWP-001', 'Techno Wash (BWP)', 'Franchise', 'BWP', '+92-300-3546545', 'bwp@gmail.com', 'Active', 'Khalid', '+92-300-6545654', 'khalid@gmail.com', '2019-10-04 05:07:59', '2019-10-04 05:07:59', 1, 140, 1),
 (2, 2, '0880', 'Test Branch', 'Franchise', 'Ryk', '+92-304-3374027', 'testbranch@gmail.com', 'Active', 'Arslan', '+92-304-3374027', 'm.arslanch007@gmail.com', '2019-09-12 19:42:39', '0000-00-00 00:00:00', 140, 0, 1);
 
 -- --------------------------------------------------------
@@ -188,6 +180,31 @@ CREATE TABLE `card_type` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `car_manufacture`
+--
+
+CREATE TABLE `car_manufacture` (
+  `car_manufacture_id` int(11) NOT NULL,
+  `vehical_type_id` int(11) NOT NULL,
+  `manufacturer` varchar(50) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `car_manufacture`
+--
+
+INSERT INTO `car_manufacture` (`car_manufacture_id`, `vehical_type_id`, `manufacturer`, `description`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 1, 'SUZUKI', '', '2019-10-18 19:12:50', 140, '0000-00-00 00:00:00', 0),
+(2, 2, 'XYZ', '', '2019-10-23 07:13:12', 140, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -223,7 +240,7 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`customer_id`, `branch_id`, `customer_name`, `customer_father_name`, `customer_gender`, `customer_cnic`, `customer_address`, `customer_contact_no`, `customer_whatsapp`, `customer_social_media`, `customer_registration_date`, `customer_age`, `customer_email`, `customer_image`, `customer_occupation`, `created_by`, `updated_by`, `updated_at`, `created_at`) VALUES
 (2, 1, 'WALKIN CUSTOMER', '', '', '', '-', '-', '-', '-', '2031-10-18 00:00:00', 0, '-', '', 'BUSINESSMAN', 0, 0, '2019-09-24 13:44:49', '0000-00-00 00:00:00'),
-(3, 1, 'MUHAMMAD UMAIR SYED', '', 'Male', '54654-6546465-4', '68-CHEEMA TOWN, BAHAWALPUR', '+30-021-54533__', '3002154533', 'www.facebook.com/smus79', '2031-10-18 00:00:00', 39, 'syed_umair@hotmail.com', 'uploads/MUHAMMAD UMAIR SYED_photo.png', 'SALARIED', 0, 1, '2019-09-25 14:35:18', '0000-00-00 00:00:00'),
+(3, 1, 'MUHAMMAD UMAIR SYED', '', 'Male', '54654-6546465-4', '68-CHEEMA TOWN, BAHAWALPUR', '+30-021-54533__', '3002154533', 'www.facebook.com/smus79', '2031-10-18 00:00:00', 39, 'syed_umair@hotmail.com', 'uploads/default-image-name.png', 'SALARIED', 0, 1, '2019-10-14 09:56:09', '0000-00-00 00:00:00'),
 (4, 1, 'HAMMAD SAFDAR GILL', '', '', '', 'MEDICAL COLONY, BAHAWALPUR', '3017637089', '3017637089', 'www.twitter.com/hgill', '2001-11-18 00:00:00', 30, 'hammad.gill01@gmail.com', '', 'SALARIED', 0, 0, '2019-09-24 13:44:42', '0000-00-00 00:00:00'),
 (5, 1, 'UMAIR TARIQ', '', '', '-', 'MODEL TOWN B, BAHAWALPUR', '3333871115', '3333871115', 'www.facebook.com/utariq', '2008-11-18 00:00:00', 34, 'umairtariq999@gmail.com', '', 'BUSINESSMAN', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (6, 1, 'UMER', '', '', '-', '-', '3219965288', '0', '-', '2013-11-18 00:00:00', 0, '-', '', 'BUSINESSMAN', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -3484,7 +3501,9 @@ INSERT INTO `customer` (`customer_id`, `branch_id`, `customer_name`, `customer_f
 (3251, 1, 'kjhjkj', '', 'Female', '98765-6789987-6', 'dfghj', '+87-777-7777777', '+98-765-4345678', 'fghjk', '2019-09-25 15:22:58', 40, 'fghj@gmail.com', 'uploads/kjhjkj_photo.png', 'rtyui', 1, 0, '0000-00-00 00:00:00', '2019-09-25 10:24:27'),
 (3252, 1, 'Test Customer', '', 'Male', '32132-4654354-1', 'satellite town RYK', '+92-300-6546854', '+92-300-0635465', 'facebook.com/test', '2019-09-30 14:09:31', 25, 'test@gmail.com', 'uploads/default-image-name.png', 'student', 140, 0, '0000-00-00 00:00:00', '2019-09-30 09:11:32');
 INSERT INTO `customer` (`customer_id`, `branch_id`, `customer_name`, `customer_father_name`, `customer_gender`, `customer_cnic`, `customer_address`, `customer_contact_no`, `customer_whatsapp`, `customer_social_media`, `customer_registration_date`, `customer_age`, `customer_email`, `customer_image`, `customer_occupation`, `created_by`, `updated_by`, `updated_at`, `created_at`) VALUES
-(3253, 1, 'kinza', '', 'Female', '13554-6413241-6', 'RYK', '+92-300-6546545', '+92-300-5654646', '', '2019-10-01 11:13:48', 26, 'kinza@gmail.com', 'uploads/default-image-name.png', 'Teacher', 140, 140, '2019-10-01 06:17:04', '2019-10-01 06:15:15');
+(3253, 1, 'kinza', '', 'Female', '13554-6413241-6', 'RYK', '+92-300-6546545', '+92-300-5654646', '', '2019-10-01 11:13:48', 26, 'kinza@gmail.com', 'uploads/default-image-name.png', 'Teacher', 140, 140, '2019-10-01 06:17:04', '2019-10-01 06:15:15'),
+(3254, 1, 'dexdevs', 'dexdevs', 'Male', '32456-5435465-4', 'RYK', '+92-300-6589465', '', '', '2019-10-04 10:13:45', 25, 'dexdevs@gmail.com', 'uploads/default-image-name.png', 'Company', 140, 0, '0000-00-00 00:00:00', '2019-10-04 05:13:45'),
+(3255, 1, 'TEST', 'ENTRY', 'Male', '21435-4146545-4', 'RYK', '+92-313-0051351', '+92-345-0030625', 'instagram', '2019-10-22 19:25:39', 25, 'test@gmail.com', 'uploads/default-image-name.png', 'BUSINESS', 140, 0, '0000-00-00 00:00:00', '2019-10-22 14:25:39');
 
 -- --------------------------------------------------------
 
@@ -3510,13 +3529,9 @@ CREATE TABLE `customer_vehicles` (
 --
 
 INSERT INTO `customer_vehicles` (`customer_vehicle_id`, `customer_id`, `vehicle_typ_sub_id`, `registration_no`, `color`, `image`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 393, 1, '123', 'red', 'uploads/default-image-name.jpg', '2019-09-24 13:50:09', '0000-00-00 00:00:00', 140, 0),
-(2, 3251, 1, 'ghjkkkkkk87678', 'frghj', 'uploads/default-car-image.png', '2019-09-25 10:24:28', '0000-00-00 00:00:00', 1, 0),
-(3, 3, 1, 'AJA-309', 'red', 'uploads/456_photo.jpg', '2019-09-27 05:34:51', '0000-00-00 00:00:00', 1, 0),
-(4, 1609, 1, 'RNR-1625', 'white', 'uploads/default-car-image.png', '2019-09-27 05:35:00', '0000-00-00 00:00:00', 1, 0),
-(5, 3252, 1, 'RNR - 202', 'white', 'uploads/default-car-image.png', '2019-09-30 09:11:32', '0000-00-00 00:00:00', 140, 0),
-(6, 3253, 1, 'RNR - 130', 'white', 'uploads/default-car-image.png', '2019-10-01 06:15:43', '2019-10-01 06:15:43', 140, 140),
-(7, 3253, 1, 'RNR - 220', 'gray', 'uploads/default-car-image.png', '2019-10-01 06:15:15', '0000-00-00 00:00:00', 140, 0);
+(1, 3254, 1, 'RNJ-100', 'white', 'uploads/default-car-image.png', '2019-10-18 19:13:30', '0000-00-00 00:00:00', 140, 0),
+(2, 3255, 3, 'REL-29', 'white', 'uploads/default-car-image.png', '2019-10-22 14:25:39', '0000-00-00 00:00:00', 140, 0),
+(3, 3253, 1, 'RNK-100', 'blsck', 'uploads/default-car-image.png', '2019-10-22 14:27:03', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -3528,24 +3543,45 @@ CREATE TABLE `employee` (
   `emp_id` int(11) NOT NULL,
   `emp_type_id` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
-  `salary_id` int(11) NOT NULL,
+  `salary_id` double DEFAULT NULL,
   `emp_name` varchar(200) NOT NULL,
-  `emp_cnic` varchar(15) NOT NULL,
   `emp_father_name` varchar(200) NOT NULL,
+  `emp_father_position` varchar(200) NOT NULL,
+  `emp_cnic` varchar(15) NOT NULL,
   `emp_contact` varchar(15) NOT NULL,
+  `emp_emergency_contact` varchar(15) NOT NULL,
+  `emp_emergency_contact_relation` varchar(15) NOT NULL,
   `emp_email` varchar(255) NOT NULL,
   `emp_image` varchar(255) NOT NULL,
   `emp_gender` enum('Male','Female') NOT NULL,
-  `emp_qualification` varchar(255) NOT NULL,
-  `emp_reference` varchar(200) NOT NULL,
-  `joining_date` datetime NOT NULL,
-  `learning_date` datetime NOT NULL,
-  `status` enum('Active','Inactive') NOT NULL,
+  `emp_marital_status` enum('Single','Married') NOT NULL,
+  `emp_dob` date NOT NULL,
+  `emp_birth_place` varchar(150) NOT NULL,
+  `emp_religion` varchar(100) NOT NULL,
+  `emp_blood_group` enum('A+','A-','B+','B-','AB+','AB-','O+','O-') NOT NULL,
+  `emp_nationality` varchar(100) NOT NULL,
+  `emp_passport_no` varchar(50) NOT NULL,
+  `passport_expiry_date` date NOT NULL,
+  `emp_residence` enum('Owned','Rented','Parents','relatives','others') NOT NULL,
+  `emp_present_address` varchar(250) NOT NULL,
+  `emp_permanent_address` varchar(250) NOT NULL,
+  `emp_joining_date` date NOT NULL,
+  `emp_learning_date` date NOT NULL,
+  `emp_status` enum('Active','Inactive') NOT NULL,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`emp_id`, `emp_type_id`, `branch_id`, `salary_id`, `emp_name`, `emp_father_name`, `emp_father_position`, `emp_cnic`, `emp_contact`, `emp_emergency_contact`, `emp_emergency_contact_relation`, `emp_email`, `emp_image`, `emp_gender`, `emp_marital_status`, `emp_dob`, `emp_birth_place`, `emp_religion`, `emp_blood_group`, `emp_nationality`, `emp_passport_no`, `passport_expiry_date`, `emp_residence`, `emp_present_address`, `emp_permanent_address`, `emp_joining_date`, `emp_learning_date`, `emp_status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, NULL, 'Usama', 'Javed', 'Watching Usama', '12345-6789876-4', '+12-345-6789098', '+06-855-21008__', 'Rescue', 'usama.786@gmail.om', 'uploads/default-image-name.png', 'Male', 'Single', '2019-10-17', 'RYK', 'islam', 'A-', 'Pakistani', '1234567890', '2019-10-24', 'Parents', 'RYk', 'Ryk', '2019-10-15', '2019-10-15', 'Active', 140, 0, '2019-10-19 08:37:17', '0000-00-00 00:00:00'),
+(2, 2, 1, NULL, 'Arslan', 'Nasir', 'Teacher', '12345-6789876-4', '+12-345-6787654', '+34-567-8987654', 'pata nai', 'arslan@gmail.com', 'uploads/default-image-name.png', 'Male', 'Single', '1997-09-21', 'Sadiqabad', 'Islam', 'AB+', 'Pakistani', '0987654321', '2019-10-31', 'Parents', 'Chack no 146p', 'Chack no 146p', '2019-10-10', '2019-10-31', 'Active', 140, 0, '2019-10-19 08:40:39', '0000-00-00 00:00:00'),
+(3, 2, 1, NULL, 'Dummay employee', 'Dummay father name', 'Dummay Data', '12345-6789082-3', '+23-456-7890987', '+23-456-7890987', 'Dummay Data', 'DummayData@gmail.com', 'uploads/default-image-name.png', 'Male', 'Single', '1990-12-12', 'Dummay Data', 'Dummay Data', 'B+', 'Dummay Data', 'Dummay Data', '2019-12-12', 'Parents', 'Dummay Data', 'Dummay Data', '2019-10-10', '2019-11-01', 'Active', 140, 0, '2019-10-19 09:10:14', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -3584,34 +3620,180 @@ CREATE TABLE `employee_types` (
 --
 
 INSERT INTO `employee_types` (`emp_type_id`, `emp_type_name`, `description`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'Car Washer ', 'He washes the cars only', '2019-09-13 02:56:44', '0000-00-00 00:00:00', 4, 0),
-(2, 'IT Manager', 'He manages the whole it system', '2019-09-13 02:57:39', '0000-00-00 00:00:00', 4, 0),
-(3, 'Sales man', 'He was a sale man.', '2019-09-13 02:58:12', '0000-00-00 00:00:00', 4, 0);
+(1, 'Car Washman', 'Car washman washes the cars', '2019-10-19 08:34:14', '0000-00-00 00:00:00', 140, 0),
+(2, 'IT Manager', 'IT Manager manages the it department', '2019-10-19 08:34:55', '0000-00-00 00:00:00', 140, 0),
+(3, 'Sales Man', 'sale man sales goods', '2019-10-19 08:35:21', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `institute`
+-- Table structure for table `emp_academic`
 --
 
-CREATE TABLE `institute` (
-  `institute_id` int(11) NOT NULL,
-  `institute_name` varchar(65) NOT NULL,
-  `institute_logo` varchar(200) NOT NULL,
-  `institute_account_no` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+CREATE TABLE `emp_academic` (
+  `emp_academic_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `from_date` date NOT NULL,
+  `to_date` date NOT NULL,
+  `institute` varchar(250) NOT NULL,
+  `degree_diploma` varchar(200) NOT NULL,
+  `division_grade` varchar(20) NOT NULL,
+  `major_subjects` varchar(250) NOT NULL,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
-  `delete_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `institute`
+-- Dumping data for table `emp_academic`
 --
 
-INSERT INTO `institute` (`institute_id`, `institute_name`, `institute_logo`, `institute_account_no`, `created_at`, `updated_at`, `created_by`, `updated_by`, `delete_status`) VALUES
-(2, 'ABC Learning School', 'uploads/ABC Learning School_photo.jpg', 'xyz, RYK', '2019-05-02 18:09:01', '2019-05-02 18:09:01', 1, 1, 1);
+INSERT INTO `emp_academic` (`emp_academic_id`, `emp_id`, `from_date`, `to_date`, `institute`, `degree_diploma`, `division_grade`, `major_subjects`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, '2019-10-01', '2019-10-15', 'IUB', 'BSCS', '3rd', 'Web,Networking', 140, 0, '2019-10-19 08:37:17', '0000-00-00 00:00:00'),
+(2, 2, '2019-10-01', '2019-10-15', 'IUB', 'BSCS', '3rd', 'Web,Networking', 140, 0, '2019-10-19 08:40:39', '0000-00-00 00:00:00'),
+(3, 3, '2019-10-01', '2019-10-31', 'IUB', 'BSCS', '1st', 'Web,Networking', 140, 0, '2019-10-19 09:10:14', '0000-00-00 00:00:00'),
+(4, 3, '2019-10-10', '2019-10-10', 'Kfueit', 'MS', '2nd', 'Networking,Andriod,Web', 140, 0, '2019-10-19 09:10:14', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_certification`
+--
+
+CREATE TABLE `emp_certification` (
+  `emp_certificate_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `certificate_from` date NOT NULL,
+  `certificate_to` date NOT NULL,
+  `certificate_course_detail` varchar(255) NOT NULL,
+  `certificate_insititute` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_computer_course`
+--
+
+CREATE TABLE `emp_computer_course` (
+  `emp_comp_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `comp_course_from` date NOT NULL,
+  `comp_course_to` date NOT NULL,
+  `comp_course_detail` varchar(255) NOT NULL,
+  `comp_institute` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_gross_salary`
+--
+
+CREATE TABLE `emp_gross_salary` (
+  `emp_gro_sal_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `gross_salary` double NOT NULL,
+  `bonus` double NOT NULL,
+  `car` varchar(200) NOT NULL,
+  `car_fuel` varchar(200) NOT NULL,
+  `car_maintenance` varchar(200) NOT NULL,
+  `retirement_benefits` varchar(255) NOT NULL,
+  `others` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_language`
+--
+
+CREATE TABLE `emp_language` (
+  `emp_lang_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `emp_language` varchar(200) NOT NULL,
+  `lang_read` enum('Yes','No') NOT NULL,
+  `lang_wirte` enum('Yes','No') NOT NULL,
+  `lang_speak` enum('Yes','No') NOT NULL,
+  `lang_remarks` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_refrences`
+--
+
+CREATE TABLE `emp_refrences` (
+  `emp_ref_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `ref_name` varchar(200) NOT NULL,
+  `ref_address` varchar(255) NOT NULL,
+  `ref_occupation` varchar(100) NOT NULL,
+  `ref_contact` varchar(15) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_training`
+--
+
+CREATE TABLE `emp_training` (
+  `emp_trainind_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `train_from_date` date NOT NULL,
+  `train_to_date` date NOT NULL,
+  `training_course` varchar(200) NOT NULL,
+  `training_institute` varchar(250) NOT NULL,
+  `training_certificate` varchar(200) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emp_work_history`
+--
+
+CREATE TABLE `emp_work_history` (
+  `emp_w_h_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `work_from` date NOT NULL,
+  `work_to` date NOT NULL,
+  `name_of_employeer` varchar(200) NOT NULL,
+  `position_held` varchar(200) NOT NULL,
+  `monthly_gross_salary` double NOT NULL,
+  `reason_for_leaving` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3635,15 +3817,7 @@ CREATE TABLE `manufacture` (
 --
 
 INSERT INTO `manufacture` (`manufacture_id`, `stock_type_id`, `name`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 4, 'Samsung', '', 140, 0, '2019-09-28 08:44:51', '0000-00-00 00:00:00'),
-(2, 4, 'OPPO', '', 140, 0, '2019-09-28 09:07:10', '0000-00-00 00:00:00'),
-(3, 4, 'Huawei', '', 140, 0, '2019-09-28 09:07:51', '0000-00-00 00:00:00'),
-(4, 1, 'General Tyres', '', 140, 0, '2019-09-29 10:33:44', '0000-00-00 00:00:00'),
-(5, 1, 'Diamond Tyres', '', 140, 0, '2019-09-29 10:34:49', '0000-00-00 00:00:00'),
-(6, 5, 'Shell', '', 140, 0, '2019-09-29 10:36:30', '0000-00-00 00:00:00'),
-(7, 5, 'PSO', '', 140, 0, '2019-09-29 10:37:21', '0000-00-00 00:00:00'),
-(8, 6, 'Cocacola', '', 140, 0, '2019-09-29 14:14:34', '0000-00-00 00:00:00'),
-(9, 6, 'Pepsi', '', 140, 0, '2019-09-29 14:16:09', '0000-00-00 00:00:00');
+(1, 1, 'Shell', '', 140, 0, '2019-10-19 10:54:10', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -3739,37 +3913,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `manufacture_id`, `product_name`, `description`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, 'Galaxy - J5', '', '2019-09-28 08:44:51', 140, '0000-00-00 00:00:00', 0),
-(2, 1, 'Galaxy - J7', '', '2019-09-28 08:44:51', 140, '0000-00-00 00:00:00', 0),
-(3, 1, 'Galaxy - S8', '', '2019-09-28 08:44:51', 140, '0000-00-00 00:00:00', 0),
-(4, 2, 'Oppo - F9', '', '2019-09-28 09:07:10', 140, '0000-00-00 00:00:00', 0),
-(5, 2, 'Oppo - F10', '', '2019-09-28 09:07:10', 140, '0000-00-00 00:00:00', 0),
-(6, 2, 'Oppo - F11', '', '2019-09-28 09:07:10', 140, '0000-00-00 00:00:00', 0),
-(7, 3, 'Huawei - Y7', '', '2019-09-28 09:07:51', 140, '0000-00-00 00:00:00', 0),
-(8, 3, 'Huawei - Y11', '', '2019-09-28 09:07:51', 140, '0000-00-00 00:00:00', 0),
-(9, 3, 'Huawei - Honor 4c', '', '2019-09-28 09:07:51', 140, '0000-00-00 00:00:00', 0),
-(10, 4, 'GT - 1', '', '2019-09-29 10:33:44', 140, '0000-00-00 00:00:00', 0),
-(11, 4, 'GT - 2', '', '2019-09-29 10:33:44', 140, '0000-00-00 00:00:00', 0),
-(12, 4, 'GT - 3', '', '2019-09-29 10:33:44', 140, '0000-00-00 00:00:00', 0),
-(13, 4, 'GT - 4', '', '2019-09-29 10:33:45', 140, '0000-00-00 00:00:00', 0),
-(14, 5, 'DT - 1', '', '2019-09-29 10:34:50', 140, '0000-00-00 00:00:00', 0),
-(15, 5, 'DT - 2', '', '2019-09-29 10:34:50', 140, '0000-00-00 00:00:00', 0),
-(16, 5, 'DT - 3', '', '2019-09-29 10:34:50', 140, '0000-00-00 00:00:00', 0),
-(17, 5, 'DT - 4', '', '2019-09-29 10:34:50', 140, '0000-00-00 00:00:00', 0),
-(18, 6, 'Shell Grade - 1', '', '2019-09-29 10:36:30', 140, '0000-00-00 00:00:00', 0),
-(19, 6, 'Shell Grade - 2', '', '2019-09-29 10:36:30', 140, '0000-00-00 00:00:00', 0),
-(20, 6, 'Shell Grade - 3', '', '2019-09-29 10:36:30', 140, '0000-00-00 00:00:00', 0),
-(21, 6, 'Shell Grade - 4', '', '2019-09-29 10:36:30', 140, '0000-00-00 00:00:00', 0),
-(22, 7, 'PSO G-1', '', '2019-09-29 10:37:21', 140, '0000-00-00 00:00:00', 0),
-(23, 7, 'PSO G-2', '', '2019-09-29 10:37:21', 140, '0000-00-00 00:00:00', 0),
-(24, 7, 'PSO G-3', '', '2019-09-29 10:37:21', 140, '0000-00-00 00:00:00', 0),
-(25, 7, 'PSO G-4', '', '2019-09-29 10:37:21', 140, '0000-00-00 00:00:00', 0),
-(26, 8, 'Coke', '', '2019-09-29 14:14:34', 140, '0000-00-00 00:00:00', 0),
-(27, 8, 'Sprite', '', '2019-09-29 14:14:34', 140, '0000-00-00 00:00:00', 0),
-(28, 8, 'Fanta', '', '2019-09-29 14:14:34', 140, '0000-00-00 00:00:00', 0),
-(29, 9, 'Pepsi', '', '2019-09-29 14:16:09', 140, '0000-00-00 00:00:00', 0),
-(30, 9, '7up', '', '2019-09-29 14:16:09', 140, '0000-00-00 00:00:00', 0),
-(31, 9, 'Marinda', '', '2019-09-29 14:16:09', 140, '0000-00-00 00:00:00', 0);
+(1, 1, 'Grade One', '', '2019-10-19 10:54:10', 140, '0000-00-00 00:00:00', 0),
+(2, 1, 'Grade Two', '', '2019-10-19 10:54:10', 140, '0000-00-00 00:00:00', 0),
+(3, 1, 'Grade Three', '', '2019-10-19 10:54:10', 140, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -3802,9 +3948,43 @@ CREATE TABLE `purchase_invoice` (
 --
 
 INSERT INTO `purchase_invoice` (`purchase_invoice_id`, `vendor_id`, `bilty_no`, `bill_no`, `purchase_date`, `dispatch_date`, `receiving_date`, `total_amount`, `discount`, `net_total`, `paid_amount`, `remaining_amount`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 1, '101', '', '2019-09-30 00:00:00', '2019-09-30 00:00:00', '2019-09-30 00:00:00', 308000, 8000, 300000, 250000, 50000, 'Partially', '2019-09-30 05:13:40', '0000-00-00 00:00:00', 140, 0),
-(2, 1, '65654', '', '2019-09-30 00:00:00', '2019-09-30 00:00:00', '2019-09-30 00:00:00', 140000, 2000, 138000, 38000, 100000, 'Partially', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(3, 1, '46546', '', '2019-09-30 00:00:00', '2019-09-30 00:00:00', '2019-09-30 00:00:00', 28000, 200, 27800, 15000, 12800, 'Partially', '2019-09-30 14:50:29', '0000-00-00 00:00:00', 140, 0);
+(1, 1, '10000', '20000', '2019-10-21 00:00:00', '2019-10-21 00:00:00', '2019-10-21 00:00:00', 5400, 0, 5400, 5400, 0, 'Paid', '2019-10-20 19:03:16', '0000-00-00 00:00:00', 140, 0),
+(2, 1, '456', '887', '2019-10-22 00:00:00', '2019-10-22 00:00:00', '2019-10-22 00:00:00', 1800, 0, 1800, 1800, 0, 'Paid', '2019-10-21 19:20:36', '0000-00-00 00:00:00', 140, 0),
+(3, 1, '234', '123', '2019-10-22 00:00:00', '2019-10-22 00:00:00', '2019-10-22 00:00:00', 10800, 0, 10800, 10800, 0, 'Paid', '2019-10-21 19:22:40', '0000-00-00 00:00:00', 140, 0),
+(4, 1, '999', '888', '2019-10-22 00:00:00', '2019-10-22 00:00:00', '2019-10-22 00:00:00', 9000, 0, 9000, 9000, 0, 'Paid', '2019-10-21 19:24:50', '0000-00-00 00:00:00', 140, 0),
+(5, 1, '009', '9900', '2019-10-23 00:00:00', '2019-10-01 00:00:00', '2019-10-31 00:00:00', 2800, 80, 2720, 2720, 0, 'Paid', '2019-10-23 05:58:54', '0000-00-00 00:00:00', 140, 0),
+(6, 1, '2234', '545', '2019-10-23 00:00:00', '2019-10-23 00:00:00', '2019-10-23 00:00:00', 4800, 0, 4800, 4800, 0, 'Paid', '2019-10-23 06:40:52', '0000-00-00 00:00:00', 140, 0),
+(7, 1, '654654', '2131', '2019-10-23 00:00:00', '2019-10-23 00:00:00', '2019-10-23 00:00:00', 4800, 0, 4800, 4800, 0, 'Paid', '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(8, 1, '131332', '1321321', '2019-10-23 00:00:00', '2019-10-23 00:00:00', '2019-10-23 00:00:00', 5600, 0, 5600, 5600, 0, 'Paid', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(9, 1, '878', '98', '2019-10-23 00:00:00', '2019-10-23 00:00:00', '2019-10-23 00:00:00', 14400, 0, 14400, 14400, 0, 'Paid', '2019-10-23 07:22:00', '0000-00-00 00:00:00', 140, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_invoice_amount_detail`
+--
+
+CREATE TABLE `purchase_invoice_amount_detail` (
+  `p_inv_amount_detail` int(11) NOT NULL,
+  `purchase_invoice_id` int(11) NOT NULL,
+  `transaction_date` date NOT NULL,
+  `paid_amount` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_invoice_amount_detail`
+--
+
+INSERT INTO `purchase_invoice_amount_detail` (`p_inv_amount_detail`, `purchase_invoice_id`, `transaction_date`, `paid_amount`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 6, '2019-10-23', 4800, '2019-10-23 06:40:53', '0000-00-00 00:00:00', 140, 0),
+(2, 7, '2019-10-23', 4800, '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(3, 8, '2019-10-23', 5600, '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(4, 9, '2019-10-23', 10000, '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(5, 9, '2019-10-23', 4400, '2019-10-23 07:22:00', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -3822,6 +4002,33 @@ CREATE TABLE `salary` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sale_invoice_amount_detail`
+--
+
+CREATE TABLE `sale_invoice_amount_detail` (
+  `s_inv_amount_detail` int(11) NOT NULL,
+  `sale_inv_head_id` int(11) NOT NULL,
+  `transaction_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `paid_amount` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(11) NOT NULL,
+  `updated_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sale_invoice_amount_detail`
+--
+
+INSERT INTO `sale_invoice_amount_detail` (`s_inv_amount_detail`, `sale_inv_head_id`, `transaction_date`, `paid_amount`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 6, '2019-10-22 19:00:00', 350, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 140, 0),
+(2, 7, '2019-10-22 19:00:00', 500, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 140, 0),
+(3, 7, '2019-10-22 19:00:00', 500, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 140, 0),
+(4, 8, '2019-10-23 08:47:30', 2000, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -3847,177 +4054,24 @@ CREATE TABLE `sale_invoice_detail` (
 --
 
 INSERT INTO `sale_invoice_detail` (`sale_inv_ser_detail_id`, `sale_inv_head_id`, `customer_vehicle_id`, `item_id`, `item_type`, `discount_per_service`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1, 1, 3, 1, 'Service', 500, '2019-09-24 08:30:47', 140, '0000-00-00 00:00:00', 0),
-(2, 1, 4, 2, 'Service', 2000, '2019-09-24 08:30:47', 140, '0000-00-00 00:00:00', 0),
-(3, 1, 4, 1, 'Stock', 5000, '2019-09-27 06:00:40', 140, '0000-00-00 00:00:00', 0),
-(4, 2, 3, 2, 'Stock', 500, '2019-09-27 06:24:30', 140, '0000-00-00 00:00:00', 0),
-(5, 2, 3, 2, 'Service', 2000, '2019-09-24 11:37:30', 140, '0000-00-00 00:00:00', 0),
-(6, 2, 3, 3, 'Stock', 5000, '2019-09-26 09:00:08', 140, '0000-00-00 00:00:00', 0),
-(7, 2, 4, 1, 'Stock', 12000, '2019-09-27 06:20:48', 140, '0000-00-00 00:00:00', 0),
-(8, 2, 4, 1, 'Stock', 5500, '2019-09-27 06:20:36', 140, '0000-00-00 00:00:00', 0),
-(9, 3, 1, 1, 'Service', 500, '2019-09-24 13:52:38', 140, '0000-00-00 00:00:00', 0),
-(10, 3, 1, 2, 'Service', 2000, '2019-09-24 13:52:38', 140, '0000-00-00 00:00:00', 0),
-(11, 3, 1, 3, 'Service', 5000, '2019-09-24 13:52:38', 140, '0000-00-00 00:00:00', 0),
-(12, 3, 1, 1, 'Stock', 12000, '2019-09-24 13:52:38', 140, '0000-00-00 00:00:00', 0),
-(13, 3, 1, 2, 'Stock', 5500, '2019-09-24 13:52:38', 140, '0000-00-00 00:00:00', 0),
-(14, 3, 1, 1, 'Stock', 12000, '2019-09-24 13:52:38', 140, '0000-00-00 00:00:00', 0),
-(15, 3, 1, 2, 'Stock', 5500, '2019-09-24 13:52:38', 140, '0000-00-00 00:00:00', 0),
-(16, 4, 1, 3, 'Service', 5000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(17, 4, 1, 3, 'Service', 5000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(18, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(19, 4, 1, 1, 'Service', 500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(20, 4, 1, 1, 'Service', 500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(21, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(22, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(23, 4, 1, 1, 'Service', 500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(24, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(25, 4, 1, 1, 'Service', 500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(26, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(27, 4, 1, 3, 'Service', 5000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(28, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(29, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(30, 4, 1, 1, 'Service', 500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(31, 4, 1, 3, 'Service', 5000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(32, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(33, 4, 1, 2, 'Service', 2000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(34, 4, 1, 1, 'Service', 500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(35, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(36, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(37, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(38, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(39, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(40, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(41, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(42, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(43, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(44, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(45, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(46, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(47, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(48, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(49, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(50, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(51, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(52, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(53, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(54, 4, 1, 1, 'Stock', 12000, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(55, 4, 1, 2, 'Stock', 5500, '2019-09-24 13:56:27', 140, '0000-00-00 00:00:00', 0),
-(56, 5, 1, 3, 'Service', 5000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(57, 5, 1, 2, 'Service', 2000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(58, 5, 1, 1, 'Service', 500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(59, 5, 1, 3, 'Service', 5000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(60, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(61, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(62, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(63, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(64, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(65, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(66, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(67, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(68, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(69, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(70, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(71, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(72, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(73, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(74, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(75, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(76, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(77, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(78, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(79, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(80, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(81, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(82, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(83, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(84, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(85, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(86, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(87, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(88, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(89, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(90, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(91, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(92, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(93, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(94, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(95, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(96, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(97, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(98, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(99, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(100, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(101, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(102, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(103, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(104, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(105, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(106, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(107, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(108, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(109, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(110, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(111, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(112, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(113, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(114, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(115, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(116, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(117, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(118, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(119, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(120, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(121, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(122, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(123, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(124, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(125, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(126, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(127, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(128, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(129, 5, 1, 2, 'Stock', 5500, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(130, 5, 1, 1, 'Stock', 12000, '2019-09-24 14:03:17', 140, '0000-00-00 00:00:00', 0),
-(131, 6, 3, 2, 'Stock', 14500, '2019-09-25 19:59:00', 1, '0000-00-00 00:00:00', 0),
-(132, 6, 3, 11, 'Stock', 14500, '2019-09-25 19:59:00', 1, '0000-00-00 00:00:00', 0),
-(133, 7, 3, 1, 'Service', 500, '2019-09-26 08:00:45', 1, '0000-00-00 00:00:00', 0),
-(134, 7, 3, 2, 'Stock', 14500, '2019-09-26 08:00:45', 1, '0000-00-00 00:00:00', 0),
-(135, 8, 4, 2, 'Service', 2000, '2019-09-26 11:45:50', 1, '0000-00-00 00:00:00', 0),
-(136, 8, 4, 2, 'Service', 2000, '2019-09-26 11:45:50', 1, '0000-00-00 00:00:00', 0),
-(137, 8, 4, 1, 'Service', 500, '2019-09-26 11:45:50', 1, '0000-00-00 00:00:00', 0),
-(138, 8, 4, 2, 'Stock', 14500, '2019-09-26 11:45:50', 1, '0000-00-00 00:00:00', 0),
-(139, 9, 3, 3, 'Service', 5000, '2019-09-27 07:56:00', 140, '0000-00-00 00:00:00', 0),
-(140, 9, 3, 1, 'Service', 500, '2019-09-27 07:56:00', 140, '0000-00-00 00:00:00', 0),
-(141, 9, 3, 2, 'Service', 2000, '2019-09-27 07:56:00', 140, '0000-00-00 00:00:00', 0),
-(142, 9, 3, 2, 'Stock', 14500, '2019-09-27 07:56:00', 140, '0000-00-00 00:00:00', 0),
-(143, 9, 3, 11, 'Stock', 14500, '2019-09-27 07:56:00', 140, '0000-00-00 00:00:00', 0),
-(144, 10, 3, 2, 'Service', 2000, '2019-09-27 08:05:48', 140, '0000-00-00 00:00:00', 0),
-(145, 11, 3, 3, 'Service', 5000, '2019-09-28 07:39:04', 140, '0000-00-00 00:00:00', 0),
-(146, 12, 3, 2, 'Service', 2000, '2019-09-28 07:54:40', 140, '0000-00-00 00:00:00', 0),
-(147, 12, 3, 3, 'Service', 5000, '2019-09-28 07:54:40', 140, '0000-00-00 00:00:00', 0),
-(148, 13, 3, 1, 'Stock', 14500, '2019-09-30 06:57:07', 140, '0000-00-00 00:00:00', 0),
-(149, 13, 3, 1, 'Stock', 14500, '2019-09-30 06:57:07', 140, '0000-00-00 00:00:00', 0),
-(150, 13, 3, 1, 'Stock', 14500, '2019-09-30 06:57:07', 140, '0000-00-00 00:00:00', 0),
-(151, 13, 3, 1, 'Stock', 14500, '2019-09-30 06:57:07', 140, '0000-00-00 00:00:00', 0),
-(152, 14, 5, 1, 'Service', 500, '2019-09-30 09:30:32', 140, '0000-00-00 00:00:00', 0),
-(153, 14, 5, 2, 'Service', 2000, '2019-09-30 09:30:32', 140, '0000-00-00 00:00:00', 0),
-(154, 14, 5, 3, 'Service', 5000, '2019-09-30 09:30:32', 140, '0000-00-00 00:00:00', 0),
-(155, 15, 7, 1, 'Service', 500, '2019-10-01 06:38:06', 140, '0000-00-00 00:00:00', 0),
-(156, 15, 7, 2, 'Service', 2000, '2019-10-01 06:38:06', 140, '0000-00-00 00:00:00', 0),
-(157, 15, 7, 32, 'Stock', 14500, '2019-10-01 06:38:06', 140, '0000-00-00 00:00:00', 0),
-(158, 16, 6, 1, 'Service', 500, '2019-10-01 07:20:31', 140, '0000-00-00 00:00:00', 0),
-(159, 16, 6, 2, 'Service', 2000, '2019-10-01 07:20:31', 140, '0000-00-00 00:00:00', 0),
-(160, 16, 6, 3, 'Service', 5000, '2019-10-01 07:20:31', 140, '0000-00-00 00:00:00', 0),
-(161, 16, 6, 1, 'Stock', 14500, '2019-10-01 07:20:31', 140, '0000-00-00 00:00:00', 0),
-(162, 17, 3, 1, 'Service', 500, '2019-10-01 08:09:29', 140, '0000-00-00 00:00:00', 0),
-(163, 17, 3, 32, 'Stock', 14500, '2019-10-01 08:09:29', 140, '0000-00-00 00:00:00', 0),
-(164, 17, 3, 2, 'Service', 2000, '2019-10-01 08:09:29', 140, '0000-00-00 00:00:00', 0),
-(165, 18, 3, 32, 'Stock', 14500, '2019-10-01 09:28:05', 140, '0000-00-00 00:00:00', 0),
-(166, 19, 3, 5, 'Service', 1000, '2019-10-03 08:47:35', 140, '0000-00-00 00:00:00', 0),
-(167, 19, 3, 6, 'Service', 800, '2019-10-03 08:45:27', 140, '0000-00-00 00:00:00', 0),
-(168, 19, 3, 5, 'Service', 1000, '2019-10-03 08:45:27', 140, '0000-00-00 00:00:00', 0),
-(169, 20, 3, 4, 'Service', 350, '2019-10-03 08:49:01', 140, '0000-00-00 00:00:00', 0),
-(170, 20, 3, 5, 'Service', 1000, '2019-10-03 08:49:01', 140, '0000-00-00 00:00:00', 0),
-(171, 20, 3, 6, 'Service', 800, '2019-10-03 08:49:01', 140, '0000-00-00 00:00:00', 0);
+(1, 1, 3, 2, 'Service', 350, '2019-10-22 14:27:57', 140, '0000-00-00 00:00:00', 0),
+(2, 1, 3, 4, 'Stock', 1850, '2019-10-22 14:27:57', 140, '0000-00-00 00:00:00', 0),
+(3, 1, 3, 5, 'Stock', 1850, '2019-10-22 14:27:57', 140, '0000-00-00 00:00:00', 0),
+(4, 1, 3, 6, 'Stock', 1850, '2019-10-22 14:27:57', 140, '0000-00-00 00:00:00', 0),
+(5, 2, 3, 2, 'Service', 350, '2019-10-23 05:18:48', 140, '0000-00-00 00:00:00', 0),
+(6, 2, 3, 1, 'Stock', 1500, '2019-10-23 05:18:48', 140, '0000-00-00 00:00:00', 0),
+(7, 3, 3, 1, 'Service', 350, '2019-10-23 05:35:04', 140, '0000-00-00 00:00:00', 0),
+(8, 3, 3, 2, 'Service', 350, '2019-10-23 05:35:04', 140, '0000-00-00 00:00:00', 0),
+(9, 3, 3, 8, 'Service', 9000, '2019-10-23 05:35:04', 140, '0000-00-00 00:00:00', 0),
+(10, 3, 3, 8, 'Service', 9000, '2019-10-23 05:35:04', 140, '0000-00-00 00:00:00', 0),
+(11, 3, 3, 5, 'Service', 950, '2019-10-23 05:35:05', 140, '0000-00-00 00:00:00', 0),
+(12, 3, 3, 2, 'Stock', 1900, '2019-10-23 05:35:05', 140, '0000-00-00 00:00:00', 0),
+(13, 3, 3, 3, 'Stock', 1900, '2019-10-23 05:35:05', 140, '0000-00-00 00:00:00', 0),
+(14, 6, 1, 1, 'Service', 350, '2019-10-23 08:16:57', 140, '0000-00-00 00:00:00', 0),
+(15, 7, 1, 2, 'Service', 350, '2019-10-23 08:17:38', 140, '0000-00-00 00:00:00', 0),
+(16, 7, 1, 3, 'Service', 350, '2019-10-23 08:17:38', 140, '0000-00-00 00:00:00', 0),
+(17, 7, 1, 9, 'Service', 350, '2019-10-23 08:17:38', 140, '0000-00-00 00:00:00', 0),
+(18, 8, 1, 6, 'Service', 5000, '2019-10-23 08:29:06', 140, '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -4046,26 +4100,12 @@ CREATE TABLE `sale_invoice_head` (
 --
 
 INSERT INTO `sale_invoice_head` (`sale_inv_head_id`, `customer_id`, `date`, `total_amount`, `discount`, `net_total`, `paid_amount`, `remaining_amount`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 3, '2019-09-24 00:00:00', 7500, 0, 7500, 7500, 0, 'Paid', '2019-09-26 06:57:57', '0000-00-00 00:00:00', 1, 0),
-(2, 3, '2019-09-11 00:00:00', 25000, 12500, 12500, 12500, 0, 'Paid', '2019-09-26 07:47:59', '0000-00-00 00:00:00', 1, 0),
-(3, 393, '2019-09-24 00:00:00', 42500, 4250, 38250, 2000, 36250, 'Unpaid', '2019-09-24 13:52:38', '0000-00-00 00:00:00', 140, 0),
-(4, 393, '2019-09-24 00:00:00', 228000, 500, 227500, 500, 227000, 'Unpaid', '2019-09-24 13:56:27', '0000-00-00 00:00:00', 140, 0),
-(5, 393, '2019-09-04 00:00:00', 661500, 0, 661500, 661500, 0, 'paid', '2019-09-24 14:03:17', '0000-00-00 00:00:00', 140, 0),
-(6, 3, '2019-09-26 00:00:00', 29000, 0, 29000, 29000, 0, 'paid', '2019-09-25 19:59:00', '0000-00-00 00:00:00', 1, 0),
-(7, 3, '2019-09-26 00:00:00', 15000, 0, 15000, 15000, 0, 'Paid', '2019-09-26 09:06:54', '0000-00-00 00:00:00', 1, 0),
-(8, 1609, '2019-08-16 00:00:00', 19000, 500, 18500, 16500, 2000, 'Partially', '2019-09-26 11:46:34', '0000-00-00 00:00:00', 1, 0),
-(9, 3, '2019-09-27 00:00:00', 36500, 500, 36000, 36000, 0, 'Paid', '2019-09-27 07:56:36', '0000-00-00 00:00:00', 140, 0),
-(10, 3, '2019-09-28 00:00:00', 2000, 200, 1800, 1800, 0, 'Paid', '2019-09-28 06:21:44', '0000-00-00 00:00:00', 140, 0),
-(11, 3, '2019-09-28 00:00:00', 5000, 0, 5000, 5000, 0, 'Paid', '2019-09-30 14:52:05', '0000-00-00 00:00:00', 140, 0),
-(12, 3, '2019-09-29 00:00:00', 7000, 0, 7000, 5000, 2000, 'Partially', '2019-09-28 07:54:40', '0000-00-00 00:00:00', 140, 0),
-(13, 3, '2019-09-30 00:00:00', 58000, 3000, 55000, 55000, 0, 'Paid', '2019-09-30 08:41:22', '0000-00-00 00:00:00', 140, 0),
-(14, 3252, '2019-09-30 00:00:00', 7500, 500, 7000, 7000, 0, 'Paid', '2019-09-30 09:30:32', '0000-00-00 00:00:00', 140, 0),
-(15, 3253, '2019-10-01 00:00:00', 17000, 500, 16500, 16500, 0, 'Paid', '2019-10-01 06:39:02', '0000-00-00 00:00:00', 140, 0),
-(16, 3253, '2019-10-01 00:00:00', 22000, 1000, 21000, 15000, 6000, 'Partially', '2019-10-01 07:20:31', '0000-00-00 00:00:00', 140, 0),
-(17, 3, '2019-10-01 00:00:00', 17000, 1800, 15200, 15200, 0, 'Paid', '2019-10-01 08:09:29', '0000-00-00 00:00:00', 140, 0),
-(18, 3, '2019-10-03 00:00:00', 14500, 500, 14000, 14000, 0, 'Paid', '2019-10-01 09:28:05', '0000-00-00 00:00:00', 140, 0),
-(19, 3, '2019-10-09 00:00:00', 2800, 300, 2500, 2500, 0, 'Paid', '2019-10-03 08:48:04', '0000-00-00 00:00:00', 140, 0),
-(20, 3, '2019-10-03 00:00:00', 2150, 150, 2000, 2000, 0, 'Paid', '2019-10-03 08:54:17', '0000-00-00 00:00:00', 140, 0);
+(1, 3253, '2019-10-22 00:00:00', 5900, 200, 5700, 2000, 3700, 'Partially', '2019-10-23 05:32:17', '0000-00-00 00:00:00', 140, 0),
+(2, 3253, '2019-10-23 00:00:00', 3350, 0, 3350, 3350, 0, 'Paid', '2019-10-23 05:31:39', '0000-00-00 00:00:00', 140, 0),
+(3, 3253, '2019-10-23 00:00:00', 27250, 0, 27250, 27250, 0, 'Paid', '2019-10-23 05:35:04', '0000-00-00 00:00:00', 140, 0),
+(6, 3254, '2019-10-23 00:00:00', 350, 0, 350, 350, 0, 'Paid', '2019-10-23 08:16:57', '0000-00-00 00:00:00', 140, 0),
+(7, 3254, '2019-10-23 00:00:00', 1050, 50, 1000, 1000, 0, 'Paid', '2019-10-23 08:44:04', '0000-00-00 00:00:00', 140, 0),
+(8, 3254, '2019-10-23 00:00:00', 5000, 0, 5000, 2000, 3000, 'Partially', '2019-10-23 08:30:39', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -4092,9 +4132,41 @@ CREATE TABLE `sale_invoice_stock_detail` (
 --
 
 CREATE TABLE `services` (
-  `services_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `service_name` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`service_id`, `service_name`, `description`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1, 'WASH', 'WASH', '2019-10-09 05:06:41', 1, '2019-10-09 05:06:41', 1),
+(2, 'WAX', 'WAX', '2019-10-09 05:07:22', 1, '0000-00-00 00:00:00', 0),
+(3, 'INTERIOR PROTECTION', 'INTERIOR PROTECTION', '2019-10-09 05:07:45', 1, '0000-00-00 00:00:00', 0),
+(4, 'ENGINE DRESSING', 'ENGINE DRESSING', '2019-10-09 05:07:57', 1, '0000-00-00 00:00:00', 0),
+(5, 'STAR DEAL', 'STAR DEAL', '2019-10-09 05:08:10', 1, '0000-00-00 00:00:00', 0),
+(6, 'INTERIOR DETAILING', 'INTERIOR DETAILING', '2019-10-09 05:09:15', 1, '0000-00-00 00:00:00', 0),
+(7, 'EXTERIOR DETAILING', 'EXTERIOR DETAILING', '2019-10-09 05:10:05', 1, '0000-00-00 00:00:00', 0),
+(8, 'DETAILING', 'DETAILING', '2019-10-09 05:10:20', 1, '0000-00-00 00:00:00', 0),
+(9, 'UNDER CARRIAGE', 'UNDER CARRIAGE', '2019-10-09 05:18:20', 1, '0000-00-00 00:00:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_details`
+--
+
+CREATE TABLE `service_details` (
+  `service_detail_id` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
+  `vehicle_type_id` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `description` varchar(200) NOT NULL,
   `created_by` int(11) NOT NULL,
@@ -4104,16 +4176,28 @@ CREATE TABLE `services` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `services`
+-- Dumping data for table `service_details`
 --
 
-INSERT INTO `services` (`services_id`, `branch_id`, `name`, `price`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'oil change', 500, 'oil change', 140, 0, '2019-09-20 11:44:43', '0000-00-00 00:00:00'),
-(2, 1, 'tunning', 2000, 'tunning', 140, 0, '2019-09-20 11:45:01', '0000-00-00 00:00:00'),
-(3, 1, 'Tyre Change', 5000, 'Tyre change', 140, 0, '2019-09-20 11:45:18', '0000-00-00 00:00:00'),
-(4, 1, 'Wash', 350, 'car washing', 140, 0, '2019-10-03 08:01:33', '0000-00-00 00:00:00'),
-(5, 1, 'Body Wax', 1000, 'car body wax', 140, 0, '2019-10-03 08:01:55', '0000-00-00 00:00:00'),
-(6, 1, 'Interior Protection', 800, 'car Interior Protection', 140, 0, '2019-10-03 08:02:41', '0000-00-00 00:00:00');
+INSERT INTO `service_details` (`service_detail_id`, `branch_id`, `vehicle_type_id`, `service_id`, `price`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 350, '', 1, 0, '2019-10-09 09:57:39', '0000-00-00 00:00:00'),
+(2, 1, 1, 2, 350, '', 1, 0, '2019-10-09 09:57:57', '0000-00-00 00:00:00'),
+(3, 1, 1, 3, 350, '', 1, 0, '2019-10-09 09:58:10', '0000-00-00 00:00:00'),
+(4, 1, 1, 4, 350, '', 1, 0, '2019-10-09 09:58:22', '0000-00-00 00:00:00'),
+(5, 1, 1, 5, 950, '', 1, 0, '2019-10-09 09:59:31', '0000-00-00 00:00:00'),
+(6, 1, 1, 6, 5000, '', 1, 0, '2019-10-09 09:59:57', '0000-00-00 00:00:00'),
+(7, 1, 1, 7, 4000, '', 1, 0, '2019-10-09 10:00:10', '0000-00-00 00:00:00'),
+(8, 1, 1, 8, 9000, '', 1, 0, '2019-10-09 10:00:22', '0000-00-00 00:00:00'),
+(9, 1, 1, 9, 350, '', 1, 0, '2019-10-09 10:00:36', '0000-00-00 00:00:00'),
+(10, 1, 2, 1, 450, '', 1, 0, '2019-10-09 10:04:16', '0000-00-00 00:00:00'),
+(11, 1, 2, 2, 450, '', 1, 0, '2019-10-09 10:04:30', '0000-00-00 00:00:00'),
+(12, 1, 2, 3, 450, '', 1, 1, '2019-10-09 10:11:21', '2019-10-09 10:11:21'),
+(13, 1, 2, 4, 450, '', 1, 0, '2019-10-09 10:06:45', '0000-00-00 00:00:00'),
+(14, 1, 2, 5, 1200, '', 1, 0, '2019-10-09 10:07:02', '0000-00-00 00:00:00'),
+(15, 1, 2, 6, 6000, '', 1, 0, '2019-10-09 10:07:53', '0000-00-00 00:00:00'),
+(16, 1, 2, 7, 5000, '', 1, 0, '2019-10-09 10:08:07', '0000-00-00 00:00:00'),
+(17, 1, 2, 8, 11000, '', 1, 0, '2019-10-09 10:08:29', '0000-00-00 00:00:00'),
+(18, 1, 2, 9, 450, '', 1, 0, '2019-10-09 10:11:47', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4144,40 +4228,55 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`stock_id`, `stock_type_id`, `purchase_invoice_id`, `manufacture_id`, `barcode`, `name`, `expiry_date`, `original_price`, `purchase_price`, `selling_price`, `status`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 1, 1, 4, '001', 10, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:40', '0000-00-00 00:00:00', 140, 0),
-(2, 1, 1, 4, '002', 10, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:40', '0000-00-00 00:00:00', 140, 0),
-(3, 1, 1, 4, '003', 10, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:40', '0000-00-00 00:00:00', 140, 0),
-(4, 1, 1, 4, '004', 11, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(5, 1, 1, 4, '005', 11, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(6, 1, 1, 4, '006', 11, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(7, 1, 1, 4, '007', 12, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(8, 1, 1, 4, '008', 12, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(9, 1, 1, 4, '009', 12, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(10, 1, 1, 4, '010', 13, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(11, 1, 1, 4, '011', 13, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(12, 1, 1, 4, '012', 13, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(13, 1, 1, 5, '012', 14, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(14, 1, 1, 5, '013', 14, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(15, 1, 1, 5, '014', 14, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(16, 1, 1, 5, '015', 15, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(17, 1, 1, 5, '016', 15, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(18, 1, 1, 5, '017', 15, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(19, 1, 1, 5, '018', 16, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(20, 1, 1, 5, '019', 16, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:13:41', '0000-00-00 00:00:00', 140, 0),
-(21, 1, 1, 5, '020', 17, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:24:45', '0000-00-00 00:00:00', 140, 0),
-(22, 1, 1, 5, '021', 17, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 05:24:51', '0000-00-00 00:00:00', 140, 0),
-(23, 4, 2, 1, '100', 1, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(24, 4, 2, 1, '101', 1, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(25, 4, 2, 1, '102', 1, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(26, 4, 2, 1, '103', 1, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(27, 4, 2, 1, '105', 2, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(28, 4, 2, 1, '106', 2, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(29, 4, 2, 1, '107', 3, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(30, 4, 2, 2, '108', 6, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(31, 4, 2, 2, '109', 6, '2019-09-30 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 07:01:46', '0000-00-00 00:00:00', 140, 0),
-(32, 4, 2, 3, '110', 8, '2019-09-30 00:00:00', 15000, 14000, 14500, 'Sold', '2019-10-01 09:28:05', '0000-00-00 00:00:00', 140, 140),
-(33, 4, 3, 2, '230', 4, '2020-05-07 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 14:50:29', '0000-00-00 00:00:00', 140, 0),
-(34, 4, 3, 2, '231', 4, '2020-05-07 00:00:00', 15000, 14000, 14500, 'In-stock', '2019-09-30 14:50:29', '0000-00-00 00:00:00', 140, 0);
+(1, 1, 1, 1, '1625', 2, '2019-10-16 00:00:00', 2000, 1800, 1500, 'Sold', '2019-10-23 05:18:49', '0000-00-00 00:00:00', 140, 140),
+(2, 1, 1, 1, '1626', 1, '2019-10-16 00:00:00', 2000, 1800, 1900, 'Sold', '2019-10-23 05:35:05', '0000-00-00 00:00:00', 140, 140),
+(3, 1, 1, 1, '1627', 1, '2019-10-16 00:00:00', 2000, 1800, 1900, 'Sold', '2019-10-23 05:35:05', '0000-00-00 00:00:00', 140, 140),
+(4, 1, 2, 1, '123', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'Sold', '2019-10-22 14:27:57', '0000-00-00 00:00:00', 140, 140),
+(5, 1, 3, 1, '0', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'Sold', '2019-10-22 14:27:57', '0000-00-00 00:00:00', 140, 140),
+(6, 1, 3, 1, '0', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'Sold', '2019-10-22 14:27:57', '0000-00-00 00:00:00', 140, 140),
+(7, 1, 3, 1, '0', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:22:40', '0000-00-00 00:00:00', 140, 0),
+(8, 1, 3, 1, '0', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:22:40', '0000-00-00 00:00:00', 140, 0),
+(9, 1, 3, 1, '0', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:22:40', '0000-00-00 00:00:00', 140, 0),
+(10, 1, 3, 1, '456', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:22:40', '0000-00-00 00:00:00', 140, 0),
+(11, 1, 4, 1, '', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:24:50', '0000-00-00 00:00:00', 140, 0),
+(12, 1, 4, 1, '', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:24:50', '0000-00-00 00:00:00', 140, 0),
+(13, 1, 4, 1, '', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:24:50', '0000-00-00 00:00:00', 140, 0),
+(14, 1, 4, 1, '110', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:24:50', '0000-00-00 00:00:00', 140, 0),
+(15, 1, 4, 1, '002', 3, '2019-10-22 00:00:00', 2000, 1800, 1850, 'In-stock', '2019-10-21 19:24:50', '0000-00-00 00:00:00', 140, 0),
+(16, 1, 5, 1, '', 1, '2019-10-23 00:00:00', 500, 400, 450, 'In-stock', '2019-10-23 05:55:10', '0000-00-00 00:00:00', 140, 0),
+(17, 1, 5, 1, '', 1, '2019-10-23 00:00:00', 500, 400, 450, 'In-stock', '2019-10-23 05:55:10', '0000-00-00 00:00:00', 140, 0),
+(18, 1, 5, 1, '', 1, '2019-10-23 00:00:00', 500, 400, 450, 'In-stock', '2019-10-23 05:55:10', '0000-00-00 00:00:00', 140, 0),
+(19, 1, 5, 1, '1122', 1, '2019-10-23 00:00:00', 500, 400, 450, 'In-stock', '2019-10-23 05:55:10', '0000-00-00 00:00:00', 140, 0),
+(20, 1, 5, 1, '1133', 1, '2019-10-23 00:00:00', 500, 400, 450, 'In-stock', '2019-10-23 05:55:10', '0000-00-00 00:00:00', 140, 0),
+(21, 1, 5, 1, '1144', 1, '2019-10-23 00:00:00', 500, 400, 450, 'In-stock', '2019-10-23 05:55:10', '0000-00-00 00:00:00', 140, 0),
+(22, 1, 5, 1, '1155', 1, '2019-10-23 00:00:00', 500, 400, 450, 'In-stock', '2019-10-23 05:55:10', '0000-00-00 00:00:00', 140, 0),
+(23, 1, 6, 1, '', 2, '2020-03-12 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:40:53', '0000-00-00 00:00:00', 140, 0),
+(24, 1, 6, 1, '', 2, '2020-03-12 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:40:53', '0000-00-00 00:00:00', 140, 0),
+(25, 1, 6, 1, '', 2, '2020-03-12 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:40:53', '0000-00-00 00:00:00', 140, 0),
+(26, 1, 6, 1, '2211', 2, '2020-03-12 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:40:53', '0000-00-00 00:00:00', 140, 0),
+(27, 1, 6, 1, '2222', 2, '2020-03-12 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:40:53', '0000-00-00 00:00:00', 140, 0),
+(28, 1, 6, 1, '2233', 2, '2020-03-12 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:40:53', '0000-00-00 00:00:00', 140, 0),
+(29, 1, 7, 1, '3350', 2, '2019-10-10 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(30, 1, 7, 1, '3360', 2, '2019-10-10 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(31, 1, 7, 1, '3370', 2, '2019-10-10 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(32, 1, 7, 1, '', 2, '2019-10-10 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(33, 1, 7, 1, '', 2, '2019-10-10 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(34, 1, 7, 1, '', 2, '2019-10-10 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:43:33', '0000-00-00 00:00:00', 140, 0),
+(35, 1, 8, 1, '3360', 3, '2019-10-23 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(36, 1, 8, 1, '3370', 3, '2019-10-23 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(37, 1, 8, 1, '3380', 3, '2019-10-23 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(38, 1, 8, 1, '', 3, '2019-10-23 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(39, 1, 8, 1, '', 3, '2019-10-23 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(40, 1, 8, 1, '', 3, '2019-10-23 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(41, 1, 8, 1, '', 3, '2019-10-23 00:00:00', 1000, 800, 900, 'In-stock', '2019-10-23 06:45:24', '0000-00-00 00:00:00', 140, 0),
+(42, 1, 9, 1, '5510', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(43, 1, 9, 1, '5520', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(44, 1, 9, 1, '5530', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(45, 1, 9, 1, '', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(46, 1, 9, 1, '', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(47, 1, 9, 1, '', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(48, 1, 9, 1, '', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0),
+(49, 1, 9, 1, '', 3, '2019-10-23 00:00:00', 2000, 1800, 1900, 'In-stock', '2019-10-23 06:47:02', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -4218,10 +4317,7 @@ CREATE TABLE `stock_type` (
 --
 
 INSERT INTO `stock_type` (`stock_type_id`, `name`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Tyre', 'Tyre', 140, 0, '2019-09-20 18:28:20', '0000-00-00 00:00:00'),
-(4, 'Mobile', 'Mobile', 1, 0, '2019-09-26 19:36:18', '0000-00-00 00:00:00'),
-(5, 'Oil', 'Oil', 140, 0, '2019-09-29 10:35:46', '0000-00-00 00:00:00'),
-(6, 'Cold Drinks', 'Cold Drinks', 140, 0, '2019-09-29 14:12:58', '0000-00-00 00:00:00');
+(1, 'Car Oil', 'Car Oil', 140, 0, '2019-10-19 10:53:40', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4252,10 +4348,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `branch_id`, `first_name`, `last_name`, `username`, `email`, `user_type`, `auth_key`, `password_hash`, `password_reset_token`, `user_photo`, `is_block`, `status`, `created_at`, `updated_at`) VALUES
-(1, 5, 'Dexterous', 'Developers', 'dexdevs', 'anas@dexdevs.com', 'dexdevs', 'pQEdYTAVV_wLtqIALoSZ-vELIA0mdsOx', '$2y$13$ClHehtUhZZQqsocCsPnEwer2wfQd4gTcpwSOJTkWnvoMD/oFzfCpG', NULL, 'userphotos/dexdevs_photo.png', 1, 10, 1552727256, 1552727256),
-(3, 5, 'Super', 'Admin', 'Superadmin', 'superadmin@gmail.com', 'Superadmin', 'xqZuT3vxOiZ-rsN56V6wjZhi7VXMpKnD', '$2y$13$9TnNqeWAHECax0kmKSBzK.tGW/ePQm6IkutslR9ITYIXocjs4nnX.', NULL, 'userphotos/Superadmin_photo.png', 1, 10, 1552883449, 1552883449),
-(4, 6, 'Dexterous', 'Developers', 'dexdevsdeveloper', 'admin@dexdevs.com', 'dexdevs2', 'm4vI7EWTZ61_eTBrJf_tliCWdgRfCKzM', '$2y$13$k6pJmBNM4hrkgZh0SYhcC.dZLxMLOjsJtVo55TV4QiVIJ4F6t7lIW', NULL, 'userphotos/dexdevs2_photo.png', 1, 10, 1552894313, 1552894313),
-(140, 5, 'Nauman', 'Shahid', 'developer', 'nauman@gmail.com', 'Admin', '-xHBOB89uX2S4JlqtBwNlvZ-wh3BNXbV', '$2y$13$loctbLkt3eLax6aljyQ7Ju2RqaDLAkKDnNqVLIFUtmpuh3oq.dnM6', NULL, 'userphotos/logo.png', 1, 10, 1567762598, 1567762598);
+(1, 1, 'Dexterous', 'Developers', 'dexdevs', 'anas@dexdevs.com', 'dexdevs', 'pQEdYTAVV_wLtqIALoSZ-vELIA0mdsOx', '$2y$13$ClHehtUhZZQqsocCsPnEwer2wfQd4gTcpwSOJTkWnvoMD/oFzfCpG', NULL, 'userphotos/dexdevs_photo.png', 1, 10, 1552727256, 1552727256),
+(3, 2, 'Super', 'Admin', 'Superadmin', 'superadmin@gmail.com', 'Superadmin', 'xqZuT3vxOiZ-rsN56V6wjZhi7VXMpKnD', '$2y$13$9TnNqeWAHECax0kmKSBzK.tGW/ePQm6IkutslR9ITYIXocjs4nnX.', NULL, 'userphotos/Superadmin_photo.png', 1, 10, 1552883449, 1552883449),
+(4, 2, 'Dexterous', 'Developers', 'dexdevsdeveloper', 'admin@dexdevs.com', 'dexdevs2', 'm4vI7EWTZ61_eTBrJf_tliCWdgRfCKzM', '$2y$13$k6pJmBNM4hrkgZh0SYhcC.dZLxMLOjsJtVo55TV4QiVIJ4F6t7lIW', NULL, 'userphotos/dexdevs2_photo.png', 1, 10, 1552894313, 1552894313),
+(140, 1, 'Nauman', 'Shahid', 'developer', 'nauman@gmail.com', 'Admin', '-xHBOB89uX2S4JlqtBwNlvZ-wh3BNXbV', '$2y$13$loctbLkt3eLax6aljyQ7Ju2RqaDLAkKDnNqVLIFUtmpuh3oq.dnM6', NULL, 'userphotos/logo.png', 1, 10, 1567762598, 1567762598);
 
 -- --------------------------------------------------------
 
@@ -4302,13 +4398,6 @@ CREATE TABLE `user_type` (
   `updated_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `user_type`
---
-
-INSERT INTO `user_type` (`user_type_id`, `name`, `description`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 'sdfghjk', 'sdfghjk', '2019-09-19 06:43:08', '2019-09-19 06:43:08', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -4330,7 +4419,10 @@ CREATE TABLE `vehicle_type` (
 --
 
 INSERT INTO `vehicle_type` (`vehical_type_id`, `name`, `description`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'HATCH BACK', 'HATCH BACK', 1, 0, '2019-09-14 07:25:07', '0000-00-00 00:00:00');
+(1, 'HATCH BACK', 'HATCH BACK', 1, 0, '2019-09-14 07:25:07', '0000-00-00 00:00:00'),
+(2, 'Sedan', 'Sedan', 140, 0, '2019-10-03 10:04:55', '0000-00-00 00:00:00'),
+(3, 'Lux Sedan', 'Lux Sedan', 140, 0, '2019-10-03 10:05:16', '0000-00-00 00:00:00'),
+(4, 'SUV', 'SUV', 140, 0, '2019-10-03 10:05:29', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4340,9 +4432,8 @@ INSERT INTO `vehicle_type` (`vehical_type_id`, `name`, `description`, `created_b
 
 CREATE TABLE `vehicle_type_sub_category` (
   `vehicle_typ_sub_id` int(11) NOT NULL,
-  `vehicle_type_id` int(11) NOT NULL,
+  `manufacture` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `manufacture` varchar(200) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(11) NOT NULL,
@@ -4353,8 +4444,14 @@ CREATE TABLE `vehicle_type_sub_category` (
 -- Dumping data for table `vehicle_type_sub_category`
 --
 
-INSERT INTO `vehicle_type_sub_category` (`vehicle_typ_sub_id`, `vehicle_type_id`, `name`, `manufacture`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
-(1, 1, 'Suzuki Mehran', 'Suzuki', '2019-09-14 07:25:34', '0000-00-00 00:00:00', 1, 0);
+INSERT INTO `vehicle_type_sub_category` (`vehicle_typ_sub_id`, `manufacture`, `name`, `created_at`, `updated_at`, `created_by`, `updated_by`) VALUES
+(1, 1, 'CULTUS', '2019-10-18 19:12:50', '0000-00-00 00:00:00', 140, 0),
+(2, 1, 'MEHRAN', '2019-10-18 19:12:50', '0000-00-00 00:00:00', 140, 0),
+(3, 1, 'WAGOR-R', '2019-10-18 19:12:50', '0000-00-00 00:00:00', 140, 0),
+(4, 1, 'Test', '2019-10-21 09:20:58', '0000-00-00 00:00:00', 140, 0),
+(5, 2, 'test 1', '2019-10-23 07:13:12', '0000-00-00 00:00:00', 140, 0),
+(6, 2, 'test 2', '2019-10-23 07:13:13', '0000-00-00 00:00:00', 140, 0),
+(7, 2, 'test 3', '2019-10-23 07:13:13', '0000-00-00 00:00:00', 140, 0);
 
 -- --------------------------------------------------------
 
@@ -4378,7 +4475,7 @@ CREATE TABLE `vendor` (
 --
 
 INSERT INTO `vendor` (`vendor_id`, `branch_id`, `name`, `ntn`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'ali', 123, 140, 0, '2019-09-20 18:32:45', '0000-00-00 00:00:00');
+(1, 1, 'Ali', 313025, 140, 0, '2019-10-19 10:47:06', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4443,6 +4540,13 @@ ALTER TABLE `card_type`
   ADD PRIMARY KEY (`card_type_id`);
 
 --
+-- Indexes for table `car_manufacture`
+--
+ALTER TABLE `car_manufacture`
+  ADD PRIMARY KEY (`car_manufacture_id`),
+  ADD KEY `vehical_type_id` (`vehical_type_id`);
+
+--
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
@@ -4462,8 +4566,6 @@ ALTER TABLE `customer_vehicles`
 --
 ALTER TABLE `employee`
   ADD PRIMARY KEY (`emp_id`),
-  ADD KEY `salary_id` (`salary_id`),
-  ADD KEY `branch_id` (`branch_id`),
   ADD KEY `emp_type_id` (`emp_type_id`);
 
 --
@@ -4481,10 +4583,60 @@ ALTER TABLE `employee_types`
   ADD PRIMARY KEY (`emp_type_id`);
 
 --
--- Indexes for table `institute`
+-- Indexes for table `emp_academic`
 --
-ALTER TABLE `institute`
-  ADD PRIMARY KEY (`institute_id`);
+ALTER TABLE `emp_academic`
+  ADD PRIMARY KEY (`emp_academic_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
+-- Indexes for table `emp_certification`
+--
+ALTER TABLE `emp_certification`
+  ADD PRIMARY KEY (`emp_certificate_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
+-- Indexes for table `emp_computer_course`
+--
+ALTER TABLE `emp_computer_course`
+  ADD PRIMARY KEY (`emp_comp_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
+-- Indexes for table `emp_gross_salary`
+--
+ALTER TABLE `emp_gross_salary`
+  ADD PRIMARY KEY (`emp_gro_sal_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
+-- Indexes for table `emp_language`
+--
+ALTER TABLE `emp_language`
+  ADD PRIMARY KEY (`emp_lang_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
+-- Indexes for table `emp_refrences`
+--
+ALTER TABLE `emp_refrences`
+  ADD PRIMARY KEY (`emp_ref_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
+-- Indexes for table `emp_training`
+--
+ALTER TABLE `emp_training`
+  ADD PRIMARY KEY (`emp_trainind_id`),
+  ADD KEY `emp_id` (`emp_id`);
+
+--
+-- Indexes for table `emp_work_history`
+--
+ALTER TABLE `emp_work_history`
+  ADD PRIMARY KEY (`emp_w_h_id`),
+  ADD KEY `emp_id` (`emp_id`);
 
 --
 -- Indexes for table `manufacture`
@@ -4529,6 +4681,13 @@ ALTER TABLE `purchase_invoice`
   ADD KEY `vendor_id` (`vendor_id`);
 
 --
+-- Indexes for table `purchase_invoice_amount_detail`
+--
+ALTER TABLE `purchase_invoice_amount_detail`
+  ADD PRIMARY KEY (`p_inv_amount_detail`),
+  ADD KEY `purchase_invoice_id` (`purchase_invoice_id`);
+
+--
 -- Indexes for table `salary`
 --
 ALTER TABLE `salary`
@@ -4536,6 +4695,13 @@ ALTER TABLE `salary`
   ADD KEY `emp_id` (`emp_id`),
   ADD KEY `wage_type_id` (`wage_type_id`),
   ADD KEY `emp_allowance_id` (`emp_allowance_id`);
+
+--
+-- Indexes for table `sale_invoice_amount_detail`
+--
+ALTER TABLE `sale_invoice_amount_detail`
+  ADD PRIMARY KEY (`s_inv_amount_detail`),
+  ADD KEY `sale_inv_head_id` (`sale_inv_head_id`);
 
 --
 -- Indexes for table `sale_invoice_detail`
@@ -4566,7 +4732,16 @@ ALTER TABLE `sale_invoice_stock_detail`
 -- Indexes for table `services`
 --
 ALTER TABLE `services`
-  ADD PRIMARY KEY (`services_id`);
+  ADD PRIMARY KEY (`service_id`);
+
+--
+-- Indexes for table `service_details`
+--
+ALTER TABLE `service_details`
+  ADD PRIMARY KEY (`service_detail_id`),
+  ADD KEY `branch_id` (`branch_id`,`vehicle_type_id`),
+  ADD KEY `vehicle_type_id` (`vehicle_type_id`),
+  ADD KEY `service_id` (`service_id`);
 
 --
 -- Indexes for table `stock`
@@ -4624,7 +4799,7 @@ ALTER TABLE `vehicle_type`
 --
 ALTER TABLE `vehicle_type_sub_category`
   ADD PRIMARY KEY (`vehicle_typ_sub_id`),
-  ADD KEY `vehicle_type_id` (`vehicle_type_id`);
+  ADD KEY `manufacture` (`manufacture`);
 
 --
 -- Indexes for table `vendor`
@@ -4649,7 +4824,7 @@ ALTER TABLE `wage_type`
 -- AUTO_INCREMENT for table `allowance_type`
 --
 ALTER TABLE `allowance_type`
-  MODIFY `allowance_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `allowance_type_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `branches`
 --
@@ -4661,20 +4836,25 @@ ALTER TABLE `branches`
 ALTER TABLE `card_type`
   MODIFY `card_type_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `car_manufacture`
+--
+ALTER TABLE `car_manufacture`
+  MODIFY `car_manufacture_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3254;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3256;
 --
 -- AUTO_INCREMENT for table `customer_vehicles`
 --
 ALTER TABLE `customer_vehicles`
-  MODIFY `customer_vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `customer_vehicle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `employee_allowances`
 --
@@ -4686,15 +4866,50 @@ ALTER TABLE `employee_allowances`
 ALTER TABLE `employee_types`
   MODIFY `emp_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `institute`
+-- AUTO_INCREMENT for table `emp_academic`
 --
-ALTER TABLE `institute`
-  MODIFY `institute_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `emp_academic`
+  MODIFY `emp_academic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `emp_certification`
+--
+ALTER TABLE `emp_certification`
+  MODIFY `emp_certificate_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `emp_computer_course`
+--
+ALTER TABLE `emp_computer_course`
+  MODIFY `emp_comp_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `emp_gross_salary`
+--
+ALTER TABLE `emp_gross_salary`
+  MODIFY `emp_gro_sal_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `emp_language`
+--
+ALTER TABLE `emp_language`
+  MODIFY `emp_lang_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `emp_refrences`
+--
+ALTER TABLE `emp_refrences`
+  MODIFY `emp_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `emp_training`
+--
+ALTER TABLE `emp_training`
+  MODIFY `emp_trainind_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `emp_work_history`
+--
+ALTER TABLE `emp_work_history`
+  MODIFY `emp_w_h_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `manufacture`
 --
 ALTER TABLE `manufacture`
-  MODIFY `manufacture_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `manufacture_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `membership`
 --
@@ -4709,27 +4924,37 @@ ALTER TABLE `organization`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `purchase_invoice`
 --
 ALTER TABLE `purchase_invoice`
-  MODIFY `purchase_invoice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `purchase_invoice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `purchase_invoice_amount_detail`
+--
+ALTER TABLE `purchase_invoice_amount_detail`
+  MODIFY `p_inv_amount_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `salary`
 --
 ALTER TABLE `salary`
   MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `sale_invoice_amount_detail`
+--
+ALTER TABLE `sale_invoice_amount_detail`
+  MODIFY `s_inv_amount_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `sale_invoice_detail`
 --
 ALTER TABLE `sale_invoice_detail`
-  MODIFY `sale_inv_ser_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `sale_inv_ser_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `sale_invoice_head`
 --
 ALTER TABLE `sale_invoice_head`
-  MODIFY `sale_inv_head_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `sale_inv_head_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `sale_invoice_stock_detail`
 --
@@ -4739,12 +4964,17 @@ ALTER TABLE `sale_invoice_stock_detail`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `services_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `service_details`
+--
+ALTER TABLE `service_details`
+  MODIFY `service_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `stock_issue`
 --
@@ -4754,7 +4984,7 @@ ALTER TABLE `stock_issue`
 -- AUTO_INCREMENT for table `stock_type`
 --
 ALTER TABLE `stock_type`
-  MODIFY `stock_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `stock_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -4769,17 +4999,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_type`
 --
 ALTER TABLE `user_type`
-  MODIFY `user_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_type_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `vehicle_type`
 --
 ALTER TABLE `vehicle_type`
-  MODIFY `vehical_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `vehical_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `vehicle_type_sub_category`
 --
 ALTER TABLE `vehicle_type_sub_category`
-  MODIFY `vehicle_typ_sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `vehicle_typ_sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `vendor`
 --
@@ -4826,6 +5056,12 @@ ALTER TABLE `branches`
   ADD CONSTRAINT `branches_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organization` (`org_id`);
 
 --
+-- Constraints for table `car_manufacture`
+--
+ALTER TABLE `car_manufacture`
+  ADD CONSTRAINT `car_manufacture_ibfk_1` FOREIGN KEY (`vehical_type_id`) REFERENCES `vehicle_type` (`vehical_type_id`);
+
+--
 -- Constraints for table `customer`
 --
 ALTER TABLE `customer`
@@ -4842,9 +5078,7 @@ ALTER TABLE `customer_vehicles`
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`salary_id`) REFERENCES `salary` (`salary_id`),
-  ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`branch_id`),
-  ADD CONSTRAINT `employee_ibfk_3` FOREIGN KEY (`emp_type_id`) REFERENCES `employee_types` (`emp_type_id`);
+  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`emp_type_id`) REFERENCES `employee_types` (`emp_type_id`);
 
 --
 -- Constraints for table `employee_allowances`
@@ -4852,6 +5086,54 @@ ALTER TABLE `employee`
 ALTER TABLE `employee_allowances`
   ADD CONSTRAINT `employee_allowances_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`),
   ADD CONSTRAINT `employee_allowances_ibfk_2` FOREIGN KEY (`allowance_type_id`) REFERENCES `allowance_type` (`allowance_type_id`);
+
+--
+-- Constraints for table `emp_academic`
+--
+ALTER TABLE `emp_academic`
+  ADD CONSTRAINT `emp_academic_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `emp_certification`
+--
+ALTER TABLE `emp_certification`
+  ADD CONSTRAINT `emp_certification_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `emp_computer_course`
+--
+ALTER TABLE `emp_computer_course`
+  ADD CONSTRAINT `emp_computer_course_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `emp_gross_salary`
+--
+ALTER TABLE `emp_gross_salary`
+  ADD CONSTRAINT `emp_gross_salary_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `emp_language`
+--
+ALTER TABLE `emp_language`
+  ADD CONSTRAINT `emp_language_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `emp_refrences`
+--
+ALTER TABLE `emp_refrences`
+  ADD CONSTRAINT `emp_refrences_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `emp_training`
+--
+ALTER TABLE `emp_training`
+  ADD CONSTRAINT `emp_training_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `emp_work_history`
+--
+ALTER TABLE `emp_work_history`
+  ADD CONSTRAINT `emp_work_history_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`);
 
 --
 -- Constraints for table `manufacture`
@@ -4880,12 +5162,24 @@ ALTER TABLE `purchase_invoice`
   ADD CONSTRAINT `purchase_invoice_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`vendor_id`);
 
 --
+-- Constraints for table `purchase_invoice_amount_detail`
+--
+ALTER TABLE `purchase_invoice_amount_detail`
+  ADD CONSTRAINT `purchase_invoice_amount_detail_ibfk_1` FOREIGN KEY (`purchase_invoice_id`) REFERENCES `purchase_invoice` (`purchase_invoice_id`);
+
+--
 -- Constraints for table `salary`
 --
 ALTER TABLE `salary`
   ADD CONSTRAINT `salary_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`),
   ADD CONSTRAINT `salary_ibfk_2` FOREIGN KEY (`wage_type_id`) REFERENCES `wage_type` (`wage_type_id`),
   ADD CONSTRAINT `salary_ibfk_3` FOREIGN KEY (`emp_allowance_id`) REFERENCES `employee_allowances` (`emp_allowance_id`);
+
+--
+-- Constraints for table `sale_invoice_amount_detail`
+--
+ALTER TABLE `sale_invoice_amount_detail`
+  ADD CONSTRAINT `sale_invoice_amount_detail_ibfk_1` FOREIGN KEY (`sale_inv_head_id`) REFERENCES `sale_invoice_head` (`sale_inv_head_id`);
 
 --
 -- Constraints for table `sale_invoice_detail`
@@ -4907,6 +5201,14 @@ ALTER TABLE `sale_invoice_stock_detail`
   ADD CONSTRAINT `sale_invoice_stock_detail_ibfk_1` FOREIGN KEY (`sale_inv_head_id`) REFERENCES `sale_invoice_head` (`sale_inv_head_id`),
   ADD CONSTRAINT `sale_invoice_stock_detail_ibfk_2` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`stock_id`),
   ADD CONSTRAINT `sale_invoice_stock_detail_ibfk_3` FOREIGN KEY (`customer_vehicle_id`) REFERENCES `customer_vehicles` (`customer_vehicle_id`);
+
+--
+-- Constraints for table `service_details`
+--
+ALTER TABLE `service_details`
+  ADD CONSTRAINT `service_details_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`branch_id`),
+  ADD CONSTRAINT `service_details_ibfk_2` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_type` (`vehical_type_id`),
+  ADD CONSTRAINT `service_details_ibfk_3` FOREIGN KEY (`service_id`) REFERENCES `services` (`service_id`);
 
 --
 -- Constraints for table `stock`
@@ -4934,7 +5236,7 @@ ALTER TABLE `user`
 -- Constraints for table `vehicle_type_sub_category`
 --
 ALTER TABLE `vehicle_type_sub_category`
-  ADD CONSTRAINT `vehicle_type_sub_category_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_type` (`vehical_type_id`);
+  ADD CONSTRAINT `vehicle_type_sub_category_ibfk_1` FOREIGN KEY (`manufacture`) REFERENCES `car_manufacture` (`car_manufacture_id`);
 
 --
 -- Constraints for table `vendor`

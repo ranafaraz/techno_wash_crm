@@ -75,7 +75,9 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Collect</label>
-									<input type="number" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()">
+									<!-- <input type="number" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()"> -->
+									<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()">
+
 								</div>
 								<div class="form-group">
 									<label>Status</label>
@@ -119,6 +121,9 @@
 </body>
 </html>
 <script>
+	 $(document).ready(function(){
+		$('#collect_amount').focus();
+	});
 	function cal_remaining(){
 
       	var paid = parseInt($('#paid_amount').val());
@@ -165,7 +170,5 @@
       		$("#insert").attr("disabled", true);
       	}
     }
-    $(document).ready(function(){
-		$('#collect_amount').focus();
-	});
+   
 </script>

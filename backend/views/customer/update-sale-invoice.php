@@ -52,7 +52,8 @@ $customerData = Yii::$app->db->createCommand("
 								
 								<div class="form-group">
 									<label>Paid Amount</label>
-									<input type="number" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" oninput="cal_remaining()">
+									<!-- <input type="number" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" oninput="cal_remaining()"> -->
+									<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" oninput="cal_remaining()">
 								</div>
 								
 								
@@ -307,5 +308,4 @@ $customerData = Yii::$app->db->createCommand("
       		$("#update").attr("disabled", true);
       	}
       }
-      
  </script>

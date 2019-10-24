@@ -38,6 +38,17 @@ use common\models\Products;
        ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
 
     )->execute();
+
+      $insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
+
+        'sale_inv_head_id' => $invID,
+        'transaction_date'      => new \yii\db\Expression('NOW()'),
+        'paid_amount'       => $collect,
+        'created_by'      => $id,
+
+      ])->execute();
+
+
      // transaction commit
      $transaction->commit();
      \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
@@ -83,6 +94,14 @@ use common\models\Products;
      'status' => $updatestatus,
     ],
        ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'paid_amount' => $updatepaidAmount,
+    ],
+       ['sale_inv_head_id' => $invID ,'transaction_date' => $updateDate]
 
     )->execute();
      // transaction commit
@@ -380,7 +399,7 @@ use common\models\Products;
                                         <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">
                                           <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View</a>
-                                          <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                          <!-- <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a> -->
                                         </td>
                                     </tr>   
                                 
@@ -816,7 +835,6 @@ function discountFun(){
         }
 
       }
-
 </script>
 <?php
 $url = \yii\helpers\Url::to("customer/fetch-info");
@@ -1077,26 +1095,9 @@ $("#item_type").change(function(){
         	}      
     	}); 
 	});
-  $('#productid').on("change",function(){
+   $('#productid').on("change",function(){
    var PRODUCTid = parseInt($('#productid').val());
-   var avastock = $("#availble_stock").val();
-
-   if(!tempProductArray || !tempProductArray.length){
-      tempProductArray.push(PRODUCTid);
-      tempquantityArray.push(avastock);
-  } else {
-      for(var n=0; n < tempProductArray.length; ){
-        if(tempProductArray[n] == PRODUCTid){
-          var a_stock = tempquantityArray[n]
-
-
-        } else {
-          tempProductArray.push(PRODUCTid);
-          tempquantityArray.push(avastock);
-        }
-
-      }
-  }
+   
 
    //$('#message').val("");
     $.ajax({

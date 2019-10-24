@@ -136,6 +136,15 @@
 	
 	$selectedPurchInvID = $select_purchase_invoice[0]['purchase_invoice_id'];
 
+	$purchase_invoice_amount = Yii::$app->db->createCommand()->insert('purchase_invoice_amount_detail',[
+
+		'purchase_invoice_id' => $selectedPurchInvID,
+		'transaction_date'    => date('y-m-d'),
+		'paid_amount'    	  => $paid,
+		'created_by'		  => $user_id,
+
+	])->execute();
+
 	for ($j=0; $j <$countStockTypeArray ; $j++) { 
 
 		$qty = $quantityArray[$j];
