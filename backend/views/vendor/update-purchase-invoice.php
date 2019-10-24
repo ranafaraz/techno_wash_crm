@@ -40,11 +40,12 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Bilty No:</label>
-								<input type="number" name="bilty_no" id="bilty_no" class="form-control" value="<?=$updateinvoiceData[0]['bilty_no']?>" oninput="inputchange()">
+								<input type="text" name="bilty_no" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="bilty_no" class="form-control" value="<?=$updateinvoiceData[0]['bilty_no']?>" oninput="inputchange()">
 							</div>
 							<div class="form-group">
 								<label>Bill No:</label>
-								<input type="number" name="bill_no" id="bill_no" class="form-control" value="<?=$updateinvoiceData[0]['bill_no']?>" oninput="inputchange()">
+								
+								<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="bilty_no" class="form-control"name="bill_no" id="bill_no" class="form-control" value="<?=$updateinvoiceData[0]['bill_no']?>" oninput="inputchange()">
 							</div>
 							<div class="form-group">
 								<label>Purchase Date</label>
@@ -74,7 +75,9 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 							
 							<div class="form-group">
 								<label>Paid Amount</label>
-								<input type="number" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" oninput="cal_remaining()">
+								
+								<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" oninput="cal_remaining()">
+
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -93,7 +96,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 							<div class="form-group">
 								<label>Status</label>
 								<?php $status = $updateinvoiceData[0]['status'];?>
-								<input type="text" name="status" id="status" class="form-control" readonly="" value="<?=$status?>">
+								<input type="text" name="status" id="status" class="form-control" readonly="" value="<?=$status ?>">
 							</div>
 							
 							<input type="hidden" name="piID" value="<?php echo $purchaseInvID; ?>">
