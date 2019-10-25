@@ -46,7 +46,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 							 <input type="radio" name="discountType" id="amount"   checked  onclick="discEmpty()">Amount
 								&emsp;
 							  <input type="radio" name="discountType" id="percentage" onclick="discEmpty()">Percentage
-							<input type="text" name="discount" oninput="discountFun()" class="form-control" id="disc" value="<?php echo $updateinvoiceData[0]['discount'];?>">
+							<input type="text" name="discount" oninput="discountFun()" class="form-control" id="disc" value="<?php echo $updateinvoiceData[0]['discount'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
 						</div>
 						<div class="form-group">
 							<label>Remaining</label>
@@ -98,8 +98,8 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Paid Amount</label>
-							<input type="number" name="detail_paid_amount[]" class="form-control" value="<?php echo $paidAmount;?>" oninput="cal_paid_amount(<?php echo $amount; ?>, <?php echo $countSaleInvAmount; ?>)" id="d_p_a_<?php echo $amount; ?>">
-							<input type="hidden" name="saleInvAmountID[]" value="<?php echo $saleInvoiceAmount[$amount]['s_inv_amount_detail'];?>" >
+							<input type="text" name="detail_paid_amount[]" class="form-control" value="<?php echo $paidAmount;?>" oninput="cal_paid_amount(<?php echo $amount; ?>, <?php echo $countSaleInvAmount; ?>)" id="d_p_a_<?php echo $amount; ?>">
+							<input type="hidden" name="saleInvAmountID[]" value="<?php echo $saleInvoiceAmount[$amount]['s_inv_amount_detail'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
 						</div>
 					</div>
 				</div>
