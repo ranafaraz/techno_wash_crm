@@ -17,6 +17,13 @@ $updateinvoiceData = Yii::$app->db->createCommand("
     ")->queryAll();
     $countupdateinvoiceData = count($updateinvoiceData);
 
+    $purchaseInvAmount = Yii::$app->db->createCommand("
+    SELECT *
+    FROM  purchase_invoice_amount_detail
+    WHERE purchase_invoice_id = '$purchaseInvID'
+    ")->queryAll();
+	$countPurchaseInvAmount = count($purchaseInvAmount);
+
  ?>
 
 <!DOCTYPE html>
