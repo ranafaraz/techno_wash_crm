@@ -670,7 +670,7 @@ use common\models\Products;
 
 					  <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
             <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
-					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()">
+					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
 
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
