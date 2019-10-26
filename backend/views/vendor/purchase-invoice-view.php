@@ -312,7 +312,7 @@ body td{
 			            	<div class="col-md-3">
 			            		<div class="fomr-group">
 			            			<label>Quantity</label>
-			            			<input type="number" name="" class="form-control" id="quantity">
+			            			<input type="text" name="" class="form-control" id="quantity" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
 			            		</div>
 			            	</div>
 			            </div>		
@@ -321,12 +321,16 @@ body td{
                 <div class="row">
                     <div class="col-md-12" >
                         <div class="row" id="mydata" style="display:none;">
-                          <div class="col-md-3">
-                            
-                          </div>
+                          <div class="col-md-1"></div>
                           <div class="col-md-4">
-                            <input type="hidden" class="form-control" id="remove_value1">
-                            <input type="text" class="form-control" id="remove_value">
+                             <input type="text" class="form-control" id="remove_value">
+                             <input type="text"  id="remove_value1">
+                             <input type="text" id="hide_quantity">
+                             <input type="text" id="get_purchase_value">
+                             
+                          </div>
+                          <div class="col-md-4" style="display: none" id="quantity_no_div">
+                            <input type="text" class="form-control" id="check_no">
                           </div>
                           <div class="col-md-2">
                             <button type="button" class="btn btn-danger btn-flat" id="remove"> <i class="fa fa-times"></i> Remove</button>
@@ -558,7 +562,7 @@ body td{
                       <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
           					 <input type="radio" name="discountType" id="percentage"  onclick="abc()"> Percentage
           	
-          					<input type="number" name="discount" class="form-control" id="disc" oninput="discountFun()">
+          					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
           					<input type="hidden" id="name" >
           					<input type="hidden" id="vehicle_name" >
           				</div>
@@ -568,8 +572,8 @@ body td{
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="number" name="paid" class="form-control"  id="paid" oninput="cal_remaining()">
-                </div>
+                  <input type="text" name="paid" class="form-control"  id="paid" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+                </div> 
                 <div class="form-group">
                   <label>Remaining</label>
                   <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
@@ -617,6 +621,9 @@ body td{
     $('#remaining').val(total);
     $('#paid').val("");
      
+  }
+  function check_only_number(){
+    ;
   }
 	function discountFun(){
         // Getting the value from the original price
@@ -880,15 +887,24 @@ $script = <<< JS
 		}
     table = document.getElementById("myTableData");
     for(var i = 1; i < table.rows.length; i++)
-                      {
-                          table.rows[i].onclick = function()
-                          {
-                            // get the seected row index
-                            rIndex = this.rowIndex;
-                            document.getElementById("remove_value1").value = rIndex;
-                            document.getElementById("remove_value").value = this.cells[8].innerHTML;
-                          };
-                      }
+        {
+            table.rows[i].onclick = function()
+            {
+              // get the seected row index
+              rIndex = this.rowIndex;
+              document.getElementById("remove_value1").value = rIndex;
+              document.getElementById("remove_value").value = this.cells[3].innerHTML;
+              document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
+              document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+              var q = Number(document.getElementById("hide_quantity").value);
+             if(q>1){
+              $('#quantity_no_div').show();
+             }
+             else{
+              $('#quantity_no_div').hide();
+             }
+            };
+        }
 
 
 	});
@@ -1007,7 +1023,17 @@ $script = <<< JS
 	                // get the seected row index
 	                rIndex = this.rowIndex;
 	                document.getElementById("remove_value1").value = rIndex;
-	                document.getElementById("remove_value").value = this.cells[8].innerHTML;
+	                
+                  document.getElementById("remove_value").value = this.cells[3].innerHTML;
+                   document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
+                    document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+                   var q = Number(document.getElementById("hide_quantity").value);
+                   if(q>1){
+                    $('#quantity_no_div').show();
+                   }
+                   else{
+                    $('#quantity_no_div').hide();
+                   }
 	              };
             }
 	});
@@ -1071,11 +1097,40 @@ $script = <<< JS
   });
   $('#remove').click(function(){
       var remove_value = $('#remove_value1').val();
+       
+      var hide_quantity = Number(document.getElementById("hide_quantity").value);
+      var check_no = Number(document.getElementById("check_no").value);
+      var remain_quantity = hide_quantity-check_no;
         if(remove_value=="" || remove_value==null){
           alert("Please select the row");
         }
+        else if((check_no>hide_quantity) && (hide_quantity>1)){
+          alert("Enter the valid Number of Items");
+        }
+        else if((check_no=="" || check_no == null) && (hide_quantity>1)){
+           alert("Item to be remove can not be empty");
+        }
         else{
-            document.getElementById("myTableData").deleteRow(remove_value);
+            if((hide_quantity>1) && (check_no<hide_quantity)){
+             //alert(remain_quantity);
+              document.getElementById("myTableData").rows[remove_value].cells[8].innerHTML = remain_quantity;
+              var remove_amount = Number(document.getElementById("get_purchase_value").value);
+              var nt = Number(document.getElementById("tp").value);
+              var remain_amount = nt - check_no*remove_amount;
+              //alert(remain_amount);
+              $('#tp').val(remain_amount);$("#tp").val(remain_amount);
+              $("#nt").val(remain_amount);
+              $("#remaining").val(remain_amount);
+              var a =quantityArray.length - remove_value;
+              
+              quantityArray[a] =remain_quantity;
+              $('#checke_no').val("");
+              $('#remove_value').val("");
+              $('#remove_value1').val("");
+
+            }
+
+            else{document.getElementById("myTableData").deleteRow(remove_value);
           var a =barcodeArray.length- remove_value;
            // alert(sellingPriceArray[a]);
              //alert(sellingPriceArray);
@@ -1101,6 +1156,7 @@ $script = <<< JS
               $('#bill_form').hide();
               $('#mydata').hide();
              }
+           }
 
 
           }

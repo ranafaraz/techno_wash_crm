@@ -260,6 +260,7 @@ use common\models\Products;
                               <option value="Service">Service</option>
                               <option value="Stock">Stock</option>
                             </select>
+                            <input type="hidden" id="remove_amount">
                           </div>
                         </div>
                         <div class="col-md-3">
@@ -317,8 +318,9 @@ use common\models\Products;
                             <div class="form-group">
                               <label>Quantity</label>
                               <input type="text" id="product_quantity" class="form-control">
+                              <input type="hidden" id="hide_quantity" class="form-control">
                             </div>
-                            <input type="hidden" id="hide_quantity" class="form-control">
+                            
                           </div>
                         </div>
                         <div class="col-md-3">
@@ -336,12 +338,18 @@ use common\models\Products;
                         </div>
                       </div>
                       <div class="row" style="margin-top: 25px" id="remove_index">
-                        <div class="col-md-6">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
                           <input type="hidden" id="remove_value">
                           <input type="text" placeholder="" class="form-control" id="removed_value" readonly="">
                           
                         </div>
+                        <div class="col-md-4" style="display: none" id="check_quantity">
+                          <input type="text" id="check_no" class="form-control" placeholder="Required Items" onkeypress="check_only_number()">
+                          <input type="hidden" id="check_no_quantity" >
+                        </div>
                         <div class="col-md-2">
+                          
                           <button type="button" class="btn btn-warning btn-flat" id="remove"><i class="fa fa-times"></i> Remove</button>
                         </div>
                       </div><br>
@@ -670,7 +678,7 @@ use common\models\Products;
 
 					  <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
             <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
-					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="check_only_number()">
 
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
@@ -723,6 +731,9 @@ use common\models\Products;
 	let table;
 	let index = 1;
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
+ function check_only_number(){
+  return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
   function abc(){
     $('#disc').val("");
     $('#disc').focus();
@@ -977,6 +988,19 @@ $("#item_type").change(function(){
                   rIndex = this.rowIndex;
                   document.getElementById("remove_value").value = rIndex;
                   document.getElementById("removed_value").value = this.cells[2].innerHTML;
+                  document.getElementById("check_no").value = this.cells[4].innerHTML;
+                  document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
+                  document.getElementById("remove_amount").value = this.cells[5].innerHTML;
+                  var q = this.cells[4].innerHTML;
+
+                  $("#hide_quantity").val(q); 
+                  if(q>1){
+                    $('#check_quantity').show();
+                    $('#check_no').focus();
+                  } 
+                  else{
+                      $('#check_quantity').hide();
+                  }        
                 };
               }
 	          }
@@ -1097,7 +1121,16 @@ $("#item_type").change(function(){
 			                      rIndex = this.rowIndex;
 			                      document.getElementById("remove_value").value = rIndex;
 			                       document.getElementById("removed_value").value = this.cells[2].innerHTML;
-			                     
+			                     document.getElementById("check_no").value = this.cells[4].innerHTML;
+                           document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
+                           document.getElementById("remove_amount").value = this.cells[5].innerHTML;
+                          var q = this.cells[4].innerHTML;
+                          $("#hide_quantity").val(q); 
+                          if(q>1){
+                            $('#check_quantity').show();
+                            $('#check_no').focus();
+                          }  
+                          else{  $('#check_quantity').hide();}       
 			                    };
 			                }
 				}
@@ -1149,7 +1182,7 @@ $('#product_quantity').on("change",function(){
   // $("#availble_stock").val(remainStock);
   if(pro_quantity =="" || pro_quantity == null){
   } else if(pro_quantity > avastock ) {
-    //alert("not available");
+    alert("Enter the valid Number of quantities");
     $("#product_quantity").css("border", "1px solid red");
     $("#product_quantity").val("");
     //$("#message").html("not a valid stock");
@@ -1222,8 +1255,17 @@ $('#product_quantity').on("change",function(){
               rIndex = this.rowIndex;
               document.getElementById("remove_value").value = rIndex;
               document.getElementById("removed_value").value = this.cells[2].innerHTML;
+              document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
+              document.getElementById("remove_amount").value = this.cells[5].innerHTML;
               var q = this.cells[4].innerHTML;
-              $("#hide_quantity").val(q);          
+              $("#hide_quantity").val(q); 
+              if(q>1){
+                $('#check_quantity').show();
+                $('#check_no').focus();
+              }
+              else{
+                  $('#check_quantity').hide();
+              }         
             };
           }
         }     
@@ -1235,15 +1277,53 @@ $('#product_quantity').on("change",function(){
 	$('#remove').click(function(){
 
 		var remove_value1= $('#remove_value').val();
-		//alert();
+    var no_quantity = Number(document.getElementById("hide_quantity").value);
+    var check_quantity = Number(document.getElementById("check_no").value);
+		  var remain_number = no_quantity - check_quantity;
 			if(remove_value1 =="" || remove_value1==null){
 				alert("Please Select the Service/Item to remove");
 			}
-			else{
-			document.getElementById("myTableData").deleteRow(remove_value1);
-			var a =amountArray.length - remove_value1;
-			var nt=$('#tp').val();
-      var qty = $("#hide_quantity").val();
+      
+      else if((check_quantity>no_quantity)&&(no_quantity>1)){
+        alert("Enter valid Amount");
+        $("#check_no").css("border", "1px solid red");
+        $('#check_no').focus();
+        $('#check_no').val("");
+      } 
+       else if((check_quantity=="" || check_quantity==null)&&(no_quantity>1)){
+        alert("The No of item are required ");
+        $("#check_no").css("border", "1px solid red");
+        $('#check_no').focus();
+        $('#check_no').val("");
+        }  
+
+
+			else{      
+         var qty = $("#hide_quantity").val();
+         var nt=$('#tp').val();
+         var remove_value = $('#remove_value').val();
+      if((qty > 1)&&(check_quantity<no_quantity)){
+    // alert(remain_number);
+      document.getElementById("myTableData").rows[remove_value].cells[4].innerHTML = remain_number;
+      var remove_amount = Number(document.getElementById("remove_amount").value);
+
+      var remain_amount = nt - check_quantity*remove_amount;
+      $("#tp").val(remain_amount);
+      $("#tp").val(remain_amount);
+      $("#remaining").val(remain_amount);
+      var a =amountArray.length - remove_value1;
+      quantityArray[a] = remain_number;
+      //alert(quantityArray[a]);
+      $('#checke_no').val("");
+      $('#remove_value').val("");
+      $('#remove_value1').val("");
+      
+      } 
+        else{
+          document.getElementById("myTableData").deleteRow(remove_value1);
+      var a =amountArray.length - remove_value1;
+      
+     
       //var nta = nt-amountArray[a];
 
       if(qty > 1){
@@ -1254,14 +1334,14 @@ $('#product_quantity').on("change",function(){
         var nta = nt-amountArray[a];
       }
 
-			amountArray.splice(a,1);
-			vehicleArray.splice(a,1);
-			serviceArray.splice(a,1); 
- 			ItemTypeArray.splice(a,1);
+      amountArray.splice(a,1);
+      vehicleArray.splice(a,1);
+      serviceArray.splice(a,1); 
+      ItemTypeArray.splice(a,1);
       quantityArray.splice(a,1);
 
-			$('#remove_value').val("");
-			$('#removed_value').val("");
+      $('#remove_value').val("");
+      $('#removed_value').val("");
       $('#tp').val(nta);
       $('#nt').val(nta);
       $('#remaining').val(nta);
@@ -1269,27 +1349,28 @@ $('#product_quantity').on("change",function(){
       $('#disc').val("");
       $('#paid').val("");
 
-  		if(amountArray.length==0){
-  			$('#mydata').hide();
-  			$('#remove_index').hide();
-  			$('#bill_form').hide();
-  			$('#price').val("");
+      if(amountArray.length==0){
+        $('#mydata').hide();
+        $('#remove_index').hide();
+        $('#bill_form').hide();
+        $('#price').val("");
         $('#selling_price').val("");
         $("#productSellingPrice").val("");
-  			$('#vehicle').val("");
-  			$('#item_type').val("");
-  			$('#types').hide();
-  			$('#stock').hide();
-  			$('#servic').hide();
+        $('#vehicle').val("");
+        $('#item_type').val("");
+        $('#types').hide();
+        $('#stock').hide();
+        $('#servic').hide();
         $('#pname').hide();
         $('#quantity').hide();
         $('#product_quantity').val("");
         $('#nta').val("");
         $("#availbleStock").hide();
         $("#message").hide();
-				
-			}
-			}
+        
+        }
+        }
+      }
 		});
 
 
