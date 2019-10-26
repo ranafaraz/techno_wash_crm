@@ -36,7 +36,7 @@ use common\models\VehicleTypeSubCategory;
 
     </div>
         <div class="col-md-4">
-    <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ], ['prompt' => 'Select Gender']) ?>
+    <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
     
     </div>
     </div>

@@ -99,7 +99,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 					$paidAmount = $saleInvoiceAmount[$amount]['paid_amount'];
 
 				?>
-				<div class="row" style="">
+				<div class="row">
 					<div class="col-md-4" style="padding:5px;background-color:lightgray;">
 						<div class="form-group">
 							<label>Transaction Date</label>
@@ -232,5 +232,5 @@ $countSaleInvAmount = count($saleInvoiceAmount);
       		//$('#update').hide();
       		$("#update").attr("disabled", true);
       	}
-      }
+    }
  </script>

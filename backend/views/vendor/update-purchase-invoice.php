@@ -110,20 +110,47 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 							<input type="hidden" name="vendorID" value="<?php echo $vendorID; ?>">	
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<h3 style="color:#367FA9;margin-bottom:20px;">Transaction Details</h3>
+						</div>
+					</div>
+					<?php 
 
+						for ($amount=0; $amount <$countPurchaseInvAmount ; $amount++) {
+						$transDate = date('Y-m-d',strtotime($purchaseInvAmount[$amount]['transaction_date']));
+						$paidAmount = $purchaseInvAmount[$amount]['paid_amount']; 
+						
+					?>
+					<div class="row">
+						<div class="col-md-4" style="padding:5px;background-color:lightgray;">
+							<div class="form-group">
+								<label>Transaction Date</label>
+								<input type="date" name="transaction_date[]"class="form-control" value="<?php echo $transDate;?>">
+							</div>
+						</div>
+						<div class="col-md-4" style="padding:5px;background-color:lightgray;">
+							<div class="form-group">
+								<label>Paid Amount</label>
+								<input type="text" name="detail_paid_amount[]" class="form-control" value="<?php echo $paidAmount;?>" oninput="cal_paid_amount(<?php echo $amount; ?>, <?php echo $countPurchaseInvAmount; ?>)" id="d_p_a_<?php echo $amount; ?>">
+								<input type="hidden" name="purchaseInvAmountID[]" value="<?php echo $purchaseInvAmount[$amount]['p_inv_amount_detail'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+							</div>
+						</div>
+					</div>
+					<?php } ?>
 					<div class="row">
 							<div class="col-md-12">
 								<div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center;" id="alert">
 	            				</div>								
 							</div>							
-						</div>
+					</div>
 						<br /> 
 					<div class="row">
 						<div class="col-md-2">
 							<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
 						</div>
 						<div class="col-md-3">
-							<button type="submit" name="update_invoice" id="update" class="btn btn-success" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
+							<button type="submit" name="update_invoice" id="update" class="btn btn-success" style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
 						</div>
 					</div>				
 			</form>
@@ -190,6 +217,15 @@ $updateinvoiceData = Yii::$app->db->createCommand("
             } 
             cal_remaining();
         }
+
+        function cal_paid_amount(i, count){
+    	var paid=0;
+      	for(var p=0; p<count; p++){
+      		paid = paid+parseInt($('#d_p_a_'+p).val());
+      	}
+      	$('#paid_amount').val(paid);
+      	cal_remaining();
+    }
 
  	function cal_remaining(){
  		

@@ -45,10 +45,10 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'customer_name', 'customer_gender', 'customer_cnic', 'customer_address', 'customer_contact_no', 'customer_registration_date', 'customer_age', 'customer_email', 'customer_occupation'], 'required'],
+            [['customer_name','customer_contact_no'], 'required'],
             [['branch_id', 'customer_age', 'created_by', 'updated_by'], 'integer'],
             [['customer_gender'], 'string'],
-            [['customer_registration_date', 'updated_at', 'created_at', 'created_by', 'updated_by','customer_whatsapp','customer_social_media', 'customer_father_name'], 'safe'],
+            [['customer_registration_date', 'updated_at', 'created_at', 'created_by', 'updated_by','customer_whatsapp','customer_social_media', 'customer_father_name', 'customer_registration_date', 'customer_age', 'customer_email', 'customer_occupation','branch_id','customer_gender', 'customer_cnic', 'customer_address'], 'safe'],
             [['customer_name'], 'string', 'max' => 100],
             [['customer_cnic', 'customer_contact_no'], 'string', 'max' => 15],
             [['customer_address', 'customer_email', 'customer_image', 'customer_occupation'], 'string', 'max' => 255],
