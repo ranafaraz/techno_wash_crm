@@ -341,16 +341,16 @@ use common\models\Products;
                         <div class="col-md-1"></div>
                         <div class="col-md-4">
                           <input type="hidden" id="remove_value">
-                          <input type="text" placeholder="" class="form-control" id="removed_value" readonly="">
+                          <input type="text" placeholder="" class="form-control" id="removed_value" readonly="" style="display:none;">
                           
                         </div>
                         <div class="col-md-4" style="display: none" id="check_quantity">
-                          <input type="text" id="check_no" class="form-control" placeholder="Required Items" onkeypress="check_only_number()">
+                          <input type="text" id="check_no" class="form-control" placeholder="Quantity To Remove" onkeypress="check_only_number()">
                           <input type="hidden" id="check_no_quantity" >
                         </div>
                         <div class="col-md-2">
                           
-                          <button type="button" class="btn btn-warning btn-flat" id="remove"><i class="fa fa-times"></i> Remove</button>
+                          <button type="button" class="btn btn-warning btn-flat" id="remove" style="display:none;"><i class="fa fa-times"></i> Remove</button>
                         </div>
                       </div><br>
                       <div class="row" id="mydata" style="display: none;">
@@ -861,6 +861,7 @@ function discountFun(){
 $url = \yii\helpers\Url::to("customer/fetch-info");
 
 $script = <<< JS
+
 $("#item_type").change(function(){
   $('#servic').val("SelectServices");
   $('#selling_price').val("");
@@ -880,6 +881,7 @@ $("#item_type").change(function(){
 		 {
 		 	$('#stock').show();
       $('#pname').show();
+      $('#barcode').val("");
 		 	$('#servic').hide();
       $('#productid').val('').trigger("change");
 		 }
@@ -894,6 +896,7 @@ $("#item_type").change(function(){
     $('#quantity').show();
     $('#availbleStock').show();
     $('#availbleStock').val("");
+    $('#barcode').val("");
   });
 
   $("#barcode").focusin(function(){
@@ -985,6 +988,8 @@ $("#item_type").change(function(){
   						for(var i = 1; i < table.rows.length; i++){
                 table.rows[i].onclick = function()
                 {
+                  $('#removed_value').show();
+                  $('#remove').show();
                   // get the seected row index
                   rIndex = this.rowIndex;
                   document.getElementById("remove_value").value = rIndex;
@@ -1015,7 +1020,6 @@ $("#item_type").change(function(){
 		var vehicle = $("#vehicle").val();
      if(vehicle == null || vehicle ==""){
     
-      
       $('#types').hide();
       $('#servic').hide();
       $('#stock').hide();
@@ -1044,6 +1048,10 @@ $("#item_type").change(function(){
   
 	$("#barcode").on('change',function(){
 		var barcode = $("#barcode").val();
+    if(barcode=="" || barcode==null){
+  
+    }
+    else{
 		$.ajax({
 	        type:'post',
 	        data:{barcode:barcode},
@@ -1118,6 +1126,8 @@ $("#item_type").change(function(){
 			                {
 			                    table.rows[i].onclick = function()
 			                    {
+                            $('#removed_value').show();
+                            $('#remove').show();
 			                      // get the seected row index
 			                      rIndex = this.rowIndex;
 			                      document.getElementById("remove_value").value = rIndex;
@@ -1137,6 +1147,7 @@ $("#item_type").change(function(){
 				}
         	}      
     	}); 
+          }
 	});
    $('#productid').on("change",function(){
    var PRODUCTid = parseInt($('#productid').val());
@@ -1252,6 +1263,10 @@ $('#product_quantity').on("change",function(){
 
           for(var i = 1; i < table.rows.length; i++) {
             table.rows[i].onclick = function(){
+              
+              $('#removed_value').show();
+              $('#check_quantity').show();
+              $('#remove').show();
               // get the seected row index
               rIndex = this.rowIndex;
               document.getElementById("remove_value").value = rIndex;
@@ -1372,6 +1387,9 @@ $('#product_quantity').on("change",function(){
         }
         }
       }
+      $('#removed_value').hide();
+      $('#remove').hide();
+      $('#check_quantity').hide();
 		});
 
 
