@@ -166,6 +166,10 @@
       	}
       	var emp_collect = $('#collect_amount').val();
       	if(emp_collect == '' || empty(emp_collect)){
+      		var credit = $('#remain_amount').val();
+      		var pamount = $('#pamount').val();
+      		$('#remaining_amount').val(credit); 
+      		$('#paid_amount').val(pamount);
       		//$('#insert').hide();
       		$("#insert").attr("disabled", true);
       	}

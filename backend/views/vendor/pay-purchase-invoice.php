@@ -177,6 +177,10 @@ tr td{
       	}
       	var emp_pay = $('#pay_amount').val();
       	if(emp_pay == '' || empty(emp_pay)){
+      		var credit = $('#remain_amount').val();
+      		var pamount = $('#pamount').val();
+      		$('#remaining_amount').val(credit); 
+      		$('#paid_amount').val(pamount);
       		//$('#insert').hide();
       		$("#insert").attr("disabled", true);
       	}
