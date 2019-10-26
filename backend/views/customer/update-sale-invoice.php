@@ -31,10 +31,16 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 </head>
 <body>
 	<div class="container">
+		
 		<form action="sale-invoice-view?customer_id=<?php echo $customerid; ?>" method="POST" accept-charset="utf-8">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="row">
+				<div class="row">		
+					<div class="col-md-10">
+					    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update (<b><?php echo $customerData[0]['customer_name']; ?></b>) Paid Invoice</h2>
+					</div>
+				</div>
+				<div class="row" style="background-color:white;padding:10px;border-top:2px solid #367FA9;">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Date</label>
@@ -45,7 +51,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 							<label>Discount</label> &emsp;
 							 <input type="radio" name="discountType" id="amount"   checked  onclick="discEmpty()">Amount
 								&emsp;
-							  <input type="radio" name="discountType" id="percentage" onclick="discEmpty()">Percentage
+							  <input type="radio" name="discountType" id="percentage" onclick="discEmpty()">Percent
 							<input type="text" name="discount" oninput="discountFun()" class="form-control" id="disc" value="<?php echo $updateinvoiceData[0]['discount'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
 						</div>
 						<div class="form-group">
@@ -73,13 +79,18 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
+				<div class="row">		
+					<div class="col-md-12" style="background-color: white;">
+					    <div class="form-group">
 							<label>Status</label>
 							<?php $status = $updateinvoiceData[0]['status'];?>
 							<input type="text" name="status" id="status" class="form-control" readonly="" value="<?=$status?>">
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h3 style="color:#367FA9;margin-bottom:20px;">Transaction Details</h3>
 					</div>
 				</div>
 				<?php 
@@ -89,13 +100,13 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 
 				?>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-4" style="padding:5px;background-color:lightgray;">
 						<div class="form-group">
 							<label>Transaction Date</label>
 							<input type="date" name="transaction_date[]"class="form-control" value="<?php echo $transDate;?>">
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4" style="padding:5px;background-color:lightgray;">
 						<div class="form-group">
 							<label>Paid Amount</label>
 							<input type="text" name="detail_paid_amount[]" class="form-control" value="<?php echo $paidAmount;?>" oninput="cal_paid_amount(<?php echo $amount; ?>, <?php echo $countSaleInvAmount; ?>)" id="d_p_a_<?php echo $amount; ?>">
@@ -221,5 +232,5 @@ $countSaleInvAmount = count($saleInvoiceAmount);
       		//$('#update').hide();
       		$("#update").attr("disabled", true);
       	}
-      }
+    }
  </script>

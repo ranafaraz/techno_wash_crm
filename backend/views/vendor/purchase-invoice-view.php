@@ -58,19 +58,23 @@ use yii\helpers\Html;
 
  if(isset($_POST['update_invoice']))
  {
-   $piID  = $_POST['piID'];
-   $vendorID       = $_POST['vendorID'];
-   $bilty_no       = $_POST['bilty_no'];
-   $bill_no       = $_POST['bill_no'];
-   $purchase_date = $_POST['purchase_date'];
-   $dispatch_date = $_POST['dispatch_date'];
-   $receiving_date = $_POST['receiving_date'];
-   $updateDiscount = $_POST['update_discount'];
-   $updatepaidAmount = $_POST['paid_amount'];
-   $updatetotalamount = $_POST['total_amount'];
-   $updatenetTotal = $_POST['net_total'];
+   $piID                  = $_POST['piID'];
+   $vendorID              = $_POST['vendorID'];
+   $bilty_no              = $_POST['bilty_no'];
+   $bill_no               = $_POST['bill_no'];
+   $purchase_date         = $_POST['purchase_date'];
+   $dispatch_date         = $_POST['dispatch_date'];
+   $receiving_date        = $_POST['receiving_date'];
+   $updateDiscount        = $_POST['update_discount'];
+   $updatepaidAmount      = $_POST['paid_amount'];
+   $updatetotalamount     = $_POST['total_amount'];
+   $updatenetTotal        = $_POST['net_total'];
    $updateremainingAmount = $_POST['remaining_amount'];
-   $updatestatus = $_POST['status'];
+   $updatestatus          = $_POST['status'];
+
+   $transactionDateArray    = $_POST['transaction_date'];
+   $paidAmountArray         = $_POST['detail_paid_amount'];
+   $purchaseInvAmountIDArray    = $_POST['purchaseInvAmountID'];
    
 
    $id   =Yii::$app->user->identity->id;
@@ -94,6 +98,19 @@ use yii\helpers\Html;
        ['vendor_id' => $vendorID ,'purchase_invoice_id' => $piID]
 
     )->execute();
+
+    $countpaidAmountArray = count($paidAmountArray);
+
+    for($i=0; $i<$countpaidAmountArray; $i++){
+      $p_inv_amount_detail = Yii::$app->db->createCommand()->update('purchase_invoice_amount_detail',[
+        
+      'transaction_date' => $transactionDateArray[$i],
+      'paid_amount' => $paidAmountArray[$i],
+      ],
+         ['purchase_invoice_id' => $piID , 'p_inv_amount_detail' => $purchaseInvAmountIDArray[$i]]
+
+      )->execute();
+    }
      // transaction commit
      $transaction->commit();
      \Yii::$app->response->redirect(['./purchase-invoice-view', 'customer_id' => $customerID]);
