@@ -1,36 +1,38 @@
 <?php 
 
-if (isset($_GET['saleinvheadID']) && isset($_GET['customerid'])) {
-$saleinvHeadID = $_GET['saleinvheadID'];
-$customerid = $_GET['customerid'];
+if (isset($_GET['purchaseinvoiceID']) && isset($_GET['vendorID'])) {
+$purchaseinvoiceID = $_GET['purchaseinvoiceID'];
+$vendorID = $_GET['vendorID'];
 
-$saleInvoiceHeadData =  Yii::$app->db->createCommand("
+$paidinvoiceData = Yii::$app->db->createCommand("
     SELECT *
-    FROM sale_invoice_head
-    WHERE sale_inv_head_id = '$saleinvHeadID'
-    AND customer_id = '$customerid'
+    FROM purchase_invoice 
+    WHERE vendor_id = '$vendorID' 
+    AND  purchase_invoice_id = '$purchaseinvoiceID'
+    AND (status = 'Paid' OR status = 'paid')
     ")->queryAll();
+    $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
+    $time = date('h:i a',strtotime($paidinvoiceData[0]['created_at']));
 
-$date = date('d-M-Y',strtotime($saleInvoiceHeadData[0]['created_at']));
-$time = date('h:i a',strtotime($saleInvoiceHeadData[0]['created_at']));
+	$vendorId = $paidinvoiceData[0]['vendor_id'];
 
-$CustmName  = Yii::$app->db->createCommand("
-    SELECT customer_name
-    FROM customer
-    WHERE customer_id = '$customerid'
+    $vendorData  = Yii::$app->db->createCommand("
+    SELECT name
+    FROM vendor
+    WHERE vendor_id = '$vendorId'
     ")->queryAll();
-    $customer_name = $CustmName[0]['customer_name'];
+    $vendor_name = $vendorData[0]['name'];
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sale Invoice Transaction</title>
+	<title>Purchase Invoice Transaction</title>
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-2">
-				<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
+				<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
 			</div>
 			<div class="col-md-8"></div>
 			<div class="col-md-2">
@@ -55,31 +57,31 @@ $CustmName  = Yii::$app->db->createCommand("
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>			
-										<td><?php echo $customer_name; ?></td>
+										<td><?php echo $vendor_name; ?></td>
 
 										<th>Date</th>										
 										<td><?php echo $date; ?></td>
 									</tr>
 									<tr>
 										<th><b>INV #</b></th>
-										<td><?php echo $saleinvHeadID; ?></td>
+										<td><?php echo $purchaseinvoiceID; ?></td>
 
 										<th>Time</th>
 										<td><?php echo $time; ?></td>
 									</tr>
 									<tr>
 										<th><b>Total Amount:</b></th>
-										<td><?php echo $saleInvoiceHeadData[0]['total_amount']; ?></td>
+										<td><?php echo $paidinvoiceData[0]['total_amount']; ?></td>
 
 										<th>Discount:</th>
-										<td><?php echo $saleInvoiceHeadData[0]['discount']; ?></td>
+										<td><?php echo $paidinvoiceData[0]['discount']; ?></td>
 									</tr>
 									<tr>
 										<th><b>Net Amount:</b></th>
-										<td><?php echo $saleInvoiceHeadData[0]['net_total']; ?></td>
+										<td><?php echo $paidinvoiceData[0]['net_total']; ?></td>
 
 										<th>Paid Amount:</th>
-										<td><?php echo $saleInvoiceHeadData[0]['paid_amount']; ?></td>
+										<td><?php echo $paidinvoiceData[0]['paid_amount']; ?></td>
 									</tr>
 								</thead>
 								
@@ -90,12 +92,12 @@ $CustmName  = Yii::$app->db->createCommand("
 					</div>
 
 					<?php 
-						$saleInvoiceDetailData = Yii::$app->db->createCommand("
+						$purchaseInvoiceDetailData = Yii::$app->db->createCommand("
 						SELECT *
-						FROM sale_invoice_amount_detail
-						WHERE sale_inv_head_id = '$saleinvHeadID'
+						FROM purchase_invoice_amount_detail
+						WHERE purchase_invoice_id = '$purchaseinvoiceID'
 						")->queryAll();
-    					$countsaleInvoiceDetailData = count($saleInvoiceDetailData);
+    					$countpurchaseInvoiceDetailData = count($purchaseInvoiceDetailData);
 
 					 ?>
 					<table class="table">
@@ -106,13 +108,13 @@ $CustmName  = Yii::$app->db->createCommand("
 								<th style="vertical-align: middle;text-align: center;">Paid Amount</th>
 						</thead>
 						<tbody>
-							<?php for ($i = 0; $i < $countsaleInvoiceDetailData; $i++) {
+							<?php for ($i = 0; $i < $countpurchaseInvoiceDetailData; $i++) {
 								
 							 ?>
 							<tr>
 								<td style="vertical-align: middle;text-align: center;"><?php echo $i+1; ?></td>
-								<td style="vertical-align: middle;text-align: center;"><?php echo $saleInvoiceDetailData[$i]['transaction_date']; ?></td>
-								<td style="vertical-align: middle;text-align: center;"><?php echo $saleInvoiceDetailData[$i]['paid_amount']; ?></td>
+								<td style="vertical-align: middle;text-align: center;"><?php echo $purchaseInvoiceDetailData[$i]['transaction_date']; ?></td>
+								<td style="vertical-align: middle;text-align: center;"><?php echo $purchaseInvoiceDetailData[$i]['paid_amount']; ?></td>
 								
 							</tr>
 							<?php } ?>
@@ -124,9 +126,9 @@ $CustmName  = Yii::$app->db->createCommand("
 						<thead>
 							<tr>
 								<th style="text-align: center;background-color: lightgray;">Total Transactions: </th>
-								<th style="background-color: white;"><?php echo $countsaleInvoiceDetailData; ?></th>
+								<th style="background-color: white;"><?php echo $countpurchaseInvoiceDetailData; ?></th>
 								<th style="text-align: center;background-color: lightgray;">Total Paid: </th>
-								<th style="background-color: white;"><?php echo $saleInvoiceHeadData[0]['paid_amount']; ?></th>
+								<th style="background-color: white;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
 						</thead>
 					</table>
 				</div>
