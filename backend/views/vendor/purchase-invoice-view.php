@@ -1138,6 +1138,8 @@ $script = <<< JS
               $('#tp').val(remain_amount);$("#tp").val(remain_amount);
               $("#nt").val(remain_amount);
               $("#remaining").val(remain_amount);
+              // $("#disc").val("");
+              // $("#paid").val("");
               var a =quantityArray.length - remove_value;
               
               quantityArray[a] =remain_quantity;

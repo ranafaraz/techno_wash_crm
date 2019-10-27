@@ -5,6 +5,8 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use kartik\export\ExportMenu;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\CustomerSearch */
@@ -34,6 +36,14 @@ CrudAsset::register($this);
                     '{toggleData}'.
                     '{export}'
                 ],
+                $gridColumns = [
+                    'customer_id',
+                ],
+                //Reader a export dropdown menu
+                ExportMenu::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => $gridColumns
+                ]),
             ],          
             'striped' => true,
             'condensed' => true,

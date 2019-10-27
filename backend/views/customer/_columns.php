@@ -12,10 +12,10 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-    //     [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'customer_id',
-    // ],
+        [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'customer_id',
+    ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'branch_id',
