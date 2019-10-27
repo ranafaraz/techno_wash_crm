@@ -71,7 +71,6 @@ use yii\helpers\Html;
    $updatenetTotal        = $_POST['net_total'];
    $updateremainingAmount = $_POST['remaining_amount'];
    $updatestatus          = $_POST['status'];
-
    $transactionDateArray    = $_POST['transaction_date'];
    $paidAmountArray         = $_POST['detail_paid_amount'];
    $purchaseInvAmountIDArray    = $_POST['purchaseInvAmountID'];
@@ -415,10 +414,10 @@ body td{
                                         <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['receiving_date']));
                                             echo $date; ?></td>
                                             <td class="text-center">
-                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-info"><i class="fa fa-eye"></i> View
+                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> View
                                               </a>&ensp;
-                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update
-                                              </a>
+                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a>
+                                              <a href="purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
                                             </td>
                                       </tr>
 

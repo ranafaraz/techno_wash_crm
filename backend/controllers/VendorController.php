@@ -31,7 +31,7 @@ class VendorController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete', 'purchase-invoice-view', 'fetch-info', 'branch-details', 'customer-detail-view', 'fetch-vendor-info', 'paid-purchase-invoice', 'update-purchase-invoice', 'pay-purchase-invoice', 'credit-purchase-invoice'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete', 'purchase-invoice-view', 'fetch-info', 'branch-details', 'customer-detail-view', 'fetch-vendor-info', 'paid-purchase-invoice', 'update-purchase-invoice', 'pay-purchase-invoice', 'credit-purchase-invoice','purchase-invoice-transaction'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -71,9 +71,13 @@ class VendorController extends Controller
     {    
         return $this->render('paid-purchase-invoice');
     }
-     public function actionCreditPurchaseInvoice()
+    public function actionCreditPurchaseInvoice()
     {    
         return $this->render('credit-purchase-invoice');
+    }
+    public function actionPurchaseInvoiceTransaction()
+    {    
+        return $this->render('purchase-invoice-transaction');
     }
 
 

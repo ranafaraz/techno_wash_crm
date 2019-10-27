@@ -417,7 +417,7 @@ use common\models\Products;
                                         <td class="text-center" style="vertical-align:middle;">
                                           <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
                                           <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
-                                           <a href="purchase-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
+                                           <a href="sale-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
                                         </td>
                                     </tr>   
                                 
