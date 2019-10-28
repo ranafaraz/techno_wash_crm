@@ -20,20 +20,12 @@ $vendorName = $model->name;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'name')->textInput(['value' => $vendorName , 'readonly' => true]) ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
-                ['prompt'=>'Select Branch',]
-            )?>
-        </div>        
-    </div>
-    <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <?= $form->field($model, 'name')->textInput(['value' => $vendorName]) ?>
+        </div> 
+        <div class="col-md-4">
             <?= $form->field($model, 'ntn')->textInput() ?>
-        </div>       
+        </div>        
     </div>
 
 

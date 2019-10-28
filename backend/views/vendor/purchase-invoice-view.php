@@ -218,13 +218,13 @@ body td{
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>Bilty No</label>
-                        <input type="text"  class="form-control" id="bilty_no">
+                        <input type="text"  class="form-control" id="bilty_no" onkeypress="return checkSpcialChar(event)">
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>Bill No</label>
-                        <input type="text"  class="form-control" id="bill_no">
+                        <input type="text"  class="form-control" id="bill_no" onkeypress="return checkSpcialChar(event)">
                       </div>
                     </div>
                     <div class="col-md-4">
@@ -339,17 +339,17 @@ body td{
                         <div class="row" id="mydata" style="display:none;">
                           <div class="col-md-1"></div>
                           <div class="col-md-4">
-                             <input type="text" class="form-control" id="remove_value">
-                             <input type="text"  id="remove_value1">
-                             <input type="text" id="hide_quantity">
-                             <input type="text" id="get_purchase_value">
+                             <input type="text" class="form-control" id="remove_value" style="display: none;" readonly="">
+                             <input type="text"  id="remove_value1" style="display: none;">
+                             <input type="text" id="hide_quantity" style="display: none;">
+                             <input type="text" id="get_purchase_value" style="display: none;">
                              
                           </div>
                           <div class="col-md-4" style="display: none" id="quantity_no_div">
-                            <input type="text" class="form-control" id="check_no">
+                            <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove">
                           </div>
                           <div class="col-md-2">
-                            <button type="button" class="btn btn-danger btn-flat" id="remove"> <i class="fa fa-times"></i> Remove</button>
+                            <button type="button" class="btn btn-danger btn-flat" id="remove" style="display: none;"> <i class="fa fa-times"></i> Remove</button>
                           </div>
                         
 							<div class="col-md-12">
@@ -638,9 +638,13 @@ body td{
     $('#paid').val("");
      
   }
-  function check_only_number(){
-    ;
-  }
+  function checkSpcialChar(event){
+            if(!((event.keyCode >= 65) && (event.keyCode <= 90) || (event.keyCode >= 97) && (event.keyCode <= 122) || (event.keyCode >= 48) && (event.keyCode <= 57) || (event.keyCode == 92) || (event.keyCode == 47) || (event.keyCode == 45))){
+               event.returnValue = false;
+               return;
+            }
+            event.returnValue = true;
+         }
 	function discountFun(){
         // Getting the value from the original price
        originalPrice = parseInt(document.getElementById("tp").value);
@@ -906,6 +910,8 @@ $script = <<< JS
         {
             table.rows[i].onclick = function()
             {
+              $('#remove_value').show();
+              $('#remove').show();
               // get the seected row index
               rIndex = this.rowIndex;
               document.getElementById("remove_value1").value = rIndex;
@@ -1036,10 +1042,11 @@ $script = <<< JS
             {
 	              table.rows[i].onclick = function()
 	              {
+                  $('#remove_value').show();
+                  $('#remove').show();
 	                // get the seected row index
 	                rIndex = this.rowIndex;
 	                document.getElementById("remove_value1").value = rIndex;
-	                
                   document.getElementById("remove_value").value = this.cells[3].innerHTML;
                    document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
                     document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
@@ -1112,8 +1119,7 @@ $script = <<< JS
 
   });
   $('#remove').click(function(){
-      var remove_value = $('#remove_value1').val();
-       
+      var remove_value = $('#remove_value1').val();  
       var hide_quantity = Number(document.getElementById("hide_quantity").value);
       var check_no = Number(document.getElementById("check_no").value);
       var remain_quantity = hide_quantity-check_no;
@@ -1175,9 +1181,12 @@ $script = <<< JS
               $('#mydata').hide();
              }
            }
-
-
           }
+          $('#paid').val("");
+          $('#disc').val("");
+          $('#remove_value').hide();
+          $('#remove').hide();
+          $('#quantity_no_div').hide();
       });
 	$('#insert').click(function(){
 

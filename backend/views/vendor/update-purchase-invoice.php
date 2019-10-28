@@ -16,6 +16,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
     AND vendor_id = '$vendorID'
     ")->queryAll();
     $countupdateinvoiceData = count($updateinvoiceData);
+    $statusCheck = $updateinvoiceData[0]['status'];
 
     $purchaseInvAmount = Yii::$app->db->createCommand("
     SELECT *
@@ -37,7 +38,11 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 			<div class="col-md-10 col-md-offset-1">
 			<div class="row">		
 			<div class="col-md-12">
-			    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Vendor (<b><?php echo $vendorData[0]['name']; ?></b>) Invoice</h2>
+			    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Vendor (<b><?php echo $vendorData[0]['name']; ?></b>) <?php if ($statusCheck == "Paid"){
+			    	echo 'Paid';
+			    }else {
+			    	echo "Credit";
+			    } ?> Invoice</h2>
 			</div>
 		</div>
 		<div class="row" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
@@ -123,18 +128,21 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 						
 					?>
 					<div class="row">
-						<div class="col-md-4" style="padding:5px;background-color:lightgray;">
+						<div class="col-md-4" style="padding-top: 5px;background-color:lightgray;">
 							<div class="form-group">
 								<label>Transaction Date</label>
 								<input type="date" name="transaction_date[]"class="form-control" value="<?php echo $transDate;?>">
 							</div>
 						</div>
-						<div class="col-md-4" style="padding:5px;background-color:lightgray;">
+						<div class="col-md-4" style="padding-top: 5px;background-color:lightgray;">
 							<div class="form-group">
 								<label>Paid Amount</label>
 								<input type="text" name="detail_paid_amount[]" class="form-control" value="<?php echo $paidAmount;?>" oninput="cal_paid_amount(<?php echo $amount; ?>, <?php echo $countPurchaseInvAmount; ?>)" id="d_p_a_<?php echo $amount; ?>">
 								<input type="hidden" name="purchaseInvAmountID[]" value="<?php echo $purchaseInvAmount[$amount]['p_inv_amount_detail'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
 							</div>
+						</div>
+						<div class="col-md-4">
+							
 						</div>
 					</div>
 					<?php } ?>
@@ -216,7 +224,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
               
             } 
             cal_remaining();
-        }
+           }
 
         function cal_paid_amount(i, count){
     	var paid=0;
@@ -225,8 +233,8 @@ $updateinvoiceData = Yii::$app->db->createCommand("
       	}
       	$('#paid_amount').val(paid);
       	cal_remaining();
-    }
-
+      }
+    
  	function cal_remaining(){
  		
       	var paid = $('#paid_amount').val();
