@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use backend\models\Model;
 use yii\filters\AccessControl;
 
 /**
@@ -31,7 +32,7 @@ class VehicleTypeController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','vehicle-type-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','vehicle-type-view', 'update-vehicle-type', 'delete-vehicle-model'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -51,6 +52,17 @@ class VehicleTypeController extends Controller
      * Lists all VehicleType models.
      * @return mixed
      */
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+    public function actionUpdateVehicleType(){
+        return $this->render('update-vehicle-type');
+    }
+    public function actionVehicleTypeView(){
+        return $this->render('vehicle-type-view');
+    }
+
     public function actionIndex()
     {    
         $searchModel = new VehicleTypeSearch();
@@ -68,10 +80,7 @@ class VehicleTypeController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function beforeAction($action) {
-        $this->enableCsrfValidation = false;
-        return parent::beforeAction($action);
-    }
+
     
     public function actionView($id)
     {   
