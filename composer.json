@@ -29,7 +29,7 @@
         "kartik-v/yii2-widget-timepicker": "*",
         "spanjeta/yii2-backup": "*",
         "kartik-v/yii2-widget-datetimepicker": "*",
-        "kartik-v/yii2-dialog": "@dev",
+        "kartik-v/yii2-dialog": "*",
         "2amigos/yii2-date-picker-widget": "~1.0"
     },
     "require-dev": {

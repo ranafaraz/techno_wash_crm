@@ -151,6 +151,7 @@ class VendorController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->validate()){
+                $model->branch_id = Yii::$app->user->identity->branch_id;
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
@@ -217,7 +218,8 @@ class VendorController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post())  && $model->validate()){
-                $model->updated_by = Yii::$app->user->identity->id;
+                $model->branch_id = Yii::$app->user->identity->branch_id;
+                $model->updated_by = Yii::$app->user->identity->id; 
                 $model->updated_at = new \yii\db\Expression('NOW()');
                 $model->created_by = $model->created_by;
                 $model->created_at = $model->created_at;
@@ -246,6 +248,7 @@ class VendorController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->validate()) {
+                $model->branch_id = Yii::$app->user->identity->branch_id;
                 $model->updated_by = Yii::$app->user->identity->id;
                 $model->updated_at = new \yii\db\Expression('NOW()');
                 $model->created_by = $model->created_by;

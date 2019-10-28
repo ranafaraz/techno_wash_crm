@@ -22,16 +22,8 @@ use common\models\Branches;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'branch_id')->dropDownList(
-                ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
-                ['prompt'=>'Select Branch',]
-            )?>
-        </div>        
-    </div>
-    <div class="row">
-        <div class="col-md-6">
             <?= $form->field($model, 'ntn')->textInput() ?>
-        </div>       
+        </div>        
     </div>
 
     
