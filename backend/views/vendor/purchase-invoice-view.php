@@ -1,7 +1,7 @@
 <?php  
 use common\models\Branches;
 use yii\helpers\Html;
-
+use kartik\dialog\Dialog;
 
 ?>
 <?php 
@@ -252,6 +252,10 @@ body td{
                 <div class="row">
                 	<div class="col-md-12">
         				<div class="container-fluid" style="margin-bottom:;">
+                    <?php echo Dialog::widget([
+                         'libName' => 'krajeeDialog',
+                         'options' => [], // default options
+                      ]); ?>
 				            <div class="row">
 				              <div class="col-md-12" style="padding:10px;text-align: center;font-weight: bolder;font-size:20px;background-color: lightgray;">
 				                Add Stock
@@ -615,8 +619,10 @@ body td{
 </div>
 </body>
 </html>
+
+
 <script>
-	
+
 	let barcodeArray   		= new Array();
 	let stockTypeArray 		= new Array();
 	let manufacturerArray 	= new Array();
@@ -741,6 +747,8 @@ body td{
           $("#insert").removeAttr("disabled");
         }
       }
+
+
 </script>
 <?php
 $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
@@ -1182,12 +1190,13 @@ $script = <<< JS
           }
           $('#paid').val("");
           $('#disc').val("");
+          $('#status').val("Unpaid");
           $('#remove_value').hide();
           $('#remove').hide();
           $('#quantity_no_div').hide();
       });
 	$('#insert').click(function(){
-
+    
 		user_id;
 		vendorID;
     var bilty_no    = $('#bilty_no').val();
@@ -1270,12 +1279,18 @@ $script = <<< JS
 		        url: "$url",
 		        success: function(result){ 
 	        		if(result){
+        			 krajeeDialog.confirm('Are you sure to add bill', function(out){
+                  if(out) {
+                     // alert('Yes'); // or do something on confirmation
+                      window.location = './purchase-invoice-view?vendor_id=$vendorID';
+                  }
+              });
         			
-        			window.location = './purchase-invoice-view?vendor_id=$vendorID';
         			}     	
 	        	}      
     		}); 	
  		}
+    
 	});
 
 JS;
