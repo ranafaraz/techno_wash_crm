@@ -129,7 +129,7 @@ CrudAsset::register($this);
                                     if (empty($model->customer_id) || empty($model->customer_id)) {
                                         return;
                                     }
-                                    return Html::a($CustmName[0]['customer_name'], [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:black;', 'data' => ['pjax' => 0]] 
+                                    return Html::a($CustmName[0]['customer_name'], [ './sale-invoice-view','customer_id' => $model->customer_id , 'regno' => $model->customer_vehicle_id], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:black;', 'data' => ['pjax' => 0]] 
                                 );
                     },
                     'contentOptions' => function ($model, $key, $index, $column) {
@@ -167,7 +167,7 @@ CrudAsset::register($this);
                 //     'attribute' => 'obtained_marks',
                 //     //'width' => '150px',
                 //     //'hAlign' => 'right',
-                //     //'format' => ['decimal', 0],
+                //     //'format' => ['decimal', 0],z
                 //     //'pageSummary' => true
                 // ],
                 // [
