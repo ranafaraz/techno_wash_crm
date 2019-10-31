@@ -42,7 +42,7 @@ return [
                         }
                         return Html::a($CustmName[0]['customer_name'], [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:white;', 'data' => ['pjax' => 0]] 
                     );
-                    },
+        },
         'contentOptions' => function ($model, $key, $index, $column) {
         return ['class' => '','style' => 'background-color:' 
             . (!empty($model->customer_id) && $model->customer_id / $model->customer_id < 2
