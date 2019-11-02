@@ -1169,6 +1169,7 @@ $script = <<< JS
             stockTypeArray.splice(a,1);
             manufacturerArray.splice(a,1);
             nameArray.splice(a,1);
+            quantityArray.splice(a,1);
             expiryDateArray.splice(a,1);
             originalPriceArray.splice(a,1);
             purchasePriceArray.splice(a,1);
