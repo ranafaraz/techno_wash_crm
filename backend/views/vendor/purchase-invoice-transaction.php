@@ -14,7 +14,8 @@ $paidinvoiceData = Yii::$app->db->createCommand("
     $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
     $time = date('h:i a',strtotime($paidinvoiceData[0]['created_at']));
 
-	$vendorId = $paidinvoiceData[0]['vendor_id'];
+	$vendorId 		= $paidinvoiceData[0]['vendor_id'];
+	$remainAmount 	= $paidinvoiceData[0]['remaining_amount'];
 
     $vendorData  = Yii::$app->db->createCommand("
     SELECT name
@@ -113,7 +114,10 @@ $paidinvoiceData = Yii::$app->db->createCommand("
 							 ?>
 							<tr>
 								<td style="vertical-align: middle;text-align: center;"><?php echo $i+1; ?></td>
-								<td style="vertical-align: middle;text-align: center;"><?php echo $purchaseInvoiceDetailData[$i]['transaction_date']; ?></td>
+								<td style="vertical-align: middle;text-align: center;"><?php 
+								$transDate = date('d-M-Y',strtotime($purchaseInvoiceDetailData[$i]['transaction_date']));
+								echo $transDate;	
+								?></td>
 								<td style="vertical-align: middle;text-align: center;"><?php echo $purchaseInvoiceDetailData[$i]['paid_amount']; ?></td>
 								
 							</tr>
@@ -126,9 +130,16 @@ $paidinvoiceData = Yii::$app->db->createCommand("
 						<thead>
 							<tr>
 								<th style="text-align: center;background-color: lightgray;">Total Transactions: </th>
-								<th style="background-color: white;"><?php echo $countpurchaseInvoiceDetailData; ?></th>
+								<th style="background-color: white;text-align:center;"><?php echo $countpurchaseInvoiceDetailData; ?></th>
 								<th style="text-align: center;background-color: lightgray;">Total Paid: </th>
-								<th style="background-color: white;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
+								<th style="background-color: white;text-align:center;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
+							</tr>
+							<tr>
+								<th></th>
+								<th></th>
+								<th style="text-align: center;background-color: lightgray;">Remaining Amount</th>
+								<th style="background-color: white;text-align:center;"><?php echo $remainAmount; ?></th>
+							</tr>
 						</thead>
 					</table>
 				</div>
