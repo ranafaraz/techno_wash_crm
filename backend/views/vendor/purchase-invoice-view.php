@@ -347,7 +347,6 @@ body td{
                              <input type="text"  id="remove_value1" style="display: none;">
                              <input type="text" id="hide_quantity" style="display: none;">
                              <input type="text" id="get_purchase_value" style="display: none;">
-                             
                           </div>
                           <div class="col-md-4" style="display: none" id="quantity_no_div">
                             <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove">
@@ -809,7 +808,6 @@ $script = <<< JS
   });
 
 	$("#barcode").change(function(){
-
 		var barcode 			= $("#barcode").val();
 		var stock_type 			= $("#stock_type").val();
 		var manufacture_type 	= $("#manufacture_type").val();
@@ -818,20 +816,21 @@ $script = <<< JS
 		var original_price 		= $("#original_price").val();
 		var purchase_price 		= $("#purchase_price").val();
 		var selling_price 		= $("#selling_price").val();
-		var qty					= 1;
+		var qty					      = 1;
 		var stockTypeName 		=  $('#stockTypeName').val();
 		var manufactreName 		=  $('#manufactreName').val();
-    	var product_name    	=  $('#productName').val();
+    var product_name    	=  $('#productName').val();
 
 		var totalAmount = parseInt($('#tp').val());
 
 		var tp = parseInt(totalAmount)+parseInt(purchase_price);
-		$('#tp').val(tp);
-            $('#nt').val(tp);
-            $('#disc').val("");
-            $('#paid').val("");
-            $('#remaining').val(tp);
-            $('#status').val('Unpaid');
+		  $('#tp').val(tp);
+      $('#nt').val(tp);
+      $('#disc').val("");
+      $('#paid').val("");
+      $('#remaining').val(tp);
+      $('#status').val('Unpaid');
+
 		if(stock_type == "" || stock_type == null)
 		{
 			alert('Please Select the Stock Type');
@@ -908,33 +907,31 @@ $script = <<< JS
 		row.insertCell(5).innerHTML= original_price;
 		row.insertCell(6).innerHTML= purchase_price;
 		row.insertCell(7).innerHTML= selling_price;
-    	row.insertCell(8).innerHTML= qty;
+    row.insertCell(8).innerHTML= qty;
 
 		$('#barcode').val("");
 		$('#barcode').focus();
 		}
     table = document.getElementById("myTableData");
-    for(var i = 1; i < table.rows.length; i++)
+    for(var i = 1; i < table.rows.length; i++) {
+      table.rows[i].onclick = function()
         {
-            table.rows[i].onclick = function()
-            {
-              $('#remove_value').show();
-              $('#remove').show();
-              // get the seected row index
-              rIndex = this.rowIndex;
-              document.getElementById("remove_value1").value = rIndex;
-              document.getElementById("remove_value").value = this.cells[3].innerHTML;
-              document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
-              document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
-              var q = Number(document.getElementById("hide_quantity").value);
-             if(q>1){
-              $('#quantity_no_div').show();
-             }
-             else{
-              $('#quantity_no_div').hide();
-             }
-            };
+          $('#remove_value').show();
+          $('#remove').show();
+          // get the seected row index
+          rIndex = this.rowIndex;
+          document.getElementById("remove_value1").value = rIndex;
+          document.getElementById("remove_value").value = this.cells[3].innerHTML;
+          document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
+          document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+          var q = Number(document.getElementById("hide_quantity").value);
+        if(q>1){
+          $('#quantity_no_div').show();
+        } else {
+          $('#quantity_no_div').hide();
         }
+      };
+    }
 
 
 	});
@@ -1068,7 +1065,6 @@ $script = <<< JS
 	              };
             }
 	});
-
 
 	$('#stock_type').change(function(){
 

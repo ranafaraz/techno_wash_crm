@@ -41,7 +41,7 @@ class CustomerVehiclesSearch extends CustomerVehicles
      */
     public function search($params)
     {
-        $query = CustomerVehicles::find();
+        $query = CustomerVehicles::find()->orderBy(['customer_id' => SORT_ASC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
