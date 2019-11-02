@@ -1197,6 +1197,8 @@ $script = <<< JS
           $('#remove').hide();
           $('#quantity_no_div').hide();
       });
+
+
 	$('#insert').click(function(){
     
 		user_id;
