@@ -196,7 +196,6 @@ use yii\helpers\Html;
                                         <i class="fa fa-user text-yellow"></i><?php //echo $emp_name[0]["emp_name"]." ".$value["leave_type"]; ?> 
                                     </a>
                                 </li>
-                               <?php// } // ending of foreach... ?>
                             </ul>
                         </li>
                         <!-- <li class="footer"><a href="#">View all</a></li> -->
