@@ -345,7 +345,7 @@ use common\models\Products;
                           
                         </div>
                         <div class="col-md-4" style="display: none" id="check_quantity">
-                          <input type="text" id="check_no" class="form-control" placeholder="Quantity To Remove" onkeypress="check_only_number()">
+                          <input type="text" id="check_no" class="form-control" placeholder="Quantity To Remove" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                           <input type="hidden" id="check_no_quantity" >
                         </div>
                         <div class="col-md-2">
@@ -679,7 +679,7 @@ use common\models\Products;
 
 					  <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
             <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
-					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="check_only_number()">
+					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
 
 					<input type="hidden" id="name" >
 					<input type="hidden" id="vehicle_name" >
@@ -690,7 +690,7 @@ use common\models\Products;
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()">
+                  <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                 </div>
                 <div class="form-group">
                   <label>Remaining</label>
@@ -732,9 +732,7 @@ use common\models\Products;
 	let table;
 	let index = 1;
 	//var invoice_id 					= <?php //echo $saleInvoiceID; ?>;
- function check_only_number(){
-  return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57;
-  }
+
   function abc(){
     $('#disc').val("");
     $('#disc').focus();
@@ -753,7 +751,7 @@ function discountFun(){
        if (disco =="" || disco == null) {
               $('#nt').val(originalPrice);
               $('#remaining').val(originalPrice);
-              $('#paid').val("");
+              $('#paid').val("0");
           }else{      
         
           if(document.getElementById('percentage').checked)
@@ -799,7 +797,7 @@ function discountFun(){
               $('#alert').css("display","none");
               $("#insert").removeAttr("disabled");
             }
-            $('#paid').val(""); 
+            $('#paid').val("0"); 
             $('#remaining').val(purchasePrice);
       }
       }
@@ -861,6 +859,17 @@ function discountFun(){
 $url = \yii\helpers\Url::to("customer/fetch-info");
 
 $script = <<< JS
+
+$("#paid").on('focus', function(){
+  $('#paid').val("");
+  var paid = $('#paid').val();
+  if(paid == "" || paid == null)
+          {
+          $("#insert").attr("disabled", true);
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+        }
+  });
 
 $("#item_type").change(function(){
   $('#servic').val("SelectServices");
@@ -1363,7 +1372,7 @@ $('#product_quantity').on("change",function(){
       $('#remaining').val(nta);
       $('#status').val("Unpaid");
       $('#disc').val("");
-      $('#paid').val("");
+      $('#paid').val("0");
 
       if(amountArray.length==0){
         $('#mydata').hide();

@@ -315,7 +315,7 @@ body td{
 			            	<div class="col-md-3">
 			            		<div class="form-group">
 				            		<label>Selling Price</label>
-                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="selling_price" class="form-control" >
+                        <input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="selling_price" class="form-control" >
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
@@ -591,7 +591,7 @@ body td{
                 </div>
                 <div class="form-group">
                   <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+                  <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                 </div> 
                 <div class="form-group">
                   <label>Remaining</label>
@@ -640,7 +640,7 @@ body td{
     var total = $('#tp').val();
     $('#nt').val(total);
     $('#remaining').val(total);
-    $('#paid').val("");
+    $('#paid').val("0");
      
   }
   function checkSpcialChar(event){
@@ -658,7 +658,7 @@ body td{
        if (disco =="" || disco == null) {
               $('#nt').val(originalPrice);
               $('#remaining').val(originalPrice);
-              $('#paid').val("");
+              $('#paid').val("0");
           }else{
 
        // alert(originalPrice);
@@ -689,6 +689,7 @@ body td{
             //alert(purchasePrice);
               //discountReceived = discount;
              $('#nt').val(purchasePrice);
+             $('#paid').val("0");
              
               if($('#paid').val()!="" || $('#paid').val()!=null){
                 remaining = purchasePrice-$('#paid').val();
@@ -706,6 +707,13 @@ body td{
               $('#alert').css("display","none");
               $("#insert").removeAttr("disabled");
             }
+            var paid = $('#paid').val();
+            if(paid == "" || paid == null)
+                    {
+                    $("#insert").attr("disabled", true);
+                    $('#alert').css("display","block");
+                    $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+                  }
       }
     }
       function check_purchase_price(){
@@ -719,6 +727,12 @@ body td{
       }
       function cal_remaining(){
       	var paid = $('#paid').val();
+        if(paid == "" || paid == null)
+          {
+          $("#insert").attr("disabled", true);
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+          }else{
       	var nt = $('#nt').val();
       	var remaining =nt - paid;
       	$('#remaining').val(remaining); 
@@ -746,6 +760,7 @@ body td{
           $("#insert").removeAttr("disabled");
         }
       }
+    }
 
 
 </script>
@@ -754,6 +769,17 @@ $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
 
 
 $script = <<< JS
+
+$("#paid").on('focus', function(){
+  $('#paid').val("");
+  var paid = $('#paid').val();
+  if(paid == "" || paid == null)
+          {
+          $("#insert").attr("disabled", true);
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+        }
+  });
 
 	$("#stock_type").change(function(){
 		 var stockType = $('#stock_type').val();
@@ -827,7 +853,7 @@ $script = <<< JS
 		  $('#tp').val(tp);
       $('#nt').val(tp);
       $('#disc').val("");
-      $('#paid').val("");
+      $('#paid').val("0");
       $('#remaining').val(tp);
       $('#status').val('Unpaid');
 
@@ -957,7 +983,7 @@ $script = <<< JS
 		$('#tp').val(tp);
         $('#nt').val(tp);
         $('#disc').val("");
-        $('#paid').val("");
+        $('#paid').val("0");
         $('#remaining').val(tp);
         $('#status').val('Unpaid');
 
@@ -1148,7 +1174,7 @@ $script = <<< JS
               $("#nt").val(remain_amount);
               $("#remaining").val(remain_amount);
               // $("#disc").val("");
-              // $("#paid").val("");
+              // $("#paid").val("0");
               var a =quantityArray.length - remove_value;
               
               quantityArray[a] =remain_quantity;
@@ -1186,7 +1212,7 @@ $script = <<< JS
              }
            }
           }
-          $('#paid').val("");
+          $('#paid').val("0");
           $('#disc').val("");
           $('#status').val("Unpaid");
           $('#remove_value').hide();
