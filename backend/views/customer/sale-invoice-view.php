@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use common\models\Products;
 
   $customerID = $_GET['customer_id'];
+  $regNoID = $_GET['regno'];
 
   ?>
 
@@ -174,7 +175,6 @@ use common\models\Products;
 
     $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
 
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -233,8 +233,7 @@ use common\models\Products;
                         <div class="col-md-3">
                           <div class="form-group">
                             <label>Select Vehicle</label>
-                            <select name="customer_vehicle" class="form-control" id="vehicle" autofocus="">
-                              <option value="">Select Vehicle</option>
+                            <select name="customer_vehicle" class="form-control" id="vehicle">
                               <?php 
                               for ($i=0; $i <$countcustomerVehicles ; $i++) { 
                               $customerVehicleType = $customerVehicles[$i]['vehicle_typ_sub_id'];
@@ -247,7 +246,9 @@ use common\models\Products;
                                 WHERE vehicle_typ_sub_id = '$customerVehicleType'
                                 ")->queryAll();
                                ?>
-                              <option value="<?php echo $customerVehicles[$i]['customer_vehicle_id']; ?>"><?php echo $VehiclesName[0]['name']." - ".$VehicleReg; ?> </option>
+                              <option <?php if ($customerVehicles[$i]['customer_vehicle_id'] == $regNoID) {
+                                    echo "selected";
+                                  }?> value="<?php echo $customerVehicles[$i]['customer_vehicle_id']; ?>"><?php echo $VehicleReg; ?> <?php echo "- ". $VehiclesName[0]['name']; ?> </option>
                               <?php } ?>
                             </select>
                           </div>
@@ -255,7 +256,7 @@ use common\models\Products;
                         <div class="col-md-3">
                           <div class="form-group" id="types">
                             <label>Select Type</label>
-                            <select id="item_type" class="form-control">
+                            <select id="item_type" class="form-control" autofocus="">
                               <option value="">Select Type</option>
                               <option value="Service">Service</option>
                               <option value="Stock">Stock</option>
@@ -1024,8 +1025,8 @@ $("#item_type").change(function(){
 	});
 
 
-  // for vihicel name
-	$("#vehicle").on("change",function(){
+  // for vehicel name
+	$(document).ready(function(){
 		var vehicle = $("#vehicle").val();
      if(vehicle == null || vehicle ==""){
     
