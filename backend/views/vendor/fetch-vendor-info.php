@@ -144,7 +144,7 @@
 		'created_by'		  => $user_id,
 
 	])->execute();
-
+	
 	for ($j=0; $j <$countStockTypeArray ; $j++) { 
 
 		$qty = $quantityArray[$j];
