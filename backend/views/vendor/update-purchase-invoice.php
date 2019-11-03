@@ -50,32 +50,35 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 				<input type="hidden" name="<?= Yii::$app->request->csrfParam;?>" value="<?= Yii::$app->request->csrfToken;?>">
 					<div class="row">
 						<div class="col-md-4">
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label>Bilty No:</label>
 								<input type="text" name="bilty_no" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="bilty_no" class="form-control" value="<?=$updateinvoiceData[0]['bilty_no']?>" oninput="inputchange()">
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label>Bill No:</label>
 								
 								<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="bilty_no" class="form-control"name="bill_no" id="bill_no" class="form-control" value="<?=$updateinvoiceData[0]['bill_no']?>" oninput="inputchange()">
 							</div>
 							<div class="form-group">
-								<label>Purchase Date</label>
-								<?php $date = date('Y-m-d',strtotime($updateinvoiceData[0]['purchase_date']));?>
-								<input type="date" name="purchase_date" id="purchase_date" class="form-control" value="<?php echo $date;?>" onchange="inputchange()">
+								<label>Total Amount</label>
+								<input type="number" name="total_amount" id="tp" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['total_amount'];?>">
 							</div>
 							<div class="form-group">
+								<label>Remaining</label>
+								<input type="number" name="remaining_amount" id="remaining" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['remaining_amount'];?>">
+							</div>
+							<!-- <div class="form-group">
 								<label>Dispatch Date</label>
 								<?php $date = date('Y-m-d',strtotime($updateinvoiceData[0]['dispatch_date']));?>
 								<input type="date" name="dispatch_date" id="dispatch_date" class="form-control" value="<?php echo $date;?>" onchange="inputchange()">
-							</div>
+							</div> -->
 						</div>
 						<div class="col-md-4">
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label>Receiving Date</label>
 								<?php $date = date('Y-m-d',strtotime($updateinvoiceData[0]['receiving_date']));?>
 								<input type="date" name="receiving_date" id="receiving_date" class="form-control" value="<?php echo $date;?>" onchange="inputchange()">
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label>Discount</label> &emsp;
 								 <input type="radio" name="discountType" id="amount"   checked  onclick="discEmpty()">Amount
@@ -91,24 +94,22 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 								<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" oninput="cal_remaining()">
 
 							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<label>Total Amount</label>
-								<input type="number" name="total_amount" id="tp" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['total_amount'];?>">
-							</div>
-							<div class="form-group">
-								<label>Net Total</label>
-								<input type="text" name="net_total" id="nt" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
-							</div>
-							<div class="form-group">
-								<label>Remaining</label>
-								<input type="number" name="remaining_amount" id="remaining" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['remaining_amount'];?>">
-							</div>
 							<div class="form-group">
 								<label>Status</label>
 								<?php $status = $updateinvoiceData[0]['status'];?>
 								<input type="text" name="status" id="status" class="form-control" readonly="" value="<?=$status ?>">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Purchase Date</label>
+								<?php $date = date('Y-m-d',strtotime($updateinvoiceData[0]['purchase_date']));?>
+								<input type="date" name="purchase_date" id="purchase_date" class="form-control" value="<?php echo $date;?>" onchange="inputchange()">
+							</div>
+							
+							<div class="form-group">
+								<label>Net Total</label>
+								<input type="text" name="net_total" id="nt" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
 							</div>
 							
 							<input type="hidden" name="piID" value="<?php echo $purchaseInvID; ?>">

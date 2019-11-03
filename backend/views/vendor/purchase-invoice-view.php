@@ -60,11 +60,11 @@ use kartik\dialog\Dialog;
  {
    $piID                  = $_POST['piID'];
    $vendorID              = $_POST['vendorID'];
-   $bilty_no              = $_POST['bilty_no'];
+   //$bilty_no              = $_POST['bilty_no'];
    $bill_no               = $_POST['bill_no'];
    $purchase_date         = $_POST['purchase_date'];
-   $dispatch_date         = $_POST['dispatch_date'];
-   $receiving_date        = $_POST['receiving_date'];
+   //$dispatch_date         = $_POST['dispatch_date'];
+   //$receiving_date        = $_POST['receiving_date'];
    $updateDiscount        = $_POST['update_discount'];
    $updatepaidAmount      = $_POST['paid_amount'];
    $updatetotalamount     = $_POST['total_amount'];
@@ -82,11 +82,11 @@ use kartik\dialog\Dialog;
      $transaction = \Yii::$app->db->beginTransaction();
      try {
       $insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
-     'bilty_no' => $bilty_no,
+     //'bilty_no' => $bilty_no,
      'bill_no' => $bill_no,
      'purchase_date' => $purchase_date,
-     'dispatch_date' => $dispatch_date,
-     'receiving_date' => $receiving_date,
+     //'dispatch_date' => $dispatch_date,
+     //'receiving_date' => $receiving_date,
      'total_amount' => $updatetotalamount,
      'discount' => $updateDiscount,
      'net_total' => $updatenetTotal,
