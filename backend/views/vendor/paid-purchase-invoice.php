@@ -87,12 +87,12 @@
 										<th>Time</th>
 										<td><?php echo $time; ?></td>
 									</tr>
-									<tr>
+									<!-- <tr>
 										<th>Bilty No.#</th>
 										<td><?=$paidinvoiceData[0]['bilty_no'];?></td>
 										<th>Bill No.#</th>
 										<td><?=$paidinvoiceData[0]['bill_no'];?></td>
-									</tr>
+									</tr> -->
 								</thead>
 								
 							</table>
@@ -116,7 +116,7 @@
 					<table class="table">
 						<thead style="background-color: #3C8DBC !important;color:white;">
 							<tr>
-								<th colspan="6" style="text-align: center;"><?php echo "Stock #: "."<i>".$stockTypeName[0]['name'];"</i>"?></th>
+								<th colspan="6" style="text-align: center;"> Stock: <i><?php echo $stockTypeName[0]['name'];?> </i> (Bill No. <i><?=$paidinvoiceData[0]['bill_no'];?></i>)</th>
 							</tr>
 							<tr>
 								<th>Sr #</th>
