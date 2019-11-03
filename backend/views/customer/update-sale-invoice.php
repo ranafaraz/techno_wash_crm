@@ -1,7 +1,8 @@
 <?php 
-	if (isset($_GET['saleinvheadID']) && isset($_GET['customerid'])) {
+	if (isset($_GET['saleinvheadID']) && isset($_GET['customerid']) && isset($_GET['regno'])) {
 	$saleinvHeadID = $_GET['saleinvheadID'];
 	$customerid = $_GET['customerid'];
+	$regNoID = $_GET['regno'];
 
 	$updateinvoiceData = Yii::$app->db->createCommand("
     SELECT *
@@ -32,9 +33,12 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 <body>
 	<div class="container">
 		
-		<form action="sale-invoice-view?customer_id=<?php echo $customerid; ?>" method="POST" accept-charset="utf-8">
+		<form action="sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" method="POST" accept-charset="utf-8">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-2">
+				
+			</div>
+			<div class="col-md-8">
 				<div class="row">		
 					<div class="col-md-10">
 					    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update (<b><?php echo $customerData[0]['customer_name']; ?></b>) Paid Invoice</h2>
@@ -62,6 +66,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 							<input type="hidden" name="custID" value="<?php echo $customerid; ?>">
 							<input type="hidden" name="invID" value="<?php echo $saleinvHeadID; ?>"
 							>
+							<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
 							<input type="hidden" name="update_discount" id="update_disc" value="<?php echo $updateinvoiceData[0]['discount'];?>">
 					</div>
 					<div class="col-md-6">
@@ -124,12 +129,15 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 				<br />
 				<div class="row">
 					<div class="col-md-2">
-						<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+						<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
 					</div>
 					<div class="col-md-3">
 						<button type="submit" name="update_invoice" id="update" class="btn btn-success" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
 					</div>
 				</div>
+			</div>
+			<div class="col-md-2">
+				
 			</div>
 		</div>
 		<form>

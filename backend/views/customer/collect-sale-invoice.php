@@ -2,6 +2,7 @@
  
 	$customerID = $_GET['customerID'];
 	$sihID 		= $_GET['sihID'];
+	$regNoID = $_GET['regno'];
   	
 
   	// getting customer name
@@ -49,7 +50,7 @@
 							</table>
 						</div>
 					</div><hr style="border:1px solid #3C8DBC ;">
-					<form method="post" action="sale-invoice-view?customer_id=<?php echo $customerID; ?>">
+					<form method="post" action="sale-invoice-view?customer_id=<?php echo $customerID; ?>&regno=<?=$regNoID?>">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -91,6 +92,7 @@
 								</div>
 								<input type="hidden" name="custID" value="<?php echo $customerID; ?>">
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">	
+								<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
 							</div>	
 						</div>
 						<div class="row" id="msg" style="display: none;">
@@ -106,7 +108,7 @@
 						
 						<div class="row">
 							<div class="col-md-6">
-								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
+								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>&regno=<?=$regNoID?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
 							</div>
 							<div class="col-md-6">
 								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
