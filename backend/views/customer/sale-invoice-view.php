@@ -702,7 +702,7 @@ use common\models\Products;
                 </div>
                 <div class="form-group">
                   <label>status</label>
-                  <input type="text" name="status" class="form-control" readonly="" id="status">
+                  <input type="text" name="status" class="form-control" readonly="" id="status" value="Unpaid">
                 </div>
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
@@ -838,10 +838,10 @@ function discountFun(){
       		$('#status').val('Paid');
       	}
 
-      	else if (remaining == nt && paid <= 0) {
+      	 if (remaining == nt && paid == 0) {
       		$('#status').val('Unpaid');
       	}        
-        else if (paid > 0) {
+         if (paid > 0 && remaining > 0) {
           $('#status').val('Partially');
         }
 

@@ -195,8 +195,14 @@ body td{
       <div class="box box-primary">
         <div class="box-body">
           <div class="row">
-            <div class="col-md-12" style="margin-top:0px">
+            <div class="col-md-4" style="margin-top:0px">
               <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Vendor:&ensp;</label><b><i><?php echo $vendorData[0]['name']; ?></i></b></p>
+            </div>
+            <div class="col-md-4" style="margin-top: 10px">
+              <label style="float: right;">Purchase Date:</label>
+            </div> 
+            <div class="col-md-4" style="margin-top:0px">
+                <input type="date"  class="form-control" id="purchase_date" value="<?php echo date('Y-m-d');?>">
             </div>
           </div>
           <div class="nav-tabs-custom">
@@ -212,42 +218,13 @@ body td{
               <div class="active tab-pane" id="invoice">
                
                   <div class="form-group">
-                          <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
+                    <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">   
+
+                        <input type="hidden"  class="form-control" id="dispatch_date">  
+                        <input type="hidden"  class="form-control" id="receiving_date"> 
+                        <input type="hidden"  class="form-control" id="bilty_no" onkeypress="return checkSpcialChar(event)">
+                        <input type="hidden"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="original_price" class="form-control">   
                   </div> 
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Bilty No</label>
-                        <input type="text"  class="form-control" id="bilty_no" onkeypress="return checkSpcialChar(event)">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Bill No</label>
-                        <input type="text"  class="form-control" id="bill_no" onkeypress="return checkSpcialChar(event)">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Purchase Date</label>
-                        <input type="date"  class="form-control" id="purchase_date">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">         
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Dispatch Date</label>
-                        <input type="date"  class="form-control" id="dispatch_date">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label>Receiving Date</label>
-                        <input type="date"  class="form-control" id="receiving_date">
-                      </div>
-                    </div>
-                  </div>
                 </form>
                 <div class="row">
                 	<div class="col-md-12">
@@ -256,12 +233,20 @@ body td{
                          'libName' => 'krajeeDialog',
                          'options' => [], // default options
                       ]); ?>
-				            <div class="row">
-				              <div class="col-md-12" style="padding:10px;text-align: center;font-weight: bolder;font-size:20px;background-color: lightgray;">
-				                Add Stock
-				              </div>
-				            </div>
-						</div><br>
+                    <div class="row" style="font-weight: bolder;font-size:20px;background-color:#3C8DBC;color:white;">
+                      <div class="col-md-6">
+                        <p style="margin-top:12px;text-align: center;">Add Stock</p>
+                      </div>
+                      <div class="col-md-2" style="margin-top:12px;">
+                        <label style="float: right;">Bill:</label>
+                      </div>
+                      <div class="col-md-4" style="margin-top:8px;">
+                        <div class="form-group>">
+                          <input type="text"  class="form-control" id="bill_no" onkeypress="return checkSpcialChar(event)">
+                        </div>
+                      </div>
+                    </div>
+						    </div><br>
 			            <div class="row">
 			            	<div class="col-md-3">
 			            		<div class="form-group">
@@ -302,14 +287,8 @@ body td{
 			            <div class="row">
 			            	<div class="col-md-3">
 			            		<div class="form-group">
-				            		<label>Original Price</label>
-                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="original_price" class="form-control">
-			            		</div>
-			            	</div>
-			            	<div class="col-md-3">
-			            		<div class="form-group">
 				            		<label>Purchase Price</label>
-                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="purchase_price" class="form-control" oninput="check_purchase_price()">
+                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="purchase_price" class="form-control">
 			            		</div>
 			            	</div>
 			            	<div class="col-md-3">
@@ -324,17 +303,15 @@ body td{
 				            		<input type="text" class="form-control" id="barcode">
 			            		</div>
 			            	</div>
+                    <div class="col-md-3">
+                      <div class="fomr-group">
+                        <label>Quantity</label>
+                        <input type="text" name="" class="form-control" id="quantity" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+                      </div>
+                    </div>
 			            	<input type="hidden" id="stockTypeName">
 			            	<input type="hidden" id="manufactreName">
                     <input type="hidden" id="productName">
-			            </div>
-			            <div class="row">
-			            	<div class="col-md-3">
-			            		<div class="fomr-group">
-			            			<label>Quantity</label>
-			            			<input type="text" name="" class="form-control" id="quantity" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-			            		</div>
-			            	</div>
 			            </div>		
                 	</div>
                 </div><hr>			
@@ -716,15 +693,15 @@ body td{
                   }
       }
     }
-      function check_purchase_price(){
-        var input1 = Number(document.getElementById( "original_price" ).value);
-        var input2 = Number(document.getElementById( "purchase_price" ).value);
-        if (input1<input2) {
-          alert("The Purchase Price can not be greater than the original price")
-          $('#purchase_price').val("");
-          $('#purchase_price').css("border", "1px solid red");
-        }
-      }
+      //
+      //   var input1 = Number(document.getElementById( "original_price" ).value);
+      //   var input2 = Number(document.getElementById( "purchase_price" ).value);
+      //   if (input1<input2) {
+      //     alert("The Purchase Price can not be greater than the original price")
+      //     $('#purchase_price').val("");
+      //     $('#purchase_price').css("border", "1px solid red");
+      //   }
+      // }
       function cal_remaining(){
       	var paid = $('#paid').val();
         if(paid == "" || paid == null)
@@ -881,12 +858,12 @@ $("#paid").on('focus', function(){
       $('#expiry_date').css("border", "1px solid red");
       $('#expiry_date').focus();
 		}
-		else if(original_price == "" || original_price == null)
-		{
-			alert('Please fill the Original Price');
-      $('#original_price').css("border", "1px solid red");
-      $('#original_price').focus();
-		}
+		// else if(original_price == "" || original_price == null)
+		// {
+		// 	alert('Please fill the Original Price');
+  //     $('#original_price').css("border", "1px solid red");
+  //     $('#original_price').focus();
+		// }
 		else if(purchase_price == "" || purchase_price == null)
 		{
 			alert('Please fill the Purchase Price');
@@ -1011,12 +988,12 @@ $("#paid").on('focus', function(){
 	      	$('#expiry_date').css("border", "1px solid red");
 	      	$('#expiry_date').focus();
 		}
-		else if(original_price == "" || original_price == null)
-		{
-			alert('Please fill the Original Price');
-	      	$('#original_price').css("border", "1px solid red");
-	      	$('#original_price').focus();
-		}
+		// else if(original_price == "" || original_price == null)
+		// {
+		// 	alert('Please fill the Original Price');
+	 //      	$('#original_price').css("border", "1px solid red");
+	 //      	$('#original_price').focus();
+		// }
 		else if(purchase_price == "" || purchase_price == null)
 		{
 			alert('Please fill the Purchase Price');
@@ -1236,23 +1213,24 @@ $("#paid").on('focus', function(){
 		var paid 			= $('#paid').val();
 	  var remaining 		= $('#remaining').val();
 		var status 			= $('#status').val();
-	    barcodeArray;
-  	 	stockTypeArray;
-  	 	manufacturerArray;
-  	 	nameArray;
-  	 	expiryDateArray;
-  	 	originalPriceArray;
-  	 	purchasePriceArray;
-  	 	sellingPriceArray;
-  	 	quantityArray;
+    barcodeArray;
+	 	stockTypeArray;
+	 	manufacturerArray;
+	 	nameArray;
+	 	expiryDateArray;
+	 	originalPriceArray;
+	 	purchasePriceArray;
+	 	sellingPriceArray;
+	 	quantityArray;
 
- 		if(bilty_no == "" || bilty_no == null )
- 		{
- 			alert('Please fill Bilty no');
-      $('#bilty_no').css("border", "1px solid red");
-      $('#bilty_no').focus();
- 		}
-    else if(bill_no == "" || bill_no == null )
+ 		// if(bilty_no == "" || bilty_no == null )
+ 		// {
+ 		// 	alert('Please fill Bilty no');
+   //    $('#bilty_no').css("border", "1px solid red");
+   //    $('#bilty_no').focus();
+ 		// }
+   //  else
+    if(bill_no == "" || bill_no == null )
     {
       alert('Please fill Bilty no');
       $('#bill_no').css("border", "1px solid red");
@@ -1264,18 +1242,18 @@ $("#paid").on('focus', function(){
       $('#purchase_date').css("border", "1px solid red");
       $('#purchase_date').focus();
  		}
- 		else if(dispatch_date == "" || dispatch_date == null )
- 		{
- 			alert('Please select dispatch date');
-      $('#dispatch_date').css("border", "1px solid red");
-      $('#dispatch_date').focus();
- 		}
- 		else if(receiving_date == "" || receiving_date == null )
- 		{
- 			alert('Please select receiving date');
-      $('#receiving_date').css("border", "1px solid red");
-      $('#receiving_date').focus();
- 		}
+ 		// else if(dispatch_date == "" || dispatch_date == null )
+ 		// {
+ 		// 	alert('Please select dispatch date');
+   //    $('#dispatch_date').css("border", "1px solid red");
+   //    $('#dispatch_date').focus();
+ 		// }
+ 		// else if(receiving_date == "" || receiving_date == null )
+ 		// {
+ 		// 	alert('Please select receiving date');
+   //    $('#receiving_date').css("border", "1px solid red");
+   //    $('#receiving_date').focus();
+ 		// }
  		else
  		{
  			$.ajax({
