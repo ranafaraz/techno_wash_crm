@@ -21,7 +21,7 @@ use johnitvn\ajaxcrud\CrudAsset;
 
  <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data','id' => 'dynamic-form']]); ?>
     <div class="row" style="margin-bottom: 10px;">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label>Employee Joining Date</label>
                 <?= DatePicker::widget([
                 'model' => $model,
@@ -35,7 +35,7 @@ use johnitvn\ajaxcrud\CrudAsset;
             ]);?>
 
     </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
          <label>Employee Learning Date</label>
                 <?= DatePicker::widget([
                 'model' => $model,
@@ -47,7 +47,10 @@ use johnitvn\ajaxcrud\CrudAsset;
                     'autoclose' => true
                 ]
             ]);?>
-        </div>     
+        </div>  
+        <div class="col-md-4">
+               <?= $form->field($model, 'emp_status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
+           </div>   
     </div>
     <!-- row 1 close -->
     <div class="row">
@@ -93,13 +96,6 @@ use johnitvn\ajaxcrud\CrudAsset;
       </div>
     </div>
     <!-- row 4 close -->
-
-    <div class="row">
-        <div class="col-md-4">
-            <?= $form->field($model, 'emp_status')->dropDownList([ 'Active' => 'Active', 'Inactive' => 'Inactive', ]) ?>
-        </div>
-    </div>   
-   
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
