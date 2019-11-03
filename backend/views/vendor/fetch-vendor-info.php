@@ -51,11 +51,11 @@
  	if( isset($_POST['user_id'])
 
  		&& isset($_POST['vendorID'])
- 		&& isset($_POST['bilty_no'])
+ 		//&& isset($_POST['bilty_no'])
  		&& isset($_POST['bill_no'])
  	 	&& isset($_POST['purchase_date'])
- 	 	&& isset($_POST['dispatch_date']) 
- 	 	&& isset($_POST['receiving_date'])
+ 	 	// && isset($_POST['dispatch_date']) 
+ 	 	// && isset($_POST['receiving_date'])
  	 	&& isset($_POST['total_amount'])
  	  	&& isset($_POST['net_total'])
  	  	&& isset($_POST['paid'])
@@ -65,7 +65,7 @@
  	   	&& isset($_POST['manufacturerArray'])
  	   	&& isset($_POST['nameArray'])
  	   	&& isset($_POST['expiryDateArray'])
- 	   	&& isset($_POST['originalPriceArray'])
+ 	   	//&& isset($_POST['originalPriceArray'])
  	   	&& isset($_POST['purchasePriceArray'])
  	   	&& isset($_POST['sellingPriceArray']))
  	{
@@ -121,11 +121,11 @@
 	    SELECT 	purchase_invoice_id
 	    FROM purchase_invoice
 	    WHERE vendor_id						= '$vendorID'
-	    AND bilty_no						= '$bilty_no'
+	    -- AND bilty_no						= '$bilty_no'
 	    AND bill_no						= '$bill_no'
 		AND CAST(purchase_date as DATE) 	= '$purchase_date'
-		AND CAST(dispatch_date as DATE) 	= '$dispatch_date'
-		AND CAST(receiving_date as DATE) 	= '$receiving_date'
+		-- AND CAST(dispatch_date as DATE) 	= '$dispatch_date'
+		-- AND CAST(receiving_date as DATE) 	= '$receiving_date'
 		AND	total_amount					= '$total_amount'
 		AND	discount						= '$disc_amount'
 		AND	net_total						= '$net_total'

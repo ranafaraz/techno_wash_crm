@@ -165,8 +165,8 @@ $countManufactureData = count($manufactureData);
 					               					<th style="text-align: center;background-color: white;">In-Stock</th>
 					               					<th style="text-align: center;background-color: white;">Sold</th>
 					               					<th style="text-align: center;background-color: white;">Damaged</th>
-					               					<th style="text-align: center;background-color: white;">Repair</th>
-					               					<th style="text-align: center;background-color: white;">Expired</th>
+					               					<!-- <th style="text-align: center;background-color: white;">Repair</th>
+					               					<th style="text-align: center;background-color: white;">Expired</th> -->
 					               					<th style="text-align: center;background-color: white;">Return</th>
 					               				</tr>
 					               			</thead>
@@ -175,8 +175,8 @@ $countManufactureData = count($manufactureData);
 					               				$instockSum = 0;
 					               				$soldSum 	= 0;
 					               				$damagedSum = 0;
-					               				$repairSum 	= 0;
-					               				$expiredSum = 0;
+					               				//$repairSum 	= 0;
+					               				//$expiredSum = 0;
 					               				$retuendSum = 0;
 					               				for ($j=0; $j <$countProducts ; $j++) { 
 					               				$productID = $productData[$j]['product_id'];
@@ -207,13 +207,13 @@ $countManufactureData = count($manufactureData);
 														AND status = 'Damaged'
 														")->queryAll();
 														// getting expired stock details
-														$expiredStockkData = Yii::$app->db->createCommand("
-														SELECT COUNT(name)
-														FROM  stock
-														WHERE manufacture_id = $manufactureID
-														AND name = '$productID'
-														AND status = 'Expired'
-														")->queryAll();
+														// $expiredStockkData = Yii::$app->db->createCommand("
+														// SELECT COUNT(name)
+														// FROM  stock
+														// WHERE manufacture_id = $manufactureID
+														// AND name = '$productID'
+														// AND status = 'Expired'
+														// ")->queryAll();
 														// getting returned stock details
 														$returnedStockkData = Yii::$app->db->createCommand("
 														SELECT COUNT(name)
@@ -223,13 +223,13 @@ $countManufactureData = count($manufactureData);
 														AND status = 'Returned'
 														")->queryAll();
 														// getting repaired stock details
-														$repairedStockkData = Yii::$app->db->createCommand("
-														SELECT COUNT(name)
-														FROM  stock
-														WHERE manufacture_id = $manufactureID
-														AND name = '$productID'
-														AND status = 'Repaired'
-														")->queryAll();
+														// $repairedStockkData = Yii::$app->db->createCommand("
+														// SELECT COUNT(name)
+														// FROM  stock
+														// WHERE manufacture_id = $manufactureID
+														// AND name = '$productID'
+														// AND status = 'Repaired'
+														// ")->queryAll();
 					               				?>
 					               				<tr style="text-align: center;">
 					               					<td><?php echo $j+1; ?></td>
@@ -264,21 +264,6 @@ $countManufactureData = count($manufactureData);
 					               					</td>
 					               					<td>
 					               						<?php
-					               						$totalRepaired = $repairedStockkData[0]['COUNT(name)'];
-					               						$repairSum += $totalRepaired;
-					               						echo $totalRepaired;
-					               						
-					               						?>
-					               					</td>
-					               					<td>
-					               						<?php
-					               						$totalExpired = $expiredStockkData[0]['COUNT(name)'];
-					               						$expiredSum += $totalExpired;
-					               						echo $totalExpired;
-					               						?>
-					               					</td>
-					               					<td>
-					               						<?php
 					               						$totalReturned = $returnedStockkData[0]['COUNT(name)'];
 					               						$retuendSum += $totalReturned;
 					               						echo $totalReturned;
@@ -291,8 +276,6 @@ $countManufactureData = count($manufactureData);
 					               					<td><?php echo $instockSum;?></td>
 					               					<td><?php echo $soldSum; ?></td>
 					               					<td><?php echo $damagedSum; ?></td>
-					               					<td><?php echo $repairSum;  ?></td>
-					               					<td><?php echo $expiredSum; ?></td>
 					               					<td><?php echo $retuendSum; ?></td>
 					               				</tr>
 					               			</tbody>
