@@ -41,7 +41,6 @@ use common\models\Branches;
 			              <li class="active">
 			              	<a href="#Employee" data-toggle="tab">Employee Profile</a>
 			              </li>
-			              <li><a href="#Employee_salary" data-toggle="tab">Employee Salary</a></li>
 			            </ul>
 			            <div class="tab-content" style="background-color: #efefef;">
 					            <div class="active tab-pane" id="Employee">
@@ -105,12 +104,6 @@ use common\models\Branches;
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Father Position:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_father_position; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
 					            						<th class="bg-color" style="padding: 12px;">CNIC#:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $EmployeeData->emp_cnic; ?>
@@ -123,40 +116,9 @@ use common\models\Branches;
 					            						</th>
 					            					</tr>
 					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Emergency Contact:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_emergency_contact; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Emergency Contact Relation:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_emergency_contact_relation; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
 					            						<th class="bg-color" style="padding: 12px;">Email:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $EmployeeData->emp_email; ?>
-					            						</th>
-					            					</tr>
-					            					
-					            						<tr>
-					            						<th class="bg-color" style="padding: 12px;">Nationality:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_nationality; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Passport No#:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_passport_no; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Passport Expiry Date:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->passport_expiry_date; ?>
 					            						</th>
 					            					</tr>			            					
 					            				</thead>
@@ -177,49 +139,7 @@ use common\models\Branches;
 					            							<?php echo $EmployeeData->emp_gender; ?>
 					            						</th>
 					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Marital Status:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_marital_status; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Age:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_dob; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Birth Place:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_birth_place; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Religion:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_religion; ?>
-					            						</th>
-					            					</tr>	
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Blood Group:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_blood_group; ?>
-					            						</th>
-					            					</tr>		            					
-					            					
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Residence:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_residence; ?>
-					            						</th>
-					            					</tr>
-					            					<tr>
-					            						<th class="bg-color" style="padding: 12px;">Present Address:</th>
-					            						<th class="t-cen" style="background-color: white;">
-					            							<?php echo $EmployeeData->emp_present_address; ?>
-					            						</th>
-					            					</tr>
+					            				
 					            					<tr>
 					            						<th class="bg-color" style="padding: 12px;">Permanent Address:</th>
 					            						<th class="t-cen" style="background-color: white;">
@@ -239,42 +159,6 @@ use common\models\Branches;
 					            		</div>
 					            	</div>  
 					            </div>
-					              <!-- /.tab-pane -->
-					             <div class="tab-pane" id="Employee_salary">
-					              	<div class="row">
-					            		<div class="col-md-11">
-					            			<h3 class="text-info">Employee Salary Details</h3>
-					            		</div>
-					            		<div class="col-md-1">
-					            		</div>
-					            	</div>
-					            	<div class="row">
-					            		<div class="col-md-12">
-					            			<div class="table-responsive">           			
-					            			<table class="table table-bordered table-striped">
-					            				<thead style="background-color: #367FA9;color:white;">
-					            					<tr>
-					            						<th class="t-cen">Employee Name</th>
-					            						<th class="t-cen">Employee CNIC</th>
-					            						<th class="t-cen">Employee Salary</th>
-					            						<th class="t-cen">Action</th>
-					            					</tr>
-					            				</thead>
-					            				<tbody>
-					            							
-					            						<tr>
-					            							<td class="t-cen" style="vertical-align:middle;"><?php echo $EmployeeData->emp_name; ?></td>
-					            							<td class="t-cen" style="vertical-align:middle;"><?php echo $EmployeeData->emp_cnic; ?></td>
-					            							<td class="t-cen" style="vertical-align:middle;"><?php echo $EmployeeData->salary_id; ?></td>
-					            							<td class="t-cen" class="text-center" style="vertical-align:middle;"><a href="Employee-update?id=" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
-					            						</tr>	
-					            				</tbody>
-					            			</table>
-					            			</div>
-					            		</div>
-					            	</div>
-					            </div> 
-					              <!-- /.tab-pane -->
 			            </div>
 			            <!-- /.tab-content -->
           			</div>
