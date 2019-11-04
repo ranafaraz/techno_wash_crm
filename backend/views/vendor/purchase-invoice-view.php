@@ -397,7 +397,7 @@ body td{
                                               <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> View
                                               </a>&ensp;
                                               <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a>
-                                              <a href="purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
+                                              <a href="./purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
                                             </td>
                                       </tr>
 

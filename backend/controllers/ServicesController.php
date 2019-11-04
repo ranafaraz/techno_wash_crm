@@ -31,7 +31,7 @@ class ServicesController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','service-detail-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','service-detail-view', 'update-service'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -51,6 +51,15 @@ class ServicesController extends Controller
      * Lists all Services models.
      * @return mixed
      */
+     public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+    public function actionUpdateService()
+    {    
+        return $this->render('update-service');
+    }
+
     public function actionIndex()
     {    
         $searchModel = new ServicesSearch();

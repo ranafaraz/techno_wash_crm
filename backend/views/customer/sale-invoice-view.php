@@ -1010,6 +1010,7 @@ $("#item_type").change(function(){
                   document.getElementById("check_no").value = this.cells[4].innerHTML;
                   document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
                   document.getElementById("remove_amount").value = this.cells[5].innerHTML;
+                  $('#check_no').val("");
                   var q = this.cells[4].innerHTML;
 
                   $("#hide_quantity").val(q); 
@@ -1139,6 +1140,7 @@ $("#item_type").change(function(){
 			                {
 			                    table.rows[i].onclick = function()
 			                    {
+
                             $('#removed_value').show();
                             $('#remove').show();
 			                      // get the seected row index
@@ -1148,6 +1150,7 @@ $("#item_type").change(function(){
 			                     document.getElementById("check_no").value = this.cells[4].innerHTML;
                            document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
                            document.getElementById("remove_amount").value = this.cells[5].innerHTML;
+                           $('#check_no').val("");
                           var q = this.cells[4].innerHTML;
                           $("#hide_quantity").val(q); 
                           if(q>1){
@@ -1286,6 +1289,7 @@ $('#product_quantity').on("change",function(){
               document.getElementById("removed_value").value = this.cells[2].innerHTML;
               document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
               document.getElementById("remove_amount").value = this.cells[5].innerHTML;
+              $('#check_no').val("");
               var q = this.cells[4].innerHTML;
               $("#hide_quantity").val(q); 
               if(q>1){
@@ -1403,6 +1407,7 @@ $('#product_quantity').on("change",function(){
       $('#removed_value').hide();
       $('#remove').hide();
       $('#check_quantity').hide();
+      $('#check_no').val("");
 		});
 
 

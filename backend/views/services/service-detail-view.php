@@ -34,6 +34,7 @@
 							<th style="background-color: #367FA9;color: #fff;">Service Name</th>
 							<th style="background-color: #367FA9;color: #fff;">Vehicle Type</th>
 							<th style="background-color: #367FA9;color: #fff;">Price</th>
+							<th style="background-color: #367FA9;color: #fff;">Action</th>
 							
 						</tr>
 					</thead>
@@ -52,6 +53,7 @@
 									<td><?php echo $services[$i]['service_name'];?></td>
 									<td><?php echo $vehicle_type_name[0]['name'];?></td>
 									<td><?php echo $services[$i]['price'];?></td>
+									<td><a href="./update-service?service_id=<?=$services[$i]['service_id']?>&vehicleType_id=<?=$vehicle_type_id?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a></td>
 
 								</tr>
 						<?php	}
