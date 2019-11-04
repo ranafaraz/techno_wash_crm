@@ -6,6 +6,14 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 //$this->title = 'SMART EDUCATION';
   $currentDate = date('Y-m-d');
+
+  $countCustomer  = Yii::$app->db->createCommand("
+  SELECT *
+  FROM sale_invoice_head
+  WHERE CAST(date as DATE) = '$currentDate'
+  ")->queryAll();
+  $countcustomer = count($countCustomer);
+
   $WASH = 1;
   $countWash  = Yii::$app->db->createCommand("
   SELECT s.service_name,sd.vehicle_type_id,sid.discount_per_service
@@ -130,7 +138,7 @@ use yii\helpers\Url;
               <div class="row">
         <div class="col-md-3">
           <a href="./under-construction">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-user"></i> Today's Visitors</p><br>
                 <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">25</b>
@@ -140,30 +148,30 @@ use yii\helpers\Url;
         </div>
         <div class="col-md-3">
           <a href="./under-construction">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-user"></i> Today's Expenses</p><br>
-                <b style="background-color:#DD4B39;color:white;padding:10px;border-radius: 20px;">5000</b>
+                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">5000</b>
               </div>
             </div>
           </a>
         </div>
         <div class="col-md-3">
           <a href="./under-construction">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="glyphicon glyphicon-user"></i> Today's Income</p><br>
-                <b style="background-color:#00C0EF;color:white;padding:10px;border-radius: 20px;">15000</b>
+                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">15000</b>
               </div>
             </div>
           </a>
         </div>
         <div class="col-md-3">
           <a href="./under-construction">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <p><i class="fa fa-money"></i> Today's Profit</p><br>
-                <b style="background-color:#00A65A;color:white;padding:10px;border-radius: 20px;">10000</b>
+                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">10000</b>
               </div>
             </div>
           </a>
@@ -172,7 +180,7 @@ use yii\helpers\Url;
       <div class="row">
         <div class="col-md-3">
           <a href="./car-wash-details?serviceID=<?php echo $WASH; ?>">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <div class="row">
                   <div class="col-md-12">
@@ -207,7 +215,7 @@ use yii\helpers\Url;
         </div>
         <div class="col-md-3">
           <a href="./car-wash-details?polish">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <div class="row">
                   <div class="col-md-12">
@@ -284,7 +292,7 @@ use yii\helpers\Url;
             }
           ?>
           <a href="./credit-sale-invoices">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
                 <div class="row">
                   <div class="col-md-12">
@@ -317,14 +325,29 @@ use yii\helpers\Url;
           </a>
         </div>
         <div class="col-md-3">
-          <!-- <a href="./customer">
-            <div class="panel panel-default" style="box-shadow:0px 0px 15px 0px #FAB61C;">
+          <a href="./car-wash-details?customer">
+            <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px">
-                <p><i class="fa fa-money"></i> Today's Profit</p><br>
-                <b style="background-color:#00A65A;color:white;padding:10px;border-radius: 20px;">10000</b>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Total</span> Customers</th>
+                      </tr>
+                      <tr>
+                        <th>Count</th>
+                        <td>
+                          <b style="border-radius: 20px;"><?php echo $countcustomer; ?></b>
+                        </td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
-          </a> -->
+          </a>
         </div>
       </div>
       <!-- Small boxes (Stat box) -->

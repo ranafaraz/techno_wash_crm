@@ -1,5 +1,75 @@
 <?php 
 
+	if(isset($_GET['customer'])){
+
+	  $currentDate = date('Y-m-d');
+
+	  $countCustomer  = Yii::$app->db->createCommand("
+	  SELECT *
+	  FROM sale_invoice_head
+	  WHERE CAST(date as DATE) = '$currentDate'
+	  ")->queryAll();
+	  $countcustomer = count($countCustomer);
+	
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h3 style="color:#3C8DBC;">
+				<a href="./home" class="btn btn-success">
+					<i class="glyphicon glyphicon-home"> HOME</i>
+				</a>
+			Customers</h3> 
+		</div>
+	</div>
+	<div class="row">
+	<div class="col-md-6">
+		<table class="table table-bordered">
+			<thead style="background-color:#3C8DBC;color:white;">
+				<tr>
+					<th>Sr.#</th>
+					<th>Customer Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php 
+	               
+	              for ($c=0; $c <$countcustomer ; $c++) {
+	              	$customerID = $countCustomer[$c]['customer_id'];
+	              	$customerInfo  = Yii::$app->db->createCommand("
+					SELECT *
+					FROM customer
+					WHERE customer_id = '$customerID'
+					")->queryAll();
+	              ?>          
+				<tr>
+					<td><?php echo $c+1; ?></td>
+					<td>
+						<?php
+						 echo $customerInfo[0]['customer_name'];
+						 ?>
+					</td>
+				</tr>
+				<?php
+					}
+				 ?>
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+</body>
+</html>
+<?php } ?>
+<?php 
+
 	if(isset($_GET['serviceID'])){
 
 	$serviceID = $_GET['serviceID'];

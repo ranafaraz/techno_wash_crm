@@ -56,7 +56,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 <head>
 	<title>Paid Sale Invoice</title>
 </head>
-<body style="font-size:15px;">
+<body style="font-size:15px;"  onload="window.print();">
 	<style type="text/css" media="print">
 		footer,#print_button{
 			display: none;
