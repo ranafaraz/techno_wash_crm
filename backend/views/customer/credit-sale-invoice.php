@@ -1,6 +1,7 @@
  
 <?php 
 $sihID = $_GET['sihID'];
+$regNoID = $_GET['regno'];
 	$paidinvoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM sale_invoice_head
@@ -65,7 +66,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-2">
-				<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-backward"></i> Back</a>
+				<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>&regno=<?=$regNoID?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-backward"></i> Back</a>
 			</div>
 			<div class="col-md-8"></div>
 			<div class="col-md-2">

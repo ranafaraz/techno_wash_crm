@@ -4,6 +4,7 @@ use common\models\Customer;
 use common\models\Branches;
 
 	$customerId = $_GET['id'];
+	$regNoID = $_GET['regno'];
 
 	$customerData = Customer::find()->where(['customer_id' => $customerId])->one();
 	$branchId = $customerData->branch_id;

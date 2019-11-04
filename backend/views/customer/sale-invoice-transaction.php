@@ -1,8 +1,9 @@
 <?php 
 
-if (isset($_GET['saleinvheadID']) && isset($_GET['customerid'])) {
+if (isset($_GET['saleinvheadID']) && isset($_GET['customerid']) && isset($_GET['regno'])) {
 $saleinvHeadID = $_GET['saleinvheadID'];
 $customerid = $_GET['customerid'];
+$regNoID = $_GET['regno'];
 
 $saleInvoiceHeadData =  Yii::$app->db->createCommand("
     SELECT *
@@ -30,7 +31,7 @@ $CustmName  = Yii::$app->db->createCommand("
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-2">
-				<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
+				<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
 			</div>
 			<div class="col-md-8"></div>
 			<div class="col-md-2">

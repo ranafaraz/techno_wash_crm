@@ -60,11 +60,11 @@ use kartik\dialog\Dialog;
  {
    $piID                  = $_POST['piID'];
    $vendorID              = $_POST['vendorID'];
-   $bilty_no              = $_POST['bilty_no'];
+   //$bilty_no              = $_POST['bilty_no'];
    $bill_no               = $_POST['bill_no'];
    $purchase_date         = $_POST['purchase_date'];
-   $dispatch_date         = $_POST['dispatch_date'];
-   $receiving_date        = $_POST['receiving_date'];
+   //$dispatch_date         = $_POST['dispatch_date'];
+   //$receiving_date        = $_POST['receiving_date'];
    $updateDiscount        = $_POST['update_discount'];
    $updatepaidAmount      = $_POST['paid_amount'];
    $updatetotalamount     = $_POST['total_amount'];
@@ -82,11 +82,11 @@ use kartik\dialog\Dialog;
      $transaction = \Yii::$app->db->beginTransaction();
      try {
       $insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
-     'bilty_no' => $bilty_no,
+     //'bilty_no' => $bilty_no,
      'bill_no' => $bill_no,
      'purchase_date' => $purchase_date,
-     'dispatch_date' => $dispatch_date,
-     'receiving_date' => $receiving_date,
+     //'dispatch_date' => $dispatch_date,
+     //'receiving_date' => $receiving_date,
      'total_amount' => $updatetotalamount,
      'discount' => $updateDiscount,
      'net_total' => $updatenetTotal,
@@ -372,10 +372,10 @@ body td{
                                 <tr>
                                     <th class="t-cen">Sr.#</th>
                                     <!-- <th class="t-cen">Invoice #</th> -->
-                                    <th class="t-cen">Bilty No#</th>
+                                    <!-- <th class="t-cen">Bilty No#</th> -->
                                     <th class="t-cen">Bill No#</th>
                                     <th class="t-cen">Paid Amount</th>
-                                    <th class="t-cen">Receiving Date</th>
+                                    <th class="t-cen">Purchase Date</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -388,10 +388,10 @@ body td{
                                       ?>
                                       <tr>
                                         <td><?php echo $i+1; ?></td>
-                                        <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td>
+                                        <!-- <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td> -->
                                         <td><?php echo $paid_invoice[$i]['bill_no']; ?></td>
                                         <td><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
-                                        <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['receiving_date']));
+                                        <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['purchase_date']));
                                             echo $date; ?></td>
                                             <td class="text-center">
                                               <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> View
@@ -436,12 +436,12 @@ body td{
                                 <tr>
                                     <th class="t-cen">Sr.#</th>
                                     <!-- <th class="t-cen">Invoice #</th> -->
-                                    <th class="t-cen">Bilty No#</th>
+                                    <!-- <th class="t-cen">Bilty No#</th> -->
                                     <th class="t-cen">Bill No#</th>                              
                                     <th class="t-cen">Net Total</th>
                                     <th class="t-cen">Paid Amount</th>
                                     <th class="t-cen">Remaining Amount</th>
-                                    <th class="t-cen">Receiving Date</th>
+                                    <th class="t-cen">Purchase Date</th>
                                     <th class="t-cen">Status</th>
                                     <th class="t-cen">Action</th>
                                 </tr>
@@ -455,12 +455,12 @@ body td{
                                         
                                     <tr>
                                         <td><?php echo $i+1; ?></td>
-                                        <td><?php echo $credit_invoice[$i]['bilty_no']; ?></td>
+                                        <!-- <td><?php echo $credit_invoice[$i]['bilty_no']; ?></td> -->
                                         <td><?php echo $credit_invoice[$i]['bill_no']; ?></td>
                                         <td><?php echo $credit_invoice[$i]['net_total']; ?></td>
                                         <td><?php echo $credit_invoice[$i]['paid_amount']; ?></td>
                                         <td><?php echo $credit_invoice[$i]['remaining_amount']; ?></td>
-                                        <td><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['receiving_date']));
+                                        <td><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['purchase_date']));
                                             echo $date; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $credit_invoice[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">

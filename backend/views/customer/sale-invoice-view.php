@@ -17,6 +17,7 @@ use common\models\Products;
  {
    $customerID  = $_POST['custID'];
    $invID       = $_POST['invID'];
+   $regNoID     = $_POST['regno'];
    $netTotal    = $_POST['net_total'];
    $paid_amount = $_POST['paid_amount'];
    $remaining   = $_POST['remaining'];
@@ -52,7 +53,7 @@ use common\models\Products;
 
      // transaction commit
      $transaction->commit();
-     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
+     header("Location: ./sale-invoice-view?customer_id=$customerID&&regno=$regNoID");
         
      } // closing of try block 
      catch (Exception $e) {
@@ -70,6 +71,7 @@ use common\models\Products;
  {
    $customerID              = $_POST['custID'];
    $invID                   = $_POST['invID'];
+   $regNoID                 = $_POST['regno'];
   // $net_total               = $_POST['net_total'];
    $updateDate              = $_POST['date'];
    $updateDiscount          = $_POST['update_discount'];
@@ -116,7 +118,8 @@ use common\models\Products;
     }
      // transaction commit
      $transaction->commit();
-     \Yii::$app->response->redirect(['./sale-invoice-view', 'customer_id' => $customerID]);
+      header("Location: ./sale-invoice-view?customer_id=$customerID&&regno=$regNoID");
+     
         
      } // closing of try block 
      catch (Exception $e) {
@@ -416,9 +419,9 @@ use common\models\Products;
                                             echo $date; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">
-                                          <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
-                                          <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
-                                           <a href="sale-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
+                                          <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
+                                          <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                           <a href="sale-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
                                         </td>
                                     </tr>   
                                 
@@ -476,9 +479,9 @@ use common\models\Products;
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
                                          <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View</a>
-                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
-                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
+                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View</a>
+                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
                                         </td>
                                     </tr>   
                                 
@@ -1462,7 +1465,7 @@ $('#product_quantity').on("change",function(){
             console.log(result);
             if(result){
               alert('Bill is Added');
-            window.location = './sale-invoice-view?customer_id=$customerID';
+            window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';
             } else {
               alert('Something wrong.!');
             }

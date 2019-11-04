@@ -53,10 +53,10 @@ tr td{
 										<th style="background-color:#3C8DBC;color:white;">Vendor:</th>
 										<td><?php echo $vendorData[0]['name']; ?></td>
 									</tr>
-									<tr>
+									<!-- <tr>
 										<th style="background-color:#3C8DBC;color:white;">Bilty No#:</th>
 										<td><?php echo $creditInvoiceData[0]['bilty_no'];?></td>
-									</tr>
+									</tr> -->
 									<tr>
 										<th style="background-color:#3C8DBC;color:white;">Bill No#:</th>
 										<td><?php echo $creditInvoiceData[0]['bill_no'];?></td>
