@@ -59,7 +59,7 @@ class CustomerVehicles extends \yii\db\ActiveRecord
             'customer_vehicle_id' => 'Customer Vehicle ID',
             'customer_id' => 'Customer Name',
             'vehicle_typ_sub_id' => 'Vehicle Sub Type Name',
-            'registration_no' => 'Registration No',
+            'registration_no' => 'Registration No (ABC-123-01)',
             'color' => 'Color',
             'image' => 'Image',
             'created_at' => 'Created At',
