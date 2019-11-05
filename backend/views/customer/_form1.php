@@ -130,7 +130,7 @@ $customerName = $model->customer_name;
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">            
-            <a href="./sale-invoice-view?customer_id=<?php echo $customerId;?>" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+            <a href="./sale-invoice-view?customer_id=<?php echo $customerId;?>&regno=<?=$regno?>" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : '<i class="glyphicon glyphicon-open"></i> Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>

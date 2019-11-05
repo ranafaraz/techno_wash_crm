@@ -81,7 +81,7 @@ class CustomerVehiclesController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id)
+    public function actionCreate($id,$regno)
     {
         $request = Yii::$app->request;
         $model = new CustomerVehicles();  
@@ -176,10 +176,11 @@ class CustomerVehiclesController extends Controller
                     $transaction->rollBack();
                     echo $e;
                 }
-                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id]);
+                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id, 'regno' => $regno]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'regno' => $regno,
                 ]);
             }
         }
@@ -193,7 +194,7 @@ class CustomerVehiclesController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id,$regno)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);  
@@ -281,10 +282,11 @@ class CustomerVehiclesController extends Controller
                 $model->created_by = $model->created_by;
                 $model->created_at = $model->created_at;
                 $model->update();
-                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id]);
+                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id, 'regno' => $regno]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'regno' => $regno,
                 ]);
             }
         }

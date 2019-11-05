@@ -253,9 +253,10 @@ class CustomerController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id,$regno)
     {
         $request = Yii::$app->request;
+
         $model = $this->findModel($id);  
         $customer_image = Yii::$app->db->createCommand("SELECT customer_image FROM customer where customer_id = $id")->queryAll();
         $customerImage=$customer_image[0]["customer_image"];     
@@ -321,10 +322,11 @@ class CustomerController extends Controller
                 $model->created_by = $model->created_by;
                 $model->created_at = $model->created_at;
                 $model->update();
-                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id]);
+                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id, 'regno' => $regno]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
+                    'regno' => $regno,
                 ]);
             }
         }

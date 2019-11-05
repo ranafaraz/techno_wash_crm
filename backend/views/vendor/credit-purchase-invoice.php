@@ -41,22 +41,22 @@
 <head>
 	<title>Credit Purchase Invoice</title>
 </head>
-<body>
+<body onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
 		footer,#print_button{
 			display: none;
 		}
 	</style>
 	<div class="container-fluid">
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-2">
-				<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
+				<a href="./purchase-invoice-view?vendor_id=<?php //echo $vendorID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
 			</div>
 			<div class="col-md-8"></div>
 			<div class="col-md-2">
 				<button type="button" onclick="printContent('div1')" class="btn btn-warning btn-flat" id="print_button"><i class="glyphicon glyphicon-print"></i> Print Content</button>
 			</div>
-		</div>
+		</div> -->
 		<div id="div1">
 			
 		
@@ -272,5 +272,8 @@ function printContent(el){
 	document.body.innerHTML = printcontent;
 	window.print();
 	document.body.innerHTML = restorepage;
+}
+function returnBack() {
+  window.location='purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>';
 }
 </script>

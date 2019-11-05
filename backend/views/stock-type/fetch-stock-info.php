@@ -37,11 +37,16 @@
 	 	array_push($ID,$stockID,$manufactID,$productID,$stockName,$manufactName,$productName,$expiry_date,$original_price,$purchase_price,$selling_price,$status,$stock_id);
 		echo json_encode($ID);
  	}
- 	if (isset($_POST['stock_id']) && isset($_POST['stock_type_id'])
- 		&& isset($_POST['manufacture_id']) && isset($_POST['product_id'])
- 		&& isset($_POST['barcode']) && isset($_POST['expiry_date'])
- 		&& isset($_POST['original_price']) && isset($_POST['purchasing_price'])
- 		&& isset($_POST['selling_price']) && isset($_POST['status'])
+ 	if (isset($_POST['stock_id']) 
+ 		&& isset($_POST['stock_type_id'])
+ 		&& isset($_POST['manufacture_id']) 
+ 		&& isset($_POST['product_id'])
+ 		&& isset($_POST['barcode']) 
+ 		&& isset($_POST['expiry_date'])
+ 		//&& isset($_POST['original_price']) 
+ 		&& isset($_POST['purchasing_price'])
+ 		&& isset($_POST['selling_price'])
+ 		&& isset($_POST['status'])
  		) {
  		
  		$stock_id 			= $_POST['stock_id'];
@@ -57,33 +62,31 @@
 	 	$id =  Yii::$app->user->identity->id;
 
 	 	 // starting of transaction handling
-	     $transaction = \Yii::$app->db->beginTransaction();
-	     try {
-	      $stock = Yii::$app->db->createCommand()->update('stock',[
+	    $transaction = \Yii::$app->db->beginTransaction();
+	    try {
+	      	$stock = Yii::$app->db->createCommand()->update('stock',[
 
-	     'expiry_date'     => $expiry_date,
-	     'original_price'  => $original_price,
-	     'purchase_price' => $purchasing_price,
-	     'selling_price'   => $selling_price,
-	     'status'   	   => $status,
-	     'updated_by'      => $id,
-	    ],
-	       ['stock_id' => $stock_id,'barcode' => $barcode ]
+			     'expiry_date'     => $expiry_date,
+			     'original_price'  => $original_price,
+			     'purchase_price' => $purchasing_price,
+			     'selling_price'   => $selling_price,
+			     'status'   	   => $status,
+			     'updated_by'      => $id,
+			    ],
+	       		['stock_id' => $stock_id,'barcode' => $barcode ]
+	    	)->execute();
 
-	    )->execute();
 	     // transaction commit
-	     $transaction->commit();
+	    $transaction->commit();
 
-	     echo json_encode($stock);
+	    echo json_encode($stock);
 	        
-	     } // closing of try block 
-	     catch (Exception $e) {
+	    } // closing of try block 
+	    catch (Exception $e) {
 	      // transaction rollback
 	         $transaction->rollback();
-	     } // closing of catch block
+	    } // closing of catch block
 	     // closing of transaction handling
-
-
  	} // stock update
 
 

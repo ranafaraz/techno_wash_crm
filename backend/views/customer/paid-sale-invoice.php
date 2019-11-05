@@ -56,7 +56,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 <head>
 	<title>Paid Sale Invoice</title>
 </head>
-<body style="font-size:15px;">
+<body style="font-size:15px;"  onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
 		footer,#print_button{
 			display: none;
@@ -64,18 +64,18 @@ $customervehicleID = Yii::$app->db->createCommand("
 
 	</style>
 	<div class="container-fluid">
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-2">
-				<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>&regno=<?=$regNoID?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
+				<a href="./sale-invoice-view?customer_id=<?php //echo $customerID; ?>&regno=<?=$regNoID?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
 			</div>
 			<div class="col-md-8"></div>
 			<div class="col-md-2">
 				<button type="button" onclick="printContent('div1')" class="btn btn-warning btn-flat" id="print_button"><i class="glyphicon glyphicon-print"></i> Print Invoice</button>
 			</div>
-		</div>
+		</div> -->
 		<div id="div1">
 			<div class="row">
-				<div class="col-md-6 col-md-offset-3">
+				<div class="col-md-12">
 					<h3  style="text-align: center;">
 						TECHNO WASH
 					</h3>
@@ -246,7 +246,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					</table>
 					<?php  } ?>
 				</div>
-				<div class="col-sm-6 col-md-offset-3">
+				<div class="col-sm-12">
 					<table class="table table-bordered" >
 						<thead>
 							<tr>
@@ -320,5 +320,8 @@ function printContent(el){
 	document.body.innerHTML = printcontent;
 	window.print();
 	document.body.innerHTML = restorepage;
+}
+function returnBack() {
+  window.location='sale-invoice-view?customer_id=<?php echo $customerID;?>&regno=<?php echo $regNoID;?>';
 }
 </script>

@@ -326,7 +326,7 @@ body td{
                              <input type="text" id="get_purchase_value" style="display: none;">
                           </div>
                           <div class="col-md-4" style="display: none" id="quantity_no_div">
-                            <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove">
+                            <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                           </div>
                           <div class="col-md-2">
                             <button type="button" class="btn btn-danger btn-flat" id="remove" style="display: none;"> <i class="fa fa-times"></i> Remove</button>
@@ -394,10 +394,10 @@ body td{
                                         <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['purchase_date']));
                                             echo $date; ?></td>
                                             <td class="text-center">
-                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> View
+                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
                                               </a>&ensp;
                                               <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a>
-                                              <a href="purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
+                                              <a href="./purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
                                             </td>
                                       </tr>
 
@@ -464,7 +464,7 @@ body td{
                                             echo $date; ?></td>
                                         <td style="vertical-align:middle;"><?php echo $credit_invoice[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">
-                                          <a href="./credit-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> View
+                                          <a href="./credit-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill
                                               </a>
                                           <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
 
@@ -921,12 +921,15 @@ $("#paid").on('focus', function(){
         {
           $('#remove_value').show();
           $('#remove').show();
+         
           // get the seected row index
           rIndex = this.rowIndex;
           document.getElementById("remove_value1").value = rIndex;
           document.getElementById("remove_value").value = this.cells[3].innerHTML;
           document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
           document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+          $('#check_no').val("");
+           $('#check_no').focus();
           var q = Number(document.getElementById("hide_quantity").value);
         if(q>1){
           $('#quantity_no_div').show();
@@ -1052,12 +1055,15 @@ $("#paid").on('focus', function(){
 	              {
                   $('#remove_value').show();
                   $('#remove').show();
+                  
 	                // get the seected row index
 	                rIndex = this.rowIndex;
 	                document.getElementById("remove_value1").value = rIndex;
                   document.getElementById("remove_value").value = this.cells[3].innerHTML;
                    document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
                     document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+                    $('#check_no').val("");
+                    $('#check_no').focus();
                    var q = Number(document.getElementById("hide_quantity").value);
                    if(q>1){
                     $('#quantity_no_div').show();
@@ -1190,6 +1196,7 @@ $("#paid").on('focus', function(){
              }
            }
           }
+          $('#check_no').val("");
           $('#paid').val("0");
           $('#disc').val("");
           $('#status').val("Unpaid");

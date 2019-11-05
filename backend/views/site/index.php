@@ -109,133 +109,80 @@ use yii\helpers\Url;
 ?>
 
 <div class="" style="margin-top:-35px;padding:-20px;">
-    <!-- Main content -->
-    <section class="content">
+  <!-- Main content -->
+  <section class="content">
+    <!-- Message of the day start -->
       <div class="row">
-        <div class="col-md-12">
-          <div class="box box-warning">
-            <div class="box-body">
-              <!-- Message of the day start -->
-              <div class="row">
-                <div class="col-md-6">
-                  <p style="font-size:25px;line-height:2 "><i class="glyphicon glyphicon-hand-right"></i> <span style="color:#FAB61C;">Admin</span> Dashboard</p>
-                </div>
-                <div class="col-md-6"> 
-                    <div class="info-box-content" style="color:#FAB61C;">
-                      <h4 style="float:right">
-                        <span style="color:#000000;" id="hr"></span>
-                        <span style="color:#000000;" id="min"></span>
-                        <span style="color:#000000;" id="sec"></span> -
-                        <?php echo date('l d-M-Y');?> 
-                      </h4>  
-                      <br><br>
-                    </div>
-                  <!-- /.info-box -->
-                </div>
-              </div>
-              <!-- Message of the day close -->
-              <!-- dashborad widgets start here -->
-              <div class="row">
-        <div class="col-md-3">
-          <a href="./under-construction">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
-                <p><i class="glyphicon glyphicon-user"></i> Today's Visitors</p><br>
-                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">25</b>
-              </div>
-            </div>
-          </a>
+        <div class="col-md-6">
+          <p style="font-size:25px;line-height:2 "><i class="glyphicon glyphicon-hand-right"></i> <span style="color:#FAB61C;">Admin</span> Dashboard</p>
         </div>
-        <div class="col-md-3">
-          <a href="./under-construction">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
-                <p><i class="glyphicon glyphicon-user"></i> Today's Expenses</p><br>
-                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">5000</b>
-              </div>
+        <div class="col-md-6"> 
+            <div class="info-box-content" style="color:#FAB61C;">
+              <h4 style="float:right">
+                <span style="color:#000000;" id="hr"></span>
+                <span style="color:#000000;" id="min"></span>
+                <span style="color:#000000;" id="sec"></span> -
+                <?php echo date('l d-M-Y');?> 
+              </h4>  
+              <br><br>
             </div>
-          </a>
-        </div>
-        <div class="col-md-3">
-          <a href="./under-construction">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
-                <p><i class="glyphicon glyphicon-user"></i> Today's Income</p><br>
-                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">15000</b>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-3">
-          <a href="./under-construction">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
-                <p><i class="fa fa-money"></i> Today's Profit</p><br>
-                <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">10000</b>
-              </div>
-            </div>
-          </a>
+          <!-- /.info-box -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-3">
-          <a href="./car-wash-details?serviceID=<?php echo $WASH; ?>">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
+    <!-- Message of the day close -->
+    <div class="row">
+        <div class="col-md-3" style="background-color:white;padding:10px;border-top:3px solid #FAB61C;">
+        <a href="./car-wash-details?customer">
+          <!--   <div class="panel panel-default" style="border:1px solid #FAB61C;"> -->
+              <!-- <div class="panel-body" style="text-align: center;padding:30px" -->
                 <div class="row">
                   <div class="col-md-12">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Today's</span> WASH</th>
-                      </tr>
-                      <tr>
+                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;">Total</span> Customers</th>
+                        <th style="text-align: center;">
+                            <?php echo $countcustomer ?>
+                        </th>
+                        </tr>
+                      <!-- <tr>
                         <th>Count</th>
                         <td>
-                          <b style="border-radius: 20px;"><?php echo $countwash; ?></b>
+                          <b style="border-radius: 20px;"></b>
                         </td>
-                      </tr>
-                      <tr>
-                        <?php 
-                          $washSum = 0; 
-                          for ($m=0; $m <$countwash ; $m++) { 
-                          $washSum += $countWash[$m]['discount_per_service'];
-                          ?>
-                        <?php } ?>
-                        <th>Amount</th>
-                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;"><?php echo "Rs. ".number_format($washSum); ?></td>
-                      </tr>
+                      </tr> -->
                       </thead>
                     </table>
                   </div>
                 </div>
-              </div>
-            </div>
+              <!-- </div> -->
+            <!-- </div> -->
           </a>
-        </div>
-        <div class="col-md-3">
           <a href="./car-wash-details?polish">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
+            <!-- <div class="panel panel-default" style="border:1px solid #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px"> -->
                 <div class="row">
                   <div class="col-md-12">
                     <table class="table table-bordered">
                       <thead>
+                        <?php
+                            // total count of all types of polishes 
+                            $polishCount = $countwax + $countinteriorprot + $countenginedressing + $countundercarriage;
+                        ?>
                         <tr>
-                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Today's</span> POLISHES</th>
-                      </tr>
-                      <tr>
+                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;">Today's</span> POLISHES</th>
+                        <th style="text-align: center;">
+                           <?php echo $polishCount;?> 
+                        </th>
+                        </tr>
+                      <!-- <tr>
                         <th>Count</th>
                         <td>
                           <b style="border-radius: 20px;">
-                          <?php
-                            // total count of all types of polishes 
-                            $polishCount = $countwax + $countinteriorprot + $countenginedressing + $countundercarriage;
-                            echo $polishCount;
-                          ?>
+                          hello
                           </b>
                         </td>
-                      </tr>
+                      </tr> -->
                       <tr>
                         <?php 
                           $waxSum             = 0;
@@ -262,8 +209,8 @@ use yii\helpers\Url;
                           // total sum of all types of polishes in a current date
                           $totalSUM = $waxSum + $intProtSum + $engineDressingSum + $underCarriageSum;
                         ?>
-                        <th>Amount</th>
-                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;"><?php 
+                        <th colspan="2" style="text-align:left;">Amount</th>
+                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;text-align: center;"><?php 
                         //echo $totalSUM;
                         echo "Rs. ".number_format($totalSUM);
                          ?>
@@ -274,42 +221,79 @@ use yii\helpers\Url;
                     </table>
                   </div>
                 </div>
-              </div>
-            </div>
+             <!--  </div>
+            </div> -->
           </a>
-        </div>
-        <div class="col-md-3">
-          <?php 
-            $creditInvoicesDetails  = Yii::$app->db->createCommand("
-            SELECT sih.remaining_amount
-            FROM sale_invoice_head as sih
-            WHERE sih.status != 'Paid'
-            ")->queryAll();
-            $count = count($creditInvoicesDetails);
-            $creditSum = 0;
-            foreach ($creditInvoicesDetails as $key => $value) {
-              $creditSum += $value['remaining_amount'];
-            }
-          ?>
-          <a href="./credit-sale-invoices">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
+          <a href="./car-wash-details?serviceID=<?php echo $WASH; ?>">
+            <!-- <div class="panel panel-default" style="border:1px solid #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px"> -->
                 <div class="row">
                   <div class="col-md-12">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Total</span> Credit Invoices</th>
-                      </tr>
-                      <tr>
+                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;">Today's</span> WASH</th>
+                        <th style="text-align:center;">
+                            <?php echo $countwash; ?> 
+                        </th>
+                        </tr>
+                      <!-- <tr>
                         <th>Count</th>
                         <td>
-                          <b style="border-radius: 20px;"><?php echo $count; ?></b>
+                          <b style="border-radius: 20px;"></b>
                         </td>
                       </tr>
+                      <tr> -->
+                        <?php 
+                          $washSum = 0; 
+                          for ($m=0; $m <$countwash ; $m++) { 
+                          $washSum += $countWash[$m]['discount_per_service'];
+                          ?>
+                        <?php } ?>
+                        <th colspan="2" style="text-align:left;">Amount</th>
+                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;text-align:center;"><?php echo "Rs. ".number_format($washSum); ?></td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              <!-- </div>
+            </div> -->
+          </a>
+          <a href="./credit-sale-invoices">
+            <!-- <div class="panel panel-default" style="border:1px solid #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px"> -->
+                <?php 
+                    $creditInvoicesDetails  = Yii::$app->db->createCommand("
+                    SELECT sih.remaining_amount
+                    FROM sale_invoice_head as sih
+                    WHERE sih.status != 'Paid'
+                    ")->queryAll();
+                    $count = count($creditInvoicesDetails);
+                    $creditSum = 0;
+                    foreach ($creditInvoicesDetails as $key => $value) {
+                      $creditSum += $value['remaining_amount'];
+                    }
+                ?>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;">Total</span> Credit Invoices</th>
+                        <th style="text-align:center;">
+                            <?php echo $count; ?>
+                        </th>
+                        </tr>
+                      <!-- <tr>
+                        <th>Count</th>
+                        <td>
+                          <b style="border-radius: 20px;"></b>
+                        </td>
+                      </tr> -->
                       <tr>
-                        <th>Amount</th>
-                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;"><?php 
+                        <th colspan="2" style="text-align:left;">Amount</th>
+                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;text-align: center;"><?php 
                         //echo $totalSUM;
                         echo "Rs. ".number_format($creditSum);
                          ?>
@@ -320,46 +304,68 @@ use yii\helpers\Url;
                     </table>
                   </div>
                 </div>
-              </div>
-            </div>
+              <!-- </div>
+            </div> -->
           </a>
-        </div>
-        <div class="col-md-3">
-          <a href="./car-wash-details?customer">
-            <div class="panel panel-default" style="border:1px solid #FAB61C;">
-              <div class="panel-body" style="text-align: center;padding:30px">
-                <div class="row">
-                  <div class="col-md-12">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                        <th colspan="2" style="text-align: center;background-color:#FAB61C;color:white;"><span style="color:#000000;">Total</span> Customers</th>
-                      </tr>
-                      <tr>
-                        <th>Count</th>
-                        <td>
-                          <b style="border-radius: 20px;"><?php echo $countcustomer; ?></b>
-                        </td>
-                      </tr>
-                      </thead>
-                    </table>
+      </div>
+      <div class="col-md-9">
+          <div class="row">
+              <div class="col-md-3">
+                <a href="./under-construction">
+                <div class="panel panel-default" style="border:1px solid #FAB61C;">
+                  <div class="panel-body" style="text-align: center;padding:30px">
+                    <p><i class="glyphicon glyphicon-user"></i> Today Visitor</p><br>
+                    <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">25</b>
                   </div>
                 </div>
+                </a>
               </div>
-            </div>
-          </a>
-        </div>
-      </div>
-      <!-- Small boxes (Stat box) -->
-      
-      <!-- /.row -->
-            </div>
+              <div class="col-md-3">
+                <a href="./under-construction">
+                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
+                      <div class="panel-body" style="text-align: center;padding:30px">
+                        <p><i class="glyphicon glyphicon-user"></i> Today Expense</p><br>
+                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">5000</b>
+                      </div>
+                    </div>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="./under-construction">
+                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
+                      <div class="panel-body" style="text-align: center;padding:30px">
+                        <p><i class="glyphicon glyphicon-user"></i> Today Income</p><br>
+                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">15000</b>
+                      </div>
+                    </div>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="./under-construction">
+                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
+                      <div class="panel-body" style="text-align: center;padding:30px">
+                        <p><i class="fa fa-money"></i> Today Profit</p><br>
+                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">10000</b>
+                      </div>
+                    </div>
+                </a>
+              </div>
           </div>
-        </div>
+          <div class="row">
+              <div class="col-md-3">
+                <a href="./customer-vehicles">
+                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
+                      <div class="panel-body" style="text-align: center;padding:30px">
+                        <i class="glyphicon glyphicon-usd"></i><br>
+                        <p>Sale Invoice</p>
+                      </div>
+                    </div>
+                </a>
+              </div>
+          </div>
       </div>
-      <!-- Message of the day close -->
-
-</section>
+    </div>
+  </section>
 <!-- Script for tooltip -->
 <script>
   $(document).ready(function(){
