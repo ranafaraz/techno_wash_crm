@@ -72,10 +72,11 @@
                 'items' => [
                     // ['label' => 'Menus', 'options' => ['class' => 'header center']],
                      ['label' => 'Home', 'icon' => 'dashboard', 'url' => "./home"],
-                     ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
+                     // ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
                      ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles"],
                      
                      ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./employee"],
+                     ['label' => 'Employee Attendance', 'icon' => 'user-plus', 'url' => "./emp-atten"],
                     //  [
                     //     'label' => 'Employee',
                     //     'icon' => 'user-o',
@@ -146,7 +147,7 @@
                                 'url' => '#',
                                 'items' => [
                                     ['label' => 'Employee Type', 'icon' => 'user-secret', 'url' => './employee-types',],
-                                    ['label' => 'Wage Type', 'icon' => 'won', 'url' => './under-construction',],
+                                    ['label' => 'Wage Type', 'icon' => 'won', 'url' => './wage-type',],
                                     ['label' => 'Allowance Type', 'icon' => 'credit-card-alt', 'url' => './under-construction',],
                                 ],
                             ],

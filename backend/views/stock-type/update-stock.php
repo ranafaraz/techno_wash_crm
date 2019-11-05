@@ -72,6 +72,8 @@
 								<input type="date" id="expiry_date" class="form-control">
 							</div>
 						</div>
+						<input type="hidden" id="original_price" class="form-control">
+
 						<!-- <div class="col-md-4">
 							<div class="form-group">
 								<label>Original Price</label>
@@ -91,8 +93,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div class="row">
-						
+					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Status</label>

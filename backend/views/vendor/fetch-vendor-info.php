@@ -49,9 +49,8 @@
  	}
 
  	if( isset($_POST['user_id'])
-
  		&& isset($_POST['vendorID'])
- 		//&& isset($_POST['bilty_no'])
+ 		// && isset($_POST['bilty_no'])
  		&& isset($_POST['bill_no'])
  	 	&& isset($_POST['purchase_date'])
  	 	// && isset($_POST['dispatch_date']) 

@@ -34,7 +34,7 @@ class EmployeeTypes extends \yii\db\ActiveRecord
     {
         return [
 
-            [['emp_type_name', 'description'], 'required'],
+            [['emp_type_name'], 'required'],
             [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['created_by', 'updated_by'], 'integer'],
             [['emp_type_name'], 'string', 'max' => 50],
