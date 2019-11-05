@@ -326,7 +326,7 @@ body td{
                              <input type="text" id="get_purchase_value" style="display: none;">
                           </div>
                           <div class="col-md-4" style="display: none" id="quantity_no_div">
-                            <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove">
+                            <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                           </div>
                           <div class="col-md-2">
                             <button type="button" class="btn btn-danger btn-flat" id="remove" style="display: none;"> <i class="fa fa-times"></i> Remove</button>
@@ -921,12 +921,15 @@ $("#paid").on('focus', function(){
         {
           $('#remove_value').show();
           $('#remove').show();
+         
           // get the seected row index
           rIndex = this.rowIndex;
           document.getElementById("remove_value1").value = rIndex;
           document.getElementById("remove_value").value = this.cells[3].innerHTML;
           document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
           document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+          $('#check_no').val("");
+           $('#check_no').focus();
           var q = Number(document.getElementById("hide_quantity").value);
         if(q>1){
           $('#quantity_no_div').show();
@@ -1052,12 +1055,15 @@ $("#paid").on('focus', function(){
 	              {
                   $('#remove_value').show();
                   $('#remove').show();
+                  
 	                // get the seected row index
 	                rIndex = this.rowIndex;
 	                document.getElementById("remove_value1").value = rIndex;
                   document.getElementById("remove_value").value = this.cells[3].innerHTML;
                    document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
                     document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+                    $('#check_no').val("");
+                    $('#check_no').focus();
                    var q = Number(document.getElementById("hide_quantity").value);
                    if(q>1){
                     $('#quantity_no_div').show();
@@ -1190,6 +1196,7 @@ $("#paid").on('focus', function(){
              }
            }
           }
+          $('#check_no').val("");
           $('#paid').val("0");
           $('#disc').val("");
           $('#status').val("Unpaid");

@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="customer-vehicles-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'regno' => $regno,
     ]) ?>
 </div>

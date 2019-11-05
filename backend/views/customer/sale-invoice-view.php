@@ -498,7 +498,7 @@ use common\models\Products;
                   <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Details</h3>
                 </div>
                 <div class="col-md-1">
-                   <a href="./customer-update?id=<?php echo $customerID;?>" class="btn btn-info" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
+                   <a href="./customer-update?id=<?php echo $customerID;?>&regno=<?=$regNoID?>" class="btn btn-info" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
                     <i class="glyphicon glyphicon-edit"></i> Edit
                   </a>
                 </div>
@@ -599,7 +599,7 @@ use common\models\Products;
                   <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Vehicles Details</h3>
                 </div>
                 <div class="col-md-1">
-                  <a href="./customer-vehicles-create?id=<?php echo $customerID;?>" class="btn btn-success" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;">
+                  <a href="./customer-vehicles-create?id=<?php echo $customerID;?>&regno=<?=$regNoID?>" class="btn btn-success" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;">
                     <i class="glyphicon glyphicon-plus"></i> Insert
                   </a>
                 </div>
@@ -642,7 +642,7 @@ use common\models\Products;
                           <td style="vertical-align:middle;"><?php echo $customerVehicles[$i]['registration_no']; ?></td>
                           <td style="vertical-align:middle;"><?php echo $customerVehicles[$i]['color']; ?></td>
                           <td class="text-center" style="vertical-align:middle;"><img src="<?php echo $customerVehicles[$i]['image']; ?>" class="img-thumbnail" alt="Image" style="width:140px; height:100px;"/></td>
-                          <td class="text-center" style="vertical-align:middle;"><a href="customer-vehicles-update?id=<?php echo $customerVehicles[$i]['customer_vehicle_id'] ?>" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
+                          <td class="text-center" style="vertical-align:middle;"><a href="customer-vehicles-update?id=<?php echo $customerVehicles[$i]['customer_vehicle_id'] ?>&regno=<?=$regNoID?>" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
                         </tr> 
                       
                       <?php } ?>

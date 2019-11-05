@@ -4,7 +4,7 @@
 	$customerid = $_GET['customerid'];
 	$regNoID = $_GET['regno'];
 
-	$updateinvoiceData = Yii::$app->db->createCommand("
+$updateinvoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM sale_invoice_head
     WHERE sale_inv_head_id = '$saleinvHeadID'
