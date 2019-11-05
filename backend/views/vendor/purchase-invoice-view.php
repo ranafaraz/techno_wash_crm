@@ -342,7 +342,7 @@ body td{
 											<th style="background-color: #3C8DBC;color:white;">Mnu.</th>
 											<th style="background-color: #3C8DBC;color:white;">Name</th>
 											<th style="background-color: #3C8DBC;color:white;">Exp. Date</th>
-											<th style="background-color: #3C8DBC;color:white;">Org. Price</th>
+											<!-- <th style="background-color: #3C8DBC;color:white;">Org. Price</th> -->
 											<th style="background-color: #3C8DBC;color:white;">Purch Price</th>
 											<th style="background-color: #3C8DBC;color:white;">Sale Price</th>
                       						<th style="background-color: #3C8DBC;color:white;">Qty</th>
@@ -907,10 +907,10 @@ $("#paid").on('focus', function(){
 		row.insertCell(2).innerHTML= manufactreName;
 		row.insertCell(3).innerHTML= product_name;
 		row.insertCell(4).innerHTML= expiry_date;
-		row.insertCell(5).innerHTML= original_price;
-		row.insertCell(6).innerHTML= purchase_price;
-		row.insertCell(7).innerHTML= selling_price;
-    row.insertCell(8).innerHTML= qty;
+		//row.insertCell(5).innerHTML= original_price;
+		row.insertCell(5).innerHTML= purchase_price;
+		row.insertCell(6).innerHTML= selling_price;
+    row.insertCell(7).innerHTML= qty;
 
 		$('#barcode').val("");
 		$('#barcode').focus();
@@ -1037,10 +1037,10 @@ $("#paid").on('focus', function(){
 			row.insertCell(2).innerHTML= manufactreName;
 			row.insertCell(3).innerHTML= product_name;
 			row.insertCell(4).innerHTML= expiry_date;
-			row.insertCell(5).innerHTML= original_price;
-			row.insertCell(6).innerHTML= purchase_price;
-			row.insertCell(7).innerHTML= selling_price;
-	    	row.insertCell(8).innerHTML= qty;
+			//row.insertCell(5).innerHTML= original_price;
+			row.insertCell(5).innerHTML= purchase_price;
+			row.insertCell(6).innerHTML= selling_price;
+	    	row.insertCell(7).innerHTML= qty;
 
 			$('#quantity').val("");
 			$('#quantity').focus();
@@ -1232,7 +1232,7 @@ $("#paid").on('focus', function(){
    //  else
     if(bill_no == "" || bill_no == null )
     {
-      alert('Please fill Bilty no');
+      alert('Please fill Bill no');
       $('#bill_no').css("border", "1px solid red");
       $('#bill_no').focus();
     }
@@ -1283,14 +1283,13 @@ $("#paid").on('focus', function(){
 		        	},
 		        url: "$url",
 		        success: function(result){ 
+              console.log(result);
 	        		if(result){
-        			 krajeeDialog.confirm('Are you sure to add bill', function(out){
+        			  krajeeDialog.confirm('Are you sure to add bill', function(out){
                   if(out) {
-                     // alert('Yes'); // or do something on confirmation
                       window.location = './purchase-invoice-view?vendor_id=$vendorID';
                   }
-              });
-        			
+                });
         			}     	
 	        	}      
     		}); 	

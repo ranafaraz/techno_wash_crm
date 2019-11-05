@@ -88,7 +88,7 @@ CrudAsset::register($this);
             'panel' => [
                 'type' => 'default', 
                 'heading' => '<i class="glyphicon glyphicon-stats"></i> Sales Invoice', 
-                'before'=>'<em><b  style="color:red;font-size:16px;font-family:georgia;">* Click On Customer Name To Initiate Sale Invoice.</b></em>',
+                'before'=>'<em><b  style="color:red;font-size:16px;font-family:georgia;">* Click On Registration No. To Initiate Sale Invoice.</b></em>',
             ],
             'toggleDataContainer' => ['class' => 'btn-group mr-2'],
             'columns' => [
@@ -112,31 +112,9 @@ CrudAsset::register($this);
                 // ],
                 [
                     'attribute' => 'customer_id', 
-                    //'value' => 'className.class_name',
-                    'width' => '250px',
-                    'headerOptions' => [
-                        // this should be on a CSS file as class instead of a inline style attribute...
-                        'style' => ''
-                    ],
-                    'format' => 'raw',
-                    'value' => function($model, $key, $index, $column) {
-                        $CustmName  = Yii::$app->db->createCommand("
-                        SELECT customer_name
-                        FROM customer
-                        WHERE customer_id = '$model->customer_id'
-                        ")->queryAll();
+                    'value' => 'customer.customer_name',
+                    'width' => '50px',
 
-                                    if (empty($model->customer_id) || empty($model->customer_id)) {
-                                        return;
-                                    }
-                                    return Html::a($CustmName[0]['customer_name'], [ './sale-invoice-view','customer_id' => $model->customer_id , 'regno' => $model->customer_vehicle_id], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:black;', 'data' => ['pjax' => 0]] 
-                                );
-                    },
-                    'contentOptions' => function ($model, $key, $index, $column) {
-                    return ['class' => '','style' => 'background-color:' 
-                        . (!empty($model->customer_id) && $model->customer_id / $model->customer_id < 2
-                            ? '#3C8DBC' : 'black')];
-                    },
                     // 'value' => function ($model, $key, $index, $widget) { 
                     //     return $model->category->category_name;
                     // },
@@ -157,7 +135,20 @@ CrudAsset::register($this);
                 [
                     'attribute' => 'registration_no',
                     // 'value' => 'std.std_name',
-                    // 'width' => '150px',
+                    'width' => '750px',
+                    'format' => 'raw',
+                    'value' => function($model, $key, $index, $column) {
+                        if (empty($model->registration_no) || empty($model->registration_no)) {
+                            return;
+                        }
+                        return Html::a($model->registration_no, [ './sale-invoice-view','customer_id' => $model->customer_id , 'regno' => $model->customer_vehicle_id], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:white;', 'data' => ['pjax' => 0]] 
+                        );
+                    },
+                    'contentOptions' => function ($model, $key, $index, $column) {
+                    return ['class' => '','style' => 'background-color:' 
+                        . (!empty($model->customer_id) && $model->customer_id / $model->customer_id < 2
+                            ? '#3C8DBC' : 'black')];
+                    },
                     // 'hAlign' => 'right',
                     // 'format' => ['decimal', 2],
                     // 'pageSummary' => true,

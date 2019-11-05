@@ -46,26 +46,21 @@
 								<input type="date" id="expiry_date" class="form-control">
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="form-group">
-								<label>Original Price</label>
-								<input type="number" id="original_price" class="form-control">
-							</div>
-						</div>
+							<input type="hidden" id="original_price" class="form-control">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Purchasing Price</label>
 								<input type="number" id="purchasing_price" class="form-control">
 							</div>
 						</div>
-					</div>
-					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Selling Price</label>
 								<input type="number" id="selling_price" class="form-control">	
 							</div>
 						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Status</label>
