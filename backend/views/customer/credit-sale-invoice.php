@@ -248,7 +248,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					</table>
 					<?php  } ?>
 				</div>
-				<div class="col-sm-6 col-sm-offset-3">
+				<div class="col-sm-12">
 					<table class="table table-bordered" >
 						<thead>
 							<tr>
@@ -262,72 +262,32 @@ $customervehicleID = Yii::$app->db->createCommand("
 				</div>
 			</div>
 
-			<div class="row" style="margin-top: -10px;">
-				<div class="col-sm-4" style="margin-left: 60px;">
+			<div class="row">
+				<div class="col-sm-3">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th style="text-align: center;background-color: #fff;padding-left: 25px;padding-right: 25px;">Total Amount</th>
-								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['total_amount']; ?></th>
+								<th style="background-color:white;color:black;">Total Amount</th>
+								<th><?php echo $bill[0]['total_amount']; ?></th>
 							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-			<div class="row" style="margin-top: -10px;">
-				<div class="col-sm-4" style="margin-left: 60px;">
-					<table class="table table-bordered">
-						<thead>
 							<tr>
-								<th style="text-align: center;background-color: #fff;padding-left: 25px;padding-right: 25px;">Invoice Discount</th>
-								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['discount']; ?></th>
+								<th style="background-color:white;color:black;">Invoice Discount</th>
+								<th><?php echo $bill[0]['discount']; ?></th>
 							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-			<div class="row" style="margin-top: -10px;">
-				<div class="col-sm-4" style="margin-left: 60px;">
-					<table class="table table-bordered">
-						<thead>
 							<tr>
-								<th style="text-align: center;background-color: #fff;padding-left: 25px;padding-right: 25px;">Net Bill</th>
-								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['net_total']; ?></th>
+								<th style="background-color:white;color:black;">Net Bill</th>
+								<th><?php echo $bill[0]['net_total']; ?></th>
 							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-			<div class="row" style="margin-top: -10px;">
-				<div class="col-sm-4" style="margin-left: 60px;">
-					<table class="table table-bordered">
-						<thead>
 							<tr>
-								<th style="text-align: center;background-color: #fff;padding-left: 25px;padding-right: 25px;">Paid</th>
-								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['paid_amount']; ?></th>
+								<th style="background-color:white;color:black;">Paid</th>
+								<th><?php echo $bill[0]['paid_amount']; ?></th>
 							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-			<div class="row" style="margin-top: -10px;">
-				<div class="col-sm-4" style="margin-left: 60px;">
-					<table class="table table-bordered">
-						<thead>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Remaining</th>
-								<th style="text-align: center;background-color: lightgray;"><?php echo $bill[0]['remaining_amount']; ?></th>
+								<th style="background-color:white;color:black;">Remaining</th>
+								<th><?php echo $bill[0]['remaining_amount']; ?></th>
 							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-			<div class="row" style="margin-top: -10px;">
-				<div class="col-sm-4" style="margin-left: 60px;">
-					<table class="table table-bordered">
-						<thead>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Status</th>
+								<th style="background-color:white;color:black;">Status</th>
 								<?php
 								 $status = $bill[0]['status'];
 								 if (($status == "Unpaid") || ($status == "unpaid")) {
@@ -337,12 +297,13 @@ $customervehicleID = Yii::$app->db->createCommand("
 									?>
 									<th style="text-align: center;background-color:#FAB61C;color: white;"><?php echo $bill[0]['status']; ?> Paid</th>
 								<?php } ?>
-								
 							</tr>
 						</thead>
 					</table>
 				</div>
 			</div>
+
+			
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
