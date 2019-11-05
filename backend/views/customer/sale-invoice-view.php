@@ -921,7 +921,7 @@ $("#item_type").change(function(){
   });
 
 
-	$("#services").on('click',function(){
+	$("#services").on('change',function(){
 		var serviceID = $("#services").val();
     $('#product_quantity').val("");
     var customerVehicle = $("#vehicle").val()
