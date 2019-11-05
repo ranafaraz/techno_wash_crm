@@ -864,15 +864,38 @@ $url = \yii\helpers\Url::to("customer/fetch-info");
 
 $script = <<< JS
 
+$(document).ready(function(){
+  $('#types').show();
+  var vehicle = $("#vehicle").val();
+  $.ajax({
+          type:'post',
+          data:{vehicle:vehicle},
+          url: "$url",
+          success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+             $('#vehicle_name').val(jsonResult[0]['registration_no']);
+             //alert(jsonResult[0]['vehical_type_id']);
+          }      
+      });
+  });
+
+  $("#vehicle").on('focus', function(){
+    $('#item_type').val("");
+    $('#servic').hide();
+    $('#stock').hide();
+    $('#pname').hide();
+    $('#quantity').hide();
+    });
+
 $("#paid").on('focus', function(){
   $('#paid').val("");
   var paid = $('#paid').val();
   if(paid == "" || paid == null)
-          {
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
-        }
+      {
+      $("#insert").attr("disabled", true);
+      $('#alert').css("display","block");
+      $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+    }
   });
 
 $("#item_type").change(function(){
@@ -885,7 +908,6 @@ $("#item_type").change(function(){
 		 	$('#servic').show();
 		 	$('#stock').hide();
       $('#pname').hide();
-      $('#quantity').hide();
       $('#quantity').hide();
       $('#availbleStock').hide();
       $('#message').hide();
@@ -1029,11 +1051,10 @@ $("#item_type").change(function(){
 	});
 
 
-  // for vehicel name
-	$(document).ready(function(){
+ // for vehicel name
+	$("#vehicle").on("change",function(){
 		var vehicle = $("#vehicle").val();
-     if(vehicle == null || vehicle ==""){
-    
+     if(vehicle == null || vehicle ==""){  
       $('#types').hide();
       $('#servic').hide();
       $('#stock').hide();

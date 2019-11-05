@@ -75,7 +75,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 		</div> -->
 		<div id="div1">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6  col-md-offset-3">
 					<h3  style="text-align: center;">
 						TECHNO WASH
 					</h3>
@@ -261,9 +261,6 @@ $customervehicleID = Yii::$app->db->createCommand("
 			</div>
 
 			<div class="row">
-				<div class="col-sm-6">
-					
-				</div>
 				<div class="col-sm-3">
 					<table class="table table-bordered">
 						<thead>
@@ -296,10 +293,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-3">
-					
-				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 col-md-offset-3">
 					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
 					<p style="text-align: center;">
 						<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
