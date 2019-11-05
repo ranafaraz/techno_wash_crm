@@ -41,22 +41,22 @@
 <head>
 	<title>Paid Purchase Invoice</title>
 </head>
-<body>
+<body onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
 		footer,#print_button{
 			display: none;
 		}
 	</style>
 	<div class="container-fluid">
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-2">
-				<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
+				<a href="./purchase-invoice-view?vendor_id=<?php //echo $vendorID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
 			</div>
 			<div class="col-md-8"></div>
 			<div class="col-md-2">
 				<button type="button" onclick="printContent('div1')" class="btn btn-warning btn-flat" id="print_button"><i class="glyphicon glyphicon-print"></i> Print Content</button>
 			</div>
-		</div>
+		</div> -->
 		<div id="div1">
 			
 		
@@ -72,27 +72,21 @@
 					
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table">
+							<table class="table table-bordered">
 								
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>
-										<td><?php echo $vendor_name; ?></td>
+										<td style="text-align: center;"><?php echo $vendor_name; ?></td>
 										<th>Date</th>							
-										<td><?php echo $date; ?></td>
+										<td style="text-align: center;"><?php echo $date; ?></td>
 									</tr>
 									<tr>
 										<th><b>INV #</b></th>
-										<td><?php echo $purchaseInvID; ?></td>
+										<td style="text-align: center;"><?php echo $purchaseInvID; ?></td>
 										<th>Time</th>
-										<td><?php echo $time; ?></td>
+										<td style="text-align: center;"><?php echo $time; ?></td>
 									</tr>
-									<!-- <tr>
-										<th>Bilty No.#</th>
-										<td><?=$paidinvoiceData[0]['bilty_no'];?></td>
-										<th>Bill No.#</th>
-										<td><?=$paidinvoiceData[0]['bill_no'];?></td>
-									</tr> -->
 								</thead>
 								
 							</table>
@@ -174,12 +168,12 @@
 
 							?>
 							<tr>
-								<td><?php echo $j+1; ?></td>
-								<td><?php echo $productData[0]['product_name']; ?></td>
-								<td><?php echo $manufacturerName[0]['name']; ?></td>
-								<td><?php echo $stockData[0]['purchase_price']; ?></td>
-								<td><?php echo $countStock; ?></td>
-								<td>
+								<td style="text-align: center;"><?php echo $j+1; ?></td>
+								<td style="text-align: center;"><?php echo $productData[0]['product_name']; ?></td>
+								<td style="text-align: center;"><?php echo $manufacturerName[0]['name']; ?></td>
+								<td style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></td>
+								<td style="text-align: center;"><?php echo $countStock; ?></td>
+								<td style="text-align: center;">
 									<?php echo $total = $stockData[0]['purchase_price']*$countStock; 
 									$totalAmount += $total;
 									?>
@@ -195,9 +189,9 @@
 						<thead>
 							<tr>
 								<th style="text-align: center;background-color: lightgray;">Total Products: </th>
-								<th style="background-color: white;"><?php echo $totalProducts; ?></th>
+								<th style="background-color: white;text-align: center;"><?php echo $totalProducts; ?></th>
 								<th style="text-align: center;background-color: lightgray;">Total Qty: </th>
-								<th style="background-color:white;"><?php echo $quantity; ?></th>
+								<th style="background-color:white;text-align: center;"><?php echo $quantity; ?></th>
 							</tr>
 						</thead>
 					</table>
@@ -214,27 +208,27 @@
 						<thead>
 							<tr>
 								<th>Total Amount</th>
-								<th><?php echo $paidinvoiceData[0]['total_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
 								<th>Invoice Discount</th>
-								<th><?php echo $paidinvoiceData[0]['discount']; ?></th>
+								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['discount']; ?></th>
 							</tr>
 							<tr>
 								<th>Net Bill</th>
-								<th><?php echo $paidinvoiceData[0]['net_total']; ?></th>
+								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['net_total']; ?></th>
 							</tr>
 							<tr>
 								<th>Paid</th>
-								<th><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
 								<th>Remaining</th>
-								<th><?php echo $paidinvoiceData[0]['remaining_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
 								<th>Status</th>
-								<th><?php echo $paidinvoiceData[0]['status']; ?></th>
+								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['status']; ?></th>
 							</tr>
 						</thead>
 					</table>
@@ -245,7 +239,7 @@
 					
 				</div>
 				<div class="col-md-6">
-					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Honor To Work With You!</i></h4>
+					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important;"><i>Honor To Work With You!</i></h4>
 					<p style="text-align: center;">
 						<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
 					</p>
@@ -263,5 +257,8 @@ function printContent(el){
 	document.body.innerHTML = printcontent;
 	window.print();
 	document.body.innerHTML = restorepage;
+}
+function returnBack() {
+  window.location='purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>';
 }
 </script>
