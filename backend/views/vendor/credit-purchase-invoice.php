@@ -43,9 +43,16 @@
 </head>
 <body onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
-		footer,#print_button{
+		footer{
 			display: none;
 		}
+		body{
+			font-size:18px;
+		}
+    h4 {
+        color: white !important;
+    }
+
 	</style>
 	<div class="container-fluid">
 		<!-- <div class="row">
@@ -72,27 +79,23 @@
 					
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table">
+							<table class="table table-bordered">
 								
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>
-										<td><?php echo $vendor_name; ?></td>
+										<td colspan="3" style="text-align: center;"><?php echo $vendor_name; ?></td>
 										<th>Date</th>							
-										<td><?php echo $date; ?></td>
+										<td style="text-align: center;"><?php echo $date; ?></td>
 									</tr>
 									<tr>
 										<th><b>INV #</b></th>
-										<td><?php echo $purchaseInvID; ?></td>
+										<td style="text-align: center;"><?php echo $purchaseInvID; ?></td>
 										<th>Time</th>
-										<td><?php echo $time; ?></td>
+										<td style="text-align: center;"><?php echo $time; ?></td>
+										<th>Bill #</th>
+										<td style="text-align: center;"><?php echo $creditinvoiceData[0]['bill_no']; ?></td>
 									</tr>
-									<!-- <tr>
-										<th>Bilty No.#</th>
-										<td><?=$creditinvoiceData[0]['bilty_no'];?></td>
-										<th>Bill No.#</th>
-										<td><?=$creditinvoiceData[0]['bill_no'];?></td>
-									</tr> -->
 								</thead>
 								
 							</table>
@@ -113,18 +116,16 @@
 						    WHERE stock_type_id = '$stocktypeid'
 						    ")->queryAll();
 					 ?>
+					 <p style="text-align: center;font-weight:bolder;border:1px solid;"> Stock: <?php echo $stockTypeName[0]['name'];?></p>
 					<table class="table">
 						<thead style="background-color: #3C8DBC !important;color:white;">
-							<tr>
-								<th colspan="6" style="text-align: center;"> Stock: <i><?php echo $stockTypeName[0]['name'];?> </i> (Bill No. <i><?=$creditinvoiceData[0]['bill_no'];?></i>)</th>
-							</tr>
 							<tr>
 								<th>Sr #</th>
 								<th>Product</th>
 								<th>Manufacturer</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
+								<th style="text-align: center;">Price</th>
+								<th style="text-align: center;">Quantity</th>
+								<th style="text-align: center;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -177,9 +178,9 @@
 								<td><?php echo $j+1; ?></td>
 								<td><?php echo $productData[0]['product_name']; ?></td>
 								<td><?php echo $manufacturerName[0]['name']; ?></td>
-								<td><?php echo $stockData[0]['purchase_price']; ?></td>
-								<td><?php echo $countStock; ?></td>
-								<td>
+								<td style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></td>
+								<td style="text-align: center;"><?php echo $countStock; ?></td>
+								<td style="text-align: center;">
 									<?php echo $total = $stockData[0]['purchase_price']*$countStock; 
 									$totalAmount += $total;
 									?>

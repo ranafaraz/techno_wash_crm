@@ -43,8 +43,14 @@
 </head>
 <body onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
-		footer,#print_button{
+		footer{
 			display: none;
+		}
+		body{
+			font-size:18px;
+		}
+		#footer1{
+			color: white;
 		}
 	</style>
 	<div class="container-fluid">
@@ -77,7 +83,7 @@
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>
-										<td style="text-align: center;"><?php echo $vendor_name; ?></td>
+										<td colspan="3" style="text-align: center;"><?php echo $vendor_name; ?></td>
 										<th>Date</th>							
 										<td style="text-align: center;"><?php echo $date; ?></td>
 									</tr>
@@ -86,6 +92,8 @@
 										<td style="text-align: center;"><?php echo $purchaseInvID; ?></td>
 										<th>Time</th>
 										<td style="text-align: center;"><?php echo $time; ?></td>
+										<th>Bill #</th>
+										<td style="text-align: center;"><?php echo $paidinvoiceData[0]['bill_no'];; ?></td>
 									</tr>
 								</thead>
 								
@@ -107,18 +115,15 @@
 						    WHERE stock_type_id = '$stocktypeid'
 						    ")->queryAll();
 					 ?>
+					 <p style="text-align: center;font-weight:bolder;border:1px solid;"> Stock: <?php echo $stockTypeName[0]['name'];?></p>
 					<table class="table">
 						<thead style="background-color: #3C8DBC !important;color:white;">
-							<tr>
-								<th colspan="6" style="text-align: center;"> Stock: <i><?php echo $stockTypeName[0]['name'];?> </i> (Bill No. <i><?=$paidinvoiceData[0]['bill_no'];?></i>)</th>
-							</tr>
-							<tr>
 								<th>Sr #</th>
 								<th>Product</th>
 								<th>Manufacturer</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
+								<th style="text-align: center;">Price</th>
+								<th style="text-align: center;">Quantity</th>
+								<th style="text-align: center;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -168,9 +173,9 @@
 
 							?>
 							<tr>
-								<td style="text-align: center;"><?php echo $j+1; ?></td>
-								<td style="text-align: center;"><?php echo $productData[0]['product_name']; ?></td>
-								<td style="text-align: center;"><?php echo $manufacturerName[0]['name']; ?></td>
+								<td style="text-align: left;"><?php echo $j+1; ?></td>
+								<td style="text-align: left;"><?php echo $productData[0]['product_name']; ?></td>
+								<td style="text-align: left;"><?php echo $manufacturerName[0]['name']; ?></td>
 								<td style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></td>
 								<td style="text-align: center;"><?php echo $countStock; ?></td>
 								<td style="text-align: center;">
