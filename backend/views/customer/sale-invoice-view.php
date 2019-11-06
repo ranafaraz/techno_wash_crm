@@ -1363,7 +1363,7 @@ $('#product_quantity').on("change",function(){
 
       var remain_amount = nt - check_quantity*remove_amount;
       $("#tp").val(remain_amount);
-      $("#tp").val(remain_amount);
+      $("#nt").val(remain_amount);
       $("#remaining").val(remain_amount);
       var a =amountArray.length - remove_value1;
       quantityArray[a] = remain_number;
@@ -1410,7 +1410,7 @@ $('#product_quantity').on("change",function(){
         $('#price').val("");
         $('#selling_price').val("");
         $("#productSellingPrice").val("");
-        $('#vehicle').val("");
+        //$('#vehicle').val("");
         $('#item_type').val("");
         $('#types').hide();
         $('#stock').hide();
