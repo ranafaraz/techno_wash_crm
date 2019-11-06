@@ -101,6 +101,7 @@ return [
                 // Services
                 'services'         => 'services/index',
                 'service-detail-view'         => 'services/view',
+                'update-service'         => 'services/update-service',
 
                 // Stock
                 'stock'            => 'stock/index',
@@ -121,6 +122,7 @@ return [
                 'vehicle-type'      => 'vehicle-type/index',
                 'vehicle-type-view'      => 'vehicle-type/view',
                 'update-vehicle-type'      => 'vehicle-type/update-vehicle-type',
+                'delete-vehicle-model'      => 'vehicle-type/delete-vehicle-model',
 
                 // Vehicle Type Sub Category
                 'vehicle-type-sub-category'      => 'vehicle-type-sub-category/index',
