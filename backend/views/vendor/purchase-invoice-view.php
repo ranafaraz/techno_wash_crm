@@ -926,8 +926,8 @@ $("#paid").on('focus', function(){
           rIndex = this.rowIndex;
           document.getElementById("remove_value1").value = rIndex;
           document.getElementById("remove_value").value = this.cells[3].innerHTML;
-          document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
-          document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+          document.getElementById("hide_quantity").value = this.cells[7].innerHTML;
+          document.getElementById("get_purchase_value").value = this.cells[5].innerHTML;
           $('#check_no').val("");
            $('#check_no').focus();
           var q = Number(document.getElementById("hide_quantity").value);
@@ -1060,8 +1060,8 @@ $("#paid").on('focus', function(){
 	                rIndex = this.rowIndex;
 	                document.getElementById("remove_value1").value = rIndex;
                   document.getElementById("remove_value").value = this.cells[3].innerHTML;
-                   document.getElementById("hide_quantity").value = this.cells[8].innerHTML;
-                    document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+                   document.getElementById("hide_quantity").value = this.cells[7].innerHTML;
+                    document.getElementById("get_purchase_value").value = this.cells[5].innerHTML;
                     $('#check_no').val("");
                     $('#check_no').focus();
                    var q = Number(document.getElementById("hide_quantity").value);
@@ -1148,7 +1148,7 @@ $("#paid").on('focus', function(){
         else{
             if((hide_quantity>1) && (check_no<hide_quantity)){
              //alert(remain_quantity);
-              document.getElementById("myTableData").rows[remove_value].cells[8].innerHTML = remain_quantity;
+              document.getElementById("myTableData").rows[remove_value].cells[7].innerHTML = remain_quantity;
               var remove_amount = Number(document.getElementById("get_purchase_value").value);
               var nt = Number(document.getElementById("tp").value);
               var remain_amount = nt - check_no*remove_amount;
@@ -1166,6 +1166,31 @@ $("#paid").on('focus', function(){
               $('#remove_value1').val("");
 
             }
+            else if(check_no == hide_quantity){
+              var nt=$('#tp').val(); 
+              var a =barcodeArray.length- remove_value; 
+
+              var remove_amount = Number(document.getElementById("get_purchase_value").value);
+              document.getElementById("myTableData").deleteRow(remove_value); 
+              var remove_amount = Number(document.getElementById("get_purchase_value").value);
+              net_of_remove_amount = remove_amount*hide_quantity;
+              //alert(quantityArray);
+              nt=nt - net_of_remove_amount;
+              $('#tp').val(nt); 
+              $('#nt').val(nt); 
+              $('#remaining').val(nt); 
+              barcodeArray.splice(a,1);
+              stockTypeArray.splice(a,1);
+              manufacturerArray.splice(a,1);
+              nameArray.splice(a,1);
+              expiryDateArray.splice(a,1);
+              originalPriceArray.splice(a,1);
+              purchasePriceArray.splice(a,1);
+              sellingPriceArray.splice(a,1);
+              quantityArray.splice(a,1);
+              //alert(quantityArray);
+
+              }
 
             else{document.getElementById("myTableData").deleteRow(remove_value);
           var a =barcodeArray.length- remove_value;

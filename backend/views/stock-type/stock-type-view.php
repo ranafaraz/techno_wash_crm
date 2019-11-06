@@ -92,9 +92,10 @@ $countManufactureData = count($manufactureData);
 			            	<?php 
 									for ($i=0; $i <$countManufactureData ; $i++) { 
 									$manufactureName = $manufactureData[$i]['name'];
+									$manufactureID = $manufactureData[$i]['manufacture_id'];
 								?>
 				              	<li>
-				              	<a href="#<?php echo $manufactureName; ?>" data-toggle="tab">
+				              	<a href="#<?php echo $manufactureID; ?>" data-toggle="tab">
 				              		<?php echo $manufactureName; ?>
 				              	</a>
 				              	</li>
@@ -117,7 +118,7 @@ $countManufactureData = count($manufactureData);
 
 
 									?>
-					            <div class="tab-pane" id="<?php echo $manufactureName; ?>">
+					            <div class="tab-pane" id="<?php echo $manufactureID; ?>">
 					               <div class="row">
 					               	<div class="col-md-2">
 					               		 <p style="color:#3C8DBC;font-size:20px;"><?php echo $manufactureName; ?>
@@ -249,7 +250,7 @@ $countManufactureData = count($manufactureData);
 					               					$totalSold = $soldStockkData[0]['COUNT(name)'];
 					               					$soldSum += $totalSold;
 					               					if ($totalSold == 0) {
-					               						echo "<td class='danger'>"."Not Sold"."</td>";
+					               						echo "<td class='danger'>"."0"."</td>";
 					               					}
 					               					else{
 					               						echo "<td class='success'>".$totalSold."</td>";

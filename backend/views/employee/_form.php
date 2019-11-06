@@ -71,20 +71,16 @@ use johnitvn\ajaxcrud\CrudAsset;
 
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['options' => ['id' => 'empCnic', 'onchange' => 'generateBarcode();'], 'mask' => '99999-9999999-9']) ?>
+            <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
         
         </div>
-        <div class="col-md-4">
-          <?= $form->field($model, 'barcode')->hiddenInput(['id' => 'barcode_ID']) ?>
-          <div id="barcodeTarget" class="barcodeTarget"></div>
-          <canvas id="canvasTarget" width="210" height="90" style="border: none; margin: 0px;"></canvas>
-        </div> 
+       
         <div class="col-md-4">
             <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
         
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'eemail']) ?>
+            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'email']) ?>
         </div>
     </div>
     <!-- row 3 close -->
@@ -113,10 +109,10 @@ use johnitvn\ajaxcrud\CrudAsset;
     
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="jquery-barcode.js"></script>
+<script type="text/javascript" src="js/jquery-barcode.js"></script>
 <script type="text/javascript">
   function generateBarcode(){
-        var value = $("#stdBform").val();
+        var value = $("#empCnic").val();
         var btype = 'codabar';
         var renderer = "canvas";
         
@@ -175,4 +171,5 @@ use johnitvn\ajaxcrud\CrudAsset;
         });
         generateBarcode();
       });
+
 </script>
