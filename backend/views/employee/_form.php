@@ -113,7 +113,7 @@ use johnitvn\ajaxcrud\CrudAsset;
     
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="jquery-barcode.js"></script>
+<script type="text/javascript" src="js/jquery-barcode.js"></script>
 <script type="text/javascript">
   function generateBarcode(){
         var value = $("#empCnic").val();
@@ -144,7 +144,7 @@ use johnitvn\ajaxcrud\CrudAsset;
           $("#barcodeTarget").html("").show().barcode(value, btype, settings);
         }
       }
-         alert(barcodeTarget); 
+          
       function showConfig1D(){
         $('.config .barcode1D').show();
         $('.config .barcode2D').hide();
@@ -175,4 +175,5 @@ use johnitvn\ajaxcrud\CrudAsset;
         });
         generateBarcode();
       });
+
 </script>
