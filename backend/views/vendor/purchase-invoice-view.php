@@ -927,7 +927,7 @@ $("#paid").on('focus', function(){
           document.getElementById("remove_value1").value = rIndex;
           document.getElementById("remove_value").value = this.cells[3].innerHTML;
           document.getElementById("hide_quantity").value = this.cells[7].innerHTML;
-          document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+          document.getElementById("get_purchase_value").value = this.cells[5].innerHTML;
           $('#check_no').val("");
            $('#check_no').focus();
           var q = Number(document.getElementById("hide_quantity").value);
@@ -1061,7 +1061,7 @@ $("#paid").on('focus', function(){
 	                document.getElementById("remove_value1").value = rIndex;
                   document.getElementById("remove_value").value = this.cells[3].innerHTML;
                    document.getElementById("hide_quantity").value = this.cells[7].innerHTML;
-                    document.getElementById("get_purchase_value").value = this.cells[6].innerHTML;
+                    document.getElementById("get_purchase_value").value = this.cells[5].innerHTML;
                     $('#check_no').val("");
                     $('#check_no').focus();
                    var q = Number(document.getElementById("hide_quantity").value);
@@ -1166,6 +1166,31 @@ $("#paid").on('focus', function(){
               $('#remove_value1').val("");
 
             }
+            else if(check_no == hide_quantity){
+              var nt=$('#tp').val(); 
+              var a =barcodeArray.length- remove_value; 
+
+              var remove_amount = Number(document.getElementById("get_purchase_value").value);
+              document.getElementById("myTableData").deleteRow(remove_value); 
+              var remove_amount = Number(document.getElementById("get_purchase_value").value);
+              net_of_remove_amount = remove_amount*hide_quantity;
+              //alert(quantityArray);
+              nt=nt - net_of_remove_amount;
+              $('#tp').val(nt); 
+              $('#nt').val(nt); 
+              $('#remaining').val(nt); 
+              barcodeArray.splice(a,1);
+              stockTypeArray.splice(a,1);
+              manufacturerArray.splice(a,1);
+              nameArray.splice(a,1);
+              expiryDateArray.splice(a,1);
+              originalPriceArray.splice(a,1);
+              purchasePriceArray.splice(a,1);
+              sellingPriceArray.splice(a,1);
+              quantityArray.splice(a,1);
+              //alert(quantityArray);
+
+              }
 
             else{document.getElementById("myTableData").deleteRow(remove_value);
           var a =barcodeArray.length- remove_value;
