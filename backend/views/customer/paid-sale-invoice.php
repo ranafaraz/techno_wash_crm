@@ -86,24 +86,24 @@ $customervehicleID = Yii::$app->db->createCommand("
 					
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table">
+							<table class="table table-bordered">
 								
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>
 										
-										<td><?php echo $customer_name; ?></td>
+										<td style="text-align: center;"><?php echo $customer_name; ?></td>
 										<th>Date</th>
 										
-										<td><?php echo $date; ?></td>
+										<td style="text-align: center;"><?php echo $date; ?></td>
 									</tr>
 									<tr>
 										<th><b>INV #</b></th>
 										
-										<td><?php echo $sihID; ?></td>
+										<td style="text-align: center;"><?php echo $sihID; ?></td>
 										<th>Time</th>
 										
-										<td><?php echo $time; ?></td>
+										<td style="text-align: center;"><?php echo $time; ?></td>
 									</tr>
 								</thead>
 								
@@ -233,9 +233,9 @@ $customervehicleID = Yii::$app->db->createCommand("
 								<td><?php echo $k+1; ?></td>
 								<td><?php echo $serviceData[0]['service_name']; ?></td>
 								<td><?php echo "SERVICE"; ?></td>
-								<td><?php echo $serviceData[0]['price']; ?></td>
-								<td><?php echo $countService; ?></td>
-								<td>
+								<td style="text-align: center;"><?php echo $serviceData[0]['price']; ?></td>
+								<td style="text-align: center;"><?php echo $countService; ?></td>
+								<td style="text-align: center;">
 									<?php echo $total = $serviceData[0]['price']*$countService; 
 									$totalAmount += $total;
 									?>
@@ -251,9 +251,9 @@ $customervehicleID = Yii::$app->db->createCommand("
 						<thead>
 							<tr>
 								<th style="text-align: center;background-color: lightgray;">Total Item: </th>
-								<th style="background-color: white;"><?php echo $countStockItems; ?></th>
+								<th style="background-color: white;text-align: center;"><?php echo $countStockItems; ?></th>
 								<th style="text-align: center;background-color: lightgray;">Total Qty: </th>
-								<th style="background-color:white;"><?php echo $quantity; ?></th>
+								<th style="background-color:white;text-align: center;"><?php echo $quantity; ?></th>
 							</tr>
 						</thead>
 					</table>
@@ -266,23 +266,23 @@ $customervehicleID = Yii::$app->db->createCommand("
 						<thead>
 							<tr>
 								<th style="background-color:white;color:black;">Total Amount</th>
-								<th><?php echo $bill[0]['total_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $bill[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Invoice Discount</th>
-								<th><?php echo $bill[0]['discount']; ?></th>
+								<th style="text-align: center;"><?php echo $bill[0]['discount']; ?></th>
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Net Bill</th>
-								<th><?php echo $bill[0]['net_total']; ?></th>
+								<th style="text-align: center;"><?php echo $bill[0]['net_total']; ?></th>
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Paid</th>
-								<th><?php echo $bill[0]['paid_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $bill[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Remaining</th>
-								<th><?php echo $bill[0]['remaining_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $bill[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Status</th>
