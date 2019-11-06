@@ -84,7 +84,7 @@ use johnitvn\ajaxcrud\CrudAsset;
         
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'eemail']) ?>
+            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'email']) ?>
         </div>
     </div>
     <!-- row 3 close -->
@@ -116,7 +116,7 @@ use johnitvn\ajaxcrud\CrudAsset;
 <script type="text/javascript" src="jquery-barcode.js"></script>
 <script type="text/javascript">
   function generateBarcode(){
-        var value = $("#stdBform").val();
+        var value = $("#empCnic").val();
         var btype = 'codabar';
         var renderer = "canvas";
         
@@ -144,7 +144,7 @@ use johnitvn\ajaxcrud\CrudAsset;
           $("#barcodeTarget").html("").show().barcode(value, btype, settings);
         }
       }
-          
+         alert(barcodeTarget); 
       function showConfig1D(){
         $('.config .barcode1D').show();
         $('.config .barcode2D').hide();

@@ -75,8 +75,8 @@
                      // ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
                      ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles"],
                      
-                     ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./employee"],
-                     ['label' => 'Employee Attendance', 'icon' => 'user-plus', 'url' => "./emp-atten"],
+                     ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
+                     ['label' => 'Employee Attendance', 'icon' => 'user-plus', 'url' => "./under-construction"],
                     //  [
                     //     'label' => 'Employee',
                     //     'icon' => 'user-o',
