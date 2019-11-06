@@ -46,11 +46,6 @@
 		footer,#print_button{
 			display: none;
 		}
-		@media print {
-    h4 {
-        color: white !important;
-    }
-}
 	</style>
 	<div class="container-fluid">
 		<!-- <div class="row">
@@ -218,27 +213,27 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Total Amount</th>
+								<th style="background-color: #fff;">Total Amount</th>
 								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Invoice Discount</th>
+								<th style=";background-color: #fff;">Invoice Discount</th>
 								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['discount']; ?></th>
 							</tr>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Net Bill</th>
+								<th style="background-color: #fff;">Net Bill</th>
 								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['net_total']; ?></th>
 							</tr>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Paid</th>
+								<th style="background-color: #fff;">Paid</th>
 								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Remaining</th>
+								<th style="background-color: #fff;">Remaining</th>
 								<th style="text-align: center;background-color: lightgray;"><?php echo $creditinvoiceData[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
-								<th style="text-align: center;background-color: #fff;">Status</th>
+								<th style="background-color: #fff;">Status</th>
 								<?php
 								 $status = $creditinvoiceData[0]['status'];
 								 if (($status == "Unpaid") || ($status == "unpaid")) {
@@ -252,10 +247,10 @@
 							</tr>
 							<tr style="border:none;" class="footer">
 								<td colspan="2" style="border:0px !important;" class="text-white footer">
-									<h4 class="text-white" style="color: white !important;text-align: center;background-color: #3C8DBC !important;padding:10px;"><i>Honor To Work With You!</i></h4>
-									<p style="text-align: center;">
-										<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
-									</p>
+										<h4 class="text-white" style="color: white !important;text-align: center;background-color: #3C8DBC !important;padding:10px;"><i>Honor To Work With You!</i></h4>
+										<p style="text-align: center;">
+											<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
+										</p>
 								</td>
 							</tr>
 						</thead>
@@ -268,13 +263,13 @@
 </html>
 <?php } ?>
 <script>
-function printContent(el){
-	var restorepage = document.body.innerHTML;
-	var printcontent = document.getElementById(el).innerHTML;
-	document.body.innerHTML = printcontent;
-	window.print();
-	document.body.innerHTML = restorepage;
-}
+// function printContent(el){
+// 	var restorepage = document.body.innerHTML;
+// 	var printcontent = document.getElementById(el).innerHTML;
+// 	document.body.innerHTML = printcontent;
+// 	window.print();
+// 	document.body.innerHTML = restorepage;
+// }
 function returnBack() {
   window.location='purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>';
 }

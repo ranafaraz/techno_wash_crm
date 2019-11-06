@@ -318,13 +318,13 @@ $customervehicleID = Yii::$app->db->createCommand("
 <html>
 <head>
 <script>
-function printContent(el){
-	var restorepage = document.body.innerHTML;
-	var printcontent = document.getElementById(el).innerHTML;
-	document.body.innerHTML = printcontent;
-	window.print();
-	document.body.innerHTML = restorepage;
-}
+// function printContent(el){
+// 	var restorepage = document.body.innerHTML;
+// 	var printcontent = document.getElementById(el).innerHTML;
+// 	document.body.innerHTML = printcontent;
+// 	window.print();
+// 	document.body.innerHTML = restorepage;
+// }
 function returnBack() {
   window.location='sale-invoice-view?customer_id=<?php echo $customerID;?>&regno=<?php echo $regNoID;?>';
 }
