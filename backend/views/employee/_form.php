@@ -80,7 +80,7 @@ use johnitvn\ajaxcrud\CrudAsset;
         
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'eemail']) ?>
+            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'email']) ?>
         </div>
     </div>
     <!-- row 3 close -->
@@ -108,3 +108,68 @@ use johnitvn\ajaxcrud\CrudAsset;
     <?php ActiveForm::end(); ?>
     
 </div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="js/jquery-barcode.js"></script>
+<script type="text/javascript">
+  function generateBarcode(){
+        var value = $("#empCnic").val();
+        var btype = 'codabar';
+        var renderer = "canvas";
+        
+        var settings = {
+          output:renderer,
+          bgColor:'#FFFFFF',
+          color:'#000000',
+          barWidth:1,
+          barHeight: 50,
+          moduleSize:5 ,
+          posX: 10,
+          posY: 20,
+          addQuietZone: 1,
+          canvas:'canvas'
+        };
+        if ($("#rectangular").is(':checked') || $("#rectangular").attr('checked')){
+          value = {code:value, rect: true};
+        }
+        if (renderer == 'canvas'){
+          clearCanvas();
+          $("#barcodeTarget").hide();
+          $("#canvasTarget").show().barcode(value, btype, settings);
+        } else {
+          $("#canvasTarget").hide();
+          $("#barcodeTarget").html("").show().barcode(value, btype, settings);
+        }
+      }
+          
+      function showConfig1D(){
+        $('.config .barcode1D').show();
+        $('.config .barcode2D').hide();
+      }
+      
+      function showConfig2D(){
+        $('.config .barcode1D').hide();
+        $('.config .barcode2D').show();
+      }
+      
+      function clearCanvas(){
+        var canvas = $('#canvasTarget').get(0);
+        var ctx = canvas.getContext('2d');
+        ctx.lineWidth = 1;
+        ctx.lineCap = 'butt';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.strokeStyle  = '#000000';
+        ctx.clearRect (0, 0, canvas.width, canvas.height);
+        ctx.strokeRect (0, 0, canvas.width, canvas.height);
+      }
+      
+      $(function(){
+        $('input[name=btype]').click(function(){
+          if ($(this).attr('id') == 'datamatrix') showConfig2D(); else showConfig1D();
+        });
+        $('input[name=renderer]').click(function(){
+          if ($(this).attr('id') == 'canvas') $('#miscCanvas').show(); else $('#miscCanvas').hide();
+        });
+        generateBarcode();
+      });
+
+</script>
