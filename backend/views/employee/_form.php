@@ -71,14 +71,10 @@ use johnitvn\ajaxcrud\CrudAsset;
 
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['options' => ['id' => 'empCnic', 'onchange' => 'generateBarcode();'], 'mask' => '99999-9999999-9']) ?>
+            <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
         
         </div>
-        <div class="col-md-4">
-          <?= $form->field($model, 'barcode')->hiddenInput(['id' => 'barcode_ID']) ?>
-          <div id="barcodeTarget" class="barcodeTarget"></div>
-          <canvas id="canvasTarget" width="210" height="90" style="border: none; margin: 0px;"></canvas>
-        </div> 
+       
         <div class="col-md-4">
             <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
         
