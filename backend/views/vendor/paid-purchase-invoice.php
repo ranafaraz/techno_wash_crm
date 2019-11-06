@@ -230,19 +230,16 @@
 								<th>Status</th>
 								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['status']; ?></th>
 							</tr>
+							<tr style="border:none;" class="footer">
+								<td colspan="2" style="border:0px !important;" class="footer">
+											<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important;"><i>Honor To Work With You!</i></h4>
+											<p style="text-align: center;">
+												<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
+											</p>
+								</td>
+							</tr>
 						</thead>
 					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">
-					
-				</div>
-				<div class="col-md-6">
-					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important;"><i>Honor To Work With You!</i></h4>
-					<p style="text-align: center;">
-						<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
-					</p>
 				</div>
 			</div>
 		</div>

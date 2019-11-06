@@ -1,4 +1,4 @@
- 
+
 <?php 
 $sihID = $_GET['sihID'];
 $regNoID = $_GET['regno'];
@@ -55,6 +55,17 @@ $customervehicleID = Yii::$app->db->createCommand("
 <html>
 <head>
 	<title>Paid Sale Invoice</title>
+	 <style type="text/css" media="screen">
+ 	@media print{
+ 		table{
+ 			break-inside: avoid !important;
+ 			page-break-inside: avoid !important;
+ 		}
+ 		.footer{
+ 			border: 0px !important;
+ 		}
+ 	}
+ </style>
 </head>
 <body style="font-size:15px;"  onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
@@ -288,16 +299,16 @@ $customervehicleID = Yii::$app->db->createCommand("
 								<th style="background-color:white;color:black;">Status</th>
 								<th style="background-color:#68c968;color:white;text-align: center;"><?php echo $bill[0]['status']; ?></th>
 							</tr>
+							<tr style="border:none;" class="footer">
+								<td colspan="2" style="border:0px !important;" class="footer">
+											<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
+											<p style="text-align: center;">
+												<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
+											</p>
+								</td>
+							</tr>
 						</thead>
 					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3">
-					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
-					<p style="text-align: center;">
-						<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
-					</p>
 				</div>
 			</div>
 		</div>
