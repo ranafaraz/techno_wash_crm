@@ -1,5 +1,5 @@
 <?php 
-
+	if(isset($_GET['creditInvoice'])){
 	$creditInvoicesDetails  = Yii::$app->db->createCommand("
     SELECT *
     FROM sale_invoice_head as sih
@@ -82,3 +82,4 @@
 </div>
 </body>
 </html>
+<?php } ?>

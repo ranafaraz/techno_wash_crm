@@ -261,7 +261,7 @@ use yii\helpers\Url;
               <!-- </div>
             </div> -->
           </a>
-          <a href="./credit-sale-invoices">
+          <a href="./credit-sale-invoices?creditInvoice">
             <!-- <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px"> -->
                 <?php 
