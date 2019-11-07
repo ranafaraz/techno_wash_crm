@@ -943,7 +943,7 @@ $("#item_type").change(function(){
   });
 
 
-	$("#services").on('change',function(){
+	$("#services").on('click',function(){
 		var serviceID = $("#services").val();
     $('#product_quantity').val("");
     var customerVehicle = $("#vehicle").val()
