@@ -201,9 +201,9 @@ $customervehicleID = Yii::$app->db->createCommand("
 								<td><?php echo $j+1; ?></td>
 								<td><?php echo $productData[0]['product_name']; ?></td>
 								<td><?php echo "STOCK"; ?></td>
-								<td><?php echo $stockData[0]['selling_price']; ?></td>
-								<td><?php echo $countStock; ?></td>
-								<td>
+								<td style="text-align: center;"><?php echo $stockData[0]['selling_price']; ?></td>
+								<td style="text-align: center;"><?php echo $countStock; ?></td>
+								<td style="text-align: center;">
 									<?php echo $total = $stockData[0]['selling_price']*$countStock; 
 									$totalAmount += $total;
 									?>
