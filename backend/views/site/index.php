@@ -308,6 +308,53 @@ use yii\helpers\Url;
               <!-- </div>
             </div> -->
           </a>
+          <a href="./credit-sale-invoices?debitinvoice">
+            <!-- <div class="panel panel-default" style="border:1px solid #FAB61C;">
+              <div class="panel-body" style="text-align: center;padding:30px"> -->
+                <?php 
+                    $debitInvoicesDetails  = Yii::$app->db->createCommand("
+                    SELECT pi.remaining_amount
+                    FROM purchase_invoice as pi
+                    WHERE pi.status != 'Paid'
+                    ")->queryAll();
+                    $countdebit = count($debitInvoicesDetails);
+                    $debitSum = 0;
+                    foreach ($debitInvoicesDetails as $key => $value) {
+                      $debitSum += $value['remaining_amount'];
+                    }
+                ?>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>DEBIT INVOICES</th>
+                        <th style="text-align:center;">
+                            <?php echo $countdebit; ?>
+                        </th>
+                        </tr>
+                      <!-- <tr>
+                        <th>Count</th>
+                        <td>
+                          <b style="border-radius: 20px;"></b>
+                        </td>
+                      </tr> -->
+                      <tr>
+                        <th colspan="2" style="text-align:left;">Amount</th>
+                        <td style="color:#FAB61C;font-family:arial;font-weight:bolder;text-align: center;"><?php 
+                        //echo $totalSUM;
+                        echo "Rs. ".number_format($debitSum);
+                         ?>
+                           
+                        </td>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              <!-- </div>
+            </div> -->
+          </a>
       </div>
       <div class="col-md-9">
           <div class="row">
