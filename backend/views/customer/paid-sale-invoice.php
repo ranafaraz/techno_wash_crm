@@ -97,7 +97,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table table-bordered">
+							<table class="table">
 								
 								<thead>
 									<tr>
