@@ -13,9 +13,9 @@ use johnitvn\ajaxcrud\CrudAsset;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div class="row">
-        <div class="col-md-12">
-            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Create New Employee</h2>
-        </div>
+  <div class="col-md-12">
+      <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Create New Employee</h2>
+  </div>
 </div>
 <div class="employee-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
@@ -70,22 +70,26 @@ use johnitvn\ajaxcrud\CrudAsset;
     <!-- row 2 close -->
 
     <div class="row">
+      <div class="col-md-4">
+        <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
+      
+      </div>
+      <div class="col-md-4">
+        <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['options' => ['id' => 'empCnic', 'onchange' => 'generateBarcode();'], 'mask' => '99999-9999999-9']) ?>
+      
+      </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'emp_cnic')->widget(yii\widgets\MaskedInput::class, ['mask' => '99999-9999999-9']) ?>
-        
-        </div>
-       
-        <div class="col-md-4">
-            <?= $form->field($model, 'emp_contact')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
-        
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'email']) ?>
-        </div>
+          <?= $form->field($model, 'barcode')->hiddenInput(['id' => 'barcode_ID']) ?>
+          <div id="barcodeTarget" class="barcodeTarget"></div>
+            <canvas id="canvasTarget" width="210" height="90" style="border: none; margin: 0px;"></canvas>
+        </div> 
     </div>
     <!-- row 3 close -->
 
     <div class="row">
+      <div class="col-md-4">
+          <?= $form->field($model, 'emp_email')->textInput(['maxlength' => true , 'id' => 'email']) ?>
+      </div>
       <div class="col-md-4">
         <?= $form->field($model, 'emp_image')->fileInput(['maxlength' => true]) ?>
       </div>
@@ -109,7 +113,7 @@ use johnitvn\ajaxcrud\CrudAsset;
     
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="js/jquery-barcode.js"></script>
+<script type="text/javascript" src="jquery-barcode.js"></script>
 <script type="text/javascript">
   function generateBarcode(){
         var value = $("#empCnic").val();
