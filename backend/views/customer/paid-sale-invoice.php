@@ -97,7 +97,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table table-bordered">
+							<table class="table">
 								
 								<thead>
 									<tr>
@@ -143,7 +143,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					    WHERE cv.customer_vehicle_id = '$customerVehID'
 					    ")->queryAll();
 					 ?>
-					<table class="table">
+					<table class="table table-bordered">
 						<thead style="background-color: #3C8DBC !important;color:white;">
 							<tr>
 								<th colspan="6" style="text-align: center;"><?php echo "VEH #: "."( ".$customervehicleData[0]['Name']." - ".$customervehicleData[0]['manufacturer']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?></th>
@@ -210,9 +210,9 @@ $customervehicleID = Yii::$app->db->createCommand("
 								<td><?php echo $j+1; ?></td>
 								<td><?php echo $productData[0]['product_name']; ?></td>
 								<td><?php echo "STOCK"; ?></td>
-								<td><?php echo $stockData[0]['selling_price']; ?></td>
-								<td><?php echo $countStock; ?></td>
-								<td>
+								<td style="text-align: center;"><?php echo $stockData[0]['selling_price']; ?></td>
+								<td style="text-align: center;"><?php echo $countStock; ?></td>
+								<td style="text-align: center;">
 									<?php echo $total = $stockData[0]['selling_price']*$countStock; 
 									$totalAmount += $total;
 									?>
