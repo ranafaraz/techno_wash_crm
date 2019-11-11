@@ -68,11 +68,11 @@ class Employee extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_type_id', 'emp_name', 'emp_father_name', 'emp_cnic', 'emp_contact', 'emp_email', 'emp_gender','emp_permanent_address','emp_joining_date', 'emp_learning_date', 'emp_status'], 'required'],
+            [['emp_type_id', 'emp_name', 'emp_cnic', 'emp_contact', 'emp_gender','emp_permanent_address', 'working_hours', 'duty_time_start', 'duty_time_end', 'monthly_salary', 'allowed_leaves', 'shift'], 'required'],
             [['emp_type_id', 'branch_id', 'created_by', 'updated_by'], 'integer'],
             [['salary_id'], 'number'],
             [['emp_gender', 'emp_marital_status', 'emp_residence', 'emp_status','emp_blood_group'], 'string'],
-            [['emp_dob', 'passport_expiry_date', 'emp_joining_date', 'emp_learning_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'emp_image', 'emp_emergency_contact', 'emp_emergency_contact_relation','barcode'], 'safe'],
+            [['emp_dob', 'passport_expiry_date', 'emp_joining_date', 'emp_learning_date', 'created_at', 'updated_at', 'created_by', 'updated_by', 'emp_image', 'emp_emergency_contact', 'emp_emergency_contact_relation','barcode', 'emp_status', 'emp_father_name', 'emp_email','emp_joining_date', 'emp_learning_date'], 'safe'],
             [['emp_name', 'emp_father_name', 'emp_father_position'], 'string', 'max' => 200],
             [['emp_cnic', 'emp_contact', 'emp_emergency_contact', 'emp_emergency_contact_relation'], 'string', 'max' => 15],
             [['emp_email', 'emp_image'], 'string', 'max' => 255],

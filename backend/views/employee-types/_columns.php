@@ -10,18 +10,18 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-    //     [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'emp_type_id',
-    // ],
+        [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'emp_type_id',
+    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_type_name',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'description',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'description',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',
@@ -38,6 +38,22 @@ return [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'updated_by',
     // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'working_hours',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'duty_time_start',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'duty_time_end',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'monthly_salary',
+    ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

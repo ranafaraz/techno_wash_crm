@@ -18,8 +18,9 @@ class EmployeeTypesSearch extends EmployeeTypes
     public function rules()
     {
         return [
-            [['emp_type_id', 'created_by', 'updated_by'], 'integer'],
-            [['emp_type_name', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['emp_type_id', 'created_by', 'updated_by', 'working_hours'], 'integer'],
+            [['emp_type_name', 'description', 'created_at', 'updated_at', 'duty_time_start', 'duty_time_end'], 'safe'],
+            [['monthly_salary'], 'number'],
         ];
     }
 
@@ -61,6 +62,10 @@ class EmployeeTypesSearch extends EmployeeTypes
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
+            'working_hours' => $this->working_hours,
+            'duty_time_start' => $this->duty_time_start,
+            'duty_time_end' => $this->duty_time_end,
+            'monthly_salary' => $this->monthly_salary,
         ]);
 
         $query->andFilterWhere(['like', 'emp_type_name', $this->emp_type_name])

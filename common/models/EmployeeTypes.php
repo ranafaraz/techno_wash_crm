@@ -14,6 +14,10 @@ use Yii;
  * @property string $updated_at
  * @property int $created_by
  * @property int $updated_by
+ * @property int $working_hours
+ * @property string $duty_time_start
+ * @property string $duty_time_end
+ * @property double $monthly salary
  *
  * @property Employee[] $employees
  */
@@ -33,10 +37,10 @@ class EmployeeTypes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-
-            [['emp_type_name'], 'required'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
-            [['created_by', 'updated_by'], 'integer'],
+            [['emp_type_name', 'working_hours', 'duty_time_start', 'duty_time_end', 'monthly_salary'], 'required'],
+            [['created_at', 'updated_at', 'duty_time_start', 'duty_time_end', 'description', 'created_by', 'updated_by'], 'safe'],
+            [['created_by', 'updated_by', 'working_hours'], 'integer'],
+            [['monthly_salary'], 'number'],
             [['emp_type_name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 150],
         ];
@@ -55,6 +59,10 @@ class EmployeeTypes extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
+            'working_hours' => 'Working Hours',
+            'duty_time_start' => 'Duty Time Start',
+            'duty_time_end' => 'Duty Time End',
+            'monthly_salary' => 'Monthly Salary',
         ];
     }
 
