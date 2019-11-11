@@ -257,7 +257,7 @@ $('form#{$model->formName()}').on('beforeSubmit',function(e){
     var canvas = document.getElementById("canvasTarget");
     var dataURL = canvas.toDataURL("image/png");
     var d = document.getElementById('barcode_ID').value = dataURL;   
-    alert(d);
+    // alert(d);
 }); 
 
 $('#emp_type').on('change',function(){

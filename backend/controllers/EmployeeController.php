@@ -182,7 +182,7 @@ class EmployeeController extends Controller
            /*
            *  Process for non-ajax request
            */
-           if ($model->load($request->post()) && $model->save()) {
+           if ($model->load($request->post()) && $model->validate()) {
             $model->emp_image = UploadedFile::getInstance($model,'emp_image');
                 if (!empty($model->emp_image)) {
                     // making the name of image file
@@ -202,7 +202,7 @@ class EmployeeController extends Controller
                 }
                 //$connection= \Yii::$app->db;
                 $model->branch_id = Yii::$app->user->identity->branch_id;
-                $model->status = 'Active';
+                $model->emp_status = 'Active';
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
