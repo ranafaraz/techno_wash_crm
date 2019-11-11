@@ -55,14 +55,14 @@ $customervehicleID = Yii::$app->db->createCommand("
 <html>
 <head>
 	<title>Paid Sale Invoice</title>
-</head>
-<body style="font-size:15px;" onload="window.print();" onafterprint="returnBack();">
 	<style type="text/css" media="print">
 		footer,#print_button{
 			display: none;
 		}
-
 	</style>
+</head>
+<body style="font-size:15px;" onload="window.print();" onafterprint="returnBack();">
+	
 	<div class="container-fluid">
 		<!-- <div class="row">
 			<div class="col-md-2">
@@ -78,11 +78,11 @@ $customervehicleID = Yii::$app->db->createCommand("
 		
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
-					<h3  style="text-align: center;">
+					<h2  style="text-align: center;">
 						TECHNO WASH
-					</h3>
+					</h2>
 					<p style="text-align: center;">
-						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
+						Operated By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
 					</p>
 					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Credit Cash Memo</h3>
 					
@@ -137,7 +137,11 @@ $customervehicleID = Yii::$app->db->createCommand("
 					<table class="table">
 						<thead style="background-color: #3C8DBC !important;color:white;">
 							<tr>
-								<th colspan="6" style="text-align: center;"><?php echo "VEH #: "."( ".$customervehicleData[0]['Name']." - ".$customervehicleData[0]['manufacturer']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?></th>
+								<td colspan="6" style="text-align: center;">
+									<b>
+										<?php echo "VEH #: "."( ".$customervehicleData[0]['Name']." - ".$customervehicleData[0]['manufacturer']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?>
+									</b>
+								</td>
 							</tr>
 							<tr>
 								<th>Sr #</th>
@@ -300,7 +304,9 @@ $customervehicleID = Yii::$app->db->createCommand("
 							</tr>
 							<tr style="border:none;" class="footer">
 								<td colspan="2" style="border:0px !important;" class="footer">
-											<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
+										<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px; color: white !important">
+											Thanks For Visting us!
+										</h4>
 											<p style="text-align: center;">
 												<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
 											</p>
