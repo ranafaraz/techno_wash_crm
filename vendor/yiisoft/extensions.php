@@ -184,15 +184,6 @@ return array (
       '@kartik/sortable' => $vendorDir . '/kartik-v/yii2-sortable/src',
     ),
   ),
-  'kartik-v/yii2-widget-timepicker' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-timepicker',
-    'version' => '1.0.4.0',
-    'alias' => 
-    array (
-      '@kartik/time' => $vendorDir . '/kartik-v/yii2-widget-timepicker/src',
-    ),
-  ),
   'kartik-v/yii2-export' => 
   array (
     'name' => 'kartik-v/yii2-export',
@@ -254,6 +245,15 @@ return array (
     'alias' => 
     array (
       '@kartik/dialog' => $vendorDir . '/kartik-v/yii2-dialog/src',
+    ),
+  ),
+  'kartik-v/yii2-widget-timepicker' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-timepicker',
+    'version' => '1.0.4.0',
+    'alias' => 
+    array (
+      '@kartik/time' => $vendorDir . '/kartik-v/yii2-widget-timepicker/src',
     ),
   ),
   'kartik-v/yii2-widget-select2' => 

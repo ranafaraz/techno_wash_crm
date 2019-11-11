@@ -12,48 +12,40 @@ return [
     ],
         [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'emp_type_id',
+        'attribute'=>'payroll_detail_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'emp_type_name',
+        'attribute'=>'payroll_head_id',
     ],
-    // [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'description',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'transaction_date',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'paid_amount',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'status',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'created_by',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'updated_at',
     // ],
     // [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'created_by',
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'updated_by',
     // ],
-    // [
-    //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'updated_by',
-    // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'working_hours',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'duty_time_start',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'duty_time_end',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'monthly_salary',
-    ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
