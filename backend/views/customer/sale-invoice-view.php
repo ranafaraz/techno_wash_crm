@@ -1490,10 +1490,14 @@ $('#product_quantity').on("change",function(){
 	        success: function(result){
             console.log(result);
             if(result){
-              alert('Bill is Added');
-            window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';
+              krajeeDialog.confirm('Are you sure to add bill', function(out){
+                  if(out) {
+                      window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';
+                  }
+                });
+            
             } else {
-              alert('Something wrong.!');
+              krajeeDialog.alert("Something wrong.!");
             }
 	        }      
     	  });
