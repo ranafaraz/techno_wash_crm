@@ -19,7 +19,6 @@ class EmployeeSearch extends Employee
     {
         return [
             [['emp_id', 'emp_type_id', 'branch_id', 'created_by', 'updated_by'], 'integer'],
-            [['salary_id'], 'number'],
             [['emp_name', 'emp_father_name', 'emp_father_position', 'emp_cnic', 'emp_contact', 'emp_emergency_contact', 'emp_emergency_contact_relation', 'emp_email', 'emp_image', 'emp_gender', 'emp_marital_status', 'emp_dob', 'emp_birth_place', 'emp_religion', 'emp_blood_group', 'emp_nationality', 'emp_passport_no', 'passport_expiry_date', 'emp_residence', 'emp_present_address', 'emp_permanent_address', 'emp_joining_date', 'emp_learning_date', 'emp_status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -60,7 +59,6 @@ class EmployeeSearch extends Employee
             'emp_id' => $this->emp_id,
             'emp_type_id' => $this->emp_type_id,
             'branch_id' => $this->branch_id,
-            'salary_id' => $this->salary_id,
             'emp_dob' => $this->emp_dob,
             'passport_expiry_date' => $this->passport_expiry_date,
             'emp_joining_date' => $this->emp_joining_date,

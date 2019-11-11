@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\EmployeeTypes;
+use common\models\EmpPayrollDetail;
 
 /**
- * EmployeeTypesSearch represents the model behind the search form about `common\models\EmployeeTypes`.
+ * EmpPayrollDetailSearch represents the model behind the search form about `common\models\EmpPayrollDetail`.
  */
-class EmployeeTypesSearch extends EmployeeTypes
+class EmpPayrollDetailSearch extends EmpPayrollDetail
 {
     /**
      * @inheritdoc
@@ -18,9 +18,9 @@ class EmployeeTypesSearch extends EmployeeTypes
     public function rules()
     {
         return [
-            [['emp_type_id', 'created_by', 'updated_by', 'working_hours'], 'integer'],
-            [['emp_type_name', 'description', 'created_at', 'updated_at', 'duty_time_start', 'duty_time_end'], 'safe'],
-            [['monthly_salary'], 'number'],
+            [['payroll_detail_id', 'payroll_head_id', 'created_by', 'updated_by'], 'integer'],
+            [['transaction_date', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['paid_amount'], 'number'],
         ];
     }
 
@@ -42,7 +42,7 @@ class EmployeeTypesSearch extends EmployeeTypes
      */
     public function search($params)
     {
-        $query = EmployeeTypes::find();
+        $query = EmpPayrollDetail::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,19 +57,17 @@ class EmployeeTypesSearch extends EmployeeTypes
         }
 
         $query->andFilterWhere([
-            'emp_type_id' => $this->emp_type_id,
+            'payroll_detail_id' => $this->payroll_detail_id,
+            'payroll_head_id' => $this->payroll_head_id,
+            'transaction_date' => $this->transaction_date,
+            'paid_amount' => $this->paid_amount,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
+            'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
-            'working_hours' => $this->working_hours,
-            'duty_time_start' => $this->duty_time_start,
-            'duty_time_end' => $this->duty_time_end,
-            'monthly_salary' => $this->monthly_salary,
         ]);
 
-        $query->andFilterWhere(['like', 'emp_type_name', $this->emp_type_name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

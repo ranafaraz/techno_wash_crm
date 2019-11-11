@@ -15,6 +15,7 @@ use yii\helpers\Html;
 use yii\web\UploadedFile;
 use backend\models\Model;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 
 /**
  * EmployeeController implements the CRUD actions for Employee model.
@@ -35,7 +36,7 @@ class EmployeeController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','employee-detail-view'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','employee-detail-view','fetch-data'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,6 +59,13 @@ class EmployeeController extends Controller
     public function beforeAction($action) {
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
+    }
+
+    public function actionFetchData($emp_type)
+    {
+        $emp_data = Yii::$app->db->createCommand("SELECT * FROM employee_types WHERE emp_type_id = '$emp_type' ")->queryAll();
+        //var_dump($emp_data);
+        return Json::encode($emp_data);
     }
 
     
@@ -174,8 +182,33 @@ class EmployeeController extends Controller
            /*
            *  Process for non-ajax request
            */
-           if ($model->load($request->post()) && $model->save()) {
-               return $this->redirect(['view', 'id' => $model->emp_id]);
+           if ($model->load($request->post()) && $model->validate()) {
+            $model->emp_image = UploadedFile::getInstance($model,'emp_image');
+                if (!empty($model->emp_image)) {
+                    // making the name of image file
+                    $imageName = $model->emp_name.'_photo';
+                    // getting the extension of image file
+                    $imageExtension = $model->emp_image->extension;
+                    // save the path of the image in backend/web/uploads
+                    $model->emp_image->saveAs('uploads/'.$imageName.'.'.$imageExtension);
+                    //save the path in the db column
+                    $model->emp_image = 'uploads/'.$imageName.'.'.$imageExtension;
+                }
+                else if (($model->emp_gender) == "Female"){
+                        $model->emp_image = 'uploads/default-image-female.png'; 
+                }
+                else {
+                    $model->emp_image = 'uploads/default-image-name.png'; 
+                }
+                //$connection= \Yii::$app->db;
+                $model->branch_id = Yii::$app->user->identity->branch_id;
+                $model->emp_status = 'Active';
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0';
+                $model->save();
+               return $this->redirect(['./employee']);
            } else {
                return $this->render('create', [
                    'model' => $model,
