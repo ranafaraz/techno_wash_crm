@@ -186,24 +186,21 @@ class CustomerController extends Controller
                         try {
                             if ($flag = $model->save(false)) {
                                 foreach ($modelCustomerVehicles as $value) {
-                                    
                                     $value->image = 'uploads/default-car-image.png';
                                     $value->customer_id = $model->customer_id;
                                     $value->created_at = new \yii\db\Expression('NOW()');
                                     $value->created_by = Yii::$app->user->identity->id; 
                                     $value->updated_by = '0';
                                     $value->updated_at = '0';    
-
                                     if (! ($flag = $value->save(false))) {
                                         $transaction->rollBack();
                                         break;
                                     }
                                 } // modelCustomerVehicles foreach end
                             } // closing of if model
-                            
                             if ($flag) {
                                 $transaction->commit();
-                                //return $this->redirect(['index']);
+                                return $this->redirect(['./customer-vehicles?sort=-customer_id']);
                             }
                         } catch (Exception $e) {
                             $transaction->rollBack();
