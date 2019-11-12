@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 /**
  * EmpPayrollHeadController implements the CRUD actions for EmpPayrollHead model.
@@ -22,6 +23,20 @@ class EmpPayrollHeadController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','calculate-pay'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -45,6 +60,12 @@ class EmpPayrollHeadController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+     public function actionCalculatePay($pay_month, $emp_id)
+    {  
+          
+       
     }
 
 
@@ -99,7 +120,8 @@ class EmpPayrollHeadController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post())){
+                var_dump($model->payment_month);
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new EmpPayrollHead",
