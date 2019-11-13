@@ -284,7 +284,7 @@
         "version_normalized": "4.3.1.0",
         "source": {
             "type": "git",
-            "url": "git@github.com:fullcalendar/fullcalendar.git",
+            "url": "https://github.com/fullcalendar/fullcalendar.git",
             "reference": "ac20b8a1acb79c50c9f5a108bb92d2f54575b700"
         },
         "dist": {

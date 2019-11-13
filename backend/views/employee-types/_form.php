@@ -26,28 +26,10 @@ use kartik\time\TimePicker;
     </div>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'duty_time_start')->widget(TimePicker::classname(), [
-                        //'name' => 'start_time',
-                        'pluginOptions' => [
-                            'format' => '00:00',
-                            'showSeconds' => false,
-                            'showMeridian' => false,
-                            'minuteStep' => 1,
-                            'secondStep' => 5,
-                        ]
-            ]); ?>
+            <?= $form->field($model, 'duty_time_start')->widget(TimePicker::classname(), []) ?> 
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'duty_time_end')->widget(TimePicker::classname(), [
-                        //'name' => 'start_time',
-                        'pluginOptions' => [
-                            'format' => '00:00',
-                            'showSeconds' => false,
-                            'showMeridian' => false,
-                            'minuteStep' => 1,
-                            'secondStep' => 5,
-                        ]
-            ]); ?>
+            <?= $form->field($model, 'duty_time_end')->widget(TimePicker::classname(), []) ?>
         </div>
     </div>
     <div class="row">
@@ -68,3 +50,12 @@ use kartik\time\TimePicker;
     <?php ActiveForm::end(); ?>
     
 </div>
+<?php
+$script = <<< JS
+$(document).ready(function(){
+  $('#employeetypes-duty_time_start').val("Select Start Time..");
+  $('employeetypes-duty_time_end').val("Select End Time..");
+  });
+JS;
+$this->registerJs($script);
+?>
