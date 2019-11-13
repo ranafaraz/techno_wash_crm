@@ -90,6 +90,7 @@ $script = <<< JS
 $('#pay_month').on('change',function(){
     var pay_month = $('#pay_month').val();
     var emp_id = $('#emp_id').val();
+    alert(pay_month);
     $.get('./emp-payroll-head/calculate-pay',{pay_month : pay_month, emp_id : emp_id},function(data){
          console.log(data);
         // var data =  $.parseJSON(data);

@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\EmpPayrollHead;
-use common\models\EmpPayrollHeadSearch;
+use common\models\EmpLeave;
+use common\models\EmpLeaveSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,9 +13,9 @@ use yii\helpers\Html;
 use yii\filters\AccessControl;
 
 /**
- * EmpPayrollHeadController implements the CRUD actions for EmpPayrollHead model.
+ * EmpLeaveController implements the CRUD actions for EmpLeave model.
  */
-class EmpPayrollHeadController extends Controller
+class EmpLeaveController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,7 +31,7 @@ class EmpPayrollHeadController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','calculate-pay'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','fetch-days-count'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -47,13 +47,19 @@ class EmpPayrollHeadController extends Controller
         ];
     }
 
+
+
+    public function actionFetchDaysCount()
+    { 
+        return $this->render('fetch-days-count');
+    }
     /**
-     * Lists all EmpPayrollHead models.
+     * Lists all EmpLeave models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new EmpPayrollHeadSearch();
+        $searchModel = new EmpLeaveSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,59 +68,9 @@ class EmpPayrollHeadController extends Controller
         ]);
     }
 
-     public function actionCalculatePay($pay_month, $emp_id)
-    {  
-
-       $empData = Yii::$app->db->createCommand("
-        SELECT *
-        FROM employee
-        WHERE emp_id = $emp_id
-        ")->queryAll();
-       $monthlySalary   = $empData[0]['monthly_salary'];
-       $dutyTimeStart   = $empData[0]['duty_time_start'];
-       $dutyTimeEnd     = $empData[0]['duty_time_end'];
-       $workingHours    = $empData[0]['working_hours'];
-
-       $monthArr = explode('-', $pay_month);
-
-       $days_in_month = cal_days_in_month(CAL_GREGORIAN,$monthArr[0],$monthArr[1]);
-
-       $salaryPerDay    = $monthlySalary/$days_in_month;
-       $salaryPerHour   = $salaryPerDay/$workingHours;
-       $salaryPerMinute = $salaryPerHour/60;
-
-
-       $empAttendance = Yii::$app->db->createCommand("
-        SELECT *
-        FROM emp_attendance
-        WHERE emp_id = $emp_id
-        AND MONTH(att_date)= '$monthArr[0]'
-        AND YEAR(att_date)='$monthArr[1]'
-        AND attendance = 'P'
-        ")->queryAll();
-
-       $workingMints =0;
-       foreach ($empAttendance as $key => $value) {
-            $checkIn  = strtotime($value['check_in']);
-            $checkOut = strtotime($value['check_out']);
-
-            $time1 = new DateTime($checkIn);
-            $time2 = new DateTime($checkOut);
-            $timediff = $time1->diff($time2);
-            echo $timediff->format('%y year %m month %d days %h hour %i minute %s second')."<br/>";
-            //$workingMints = round(abs($checkOut - $checkIn) / 60,2);
-            //$workingMints = $checkIn->diff(new DateTime($checkOut));
-            // print_r($workingMints);
-            // echo "<br>";
-
-           
-       }
-        
-    }
-
 
     /**
-     * Displays a single EmpPayrollHead model.
+     * Displays a single EmpLeave model.
      * @param integer $id
      * @return mixed
      */
@@ -124,7 +80,7 @@ class EmpPayrollHeadController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "EmpPayrollHead #".$id,
+                    'title'=> "View Leave",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -139,7 +95,7 @@ class EmpPayrollHeadController extends Controller
     }
 
     /**
-     * Creates a new EmpPayrollHead model.
+     * Creates a new EmpLeave model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -147,7 +103,7 @@ class EmpPayrollHeadController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new EmpPayrollHead();  
+        $model = new EmpLeave();  
 
         if($request->isAjax){
             /*
@@ -156,7 +112,7 @@ class EmpPayrollHeadController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new EmpPayrollHead",
+                    'title'=> "Create new EmpLeave",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -165,18 +121,30 @@ class EmpPayrollHeadController extends Controller
         
                 ];         
             }else if($model->load($request->post())){
-                var_dump($model->payment_month);
+                $branch_id = Yii::$app->user->identity->branch_id;
+                // $userCnic = Yii::$app->user->identity->username;
+                // $empName = Yii::$app->db->createCommand("SELECT emp.emp_id FROM employee as emp WHERE emp.emp_cnic = '$userCnic'")->queryAll();
+                
+                    $model->branch_id = $branch_id;
+                    //$model->emp_id = $empName[0]['emp_id'];
+                    $model->applying_date = Yii::$app->formatter->asDate('now', 'yyyy-MM-dd');
+                    $model->status = "Pending";
+                    $model->created_by = Yii::$app->user->identity->id; 
+                    $model->created_at = new \yii\db\Expression('NOW()');
+                    $model->updated_by = '0';
+                    $model->updated_at = '0'; 
+                    $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new EmpPayrollHead",
-                    'content'=>'<span class="text-success">Create EmpPayrollHead success</span>',
+                    'title'=> "Create new EmpLeave",
+                    'content'=>'<span class="text-success">Create EmpLeave success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new EmpPayrollHead",
+                    'title'=> "Create new EmpLeave",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -190,7 +158,7 @@ class EmpPayrollHeadController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->payroll_head_id]);
+                return $this->redirect(['view', 'id' => $model->app_id]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -201,7 +169,7 @@ class EmpPayrollHeadController extends Controller
     }
 
     /**
-     * Updates an existing EmpPayrollHead model.
+     * Updates an existing EmpLeave model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -219,17 +187,22 @@ class EmpPayrollHeadController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update EmpPayrollHead #".$id,
+                    'title'=> "Update Leave",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post())){
+                $model->updated_by = Yii::$app->user->identity->id;
+                    $model->updated_at = new \yii\db\Expression('NOW()');
+                    $model->created_by = $model->created_by;
+                    $model->created_at = $model->created_at;
+                    $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "EmpPayrollHead #".$id,
+                    'title'=> "EmpLeave #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -238,7 +211,7 @@ class EmpPayrollHeadController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update EmpPayrollHead #".$id,
+                    'title'=> "Update EmpLeave #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -251,7 +224,7 @@ class EmpPayrollHeadController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->payroll_head_id]);
+                return $this->redirect(['view', 'id' => $model->app_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -261,7 +234,7 @@ class EmpPayrollHeadController extends Controller
     }
 
     /**
-     * Delete an existing EmpPayrollHead model.
+     * Delete an existing EmpLeave model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -289,7 +262,7 @@ class EmpPayrollHeadController extends Controller
     }
 
      /**
-     * Delete multiple existing EmpPayrollHead model.
+     * Delete multiple existing EmpLeave model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -320,15 +293,15 @@ class EmpPayrollHeadController extends Controller
     }
 
     /**
-     * Finds the EmpPayrollHead model based on its primary key value.
+     * Finds the EmpLeave model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return EmpPayrollHead the loaded model
+     * @return EmpLeave the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = EmpPayrollHead::findOne($id)) !== null) {
+        if (($model = EmpLeave::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
