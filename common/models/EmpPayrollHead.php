@@ -65,7 +65,7 @@ class EmpPayrollHead extends \yii\db\ActiveRecord
         return [
             'payroll_head_id' => 'Payroll Head ID',
             'branch_id' => 'Branch ID',
-            'emp_id' => 'Emp ID',
+            'emp_id' => 'Employees',
             'payment_month' => 'Payment Month',
             'total_calculated_pay' => 'Total Calculated Pay',
             'over_time' => 'Over Time',

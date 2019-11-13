@@ -12,59 +12,43 @@ return [
     ],
     //     [
     //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'payroll_head_id',
+    //     'attribute'=>'app_id',
     // ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',
-    //     'attribute'=>'branch_id',
+    //     'attribute'=>'emp_id',
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'emp_id',
+        'attribute'=>'leave_type',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'payment_month',
+        'attribute'=>'starting_date',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'total_calculated_pay',
+        'attribute'=>'ending_date',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'over_time',
+        // 'attribute'=>'applying_date',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'over_time_pay',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'bonus',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'tax_deduction',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'relaxation',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'net_total',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'paid_amount',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'remaining',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'no_of_days',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'leave_purpose',
+    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'status',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'remarks',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
@@ -72,11 +56,11 @@ return [
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'created_by',
+        // 'attribute'=>'updated_at',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_at',
+        // 'attribute'=>'created_by',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
