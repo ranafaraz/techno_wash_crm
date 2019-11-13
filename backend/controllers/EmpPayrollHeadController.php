@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use DateTime;
 
 /**
  * EmpPayrollHeadController implements the CRUD actions for EmpPayrollHead model.
@@ -94,14 +95,21 @@ class EmpPayrollHeadController extends Controller
         ")->queryAll();
 
        $workingMints =0;
+       $add = 0;
        foreach ($empAttendance as $key => $value) {
             $checkIn  = strtotime($value['check_in']);
             $checkOut = strtotime($value['check_out']);
 
-            $time1 = new DateTime($checkIn);
-            $time2 = new DateTime($checkOut);
-            $timediff = $time1->diff($time2);
-            echo $timediff->format('%y year %m month %d days %h hour %i minute %s second')."<br/>";
+            $hours = round(abs($checkOut - $checkIn) / 60,2);
+            //$mins=FLOOR(($diff-($hours*60*60))/(60));
+            echo $hours;
+
+            echo "<br>";
+
+            // $time1 = new \DateTime($value['check_in']);
+            // $time2 = new \DateTime($value['check_out']);
+            // $timediff = $time1->diff($time2);
+            // echo $timediff->format('%y year %m month %d days %h hour %i minute %s second')."<br/>";
             //$workingMints = round(abs($checkOut - $checkIn) / 60,2);
             //$workingMints = $checkIn->diff(new DateTime($checkOut));
             // print_r($workingMints);
