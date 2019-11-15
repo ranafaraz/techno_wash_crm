@@ -183,6 +183,7 @@ class EmpPayrollHeadController extends Controller
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
                     $model->updated_at = '0';
+                    $model->save();
                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',

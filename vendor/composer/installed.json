@@ -341,7 +341,7 @@
         "version_normalized": "3.4.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/jquery/jquery-dist.git",
+            "url": "git@github.com:jquery/jquery-dist.git",
             "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d"
         },
         "dist": {
@@ -361,7 +361,7 @@
         "version_normalized": "1.12.1.0",
         "source": {
             "type": "git",
-            "url": "git@github.com:components/jqueryui.git",
+            "url": "https://github.com/components/jqueryui.git",
             "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
         },
         "dist": {
@@ -384,7 +384,7 @@
         "version_normalized": "1.3.2.0",
         "source": {
             "type": "git",
-            "url": "git@github.com:bestiejs/punycode.js.git",
+            "url": "https://github.com/bestiejs/punycode.js.git",
             "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
         },
         "dist": {
@@ -833,17 +833,17 @@
     },
     {
         "name": "doctrine/instantiator",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/instantiator.git",
-            "reference": "a2c590166b2133a4633738648b6b064edae0814a"
+            "reference": "ae466f726242e637cebdd526a7d991b9433bacf1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/instantiator/zipball/a2c590166b2133a4633738648b6b064edae0814a",
-            "reference": "a2c590166b2133a4633738648b6b064edae0814a",
+            "url": "https://api.github.com/repos/doctrine/instantiator/zipball/ae466f726242e637cebdd526a7d991b9433bacf1",
+            "reference": "ae466f726242e637cebdd526a7d991b9433bacf1",
             "shasum": ""
         },
         "require": {
@@ -858,7 +858,7 @@
             "phpstan/phpstan-shim": "^0.11",
             "phpunit/phpunit": "^7.0"
         },
-        "time": "2019-03-17T17:37:11+00:00",
+        "time": "2019-10-21T16:45:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -891,17 +891,17 @@
     },
     {
         "name": "doctrine/lexer",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/lexer.git",
-            "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea"
+            "reference": "5242d66dbeb21a30dd8a3e66bf7a73b66e05e1f6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/lexer/zipball/e17f069ede36f7534b95adec71910ed1b49c74ea",
-            "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea",
+            "url": "https://api.github.com/repos/doctrine/lexer/zipball/5242d66dbeb21a30dd8a3e66bf7a73b66e05e1f6",
+            "reference": "5242d66dbeb21a30dd8a3e66bf7a73b66e05e1f6",
             "shasum": ""
         },
         "require": {
@@ -912,11 +912,11 @@
             "phpstan/phpstan": "^0.11.8",
             "phpunit/phpunit": "^8.2"
         },
-        "time": "2019-07-30T19:33:28+00:00",
+        "time": "2019-10-30T14:39:59+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.1.x-dev"
+                "dev-master": "1.2.x-dev"
             }
         },
         "installation-source": "dist",
@@ -1114,17 +1114,17 @@
     },
     {
         "name": "fzaninotto/faker",
-        "version": "v1.8.0",
-        "version_normalized": "1.8.0.0",
+        "version": "v1.9.0",
+        "version_normalized": "1.9.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/fzaninotto/Faker.git",
-            "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de"
+            "reference": "27a216cbe72327b2d6369fab721a5843be71e57d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f72816b43e74063c8b10357394b6bba8cb1c10de",
-            "reference": "f72816b43e74063c8b10357394b6bba8cb1c10de",
+            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/27a216cbe72327b2d6369fab721a5843be71e57d",
+            "reference": "27a216cbe72327b2d6369fab721a5843be71e57d",
             "shasum": ""
         },
         "require": {
@@ -1133,14 +1133,12 @@
         "require-dev": {
             "ext-intl": "*",
             "phpunit/phpunit": "^4.8.35 || ^5.7",
-            "squizlabs/php_codesniffer": "^1.5"
+            "squizlabs/php_codesniffer": "^2.9.2"
         },
-        "time": "2018-07-12T10:23:15+00:00",
+        "time": "2019-11-14T13:13:06+00:00",
         "type": "library",
         "extra": {
-            "branch-alias": {
-                "dev-master": "1.8-dev"
-            }
+            "branch-alias": []
         },
         "installation-source": "dist",
         "autoload": {
@@ -2015,19 +2013,19 @@
         "source": {
             "type": "git",
             "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-            "reference": "6a1a5e4bc80fff9c3341e1d9b718051db646031a"
+            "reference": "58d9a3225e8f6f1058328804fa629ad589d467d2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/6a1a5e4bc80fff9c3341e1d9b718051db646031a",
-            "reference": "6a1a5e4bc80fff9c3341e1d9b718051db646031a",
+            "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/58d9a3225e8f6f1058328804fa629ad589d467d2",
+            "reference": "58d9a3225e8f6f1058328804fa629ad589d467d2",
             "shasum": ""
         },
         "require": {
             "kartik-v/yii2-krajee-base": ">=1.9",
             "select2/select2": ">=4.0"
         },
-        "time": "2019-11-01T20:09:46+00:00",
+        "time": "2019-11-12T14:59:44+00:00",
         "type": "yii2-extension",
         "extra": {
             "branch-alias": {
@@ -4340,17 +4338,17 @@
     },
     {
         "name": "swiftmailer/swiftmailer",
-        "version": "v6.2.1",
-        "version_normalized": "6.2.1.0",
+        "version": "v6.2.3",
+        "version_normalized": "6.2.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/swiftmailer/swiftmailer.git",
-            "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a"
+            "reference": "149cfdf118b169f7840bbe3ef0d4bc795d1780c9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
-            "reference": "5397cd05b0a0f7937c47b0adcb4c60e5ab936b6a",
+            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/149cfdf118b169f7840bbe3ef0d4bc795d1780c9",
+            "reference": "149cfdf118b169f7840bbe3ef0d4bc795d1780c9",
             "shasum": ""
         },
         "require": {
@@ -4368,7 +4366,7 @@
             "ext-intl": "Needed to support internationalized email addresses",
             "true/punycode": "Needed to support internationalized email addresses, if ext-intl is not installed"
         },
-        "time": "2019-04-21T09:21:45+00:00",
+        "time": "2019-11-12T09:31:26+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4404,8 +4402,8 @@
     },
     {
         "name": "symfony/browser-kit",
-        "version": "v4.3.6",
-        "version_normalized": "4.3.6.0",
+        "version": "v4.3.8",
+        "version_normalized": "4.3.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/browser-kit.git",
@@ -4465,17 +4463,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.3.6",
-        "version_normalized": "4.3.6.0",
+        "version": "v4.3.8",
+        "version_normalized": "4.3.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "136c4bd62ea871d00843d1bc0316de4c4a84bb78"
+            "reference": "831424efae0a1fe6642784bd52aae14ece6538e6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/136c4bd62ea871d00843d1bc0316de4c4a84bb78",
-            "reference": "136c4bd62ea871d00843d1bc0316de4c4a84bb78",
+            "url": "https://api.github.com/repos/symfony/console/zipball/831424efae0a1fe6642784bd52aae14ece6538e6",
+            "reference": "831424efae0a1fe6642784bd52aae14ece6538e6",
             "shasum": ""
         },
         "require": {
@@ -4507,7 +4505,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2019-10-30T12:58:49+00:00",
+        "time": "2019-11-13T07:29:07+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4542,8 +4540,8 @@
     },
     {
         "name": "symfony/css-selector",
-        "version": "v4.3.6",
-        "version_normalized": "4.3.6.0",
+        "version": "v4.3.8",
+        "version_normalized": "4.3.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/css-selector.git",
@@ -4597,8 +4595,8 @@
     },
     {
         "name": "symfony/dom-crawler",
-        "version": "v4.3.6",
-        "version_normalized": "4.3.6.0",
+        "version": "v4.3.8",
+        "version_normalized": "4.3.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/dom-crawler.git",
@@ -4660,17 +4658,17 @@
     },
     {
         "name": "symfony/event-dispatcher",
-        "version": "v4.3.6",
-        "version_normalized": "4.3.6.0",
+        "version": "v4.3.8",
+        "version_normalized": "4.3.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/event-dispatcher.git",
-            "reference": "6229f58993e5a157f6096fc7145c0717d0be8807"
+            "reference": "0df002fd4f500392eabd243c2947061a50937287"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/6229f58993e5a157f6096fc7145c0717d0be8807",
-            "reference": "6229f58993e5a157f6096fc7145c0717d0be8807",
+            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/0df002fd4f500392eabd243c2947061a50937287",
+            "reference": "0df002fd4f500392eabd243c2947061a50937287",
             "shasum": ""
         },
         "require": {
@@ -4697,7 +4695,7 @@
             "symfony/dependency-injection": "",
             "symfony/http-kernel": ""
         },
-        "time": "2019-10-01T16:40:32+00:00",
+        "time": "2019-11-03T09:04:05+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4792,8 +4790,8 @@
     },
     {
         "name": "symfony/finder",
-        "version": "v4.3.6",
-        "version_normalized": "4.3.6.0",
+        "version": "v4.3.8",
+        "version_normalized": "4.3.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/finder.git",
@@ -5206,17 +5204,17 @@
     },
     {
         "name": "symfony/service-contracts",
-        "version": "v1.1.7",
-        "version_normalized": "1.1.7.0",
+        "version": "v1.1.8",
+        "version_normalized": "1.1.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/service-contracts.git",
-            "reference": "ffcde9615dc5bb4825b9f6aed07716f1f57faae0"
+            "reference": "ffc7f5692092df31515df2a5ecf3b7302b3ddacf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/ffcde9615dc5bb4825b9f6aed07716f1f57faae0",
-            "reference": "ffcde9615dc5bb4825b9f6aed07716f1f57faae0",
+            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/ffc7f5692092df31515df2a5ecf3b7302b3ddacf",
+            "reference": "ffc7f5692092df31515df2a5ecf3b7302b3ddacf",
             "shasum": ""
         },
         "require": {
@@ -5226,7 +5224,7 @@
         "suggest": {
             "symfony/service-implementation": ""
         },
-        "time": "2019-09-17T11:12:18+00:00",
+        "time": "2019-10-14T12:27:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5266,8 +5264,8 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v4.3.6",
-        "version_normalized": "4.3.6.0",
+        "version": "v4.3.8",
+        "version_normalized": "4.3.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
