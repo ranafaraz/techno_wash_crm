@@ -80,7 +80,7 @@ use kartik\date\DatePicker;
     </div>
 
 	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
+	  	<div class="form-group" id="insert">
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
@@ -106,10 +106,11 @@ $('#pay_month').on('change',function(){
    
     });   
 });
-$('#overTimePay').on('input',function(){
+$('#overTimePay,#bonus,#relaxation,#tax_deduction').on('input',function(){
     var caluclate_pay = parseInt($('#total_calculated_pay').val());
 var overTime = $('#overTimePay').val();
 var bonus  = $('#bonus').val();
+var tax_deduction  = $('#tax_deduction').val();
 var   relaxation  = $('#relaxation').val();
 if(bonus=="" || bonus==null){
     bonus=0;
@@ -120,64 +121,23 @@ if(relaxation=="" || relaxation==null){
 if(overTime=="" || overTime==null){
     overTime=0;
 }
-
-bonus = parseInt(bonus);
-relaxation = parseInt(relaxation);
-overTime = parseInt(overTime);
-
-net_pay = caluclate_pay +overTime + bonus+ relaxation;
-
-$('#netTotal').val(net_pay);
-    });
-    $('#bonus').on('input',function(){
-    var caluclate_pay = parseInt($('#total_calculated_pay').val());
-var overTime = $('#overTimePay').val();
-var bonus  = $('#bonus').val();
-var   relaxation  = $('#relaxation').val();
-if(bonus=="" || bonus==null){
-    bonus=0;
-}
-if(relaxation=="" || relaxation==null){
-    relaxation=0;
-}
-if(overTime=="" || overTime==null){
-    overTime=0;
+if(tax_deduction=="" || tax_deduction==null){
+    tax_deduction=0;
 }
 
 bonus = parseInt(bonus);
 relaxation = parseInt(relaxation);
 overTime = parseInt(overTime);
+tax_deduction = parseInt(tax_deduction);
 
-net_pay = caluclate_pay +overTime + bonus+ relaxation;
-
-$('#netTotal').val(net_pay);
-    });
-        $('#relaxation').on('input',function(){
-    var caluclate_pay = parseInt($('#total_calculated_pay').val());
-var overTime = $('#overTimePay').val();
-var bonus  = $('#bonus').val();
-var   relaxation  = $('#relaxation').val();
-if(bonus=="" || bonus==null){
-    bonus=0;
-}
-if(relaxation=="" || relaxation==null){
-    relaxation=0;
-}
-if(overTime=="" || overTime==null){
-    overTime=0;
-}
-
-bonus = parseInt(bonus);
-relaxation = parseInt(relaxation);
-overTime = parseInt(overTime);
-
-net_pay = caluclate_pay +overTime + bonus+ relaxation;
+net_pay = caluclate_pay +overTime + bonus+ relaxation - tax_deduction;
 
 $('#netTotal').val(net_pay);
     });
+    
     $('#paid_amount').on('input',function(){
-    var paid_amount = $('#paid_amount').val();
-    var netTotal = $('#netTotal').val();
+    var paid_amount = parseInt($('#paid_amount').val());
+    var netTotal = parseInt($('#netTotal').val());
     
     var remaining = netTotal - paid_amount;
 
@@ -194,16 +154,22 @@ $('#netTotal').val(net_pay);
     if (paid_amount > 0 && remaining > 0) {
         $('#status').val('Partially Paid');
     }
+    if(paid_amount > netTotal){
+        $("#insert").hide();
+      $('#alert').css("display","block");
+      $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+    }
 
-    // if (remaining < 0) {
-    //   //$('#insert').hide();
-    //   $("#insert").attr("disabled", true);
-    //   $('#alert').css("display","block");
-    //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
-    // }else{
-    //   $('#alert').css("display","none");
-    //   $("#insert").removeAttr("disabled");
-    // }
+
+    if (remaining < 0) {
+      //$('#insert').hide();
+      $("#insert").attr("disabled", true);
+      $('#alert').css("display","block");
+      $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+    }else{
+      $('#alert').css("display","none");
+      $("#insert").removeAttr("disabled");
+    }
     
      
 });
