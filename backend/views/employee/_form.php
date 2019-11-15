@@ -57,9 +57,9 @@ use kartik\time\TimePicker;
 
    <?php $form = ActiveForm::begin(['id' => $model->formName()]); ?>
       
-      <div class="row">
-        <div class="col-md-12">
-            <h3 style="font-family:georgia;color:#367FA9;margin-top:0px;">Employee Personal Info</h3>
+       <div class="row" style="padding: 20px;margin-left: -22px;">
+        <div class="col-md-12" style="background-color: grey;padding: 8px;">
+            <h3 style="font-family:georgia;color:white;margin-top:5px;">Employee Personal Info:</h3>
         </div>
       </div>
       <div class="row" style="margin-bottom: 10px;">
@@ -109,9 +109,9 @@ use kartik\time\TimePicker;
       </div>
       <!-- row 3 close -->
 
-      <div class="row">
-        <div class="col-md-12">
-            <h3 style="font-family:georgia;color:#367FA9;margin-top:0px;">Employee Job Info</h3>
+      <div class="row" style="padding: 20px;margin-left: -22px;">
+        <div class="col-md-12" style="background-color: grey;padding: 8px;">
+            <h3 style="font-family:georgia;color:white;margin-top:5px;">Employee Job Info:</h3>
         </div>
       </div>
       <div class="row">
@@ -152,10 +152,10 @@ use kartik\time\TimePicker;
             <?= $form->field($model, 'working_hours')->textInput(['maxlength' => true, 'id' => 'working_hours']) ?>
           </div> 
           <div class="col-md-4">
-            <?= $form->field($model, 'duty_time_start')->textInput(['maxlength' => true, 'id' => 'duty_time_start']) ?>
+            <?= $form->field($model, 'duty_time_start')->widget(TimePicker::classname(), ['id' => 'duty_time_start']) ?>
           </div> 
           <div class="col-md-4">
-            <?= $form->field($model, 'duty_time_end')->textInput(['maxlength' => true, 'id' => 'duty_time_end']) ?>
+            <?= $form->field($model, 'duty_time_end')->widget(TimePicker::classname(), ['id' => 'duty_time_end']) ?>
           </div> 
           <div class="col-md-4">
             <?= $form->field($model, 'monthly_salary')->textInput(['maxlength' => true, 'id' => 'monthly_salary']) ?>
@@ -252,7 +252,10 @@ use kartik\time\TimePicker;
 
 <?php
 $script = <<< JS
-
+$(document).ready(function(){
+  $('#employee-duty_time_start').val("");
+  $('#employee-duty_time_end').val("");
+  });
 $('form#{$model->formName()}').on('beforeSubmit',function(e){
     var canvas = document.getElementById("canvasTarget");
     var dataURL = canvas.toDataURL("image/png");
@@ -268,8 +271,8 @@ $('#emp_type').on('change',function(){
          //console.log(data);
 
       $('#working_hours').val(data[0]['working_hours']);
-      $('#duty_time_start').val(data[0]['duty_time_start']);
-      $('#duty_time_end').val(data[0]['duty_time_end']);
+      $('#employee-duty_time_start').val(data[0]['duty_time_start']);
+      $('#employee-duty_time_end').val(data[0]['duty_time_end']);
       $('#monthly_salary').val(data[0]['monthly_salary']);
         
     });        
