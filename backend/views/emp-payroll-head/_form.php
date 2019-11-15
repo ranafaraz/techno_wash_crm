@@ -45,18 +45,18 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'over_time')->textInput(['id'=>'overTime']) ?>
         </div>
          <div class="col-md-4">
-            <?= $form->field($model, 'over_time_pay')->textInput(['id'=>'overTimePay']) ?>
+            <?= $form->field($model, 'over_time_pay')->textInput(['id'=>'overTimePay',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?>
         </div>
          <div class="col-md-4">
-           <?= $form->field($model, 'bonus')->textInput(['id'=>'bonus']) ?> 
+           <?= $form->field($model, 'bonus')->textInput(['id'=>'bonus',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?> 
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-           <?= $form->field($model, 'tax_deduction')->textInput(['id'=>'tax_deduction']) ?> 
+           <?= $form->field($model, 'tax_deduction')->textInput(['id'=>'tax_deduction',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?> 
         </div>
          <div class="col-md-4">
-          <?= $form->field($model, 'relaxation')->textInput(['id'=>'relaxation']) ?>  
+          <?= $form->field($model, 'relaxation')->textInput(['id'=>'relaxation',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?>  
         </div>
          <div class="col-md-4">
             <?= $form->field($model, 'net_total')->textInput(['id'=>'netTotal', 'readonly'=>true]) ?>
@@ -64,7 +64,7 @@ use kartik\date\DatePicker;
     </div>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'paid_amount')->textInput(['id'=>'paid_amount']) ?>
+            <?= $form->field($model, 'paid_amount')->textInput(['id'=>'paid_amount' ,"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?>
         </div>
          <div class="col-md-4">
             <?= $form->field($model, 'remaining')->textInput(['id'=>'remaining', 'readonly'=>true]) ?>
@@ -78,9 +78,15 @@ use kartik\date\DatePicker;
             <input type="hidden" id="temp">
         </div>
     </div>
+    <div class="row">
+       <div class="col-md-12">
+            <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center" id="alert">
+                </div>
+       </div>
+    </div>
 
 	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group" id="insert">
+	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
@@ -155,7 +161,7 @@ $('#netTotal').val(net_pay);
         $('#status').val('Partially Paid');
     }
     if(paid_amount > netTotal){
-        $("#insert").hide();
+        $("#insert").attr("disabled", true);
       $('#alert').css("display","block");
       $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
     }

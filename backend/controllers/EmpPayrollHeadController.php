@@ -173,7 +173,7 @@ class EmpPayrollHeadController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Save',['class'=>'btn btn-primary','id'=>'insert' ,'type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post())){
@@ -243,7 +243,7 @@ class EmpPayrollHeadController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Save',['class'=>'btn btn-primary','id'=>'insert','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
