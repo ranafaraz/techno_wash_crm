@@ -106,40 +106,76 @@ $('#pay_month').on('change',function(){
    
     });   
 });
-
 $('#overTimePay').on('input',function(){
-    var overTimePay = $('#overTimePay').val();
-    var temp = $('#temp').val();
-    //var netTotal = $('#netTotal').val();
-    var total_calculated_pay = $('#total_calculated_pay').val();
-    if(overTimePay != '' && overTimePay != null )
-    {
-        var nt = parseInt(overTimePay)+parseInt(temp);
-        $('#netTotal').val(nt);
-         //$('#temp').val(nt);
-    }
-    else{
-        $('#netTotal').val(total_calculated_pay);
-    }
-   
-      
-});
-$('#bonus').on('input',function(){
-    var bonus = $('#bonus').val();
-    var netTotal = $('#netTotal').val();
-    var total_calculated_pay = $('#total_calculated_pay').val();
-    if(bonus != '' && bonus != null )
-    {
-        var nt = parseInt(bonus)+parseInt(netTotal);
-        $('#netTotal').val(nt);
-    }
-    else{
-        $('#netTotal').val(total_calculated_pay);
-    }
-        
-});
+    var caluclate_pay = parseInt($('#total_calculated_pay').val());
+var overTime = $('#overTimePay').val();
+var bonus  = $('#bonus').val();
+var   relaxation  = $('#relaxation').val();
+if(bonus=="" || bonus==null){
+    bonus=0;
+}
+if(relaxation=="" || relaxation==null){
+    relaxation=0;
+}
+if(overTime=="" || overTime==null){
+    overTime=0;
+}
 
-$('#paid_amount').on('input',function(){
+bonus = parseInt(bonus);
+relaxation = parseInt(relaxation);
+overTime = parseInt(overTime);
+
+net_pay = caluclate_pay +overTime + bonus+ relaxation;
+
+$('#netTotal').val(net_pay);
+    });
+    $('#bonus').on('input',function(){
+    var caluclate_pay = parseInt($('#total_calculated_pay').val());
+var overTime = $('#overTimePay').val();
+var bonus  = $('#bonus').val();
+var   relaxation  = $('#relaxation').val();
+if(bonus=="" || bonus==null){
+    bonus=0;
+}
+if(relaxation=="" || relaxation==null){
+    relaxation=0;
+}
+if(overTime=="" || overTime==null){
+    overTime=0;
+}
+
+bonus = parseInt(bonus);
+relaxation = parseInt(relaxation);
+overTime = parseInt(overTime);
+
+net_pay = caluclate_pay +overTime + bonus+ relaxation;
+
+$('#netTotal').val(net_pay);
+    });
+        $('#relaxation').on('input',function(){
+    var caluclate_pay = parseInt($('#total_calculated_pay').val());
+var overTime = $('#overTimePay').val();
+var bonus  = $('#bonus').val();
+var   relaxation  = $('#relaxation').val();
+if(bonus=="" || bonus==null){
+    bonus=0;
+}
+if(relaxation=="" || relaxation==null){
+    relaxation=0;
+}
+if(overTime=="" || overTime==null){
+    overTime=0;
+}
+
+bonus = parseInt(bonus);
+relaxation = parseInt(relaxation);
+overTime = parseInt(overTime);
+
+net_pay = caluclate_pay +overTime + bonus+ relaxation;
+
+$('#netTotal').val(net_pay);
+    });
+    $('#paid_amount').on('input',function(){
     var paid_amount = $('#paid_amount').val();
     var netTotal = $('#netTotal').val();
     
@@ -156,7 +192,7 @@ $('#paid_amount').on('input',function(){
     } 
 
     if (paid_amount > 0 && remaining > 0) {
-        $('#status').val('Partially');
+        $('#status').val('Partially Paid');
     }
 
     // if (remaining < 0) {
@@ -171,8 +207,13 @@ $('#paid_amount').on('input',function(){
     
      
 });
+    
+
 
 JS;
 $this->registerJs($script);
 ?>
 </script> 
+<script>
+    
+</script>
