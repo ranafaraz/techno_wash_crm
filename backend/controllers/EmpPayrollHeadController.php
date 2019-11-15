@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
-use DateTime;
+use yii\helpers\Json;
 
 /**
  * EmpPayrollHeadController implements the CRUD actions for EmpPayrollHead model.
@@ -79,8 +79,21 @@ class EmpPayrollHeadController extends Controller
        $monthArr = explode('-', $pay_month);
 
        $days_in_month = cal_days_in_month(CAL_GREGORIAN,$monthArr[0],$monthArr[1]);
+       $workdays=0;
+       for ($i = 1; $i <= $days_in_month; $i++) {
 
-       $salaryPerDay    = $monthlySalary/$days_in_month;
+            $date = $monthArr[1].'/'.$monthArr[0].'/'.$i; //format date
+            $get_name = date('l', strtotime($date)); //get week day
+            $day_name = substr($get_name, 0, 3); // Trim day name to 3 chars
+
+            //if not a weekend add day to array
+            if($day_name != 'Sun'){
+                $workdays++;
+            }
+
+        }
+
+       $salaryPerDay    = $monthlySalary/$workdays;
        $salaryPerHour   = $salaryPerDay/$workingHours;
        $salaryPerMinute = $salaryPerHour/60;
 
@@ -100,23 +113,14 @@ class EmpPayrollHeadController extends Controller
             $checkIn  = strtotime($value['check_in']);
             $checkOut = strtotime($value['check_out']);
 
-            $hours = round(abs($checkOut - $checkIn) / 60,2);
-            //$mins=FLOOR(($diff-($hours*60*60))/(60));
-            echo $hours;
+            $hours = round(abs($checkOut - $checkIn) / 3600,2);
+            $mints = round(abs($checkOut - $checkIn) / 60,2);
+            $workingMints += $mints;
+        }
 
-            echo "<br>";
+        $totalCalculatedPay = round($salaryPerMinute * $workingMints);
 
-            // $time1 = new \DateTime($value['check_in']);
-            // $time2 = new \DateTime($value['check_out']);
-            // $timediff = $time1->diff($time2);
-            // echo $timediff->format('%y year %m month %d days %h hour %i minute %s second')."<br/>";
-            //$workingMints = round(abs($checkOut - $checkIn) / 60,2);
-            //$workingMints = $checkIn->diff(new DateTime($checkOut));
-            // print_r($workingMints);
-            // echo "<br>";
-
-           
-       }
+        return Json::encode($totalCalculatedPay);
         
     }
 
@@ -173,7 +177,13 @@ class EmpPayrollHeadController extends Controller
         
                 ];         
             }else if($model->load($request->post())){
-                var_dump($model->payment_month);
+                    //$model->customer_registration_date   = new \yii\db\Expression('NOW()');
+                    $model->branch_id = Yii::$app->user->identity->branch_id; 
+                    $model->created_by = Yii::$app->user->identity->id; 
+                    $model->created_at = new \yii\db\Expression('NOW()');
+                    $model->updated_by = '0';
+                    $model->updated_at = '0';
+               
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new EmpPayrollHead",

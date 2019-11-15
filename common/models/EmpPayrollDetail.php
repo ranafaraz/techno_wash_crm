@@ -35,9 +35,9 @@ class EmpPayrollDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['payroll_head_id', 'transaction_date', 'status', 'created_by', 'updated_by'], 'required'],
+            // [[], 'required'],
             [['payroll_head_id', 'created_by', 'updated_by'], 'integer'],
-            [['transaction_date', 'created_at', 'updated_at'], 'safe'],
+            [['transaction_date', 'created_at', 'updated_at', 'payroll_head_id', 'transaction_date', 'status', 'created_by', 'updated_by'], 'safe'],
             [['paid_amount'], 'number'],
             [['status'], 'string'],
             [['payroll_head_id'], 'exist', 'skipOnError' => true, 'targetClass' => EmpPayrollHead::className(), 'targetAttribute' => ['payroll_head_id' => 'payroll_head_id']],

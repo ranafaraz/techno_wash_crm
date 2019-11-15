@@ -37,40 +37,45 @@ use kartik\date\DatePicker;
                 ])  ?>
         </div>
          <div class="col-md-4">
-            <?= $form->field($model, 'total_calculated_pay')->textInput() ?>
+            <?= $form->field($model, 'total_calculated_pay')->textInput(['id'=>'total_calculated_pay', 'readonly'=>true]) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'over_time')->textInput() ?>
+            <?= $form->field($model, 'over_time')->textInput(['id'=>'overTime']) ?>
         </div>
          <div class="col-md-4">
-            <?= $form->field($model, 'over_time_pay')->textInput() ?>
+            <?= $form->field($model, 'over_time_pay')->textInput(['id'=>'overTimePay']) ?>
         </div>
          <div class="col-md-4">
-           <?= $form->field($model, 'bonus')->textInput() ?> 
+           <?= $form->field($model, 'bonus')->textInput(['id'=>'bonus']) ?> 
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-           <?= $form->field($model, 'tax_deduction')->textInput() ?> 
+           <?= $form->field($model, 'tax_deduction')->textInput(['id'=>'tax_deduction']) ?> 
         </div>
          <div class="col-md-4">
-          <?= $form->field($model, 'relaxation')->textInput() ?>  
+          <?= $form->field($model, 'relaxation')->textInput(['id'=>'relaxation']) ?>  
         </div>
          <div class="col-md-4">
-            <?= $form->field($model, 'net_total')->textInput() ?>
+            <?= $form->field($model, 'net_total')->textInput(['id'=>'netTotal', 'readonly'=>true]) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'paid_amount')->textInput() ?>
+            <?= $form->field($model, 'paid_amount')->textInput(['id'=>'paid_amount']) ?>
         </div>
          <div class="col-md-4">
-            <?= $form->field($model, 'remaining')->textInput() ?>
+            <?= $form->field($model, 'remaining')->textInput(['id'=>'remaining', 'readonly'=>true]) ?>
         </div>
          <div class="col-md-4">
-            <?= $form->field($model, 'status')->dropDownList([ 'Uapaid' => 'Uapaid', 'Paid' => 'Paid', 'Partially Paid' => 'Partially Paid', ], ['prompt' => '']) ?>
+            <?= $form->field($model, 'status')->textInput(['id'=>'status', 'readonly'=>true]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <input type="hidden" id="temp">
         </div>
     </div>
 
@@ -90,22 +95,81 @@ $script = <<< JS
 $('#pay_month').on('change',function(){
     var pay_month = $('#pay_month').val();
     var emp_id = $('#emp_id').val();
-    alert(pay_month);
+   
     $.get('./emp-payroll-head/calculate-pay',{pay_month : pay_month, emp_id : emp_id},function(data){
-         console.log(data);
-        // var data =  $.parseJSON(data);
-        // var subjectName = data[0];
-        // var subjectIds = data[1];
         
-        // $('#subjectId').empty();
-        // $('#subjectId').append("<option>"+"Select Subject"+"</option>");
-        // var options = '';
-        //     for(var i=0; i<subjectName.length; i++) {
-        //         options += '<option value="'+subjectIds[i]+'">'+subjectName[i]+'</option>';
-        //     }
-        // // Append to the html
-        // $('#subjectId').append(options);
+        var data =  $.parseJSON(data);
+        $('#total_calculated_pay').val(data);
+        $('#temp').val(data);
+        $('#netTotal').val(data);
+        $('#status').val('Unpaid');
+   
     });   
+});
+
+$('#overTimePay').on('input',function(){
+    var overTimePay = $('#overTimePay').val();
+    var temp = $('#temp').val();
+    //var netTotal = $('#netTotal').val();
+    var total_calculated_pay = $('#total_calculated_pay').val();
+    if(overTimePay != '' && overTimePay != null )
+    {
+        var nt = parseInt(overTimePay)+parseInt(temp);
+        $('#netTotal').val(nt);
+         //$('#temp').val(nt);
+    }
+    else{
+        $('#netTotal').val(total_calculated_pay);
+    }
+   
+      
+});
+$('#bonus').on('input',function(){
+    var bonus = $('#bonus').val();
+    var netTotal = $('#netTotal').val();
+    var total_calculated_pay = $('#total_calculated_pay').val();
+    if(bonus != '' && bonus != null )
+    {
+        var nt = parseInt(bonus)+parseInt(netTotal);
+        $('#netTotal').val(nt);
+    }
+    else{
+        $('#netTotal').val(total_calculated_pay);
+    }
+        
+});
+
+$('#paid_amount').on('input',function(){
+    var paid_amount = $('#paid_amount').val();
+    var netTotal = $('#netTotal').val();
+    
+    var remaining = netTotal - paid_amount;
+
+    $('#remaining').val(remaining);
+
+    if (remaining == 0) {
+        $('#status').val('Paid');
+    }
+
+    if (remaining == netTotal && paid_amount == 0) {
+        $('#status').val('Unpaid');
+    } 
+
+    if (paid_amount > 0 && remaining > 0) {
+        $('#status').val('Partially');
+    }
+
+    // if (remaining < 0) {
+    //   //$('#insert').hide();
+    //   $("#insert").attr("disabled", true);
+    //   $('#alert').css("display","block");
+    //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+    // }else{
+    //   $('#alert').css("display","none");
+    //   $("#insert").removeAttr("disabled");
+    // }
+    
+     
 });
 
 JS;

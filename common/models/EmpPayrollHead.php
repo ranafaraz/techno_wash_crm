@@ -46,11 +46,11 @@ class EmpPayrollHead extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['branch_id', 'emp_id', 'payment_month', 'over_time', 'status', 'created_by', 'updated_by'], 'required'],
+            [['emp_id', 'payment_month', 'status','paid_amount'], 'required'],
             [['branch_id', 'emp_id', 'over_time', 'created_by', 'updated_by'], 'integer'],
-            [['total_calculated_pay', 'over_time_pay', 'bonus', 'tax_deduction', 'relaxation', 'net_total', 'paid_amount', 'remaining'], 'number'],
+            [['total_calculated_pay', 'over_time_pay', 'bonus', 'tax_deduction', 'relaxation', 'net_total',  'remaining'], 'number'],
             [['status'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by','branch_id', 'over_time' ], 'safe'],
             [['payment_month'], 'string', 'max' => 10],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
