@@ -76,6 +76,7 @@
                      ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
                      
                      ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
+                     ['label' => 'PayRoll', 'icon' => 'money', 'url' => "./payroll-month-report"],
                      ['label' => 'Employee Attendance', 'icon' => 'user-plus', 'url' => "./under-construction"],
                     //  [
                     //     'label' => 'Employee',
@@ -111,8 +112,8 @@
                     
                     
                    
-                     
-                    // ------------------------------------------------
+                     // ------------------------------------------------
+                    
                     
                     // System Settings start...
                     [
