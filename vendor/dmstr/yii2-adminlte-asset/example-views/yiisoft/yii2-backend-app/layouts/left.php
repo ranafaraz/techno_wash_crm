@@ -75,8 +75,64 @@
                      // ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
                      ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
                      
-                     ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
-                     ['label' => 'PayRoll', 'icon' => 'money', 'url' => "./payroll-month-report"],
+                     // ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
+                     // PayRoll Start
+                     [
+                        'label' => 'Employee',
+                        'icon' => 'users',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Add', 'icon' => 'plus', 'url' => ["./employee"],],
+                            ['label' => 'Attendance', 'icon' => 'university', 'url' => ["./emp-atten"],],
+                           
+                            ['label' => 'Leave', 'icon' => 'strikethrough', 'url' => "./emp-leave"],
+                            [
+                                'label' => 'PayRoll',
+                                'icon' => 'money',
+                                'url' => './emp-payroll-head',
+                                
+                            ],
+                             ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./payroll-month-report"],],
+                            
+                            
+                            
+                            
+                        ],
+                    ],
+                    // System Settings close...
+                    // ------------------------------------------------
+
+                    // ------------------------------------------------
+                    // Multilevel Dropdown....!
+                    // [
+                    //     'label' => 'Some tools',
+                    //     'icon' => 'share',
+                    //     'url' => '#',
+                    //     'items' => [
+                    //         ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                    //         ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                    //         [
+                    //             'label' => 'Level One',
+                    //             'icon' => 'circle-o',
+                    //             'url' => '#',
+                    //             'items' => [
+                    //                 ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
+                    //                 [
+                    //                     'label' => 'Level Two',
+                    //                     'icon' => 'circle-o',
+                    //                     'url' => '#',
+                    //                     'items' => [
+                    //                         ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                    //                         ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                    //                     ],
+                    //                 ],
+                    //             ],
+                    //         ],
+                    //     ],
+                    // ],
+              
+                     // Pay Roll  End
+                     // ['label' => 'PayRoll', 'icon' => 'money', 'url' => "./payroll-month-report"],
                      ['label' => 'Employee Attendance', 'icon' => 'user-plus', 'url' => "./under-construction"],
                     //  [
                     //     'label' => 'Employee',

@@ -1,6 +1,7 @@
 <?php 
 use common\models\Customer; 
 use common\models\Branches;
+use kartik\dialog\Dialog;
 use yii\helpers\Html;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -232,6 +233,10 @@ use common\models\Products;
                 <div class="row">
                   <div class="col-md-12">
                     <div class="container-fluid" style="margin-bottom:8px;">
+                     <?php echo Dialog::widget([
+                         'libName' => 'krajeeDialog',
+                         'options' => [], // default options
+                      ]); ?>
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
@@ -1254,6 +1259,8 @@ $('#product_quantity').on("change",function(){
         $('#tp').val(totalprices);
         $('#nt').val(totalprices);
         $('#remaining').val(totalprices);
+        $('#disc').val("");
+            discountFun();
 
         var vehicle             = $('#vehicle').val();
         var productid           = parseInt($("#productid").val());
@@ -1434,6 +1441,8 @@ $('#product_quantity').on("change",function(){
 
 
 	$('#insert').click(function(){
+    krajeeDialog.confirm('Are you sure to add bill', function(out){
+    if(out) {    
 			var invoice_date = $('#invoice_date').val();
       //pro_quantity
 			customer_id;
@@ -1483,28 +1492,21 @@ $('#product_quantity').on("change",function(){
     						ItemTypeArray:ItemTypeArray,
     						total_amount:total_amount,
                 quantityArray:quantityArray,
-    						net_total:net_total,
-						
+    						net_total:net_total
 	        	},
 	        url: "$url",
 	        success: function(result){
             console.log(result);
             if(result){
-              krajeeDialog.confirm('Are you sure to add bill', function(out){
-                  if(out) {
-                      window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';
-                  }
-                });
-            
-            } else {
-              krajeeDialog.alert("Something wrong.!");
+             //  alert("Bill Added");
+              window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';              
             }
 	        }      
     	  });
 			}
-				
-
-		});
+      }
+    });
+	});
 
 JS;
 $this->registerJs($script);
