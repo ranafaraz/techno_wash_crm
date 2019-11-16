@@ -1232,7 +1232,8 @@ $("#paid").on('focus', function(){
 
 
 	$('#insert').click(function(){
-    
+    krajeeDialog.confirm('Are you sure to add bill', function(out){
+    if(out) {
 		user_id;
 		vendorID;
     var bilty_no    = $('#bilty_no').val();
@@ -1317,16 +1318,13 @@ $("#paid").on('focus', function(){
 		        success: function(result){ 
               console.log(result);
 	        		if(result){
-        			  krajeeDialog.confirm('Are you sure to add bill', function(out){
-                  if(out) {
-                      window.location = './purchase-invoice-view?vendor_id=$vendorID';
-                  }
-                });
+                window.location = './purchase-invoice-view?vendor_id=$vendorID';
         			}     	
 	        	}      
     		}); 	
  		}
-    
+    }
+  });
 	});
 
 JS;

@@ -54,7 +54,7 @@ use kartik\time\TimePicker;
 $script = <<< JS
 $(document).ready(function(){
   $('#employeetypes-duty_time_start').val("Select Start Time..");
-  $('employeetypes-duty_time_end').val("Select End Time..");
+  $('#employeetypes-duty_time_end').val("Select End Time..");
   });
 JS;
 $this->registerJs($script);
