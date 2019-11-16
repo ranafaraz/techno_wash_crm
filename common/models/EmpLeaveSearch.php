@@ -44,7 +44,7 @@ class EmpLeaveSearch extends EmpLeave
         if(Yii::$app->user->identity->user_type == 'dexdevs'){
             $branch_id = Yii::$app->user->identity->branch_id;
 
-            $query = EmpLeave::find()->where(['branch_id'=>$branch_id, 'status'=>'Pending']);
+            $query = EmpLeave::find();
 
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,

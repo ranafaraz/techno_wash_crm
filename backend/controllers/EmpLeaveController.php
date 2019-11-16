@@ -121,19 +121,54 @@ class EmpLeaveController extends Controller
         
                 ];         
             }else if($model->load($request->post())){
-                $branch_id = Yii::$app->user->identity->branch_id;
-                // $userCnic = Yii::$app->user->identity->username;
-                // $empName = Yii::$app->db->createCommand("SELECT emp.emp_id FROM employee as emp WHERE emp.emp_cnic = '$userCnic'")->queryAll();
-                
+                // starting of transaction handling
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    $empId = $model->emp_id;
+                    $emp_id = Yii::$app->db->createCommand("SELECT branch_id FROM employee WHERE emp_id = '$empId'")->queryAll();
+                    
+                    $branch_id = $emp_id[0]['branch_id'];
+                    $status = $model->status;
+                    $startDate = $model->starting_date;
+                    $Date = $model->no_of_days;
+
+                if ($status == "Accepted") {
                     $model->branch_id = $branch_id;
-                    //$model->emp_id = $empName[0]['emp_id'];
-                    $model->applying_date = Yii::$app->formatter->asDate('now', 'yyyy-MM-dd');
-                    $model->status = "Pending";
+                    $model->applying_date = new \yii\db\Expression('NOW()');
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');
                     $model->updated_by = '0';
                     $model->updated_at = '0'; 
                     $model->save();
+                    for ($i=0; $i <$Date ; $i++) { 
+                        $date = strtotime("$i day", strtotime($startDate));
+                        $emp_leave = Yii::$app->db->createCommand()->insert('emp_attendance',[
+                            'branch_id'     => $branch_id,      
+                            'emp_id'        => $empId,
+                            'att_date'      => date("Y-m-d", $date),
+                            'check_in'      => '00:00:00',
+                            'check_out'     => '00:00:00' ,
+                            'attendance'    => 'L',
+                            'created_at'    => new \yii\db\Expression('NOW()'),
+                            'created_by'    => Yii::$app->user->identity->id, 
+                        ])->execute();
+                    }
+                } else {
+                    $model->branch_id = $branch_id;
+                    $model->applying_date = new \yii\db\Expression('NOW()');
+                    $model->created_by = Yii::$app->user->identity->id; 
+                    $model->created_at = 
+                    $model->updated_by = '0';
+                    $model->updated_at = '0'; 
+                    $model->save();
+                }
+                    // transaction commit
+                    $transaction->commit();
+                } catch (Exception $e) {
+                    // transaction rollback
+                    $transaction->rollback();
+                    
+                }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new EmpLeave",
