@@ -41,6 +41,9 @@ use common\models\Branches;
 			              <li class="active">
 			              	<a href="#Employee" data-toggle="tab">Employee Profile</a>
 			              </li>
+			              <li >
+			              	<a href="#Employee_payroll" data-toggle="tab">Employee PayRoll</a>
+			              </li>
 			            </ul>
 			            <div class="tab-content" style="background-color: #efefef;">
 					            <div class="active tab-pane" id="Employee">
@@ -159,6 +162,53 @@ use common\models\Branches;
 					            		</div>
 					            	</div>  
 					            </div>
+					            <div class="tab-content" id="Employee_payroll">
+					            <?php 
+					            
+					            	$payroll_head =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE emp_id = '$employeeId'")->queryAll();
+					            $payrollhead = count($payroll_head);
+					            
+					            ?>
+					             <div class="row">
+					             	<div class="col-md-12">
+					             		<div class="table-responsive">
+					             			
+					             		
+					             		<table class="table table-responsive ">
+					             			<thead>
+					             				<tr>
+					             					<th>Sr No</th>
+					             					<th>Transection Date</th>
+					             					<th>Amount</th>
+					             				</tr>
+					             			</thead>
+					             			<tbody>
+					             				 <?php			
+					             				 	for ($i=0; $i <$payrollhead ; $i++) { 
+					            					$head_id = $payroll_head[$i]['payroll_head_id'];
+					            					$payroll_detail =Yii::$app->db->createCommand("SELECT * from emp_payroll_detail WHERE payroll_head_id = '$head_id'")->queryAll();
+					            					$payrolldetail = count($payroll_detail);
+					            					for ($j=0; $j < $payrolldetail;  $j++) { 
+					            						
+					            						?>
+					            						<tr>
+					            							<td> <?php echo $j; ?></td>
+					            							<td><?php echo $payroll_detail[$j]['transaction_date']; ?></td>
+					            							<td><?php echo $payroll_detail[$j]['paid_amount'];  ?></td>
+					            							
+					            						</tr>
+					            			<?php		}
+					          
+					             				
+					             			 } ?>
+											</tbody>
+					             			</tbody>
+					             		</table>
+					             		</div>
+					             	</div>
+					             </div>
+					            </div>
+					            
 			            </div>
 			            <!-- /.tab-content -->
           			</div>
