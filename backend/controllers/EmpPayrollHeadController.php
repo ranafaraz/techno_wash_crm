@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\EmpPayrollHead;
+use common\models\EmpPayrollDetail;
 use common\models\EmpPayrollHeadSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -104,7 +105,8 @@ class EmpPayrollHeadController extends Controller
         WHERE emp_id = $emp_id
         AND MONTH(att_date)= '$monthArr[0]'
         AND YEAR(att_date)='$monthArr[1]'
-        AND attendance = 'P'
+        AND (attendance = 'P'
+        OR attendance = 'L')
         ")->queryAll();
 
        $workingMints =0;
@@ -159,7 +161,8 @@ class EmpPayrollHeadController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new EmpPayrollHead();  
+        $model = new EmpPayrollHead();
+        $payrollDetail = new EmpPayrollDetail();  
 
         if($request->isAjax){
             /*
@@ -184,6 +187,12 @@ class EmpPayrollHeadController extends Controller
                     $model->updated_by = '0';
                     $model->updated_at = '0';
                     $model->save();
+
+                    $payrollDetail->payroll_head_id = $model->payroll_head_id;
+                    $payrollDetail->transaction_date = new \yii\db\Expression('NOW()');
+                    $payrollDetail->paid_amount = $model->paid_amount;
+                    $payrollDetail->status = $model->status;
+                    $payrollDetail->save();
                
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
