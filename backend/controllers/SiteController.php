@@ -30,7 +30,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','premium-version','user-profile', 'request-password-reset','car-wash-details','credit-sale-invoices','under-construction'],
+                        'actions' => ['logout', 'index','premium-version','user-profile', 'request-password-reset','car-wash-details','credit-sale-invoices','under-construction','payroll-month-report'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -87,7 +87,10 @@ class SiteController extends Controller
     {
         return $this->render('user-profile');
     }
-
+    // Rounte for Payroll report
+    public function actionPayrollMonthReport(){
+        return $this->render('payroll-month-report');
+    }
     /**
      * Login action.
      *

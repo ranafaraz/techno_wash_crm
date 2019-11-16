@@ -139,6 +139,17 @@ tax_deduction = parseInt(tax_deduction);
 net_pay = caluclate_pay +overTime + bonus+ relaxation - tax_deduction;
 
 $('#netTotal').val(net_pay);
+if(net_pay<0){
+    $("#insert").attr("disabled", true);
+      $('#alert').css("display","block");
+      $('#alert').html("&ensp;Tax deduction can not be greater than Net Total");
+
+}
+else{
+    $("#insert").attr("disabled", false);
+      $('#alert').css("display","none");
+      
+}
     });
     
     $('#paid_amount').on('input',function(){

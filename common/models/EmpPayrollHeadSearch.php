@@ -18,8 +18,8 @@ class EmpPayrollHeadSearch extends EmpPayrollHead
     public function rules()
     {
         return [
-            [['payroll_head_id', 'branch_id', 'emp_id', 'over_time', 'created_by', 'updated_by'], 'integer'],
-            [['payment_month', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['payroll_head_id', 'branch_id',  'over_time', 'created_by', 'updated_by'], 'integer'],
+            [['payment_month', 'status', 'created_at', 'updated_at','emp_id'], 'safe'],
             [['total_calculated_pay', 'over_time_pay', 'bonus', 'tax_deduction', 'relaxation', 'net_total', 'paid_amount', 'remaining'], 'number'],
         ];
     }
@@ -49,6 +49,7 @@ class EmpPayrollHeadSearch extends EmpPayrollHead
         ]);
 
         $this->load($params);
+        $query->joinWith('emp');
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -59,7 +60,7 @@ class EmpPayrollHeadSearch extends EmpPayrollHead
         $query->andFilterWhere([
             'payroll_head_id' => $this->payroll_head_id,
             'branch_id' => $this->branch_id,
-            'emp_id' => $this->emp_id,
+            // 'emp_id' => $this->emp_id,
             'total_calculated_pay' => $this->total_calculated_pay,
             'over_time' => $this->over_time,
             'over_time_pay' => $this->over_time_pay,
@@ -76,6 +77,7 @@ class EmpPayrollHeadSearch extends EmpPayrollHead
         ]);
 
         $query->andFilterWhere(['like', 'payment_month', $this->payment_month])
+        ->andFilterWhere(['like', 'employee.emp_name', $this->emp_id])
             ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;

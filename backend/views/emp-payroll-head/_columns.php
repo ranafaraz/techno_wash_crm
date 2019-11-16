@@ -21,6 +21,8 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'emp_id',
+        'value' =>'emp.emp_name',
+
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
