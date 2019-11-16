@@ -47,37 +47,40 @@ use kartik\date\DatePicker;
          <div class="col-md-4">
             <?= $form->field($model, 'over_time_pay')->textInput(['id'=>'overTimePay',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?>
         </div>
-         <div class="col-md-4">
+        <div class="col-md-4">
            <?= $form->field($model, 'bonus')->textInput(['id'=>'bonus',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?> 
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
-           <?= $form->field($model, 'tax_deduction')->textInput(['id'=>'tax_deduction',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?> 
-        </div>
          <div class="col-md-4">
           <?= $form->field($model, 'relaxation')->textInput(['id'=>'relaxation',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?>  
         </div>
-         <div class="col-md-4">
+        <div class="col-md-4">
+           <?= $form->field($model, 'tax_deduction')->textInput(['id'=>'tax_deduction',"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?> 
+        </div>
+        <div class="col-md-4">
             <?= $form->field($model, 'net_total')->textInput(['id'=>'netTotal', 'readonly'=>true]) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
+            <?= $form->field($model, 'previous_paid')->textInput(['id'=>'previous_paid', 'value'=>0, 'readonly'=>true]) ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'payable')->textInput(['id'=>'payable', 'value'=>0, 'readonly'=>true]) ?>
+        </div>
+        <div class="col-md-4">
             <?= $form->field($model, 'paid_amount')->textInput(['id'=>'paid_amount' ,"onkeypress"=>"return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57"]) ?>
         </div>
-         <div class="col-md-4">
+      </div>
+      <div class="row">
+        <div class="col-md-4">
             <?= $form->field($model, 'remaining')->textInput(['id'=>'remaining', 'readonly'=>true]) ?>
         </div>
          <div class="col-md-4">
             <?= $form->field($model, 'status')->textInput(['id'=>'status', 'readonly'=>true]) ?>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <input type="hidden" id="temp">
-        </div>
-    </div>
+      </div>
     <div class="row">
        <div class="col-md-12">
             <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center" id="alert">
@@ -105,10 +108,47 @@ $('#pay_month').on('change',function(){
     $.get('./emp-payroll-head/calculate-pay',{pay_month : pay_month, emp_id : emp_id},function(data){
         
         var data =  $.parseJSON(data);
-        $('#total_calculated_pay').val(data);
-        $('#temp').val(data);
-        $('#netTotal').val(data);
-        $('#status').val('Unpaid');
+        console.log(data);
+        var status = data[2];
+        if(status == 'Paid')
+        {
+          $("#insert").attr("disabled", true);
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Payroll already Created");
+
+          $('#total_calculated_pay').val(data[0]);
+          $('#netTotal').val(data[0]);
+          $('#paid_amount').val(data[1]);
+          $('#status').val(data[2]);
+
+          $("#paid_amount").attr("disabled", true);
+          $("#overTimePay").attr("disabled", true);
+          $("#bonus").attr("disabled", true);
+          $("#tax_deduction").attr("disabled", true);
+          $("#relaxation").attr("disabled", true);
+          $("#overTime").attr("disabled", true);
+        }
+        else if(status == 'Partially Paid' || status == 'Advance')
+        {
+          $('#total_calculated_pay').val(data[0]);
+          $('#previous_paid').val(data[1]);
+          var nt = data[3]-data[1];
+          $('#payable').val(nt);
+           $('#netTotal').val(data[3]);
+          $('#status').val(data[2]);
+
+          $("#overTimePay").attr("disabled", true);
+          $("#bonus").attr("disabled", true);
+          $("#tax_deduction").attr("disabled", true);
+          $("#relaxation").attr("disabled", true);
+          $("#overTime").attr("disabled", true);
+        }
+        else
+        {
+          $('#total_calculated_pay').val(data[0]);
+          $('#netTotal').val(data[0]);
+          $('#status').val('Unpaid');
+        }
    
     });   
 });
@@ -140,7 +180,7 @@ net_pay = caluclate_pay +overTime + bonus+ relaxation - tax_deduction;
 
 $('#netTotal').val(net_pay);
 if(net_pay<0){
-    $("#insert").attr("disabled", true);
+      $("#insert").attr("disabled", true);
       $('#alert').css("display","block");
       $('#alert').html("&ensp;Tax deduction can not be greater than Net Total");
 
@@ -152,14 +192,18 @@ else{
 }
     });
     
-    $('#paid_amount').on('input',function(){
+$('#paid_amount').on('input',function(){
     var paid_amount = parseInt($('#paid_amount').val());
     var netTotal = parseInt($('#netTotal').val());
+    var payable = $('#payable').val();
+    //alert(payable);
+    if(payable=="" || payable ==null){
+      payable=0;
+    }
+    payable=parsInt(payable);
+    var remaing = payable - paid_amount;
+    $('#remaining').val(remaing);
     
-    var remaining = netTotal - paid_amount;
-
-    $('#remaining').val(remaining);
-
     if (remaining == 0) {
         $('#status').val('Paid');
     }

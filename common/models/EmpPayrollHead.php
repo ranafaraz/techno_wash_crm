@@ -32,6 +32,8 @@ use Yii;
  */
 class EmpPayrollHead extends \yii\db\ActiveRecord
 {
+    public $previous_paid;
+    public $payable;
     /**
      * {@inheritdoc}
      */
@@ -50,7 +52,7 @@ class EmpPayrollHead extends \yii\db\ActiveRecord
             [['branch_id', 'emp_id', 'over_time', 'created_by', 'updated_by'], 'integer'],
             [['total_calculated_pay', 'over_time_pay', 'bonus', 'tax_deduction', 'relaxation', 'net_total',  'remaining'], 'number'],
             [['status'], 'string'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by','branch_id', 'over_time' ], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by','branch_id', 'over_time', 'previous_paid', 'payable'], 'safe'],
             [['payment_month'], 'string', 'max' => 10],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
@@ -66,6 +68,7 @@ class EmpPayrollHead extends \yii\db\ActiveRecord
             'payroll_head_id' => 'Payroll Head ID',
             'branch_id' => 'Branch ID',
             'emp_id' => 'Employees',
+            'previous_paid' => 'Previously Paid',
             'payment_month' => 'Payment Month',
             'total_calculated_pay' => 'Total Calculated Pay',
             'over_time' => 'Over Time',

@@ -121,8 +121,28 @@ class EmpPayrollHeadController extends Controller
         }
 
         $totalCalculatedPay = round($salaryPerMinute * $workingMints);
+        $paymentArray =  array();
+        $empData = Yii::$app->db->createCommand("
+        SELECT *
+        FROM emp_payroll_head
+        WHERE emp_id = $emp_id
+        AND payment_month = '$pay_month'
+        ")->queryAll();
+        if (!empty($empData)){
+            $paidAmount = $empData[0]['paid_amount'];
+            $paidStatus = $empData[0]['status'];
+            $paymentArray[0] = $totalCalculatedPay;
+            $paymentArray[1] = $paidAmount;
+            $paymentArray[2] = $paidStatus;
+            $paymentArray[3] = $empData[0]['net_total'];
+        }
+        else
+        {
+            $paymentArray[0] = $totalCalculatedPay;
+        }
+        
 
-        return Json::encode($totalCalculatedPay);
+        return Json::encode($paymentArray);
         
     }
 
@@ -180,6 +200,17 @@ class EmpPayrollHeadController extends Controller
         
                 ];         
             }else if($model->load($request->post())){
+                $emp_id = $model->emp_id;
+                $payment_month = $model->payment_month;
+
+                $empData = Yii::$app->db->createCommand("
+                SELECT *
+                FROM emp_payroll_head
+                WHERE emp_id = $emp_id
+                AND payment_month = '$payment_month'
+                ")->queryAll();
+
+                if(empty($empData)){
                     //$model->customer_registration_date   = new \yii\db\Expression('NOW()');
                     $model->branch_id = Yii::$app->user->identity->branch_id; 
                     $model->created_by = Yii::$app->user->identity->id; 
@@ -194,6 +225,30 @@ class EmpPayrollHeadController extends Controller
                     $payrollDetail->status = $model->status;
                     $payrollDetail->save();
                
+                } else {
+                    $payroll_head_id = $empData[0]['payroll_head_id'];
+                    $prev_paid_amount = $empData[0]['paid_amount'];
+                    $net_total = $empData[0]['net_total'];
+                    $paid = $prev_paid_amount + $model->paid_amount;
+                    $remaining = $net_total-$paid;
+
+                    $payrollHeadUpdate = Yii::$app->db->createCommand()->update('emp_payroll_head',[
+
+                     'paid_amount'  => $paid,
+                     'remaining'   => $remaining,
+                     'status'       => $model->status,
+                    ],
+                       ['payroll_head_id' => $payroll_head_id,'emp_id' => $emp_id ]
+
+                    )->execute();
+
+                    $payrollDetail->payroll_head_id = $payroll_head_id;
+                    $payrollDetail->transaction_date = new \yii\db\Expression('NOW()');
+                    $payrollDetail->paid_amount = $model->paid_amount;
+                    $payrollDetail->status = $model->status;
+                    $payrollDetail->save();
+                }
+                    
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new EmpPayrollHead",
