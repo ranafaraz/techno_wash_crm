@@ -75,10 +75,11 @@ use kartik\date\DatePicker;
       </div>
       <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'remaining')->textInput(['id'=>'remaining', 'readonly'=>true]) ?>
+            <?= $form->field($model, 'remaining')->textInput(['id'=>'remaining', 'value'=>0, 'readonly'=>true]) ?>
         </div>
          <div class="col-md-4">
             <?= $form->field($model, 'status')->textInput(['id'=>'status', 'readonly'=>true]) ?>
+            <input type="hidden" name="previous_status" id="previous_status">
         </div>
       </div>
     <div class="row">
@@ -104,7 +105,7 @@ $script = <<< JS
 $('#pay_month').on('change',function(){
     var pay_month = $('#pay_month').val();
     var emp_id = $('#emp_id').val();
-   
+
     $.get('./emp-payroll-head/calculate-pay',{pay_month : pay_month, emp_id : emp_id},function(data){
         
         var data =  $.parseJSON(data);
@@ -149,7 +150,8 @@ $('#pay_month').on('change',function(){
           $('#netTotal').val(data[0]);
           $('#status').val('Unpaid');
         }
-   
+    var checkStatus = $('#status').val();
+    $('#previous_status').val(checkStatus);
     });   
 });
 $('#overTimePay,#bonus,#relaxation,#tax_deduction').on('input',function(){
@@ -192,36 +194,48 @@ else{
 }
     });
     
-$('#paid_amount').on('input',function(){
-    var paid_amount = parseInt($('#paid_amount').val());
+$('#paid_amount').on("input",function(){
+    var paidAmount = $('#paid_amount').val();
     var netTotal = parseInt($('#netTotal').val());
-    var payable = $('#payable').val();
-    //alert(payable);
-    if(payable=="" || payable ==null){
-      payable=0;
+    if(paidAmount == "" || paidAmount == null)
+    {
+      $("#remaining").val("0");
+      var preStatus = $('#previous_status').val();
+      $('#status').val(preStatus)
+    }else{
+    var paidAmount = parseInt(paidAmount);
+    var payAble = parseInt($("#payable").val());
+    if(payAble == "" || payAble == null)
+    {
+      payAble=0;
+      
     }
-    payable=parsInt(payable);
-    var remaing = payable - paid_amount;
-    $('#remaining').val(remaing);
+    if(payAble==0){
+    var remaining = netTotal-paidAmount;
+    $('#remaining').val(remaining);
+    }
+    else{
+    payAble=parseInt(payAble);
+    var remaining = payAble-paidAmount;
+    $('#remaining').val(remaining);
+    }
     
     if (remaining == 0) {
         $('#status').val('Paid');
     }
 
-    if (remaining == netTotal && paid_amount == 0) {
+    if (remaining == netTotal && paidAmount == 0) {
         $('#status').val('Unpaid');
     } 
 
-    if (paid_amount > 0 && remaining > 0) {
+    if (paidAmount > 0 && remaining > 0) {
         $('#status').val('Partially Paid');
     }
-    if(paid_amount > netTotal){
-        $("#insert").attr("disabled", true);
+    if(paidAmount > netTotal){
+      $("#insert").attr("disabled", true);
       $('#alert').css("display","block");
       $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
     }
-
-
     if (remaining < 0) {
       //$('#insert').hide();
       $("#insert").attr("disabled", true);
@@ -230,17 +244,11 @@ $('#paid_amount').on('input',function(){
     }else{
       $('#alert').css("display","none");
       $("#insert").removeAttr("disabled");
+    } 
     }
-    
-     
 });
     
-
-
 JS;
 $this->registerJs($script);
 ?>
 </script> 
-<script>
-    
-</script>
