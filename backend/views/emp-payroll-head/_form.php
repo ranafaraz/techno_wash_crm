@@ -193,7 +193,7 @@ else{
     });
     
 $('#paid_amount').on('input',function(){
-    var paid_amount = parseInt($('#paid_amount').val());
+    var paid_amount = $('#paid_amount').val();
     var netTotal = parseInt($('#netTotal').val());
     var payable = $('#payable').val();
     //alert(payable);
