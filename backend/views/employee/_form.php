@@ -266,9 +266,9 @@ $('form#{$model->formName()}').on('beforeSubmit',function(e){
 $('#emp_type').on('change',function(){
     var emp_type = $('#emp_type').val();
 
-    $.get('./employee/fetch-data',{emp_type : emp_type},function(data){
+    $.get('./fetch-data',{emp_type : emp_type},function(data){
       var data =  $.parseJSON(data);
-         //console.log(data);
+         console.log(data);
 
       $('#working_hours').val(data[0]['working_hours']);
       $('#employee-duty_time_start').val(data[0]['duty_time_start']);
