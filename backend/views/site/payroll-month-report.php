@@ -40,11 +40,11 @@
 					</div><hr>
 					<div class="box-body">
 						<?php 
-						
-						
-							$payrollhead = Yii::$app->db->createCommand("SELECT eph.*,e.emp_name,e.monthly_salary FROM emp_payroll_head AS eph INNER JOIN employee AS e ON eph.emp_id = e.emp_id WHERE eph.payment_month = '$month1'
-						")->queryAll();
-							$countrow = count($payrollhead);
+							$employeesData  = Yii::$app->db->createCommand("
+						    SELECT *
+						    FROM employee
+						    ")->queryAll();
+							$countrow = count($employeesData);
 						?>
 						<div class="table-responsive">
 							<table class="table table-responsive">
@@ -59,15 +59,32 @@
 								</thead>
 								<tbody>
 									<?php 
-										for($i=0;$i<$countrow;$i++){  ?>
-										<tr><?php $j=$i+1 ?>
-											<td><?php echo $j;?></td>
-											<td><?php echo $payrollhead[$i]['emp_name'];?></td>
-											<td><?php echo $payrollhead[$i]['monthly_salary'];?></td>
-											<td><?php echo $payrollhead[$i]['paid_amount'];?></td>
-											<td><?php echo $payrollhead[$i]['status'];?></td>
-										</tr>	
-										<?php 
+										for($i=0;$i<$countrow;$i++){  
+											$empID = $employeesData[$i]['emp_id'];
+											$payrollhead = Yii::$app->db->createCommand("SELECT *
+												FROM emp_payroll_head 
+												WHERE payment_month = '$month1'
+												AND emp_id = '$empID'
+											")->queryAll();
+											if (!empty($payrollhead)) {
+											?>
+											<tr>
+												<td><?php echo $i;?></td>
+												<td><?php echo $employeesData[$i]['emp_name'];?></td>
+												<td><?php echo $employeesData[$i]['monthly_salary'];?></td>
+												<td><?php echo $payrollhead[0]['paid_amount'];?></td>
+												<td><?php echo $payrollhead[0]['status'];?></td>
+											</tr>	
+										<?php } // closing of if
+										else{ ?>
+											<tr>
+												<td><?php echo $i;?></td>
+												<td><?php echo $employeesData[$i]['emp_name'];?></td>
+												<td><?php echo $employeesData[$i]['monthly_salary'];?></td>
+												<td>0</td>
+												<td>Unpaid</td>
+											</tr>
+									<?php	}
 									}
 									?>
 								</tbody>
