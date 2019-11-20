@@ -33,7 +33,7 @@ class EmpPayrollHeadController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','calculate-pay'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','calculate-pay','calculate-advance-pay','advance-payroll'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -53,6 +53,10 @@ class EmpPayrollHeadController extends Controller
      * Lists all EmpPayrollHead models.
      * @return mixed
      */
+      public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
     public function actionIndex()
     {    
         $searchModel = new EmpPayrollHeadSearch();
@@ -63,7 +67,22 @@ class EmpPayrollHeadController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    public function actionAdvancePayroll()
+    {
+        return $this->render('advance-payroll');
+    }
+    public function actionCalculateAdvancePay($emp_id)
+    {
+        $empData = Yii::$app->db->createCommand("
+        SELECT *
+        FROM employee
+        WHERE emp_id = $emp_id
+        ")->queryAll();
+        $monthlySalary   = $empData[0]['monthly_salary'];
 
+        return Json::encode($monthlySalary);
+
+    }
      public function actionCalculatePay($pay_month, $emp_id)
     {  
 

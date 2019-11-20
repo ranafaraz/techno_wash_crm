@@ -195,7 +195,7 @@ else{
     });
     
 $('#paid_amount').on('input',function(){
-    var paid_amount = $('#paid_amount').val();
+    var paidAmount = $('#paid_amount').val();
     var netTotal = parseInt($('#netTotal').val());
     if(paidAmount == "" || paidAmount == null)
     {
