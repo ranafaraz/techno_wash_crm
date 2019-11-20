@@ -162,49 +162,59 @@ use common\models\Branches;
 					            		</div>
 					            	</div>  
 					            </div>
+
 					            <div class="tab-content" id="Employee_payroll">
 					            <?php 
-					            
-					            	$payroll_head =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE emp_id = '$employeeId'")->queryAll();
-					            $payrollhead = count($payroll_head);
+					            $dist_years =Yii::$app->db->createCommand("SELECT DISTINCT(payment_year) from emp_payroll_head WHERE emp_id = '$employeeId'")->queryAll();
+					            $countdistYear = count($dist_years);
 					            
 					            ?>
 					             <div class="row">
 					             	<div class="col-md-12">
-					             		<div class="table-responsive">
-					             			
-					             		
-					             		<table class="table table-responsive ">
+					             		<table class="table table-bordered ">
 					             			<thead>
 					             				<tr>
-					             					<th>Sr No</th>
-					             					<th>Transection Date</th>
-					             					<th>Amount</th>
+					             					<th style="background-color: #367FA9;color: #fff;">Sr No</th>
+					             					<th style="background-color: #367FA9;color: #fff;">Year</th>
+					             					<th style="background-color: #367FA9;color: #fff;">Action</th>
 					             				</tr>
 					             			</thead>
 					             			<tbody>
 					             				 <?php			
-					             				 	for ($i=0; $i <$payrollhead ; $i++) { 
-					            					$head_id = $payroll_head[$i]['payroll_head_id'];
-					            					$payroll_detail =Yii::$app->db->createCommand("SELECT * from emp_payroll_detail WHERE payroll_head_id = '$head_id'")->queryAll();
-					            					$payrolldetail = count($payroll_detail);
-					            					for ($j=0; $j < $payrolldetail;  $j++) { 
+					             				 	for ($i=0; $i <$countdistYear ; $i++) { 
+				             				 		$payment_year = $dist_years[$i]['payment_year'];
+				             				 		$payroll_head =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE payment_year = '$payment_year'")->queryAll();
+					            					$countdistMonth = count($payroll_head);
 					            						
 					            						?>
 					            						<tr>
-					            							<td> <?php echo $j; ?></td>
-					            							<td><?php echo $payroll_detail[$j]['transaction_date']; ?></td>
-					            							<td><?php echo $payroll_detail[$j]['paid_amount'];  ?></td>
+					            							<td> <?php echo $i+1; ?></td>
+					            							<td><?php echo $payment_year; ?></td>
+					            							<td><div class="dropdown">
+															  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 4px 50px;">Month
+															  <span class="caret"></span></button>
+															  <ul class="dropdown-menu">
+															  	<?php for ($j=0; $j <$countdistMonth ; $j++) {
+
+															  		$monthNum  = $payroll_head[$j]['payment_month'];
+															  		$headData =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE payment_month = '$monthNum' AND  payment_year = '$payment_year'")->queryAll();
+															  		$headID  = $headData[0]['payroll_head_id'];
+																	$dateObj   = DateTime::createFromFormat('!m', $monthNum);
+																	$monthName = $dateObj->format('F');
+															  		?>
+
+															    <li><a href="./emp-payroll-view?head_id=<?php echo $headID;?>"><?php echo $monthName; ?></a></li>
+
+															  	<?php } ?>
+															  </ul>
+															</div></td>
 					            							
 					            						</tr>
-					            			<?php		}
-					          
-					             				
-					             			 } ?>
+					            			<?php }
+					          				 ?>
 											</tbody>
 					             			</tbody>
 					             		</table>
-					             		</div>
 					             	</div>
 					             </div>
 					            </div>

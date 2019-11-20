@@ -220,7 +220,10 @@ class EmpPayrollHeadController extends Controller
                 ];         
             }else if($model->load($request->post())){
                 $emp_id = $model->emp_id;
-                $payment_month = $model->payment_month;
+                $payment_date = $model->payment_month;
+                $payment_explode = explode('-',$payment_date,2);
+                $payment_month = $payment_explode[0];
+                $payment_year = $payment_explode[1];
 
                 $empData = Yii::$app->db->createCommand("
                 SELECT *
@@ -231,6 +234,8 @@ class EmpPayrollHeadController extends Controller
 
                 if(empty($empData)){
                     //$model->customer_registration_date   = new \yii\db\Expression('NOW()');
+                    $model->payment_month = $payment_month; 
+                    $model->payment_year = $payment_year; 
                     $model->branch_id = Yii::$app->user->identity->branch_id; 
                     $model->created_by = Yii::$app->user->identity->id; 
                     $model->created_at = new \yii\db\Expression('NOW()');

@@ -36,7 +36,7 @@ class EmployeeController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','employee-detail-view','fetch-data'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','employee-detail-view','fetch-data','emp-payroll-view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -60,7 +60,10 @@ class EmployeeController extends Controller
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
-
+    public function actionEmpPayrollView()
+    {    
+        return $this->render('emp-payroll-view');
+    }
     public function actionFetchData($emp_type)
     {
         $emp_data = Yii::$app->db->createCommand("SELECT * FROM employee_types WHERE emp_type_id = '$emp_type' ")->queryAll();
