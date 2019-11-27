@@ -133,7 +133,7 @@
               
                      // Pay Roll  End
                      // ['label' => 'PayRoll', 'icon' => 'money', 'url' => "./payroll-month-report"],
-                     ['label' => 'Employee Attendance', 'icon' => 'user-plus', 'url' => "./under-construction"],
+                     // ['label' => 'Employee Attendance', 'icon' => 'user-plus', 'url' => "./under-construction"],
                     //  [
                     //     'label' => 'Employee',
                     //     'icon' => 'user-o',

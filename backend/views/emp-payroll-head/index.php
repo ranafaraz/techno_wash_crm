@@ -26,12 +26,12 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i> Advance', ['./advance-payroll'],
-                    ['role'=>'','title'=> 'Advance Salary','class'=>'btn btn-primary']).
+                    // Html::a('<i class="glyphicon glyphicon-plus"></i> Advance', ['./advance-payroll'],
+                    // ['role'=>'','title'=> 'Advance Salary','class'=>'btn btn-primary']).
                     Html::a('<i class="glyphicon glyphicon-plus"></i> Payroll', ['create'],
                     ['role'=>'modal-remote','title'=> 'Create new Emp Payroll Heads','class'=>'btn btn-success']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
                 ],
