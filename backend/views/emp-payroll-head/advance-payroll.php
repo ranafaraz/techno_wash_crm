@@ -131,28 +131,59 @@
 		$remaining 	= $_POST['remaining'];
 		$status 	= $_POST['status'];
 
-		$payRollHead = Yii::$app->db->createCommand()->insert('emp_payroll_head',[
+		$m = explode('-', $month);
 
-        'branch_id' 	=> $branchID,
-        'emp_id' 		=> $employee,
-        'payment_month' => $month,
-        'net_total' 	=> $pay,
-        'paid_amount' 	=> $paid,
-        'remaining' 	=> $remaining,
-        'status' 		=> $status,
-        'created_by'    => Yii::$app->user->identity->id,
+		// starting of transaction handling
+     	$transaction = \Yii::$app->db->beginTransaction();
+     	try {
+     		$payRollHead = Yii::$app->db->createCommand()->insert('emp_payroll_head',[
 
-      ])->execute();
+	        'branch_id' 	=> $branchID,
+	        'emp_id' 		=> $employee,
+	        'payment_month' => $m[1],
+	        'payment_year'  => $m[0],
+	        'net_total' 	=> $pay,
+	        'paid_amount' 	=> $paid,
+	        'remaining' 	=> $remaining,
+	        'status' 		=> $status,
+	        'created_by'    => Yii::$app->user->identity->id,
 
-		if ($payRollHead) {
-			$payRollHeadId = Yii::$app->db->createCommand("
-		    SELECT *
-		    FROM emp_payroll_head
-		    WHERE emp_id = '$employee'
-		    AND branch_id = '$branchID'
-		    ")->queryAll();
-		}
-		
+	      ])->execute();
+
+			if ($payRollHead) {
+				$payRollHeadId = Yii::$app->db->createCommand("
+			    SELECT payroll_head_id
+			    FROM emp_payroll_head
+			    WHERE emp_id = '$employee'
+			    AND branch_id = '$branchID'
+			    AND payment_month = '$m[1]'
+			    AND payment_year = '$m[0]'
+			    ")->queryAll();
+			    $headId = $payRollHeadId[0]['payroll_head_id'];
+
+			    $payRollDetail = Yii::$app->db->createCommand()->insert('emp_payroll_detail',[
+
+		        'payroll_head_id' 	=> $headId,
+		        'transaction_date' 	=> new \yii\db\Expression('NOW()'),
+		        'paid_amount' 	=> $paid,
+		        'status' 		=> 'Advance',
+		        'created_by'    => Yii::$app->user->identity->id,
+
+		      	])->execute();
+
+
+			}
+     		// transaction commit
+	            $transaction->commit();?>
+	            <script>
+	            	window.location = './emp-payroll-head';
+	            </script> 
+	   <?php  	} // closing of try block 
+	     	catch (Exception $e) {
+	     		echo $e;
+	     		// transaction rollback
+	         	$transaction->rollback();
+	     	} // closing of catch block	
 		
 	}
 

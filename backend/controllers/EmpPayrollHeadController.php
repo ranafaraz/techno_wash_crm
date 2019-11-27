@@ -145,7 +145,8 @@ class EmpPayrollHeadController extends Controller
         SELECT *
         FROM emp_payroll_head
         WHERE emp_id = $emp_id
-        AND payment_month = '$pay_month'
+        AND payment_month = '$monthArr[0]'
+        AND payment_year = '$monthArr[1]'
         ")->queryAll();
         if (!empty($empData)){
             $paidAmount = $empData[0]['paid_amount'];
