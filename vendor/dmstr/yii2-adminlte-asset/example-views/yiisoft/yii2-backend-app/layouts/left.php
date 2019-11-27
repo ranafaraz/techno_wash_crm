@@ -89,10 +89,10 @@
                             [
                                 'label' => 'PayRoll',
                                 'icon' => 'money',
-                                'url' => './emp-payroll-head',
+                                'url' => './under-construction',
                                 
                             ],
-                             ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./payroll-month-report"],],
+                             ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./under-construction"],],
                             
                             
                             
