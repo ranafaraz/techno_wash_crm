@@ -83,20 +83,31 @@
                         'url' => '#',
                         'items' => [
                             ['label' => 'Add', 'icon' => 'plus', 'url' => ["./employee"],],
-                            ['label' => 'Attendance', 'icon' => 'university', 'url' => ["./emp-atten"],],
-                           
-                            ['label' => 'Leave', 'icon' => 'strikethrough', 'url' => "./emp-leave"],
                             [
-                                'label' => 'PayRoll',
-                                'icon' => 'money',
-                                'url' => './under-construction',
-                                
+                                'label' => 'Attendance',
+                                'icon' => 'users',
+                                'url' => '#',
+                                'items' => [
+                                    ['label' => 'Attendance', 'icon' => 'university', 'url' => ["./emp-atten"],],
+
+                                    ['label' => 'Absentees', 'icon' => 'strikethrough', 'url' => "./final-attendance"],
+                                   
+                                    ['label' => 'Leave', 'icon' => 'strikethrough', 'url' => "./emp-leave"],
+                                    
+                                    [
+                                        'label' => 'Reports',
+                                        'icon' => 'users',
+                                        'url' => '#',
+                                        'items' => [
+                                            ['label' => 'Single Employee', 'icon' => 'university', 'url' => ["./emp-att-report"],],
+                                           
+                                            ['label' => 'Monthly Report', 'icon' => 'strikethrough', 'url' => "./employess-att-report"],   
+                                        ],
+                                    ],
+                                ],
                             ],
-                             ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./under-construction"],],
-                            
-                            
-                            
-                            
+                            ['label' => 'PayRoll', 'icon' => 'money', 'url' => './under-construction', ],
+                            ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./under-construction"],],
                         ],
                     ],
                     // System Settings close...
