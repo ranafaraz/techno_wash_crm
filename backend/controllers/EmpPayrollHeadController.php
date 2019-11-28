@@ -125,7 +125,8 @@ class EmpPayrollHeadController extends Controller
         AND MONTH(att_date)= '$monthArr[0]'
         AND YEAR(att_date)='$monthArr[1]'
         AND (attendance = 'P'
-        OR attendance = 'L')
+        OR attendance = 'L'
+        OR attendance = 'H')
         ")->queryAll();
 
        $workingMints =0;

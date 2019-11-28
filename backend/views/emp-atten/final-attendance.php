@@ -99,7 +99,24 @@
 
 						<input type="hidden" name="absent[]" value="<?php echo $valu; ?>">
 					<?php } ?>
-					<button name="absent_emp" type="submit" class="btn btn-danger btn-sm" style="float: right;"><i class="glyphicon glyphicon-check"></i> Mark Absent</button>
+					<hr>
+					<div class="row">
+						<div class="col-md-2">
+							<label>Comment</label>
+						</div>
+						<div class="col-md-6">
+							<textarea name="comment" class="form-control">
+							</textarea>
+						</div>
+						<div class="col-md-2">
+							<button name="absent_emp" type="submit" class="btn btn-danger btn-sm" style="float: right;"><i class="glyphicon glyphicon-check"></i> Mark Absent</button>
+						</div>
+						<div class="col-md-2">
+							<button name="holiday" type="submit" class="btn btn-success btn-sm" style="float: right;"><i class="glyphicon glyphicon-check"></i> Mark Holiday</button>
+						</div>
+					</div>
+					
+					
 				</form>
 			</div>
 		</div>
@@ -113,6 +130,7 @@
 		$absentDate = $_POST['date'];
 		$employee_id = $_POST['absent'];
 		$branch_id = $_POST['branch_id'];
+		$comment = $_POST['comment'];
 		$countEmployee_id = count($employee_id);
 
 		$transection = Yii::$app->db->beginTransaction();
@@ -127,6 +145,7 @@
 						'check_in' 		=> '00:00:00',
 						'check_out'		=> '00:00:00' ,
 						'attendance'	=> 'A',
+						'comments'      => $comment,
 						'created_at'	=> new \yii\db\Expression('NOW()'),
 						'created_by'	=> Yii::$app->user->identity->id, 
 					])->execute();
@@ -141,9 +160,43 @@
 			Yii::$app->session->setFlash('danger', "Not marked...Try again...!!!");
 		} // closing of catch
 
-	}
+	} // closing ifset for absent
+	
+	if(isset($_POST['holiday']))
+	{
+		$absentDate = $_POST['date'];
+		$employee_id = $_POST['absent'];
+		$branch_id = $_POST['branch_id'];
+		$comment = $_POST['comment'];
+		$countEmployee_id = count($employee_id);
 
-	 ?>
+		$transection = Yii::$app->db->beginTransaction();
+		try
+		{
+			for ($i=0; $i <$countEmployee_id ; $i++) { 
+			$emp_absent = Yii::$app->db->createCommand()->insert('emp_attendance',[
+						'branch_id'		=> $branch_id,		
+            			'emp_id' 		=> $employee_id[$i],
+						'att_date' 		=> $absentDate,
+						'check_in' 		=> '00:00:00',
+						'check_out'		=> '00:00:00' ,
+						'attendance'	=> 'H',
+						'comments'      => $comment,
+						'created_at'	=> new \yii\db\Expression('NOW()'),
+						'created_by'	=> Yii::$app->user->identity->id, 
+					])->execute();
+			}
+			if($emp_absent){
+				$transection->commit();
+				Yii::$app->session->setFlash('success', "Holiday marked successfully...!!!");
+			}
+		} // closing of try
+		catch(Exception $e){
+			$transection->rollback();
+			Yii::$app->session->setFlash('danger', "Not marked...Try again...!!!");
+		} // closing of catch
+	} // closing ifset for holiday
+?>
 	</div>
 </div>
 </body>
