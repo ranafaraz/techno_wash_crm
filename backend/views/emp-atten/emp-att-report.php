@@ -1,7 +1,7 @@
 <?php 
 
 	$branch_id = Yii::$app->user->identity->branch_id;
-	$empInfo = Yii::$app->db->createCommand("SELECT * FROM emp_info WHERE emp_branch_id = '$branch_id'")->queryAll();
+	$empInfo = Yii::$app->db->createCommand("SELECT * FROM employee WHERE branch_id = '$branch_id'")->queryAll();
 	$countEmp = count($empInfo);
 
  ?>
@@ -82,7 +82,7 @@
 						<div class="col-md-12" style="font-family:verdana;">
 							<p>
 								<?php
-								$empName = Yii::$app->db->createCommand("SELECT emp_name FROM emp_info WHERE emp_id = '$emp_id'")->queryAll();
+								$empName = Yii::$app->db->createCommand("SELECT emp_name FROM employee WHERE emp_id = '$emp_id'")->queryAll();
 								echo "<b>".$empName[0]['emp_name']."</b>";?>
 							</p>
 						</div>

@@ -43,7 +43,7 @@
 		}
 
 		$empInfoId = array();
-		$empIds_2 = Yii::$app->db->createCommand("SELECT emp_id FROM emp_info WHERE emp_branch_id = '$branch_id'")->queryAll();
+		$empIds_2 = Yii::$app->db->createCommand("SELECT emp_id FROM employee WHERE branch_id = '$branch_id'")->queryAll();
 		foreach ($empIds_2 as $key => $value) {
 			$empInfoId[$key] = $value['emp_id'];
 		}
@@ -77,7 +77,7 @@
 							<?php 
 								$sr = 0;
 								foreach ($result as $key => $value) {
-								 	$empName = Yii::$app->db->createCommand("SELECT emp_name FROM emp_info
+								 	$empName = Yii::$app->db->createCommand("SELECT emp_name FROM employee
 								 	WHERE emp_id = '$value'")->queryAll();
 							 ?>
 							<tr>

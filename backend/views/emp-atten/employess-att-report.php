@@ -28,7 +28,7 @@
         $days = cal_days_in_month(CAL_GREGORIAN, $month,$year);
         //fetching employees
         $branch_id = Yii::$app->user->identity->branch_id;
-        $empInfo = Yii::$app->db->createCommand("SELECT * FROM emp_info WHERE emp_branch_id = '$branch_id'")->queryAll();
+        $empInfo = Yii::$app->db->createCommand("SELECT * FROM employee WHERE branch_id = '$branch_id'")->queryAll();
         $countEmp = count($empInfo);
 
     ?>
