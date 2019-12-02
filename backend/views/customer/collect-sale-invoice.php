@@ -51,6 +51,7 @@
 						</div>
 					</div><hr style="border:1px solid #3C8DBC ;">
 					<form method="post" action="sale-invoice-view?customer_id=<?php echo $customerID; ?>&regno=<?=$regNoID?>">
+						<input type="hidden" name="<?= Yii::$app->request->csrfParam;?>" value="<?= Yii::$app->request->csrfToken;?>">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
