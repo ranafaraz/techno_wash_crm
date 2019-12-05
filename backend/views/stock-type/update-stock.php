@@ -93,34 +93,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label>Status</label>
-								<select id="status" class="form-control">
-								<option value="">Select Status</option>
-								<option value="In-stock">
-									In-stock
-								</option>
-								<option value="Sold">
-									Sold
-								</option>
-								<option value="Damaged">
-									Damaged
-								</option>
-								<option value="Repaired">
-									Repaired
-								</option>
-								<option value="Expired">
-									Expired
-								</option>
-								<option value="Returned">
-									Returned
-								</option>
-							</select>
-							</div>
-						</div>
-					</div> -->
 					<input type="hidden" id="stock_type_id">
 					<input type="hidden" id="manufacture_id">
 					<input type="hidden" id="product_id">

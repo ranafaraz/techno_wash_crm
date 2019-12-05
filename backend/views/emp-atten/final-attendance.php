@@ -38,6 +38,7 @@
 
 		$empAttId = array();
 		$empIds = Yii::$app->db->createCommand("SELECT emp_id FROM emp_attendance WHERE att_date = '$date' AND branch_id = '$branch_id'")->queryAll();
+
 		foreach ($empIds as $key => $value) {
 			$empAttId[$key] = $value['emp_id'];
 		}
@@ -50,10 +51,17 @@
 		$result = array();
 		$result=array_diff($empInfoId,$empAttId);
 		$resultCount = count($result);
-
-
 		?>
 	<div class="col-md-9">
+		<?php 
+		if (empty($result)) { ?>
+			
+				 <div class="alert alert-success">
+  					Attendance already marked...!!!
+				</div>		
+		<?php }
+		else{
+		 ?>
 		<div class="box box-primary">
 			<div class="box-header" style="padding:0px;">
 			 	<div class="row">
@@ -120,8 +128,9 @@
 				</form>
 			</div>
 		</div>
+	<?php } // closing of alert div ?>
 	</div>
-	<?php } ?>
+	<?php }  ?>
 	<?php 
 
 
@@ -201,3 +210,19 @@
 </div>
 </body>
 </html>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+
+var timeout = 1500; // in miliseconds (3*1000)
+
+$('.alert').delay(timeout).fadeOut(2000);
+// $(function() {
+// // setTimeout() function will be fired after page is loaded
+// // it will wait for 5 sec. and then will fire
+// // $("#successMessage").hide() function
+    
+//     $(".hide-it").hide(5000);
+
+// });
+</script>
