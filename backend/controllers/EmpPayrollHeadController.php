@@ -131,15 +131,20 @@ class EmpPayrollHeadController extends Controller
 
        $workingMints =0;
        $add = 0;
+       $overTime = 0;
        foreach ($empAttendance as $key => $value) {
             $checkIn  = strtotime($value['check_in']);
             $checkOut = strtotime($value['check_out']);
 
-            $hours = round(abs($checkOut - $checkIn) / 3600,2);
+            $hours = round(abs($checkOut - $checkIn) / 3600);
             $mints = round(abs($checkOut - $checkIn) / 60,2);
             $workingMints += $mints;
+            if( $hours != 0){
+                $overTime += $hours - $workingHours;  
+            }
         }
-
+        $overTimePay = round($overTime * $salaryPerHour);
+        
         $totalCalculatedPay = round($salaryPerMinute * $workingMints);
         $paymentArray =  array();
         $empData = Yii::$app->db->createCommand("
@@ -156,10 +161,14 @@ class EmpPayrollHeadController extends Controller
             $paymentArray[1] = $paidAmount;
             $paymentArray[2] = $paidStatus;
             $paymentArray[3] = $empData[0]['net_total'];
+            $paymentArray[4] = $overTime;
+            $paymentArray[5] = $overTimePay;
         }
         else
         {
             $paymentArray[0] = $totalCalculatedPay;
+            $paymentArray[1] = $overTime;
+            $paymentArray[2] = $overTimePay;
         }
         
 
