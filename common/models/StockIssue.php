@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $stock_issue_id
  * @property int $emp_id
- * @property int $stock_id
+ * @property int $product_id
  * @property string $stock_issue_date
  * @property string $description
  * @property string $created_at
@@ -17,8 +17,8 @@ use Yii;
  * @property int $created_by
  * @property int $updated_by
  *
- * @property Employee $emp
- * @property Stock $stock
+ * @property PrevEmp $emp
+ * @property Products $product
  */
 class StockIssue extends \yii\db\ActiveRecord
 {
@@ -36,12 +36,12 @@ class StockIssue extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_id', 'stock_id', 'stock_issue_date', 'description'], 'required'],
-            [['emp_id', 'stock_id', 'created_by', 'updated_by'], 'integer'],
-            [['stock_issue_date', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
+            [['emp_id', 'product_id', 'stock_issue_date'], 'required'],
+            [['emp_id', 'product_id', 'created_by', 'updated_by'], 'integer'],
+            [['stock_issue_date', 'created_at', 'updated_at', 'description', 'created_by', 'updated_by'], 'safe'],
             [['description'], 'string', 'max' => 200],
             [['emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['emp_id' => 'emp_id']],
-            [['stock_id'], 'exist', 'skipOnError' => true, 'targetClass' => Stock::className(), 'targetAttribute' => ['stock_id' => 'stock_id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['product_id' => 'product_id']],
         ];
     }
 
@@ -52,9 +52,9 @@ class StockIssue extends \yii\db\ActiveRecord
     {
         return [
             'stock_issue_id' => 'Stock Issue ID',
-            'emp_id' => 'Emp Name',
-            'stock_id' => 'Stock Name',
-            'stock_issue_date' => 'Stock Issue Date',
+            'emp_id' => 'Employee',
+            'product_id' => 'Product',
+            'stock_issue_date' => 'Issue Date',
             'description' => 'Description',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -74,8 +74,8 @@ class StockIssue extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStock()
+    public function getProduct()
     {
-        return $this->hasOne(Stock::className(), ['stock_id' => 'stock_id']);
+        return $this->hasOne(Products::className(), ['product_id' => 'product_id']);
     }
 }

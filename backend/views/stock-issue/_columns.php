@@ -21,8 +21,8 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'stock_id',
-        'value' => 'stock.name',        
+        'attribute'=>'product_id',
+        'value' => 'product.product_name',        
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

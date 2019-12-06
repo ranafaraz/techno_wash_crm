@@ -107,6 +107,7 @@
                                 ],
                             ],
                             ['label' => 'PayRoll', 'icon' => 'money', 'url' => './under-construction', ],
+                            ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
                             ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./under-construction"],],
                         ],
                     ],
