@@ -75,7 +75,7 @@ use common\models\Employee;
 </div>
 
 <?php
-$url = \yii\helpers\Url::to("emp-leave/fetch-days-count");
+$url = \yii\helpers\Url::to("./fetch-days-count");
 
 $script = <<< JS
 
@@ -83,14 +83,14 @@ $('#endDate').on('change',function(){
    
     var endDate = $('#endDate').val();
     var startDate = $('#startDate').val();
-   $.ajax({
+    $.ajax({
         type:'post',
         data:{endDate:endDate,startDate:startDate},
         url: "$url",
         success: function(result){
             var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
             var days = jsonResult[0];
-          //console.log(days);
+          console.log(days);
           $('#noofdays').val(days);
         }         
     }); 

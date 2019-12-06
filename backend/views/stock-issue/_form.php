@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\models\Stock;
+use common\models\Products;
 use common\models\Employee;
 use yii\helpers\ArrayHelper;
 use dosamigos\datetimepicker\DateTimePicker;
@@ -30,9 +30,9 @@ use dosamigos\datetimepicker\DateTimePicker;
         </div>
         <div class="col-md-6">
 
-            <?= $form->field($model, 'stock_id')->dropDownList(
-                ArrayHelper::map(Stock::find()->all(),'stock_id','name'),
-                ['prompt'=>'Select Stock',]
+            <?= $form->field($model, 'product_id')->dropDownList(
+                ArrayHelper::map(Products::find()->all(),'product_id','product_name'),
+                ['prompt'=>'Select Product',]
                 )?>
 
         </div>
