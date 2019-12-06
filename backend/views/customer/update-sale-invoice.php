@@ -33,7 +33,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 <body>
 	<div class="container">
 		
-		<form action="sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" method="POST" accept-charset="utf-8">
+		<form action="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" method="POST" accept-charset="utf-8">
 		<div class="row">
 			<div class="col-md-2">
 				
