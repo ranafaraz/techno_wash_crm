@@ -93,43 +93,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label>Status</label>
-								<select id="status" class="form-control">
-								<option value="">Select Status</option>
-								<option value="In-stock">
-									In-stock
-								</option>
-								<option value="Sold">
-									Sold
-								</option>
-								<option value="Damaged">
-									Damaged
-								</option>
-								<option value="Repaired">
-									Repaired
-								</option>
-								<option value="Expired">
-									Expired
-								</option>
-								<option value="Returned">
-									Returned
-								</option>
-							</select>
-							</div>
-						</div>
-					</div> -->
 					<input type="hidden" id="stock_type_id">
 					<input type="hidden" id="manufacture_id">
 					<input type="hidden" id="product_id">
 					<input type="hidden" id="stock_id">
 					<input type="hidden" id="original_price">
-
 					</form>
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-1">
+							<a href="./stock-type" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+						</div>
+						<div class="col-md-1">
 							<div class="form-group">
 								<button class="btn btn-success" style="display: none;" id="update_stock">
 									<i class="glyphicon glyphicon-edit"></i> Update

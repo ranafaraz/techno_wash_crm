@@ -159,6 +159,7 @@ use kartik\dialog\Dialog;
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID'
     AND (status = 'Paid' OR status = 'paid')
+    ORDER BY purchase_date DESC
     ")->queryAll();
   $count_piad_invoice = count($paid_invoice);
 
@@ -167,6 +168,7 @@ use kartik\dialog\Dialog;
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
     AND (status = 'Partially' OR status = 'Unpaid')
+    ORDER BY purchase_date DESC
     ")->queryAll();
   $count_credit_invoice = count($credit_invoice);
 
@@ -361,7 +363,7 @@ body td{
               <div class="tab-pane" id="paid_invoices">
                 <div class="row">
                   <div class="col-md-12">
-                      <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Details</h3>
+                      <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Detail:</h3>
                     </div>    
                   </div>
                   <div class="row">
@@ -416,7 +418,7 @@ body td{
               <div class="tab-pane" id="payable">
                   <div class="row">
                     <div class="col-md-8">
-                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Details</h3>
+                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Detail:</h3>
                     </div>
                             <?php
                               $totalcreditAmount=0;

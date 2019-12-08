@@ -394,7 +394,7 @@ use common\models\Products;
               <div class="tab-pane" id="paidd">
                   <div class="row">
                     <div class="col-md-12">
-                        <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Details</h3>
+                        <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Detail:</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -440,7 +440,7 @@ use common\models\Products;
               <div class="tab-pane" id="credit">
                   <div class="row">
                     <div class="col-md-8">
-                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Details</h3>
+                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Detail:</h3>
                     </div>
                             <?php
                               $totalcreditAmount=0;
@@ -911,6 +911,7 @@ $("#item_type").change(function(){
 		 if(item_type == "Service")
 		 {
 		 	$('#servic').show();
+      $('#services').focus();
 		 	$('#stock').hide();
       $('#pname').hide();
       $('#quantity').hide();
@@ -921,8 +922,9 @@ $("#item_type").change(function(){
 		 {
 		 	$('#stock').show();
       $('#pname').show();
+      $('#barcode').focus();
       $('#barcode').val("");
-		 	$('#servic').hide();
+      $('#servic').hide();
       $('#productid').val('').trigger("change");
 		 }
 		 else{

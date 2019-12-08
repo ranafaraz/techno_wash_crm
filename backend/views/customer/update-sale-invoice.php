@@ -45,6 +45,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 					</div>
 				</div>
 				<div class="row" style="background-color:white;padding:10px;border-top:2px solid #367FA9;">
+					<input type="hidden" name="<?= Yii::$app->request->csrfParam;?>" value="<?= Yii::$app->request->csrfToken;?>">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Date</label>
