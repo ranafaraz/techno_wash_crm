@@ -119,7 +119,7 @@ use common\models\Products;
     }
      // transaction commit
      $transaction->commit();
-      header("Location: ./sale-invoice-view?customer_id=$customerID&&regno=$regNoID");
+      header("Location: ./sale-invoice-view?customer_id=$customerID&regno=$regNoID");
      
         
      } // closing of try block 

@@ -88,25 +88,26 @@
                                 'icon' => 'users',
                                 'url' => '#',
                                 'items' => [
-                                    ['label' => 'Attendance', 'icon' => 'university', 'url' => ["./emp-atten"],],
+                                    ['label' => 'Attendance', 'icon' => '', 'url' => ["./emp-atten"],],
 
-                                    ['label' => 'Absentees', 'icon' => 'strikethrough', 'url' => "./final-attendance"],
+                                    ['label' => 'Absentees', 'icon' => '', 'url' => "./final-attendance"],
                                    
-                                    ['label' => 'Leave', 'icon' => 'strikethrough', 'url' => "./emp-leave"],
+                                    ['label' => 'Leave', 'icon' => '', 'url' => "./emp-leave"],
                                     
                                     [
                                         'label' => 'Reports',
-                                        'icon' => 'users',
+                                        'icon' => 'bar-chart',
                                         'url' => '#',
                                         'items' => [
-                                            ['label' => 'Single Employee', 'icon' => 'university', 'url' => ["./emp-att-report"],],
+                                            ['label' => 'Single Employee', 'icon' => '', 'url' => ["./emp-att-report"],],
                                            
-                                            ['label' => 'Monthly Report', 'icon' => 'strikethrough', 'url' => "./employess-att-report"],   
+                                            ['label' => 'Monthly Report', 'icon' => '', 'url' => "./employess-att-report"],   
                                         ],
                                     ],
                                 ],
                             ],
                             ['label' => 'PayRoll', 'icon' => 'money', 'url' => './under-construction', ],
+                            ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
                             ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./under-construction"],],
                         ],
                     ],

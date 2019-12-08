@@ -118,16 +118,18 @@ $('#pay_month').on('change',function(){
           $('#alert').html("&ensp;Payroll already Created");
 
           $('#total_calculated_pay').val(data[0]);
-          $('#netTotal').val(data[0]);
+          $('#netTotal').val(data[3]);
           $('#paid_amount').val(data[1]);
           $('#status').val(data[2]);
+          $('#overTime').val(data[4]);
+          $('#overTimePay').val(data[5]);
 
-          $("#paid_amount").attr("disabled", true);
+          $("#overTime").attr("disabled", true);
           $("#overTimePay").attr("disabled", true);
           $("#bonus").attr("disabled", true);
           $("#tax_deduction").attr("disabled", true);
           $("#relaxation").attr("disabled", true);
-          $("#overTime").attr("disabled", true);
+          $("#paid_amount").attr("disabled", true);
         }
         else if(status == 'Partially Paid' || status == 'Advance')
         {
@@ -135,8 +137,10 @@ $('#pay_month').on('change',function(){
           $('#previous_paid').val(data[1]);
           var nt = data[3]-data[1];
           $('#payable').val(nt);
-           $('#netTotal').val(data[3]);
+          $('#netTotal').val(data[3]);
           $('#status').val(data[2]);
+          $('#overTime').val(data[4]);
+          $('#overTimePay').val(data[5]);
 
           $("#overTimePay").attr("disabled", true);
           $("#bonus").attr("disabled", true);
@@ -146,9 +150,14 @@ $('#pay_month').on('change',function(){
         }
         else
         {
+          var calAmount = data[0];
+          var oTPay = data[2];
+          var afterOT = calAmount+oTPay;
           $('#total_calculated_pay').val(data[0]);
-          $('#netTotal').val(data[0]);
+          $('#netTotal').val(afterOT);
           $('#status').val('Unpaid');
+          $('#overTime').val(data[1]);
+          $('#overTimePay').val(data[2]);
         }
     var checkStatus = $('#status').val();
     $('#previous_status').val(checkStatus);
