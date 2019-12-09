@@ -401,11 +401,21 @@ use yii\helpers\Url;
           </div>
           <div class="row">
               <div class="col-md-3">
-                <a href="./customer-vehicles">
+                <a href="./customer-vehicles?sort=-customer_id">
                     <div class="panel panel-default" style="border:1px solid #FAB61C;">
                       <div class="panel-body" style="text-align: center;padding:30px">
                         <i class="glyphicon glyphicon-usd"></i><br>
                         <p>Sale Invoice</p>
+                      </div>
+                    </div>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="./stock-type">
+                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
+                      <div class="panel-body" style="text-align: center;padding:30px">
+                        <i class="fa fa-bar-chart"></i><br>
+                        <p>Stock Type</p>
                       </div>
                     </div>
                 </a>
