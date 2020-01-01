@@ -64,7 +64,7 @@ CrudAsset::register($this);
             'pjax' => true,
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['./customer/create'],
+                    Html::a('<i class="glyphicon glyphicon-plus"></i> Add Customer', ['./customer/create'],
                     ['role'=>'modal-remote','title'=> 'Create new Customer Vehicles','class'=>'btn btn-success']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).

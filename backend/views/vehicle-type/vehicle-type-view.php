@@ -7,6 +7,7 @@ $vehicleTypeID = $_GET['id'];
 
 if(isset($_POST['insert_model']))
  { 
+ 	$vechicalType = $_POST['vechicalType'];
 	$carmanufactureId  = $_POST['carmanufacture_id'];
 	$modelName  = $_POST['model_name'];
 	$user_id   =Yii::$app->user->identity->id;
@@ -29,6 +30,12 @@ if(isset($_POST['insert_model']))
      // transaction commit
      $transaction->commit();
     Yii::$app->session->setFlash('success', "Model added successfuly");
+    ?>
+	<script>
+		 window.location='vehicle-type-view?id=<?php echo $vechicalType;?>';
+	</script>
+
+    <?php
         
      } // closing of try block 
      catch (Exception $e) {
@@ -93,7 +100,7 @@ $countcarmanufactureData = count($carmanufactureData);
   <title></title>
 </head>
 <body>
-<form action="./vehicle-type-view?id=1" method="POST">
+<form action="./vehicle-type-view?id=<?php echo $vehicleTypeID; ?>" method="POST">
 <div class="container-fluid">
   	<div class="row">
 	    <div class="col-md-9" style="margin-top: -20px">
@@ -126,7 +133,7 @@ $countcarmanufactureData = count($carmanufactureData);
 									$countvehicleSub = count($vehicleSubData);
 							?>
 				            <li class="">
-				              	<a href="#<?php echo $carmanufactureName; ?>" data-toggle="tab">
+				              	<a href="#<?php echo $carmanufactureID; ?>" data-toggle="tab">
 				              		<?php echo $carmanufactureName; ?>&nbsp;<span class="badge"><?=$countvehicleSub;?></span>
 				              	</a>
 				            </li>
@@ -149,7 +156,7 @@ $countcarmanufactureData = count($carmanufactureData);
 								$countvehicleSub = count($vehicleSubData);
 
 							?>
-					        <div class="tab-pane" id="<?php echo $carmanufactureName;?>">
+					        <div class="tab-pane" id="<?php echo $carmanufactureID;?>">
 					            <div class="row">
 					               	<div class="col-md-4">
 					               		<p style="color:#3C8DBC;font-size:20px;">		<?php echo $carmanufactureName; ?>
@@ -157,6 +164,7 @@ $countcarmanufactureData = count($carmanufactureData);
 					               	</div>
 				               		<div class="col-md-2">
 				               			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>"> 
+				               			<input type="hidden" name="vechicalType" id="vechicalType" class="form-control" value="<?php echo $vehicleTypeID; ?>">
 				               			<input type="hidden" name="carmanufacture_id[]" id="carmanufacture_id" class="form-control" value="<?php echo $carmanufactureID; ?>">
 
 				               			<label class="pull-right" style="margin-top: 6px;">Model Name:</label>
