@@ -144,7 +144,7 @@ use common\models\VehicleTypeSubCategory;
                                 )?>
                             </div>
                             <div class="col-sm-4">
-                                <?= $form->field($value, "[{$i}]registration_no")->textInput(['id' => 'REGNO']) ?>
+                                <?= $form->field($value, "[{$i}]registration_no")->textInput(['id'=>'REGNO']) ?>
                             </div>
                             <div class="col-sm-4">
                                 <?= $form->field($value, "[{$i}]color")->textInput(['id' => 'COLOR']) ?>
@@ -182,19 +182,19 @@ use common\models\VehicleTypeSubCategory;
 
 $('#customerName').bind('keypress', testInput);
 $('#fatherName').bind('keypress', testInput);
-$('#REGNO').bind('keypress', testInput);
+// $('#REGNO').bind('keypress', testInput);
 $('#COLOR').bind('keypress', testInput);
 
-$("#REGNO").bind('keyup', function (e) {
-    // if (e.which >= 97 && e.which <= 122) {
-    //     var newKey = e.which - 32;
-    //     // I have tried setting those
-    //     e.keyCode = newKey;
-    //     e.charCode = newKey;
-    // }
+// $("#REGNO").bind('keyup', function (e) {
+//     // if (e.which >= 97 && e.which <= 122) {
+//     //     var newKey = e.which - 32;
+//     //     // I have tried setting those
+//     //     e.keyCode = newKey;
+//     //     e.charCode = newKey;
+//     // }
 
-    $("#REGNO").val(($("#REGNO").val()).toUpperCase());
-});
+//     $("#REGNO").val(($("#REGNO").val()).strtoupper());
+// });
 $("#COLOR").bind('keyup', function (e) {
     // if (e.which >= 97 && e.which <= 122) {
     //     var newKey = e.which - 32;
@@ -244,5 +244,23 @@ $("#customer_occupation").bind('keyup', function (e) {
     // }
 
     $("#customer_occupation").val(($("#customer_occupation").val()).toUpperCase());
+
 });
+  function forceKeyPressUppercase(e)
+  {
+    var charInput = e.keyCode;
+    if((charInput >= 97) && (charInput <= 122)) { // lowercase
+      if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+        var newChar = charInput - 32;
+        var start = e.target.selectionStart;
+        var end = e.target.selectionEnd;
+        e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+        e.target.setSelectionRange(start+1, start+1);
+        e.preventDefault();
+      }
+    }
+  }
+
+  document.getElementById("REGNO").addEventListener("keypress", forceKeyPressUppercase, false);
+  
 </script>
