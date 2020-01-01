@@ -124,7 +124,7 @@ use yii\helpers\Html;
                 </li>
 
                 <!-- Tasks: style can be found in dropdown.less -->
-                <li class="tasks-menu invisible">
+                <li class="tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-th"></i>
                         <!-- <span class="label label-danger">9</span> -->
@@ -134,7 +134,7 @@ use yii\helpers\Html;
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
                                 <li style="list-style: none;">
-                                    <a href="index.php?r=site/system-settings" class="btn btn-sm">
+                                    <a href="https://www.youtube.com/watch?v=FK24c8ydmPE" target="_blank" class="btn btn-sm">
                                         <i class="fa fa-cog fa-2x"></i>
                                            <h5>System<br>Settings</h5>
                                     </a>

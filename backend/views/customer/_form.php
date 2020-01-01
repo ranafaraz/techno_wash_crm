@@ -144,10 +144,10 @@ use common\models\VehicleTypeSubCategory;
                                 )?>
                             </div>
                             <div class="col-sm-4">
-                                <?= $form->field($value, "[{$i}]registration_no")->textInput() ?>
+                                <?= $form->field($value, "[{$i}]registration_no")->textInput(['id' => 'REGNO']) ?>
                             </div>
                             <div class="col-sm-4">
-                                <?= $form->field($value, "[{$i}]color")->textInput() ?>
+                                <?= $form->field($value, "[{$i}]color")->textInput(['id' => 'COLOR']) ?>
                             </div>
                             <div class="col-sm-4">
                                 <?php //$form->field($value, "[{$i}]image")->fileInput() ?>
@@ -182,7 +182,29 @@ use common\models\VehicleTypeSubCategory;
 
 $('#customerName').bind('keypress', testInput);
 $('#fatherName').bind('keypress', testInput);
+$('#REGNO').bind('keypress', testInput);
+$('#COLOR').bind('keypress', testInput);
 
+$("#REGNO").bind('keyup', function (e) {
+    // if (e.which >= 97 && e.which <= 122) {
+    //     var newKey = e.which - 32;
+    //     // I have tried setting those
+    //     e.keyCode = newKey;
+    //     e.charCode = newKey;
+    // }
+
+    $("#REGNO").val(($("#REGNO").val()).toUpperCase());
+});
+$("#COLOR").bind('keyup', function (e) {
+    // if (e.which >= 97 && e.which <= 122) {
+    //     var newKey = e.which - 32;
+    //     // I have tried setting those
+    //     e.keyCode = newKey;
+    //     e.charCode = newKey;
+    // }
+
+    $("#COLOR").val(($("#COLOR").val()).toUpperCase());
+});
 $("#customerName").bind('keyup', function (e) {
     // if (e.which >= 97 && e.which <= 122) {
     //     var newKey = e.which - 32;
