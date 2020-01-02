@@ -91,7 +91,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 						TECHNO WASH
 					</h3>
 					<p style="text-align: center;">
-						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
+						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
 					</p>
 					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Paid Cash Memo</h3>
 					
@@ -308,7 +308,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<td>
+								<td style="font-weight: bold;background-color: #f1f1f1 !important;">
 									Salesman:
 								</td>
 								<td style="text-align: center;">
@@ -324,9 +324,9 @@ $customervehicleID = Yii::$app->db->createCommand("
 				<div class="col-sm-3">
 							<tr style="border:none;" class="footer">
 								<td colspan="2" style="border:0px !important;" class="footer">
-											<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting us!</h4>
+											<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>
 											<p style="text-align: center;">
-												<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
+												<i>IT Consultancy Provoided By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
 											</p>
 								</td>
 							</tr>

@@ -41,12 +41,12 @@ $customerId = $_GET['id'];
         <div class="row">
             <div class="col-md-6">
 
-                <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true,'id' => 'REGNO']) ?>
 
             </div>
             <div class="col-md-6">
 
-                <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'color')->textInput(['id' => 'COLOR']) ?>
 
             </div>
         </div>
@@ -73,3 +73,50 @@ $customerId = $_GET['id'];
     <?php ActiveForm::end(); ?>
     
 </div>
+<script>
+
+
+$("#COLOR").change(function(){
+  alert("The text has been changed.");
+});
+
+$('#COLOR').bind('keypress', testInput);
+
+// $("#REGNO").bind('keyup', function (e) {
+//     // if (e.which >= 97 && e.which <= 122) {
+//     //     var newKey = e.which - 32;
+//     //     // I have tried setting those
+//     //     e.keyCode = newKey;
+//     //     e.charCode = newKey;
+//     // }
+
+//     $("#REGNO").val(($("#REGNO").val()).strtoupper());
+// });
+$("#COLOR").bind('keyup', function (e) {
+    // if (e.which >= 97 && e.which <= 122) {
+    //     var newKey = e.which - 32;
+    //     // I have tried setting those
+    //     e.keyCode = newKey;
+    //     e.charCode = newKey;
+    // }
+
+    $("#COLOR").val(($("#COLOR").val()).toUpperCase());
+});
+  function forceKeyPressUppercase(e)
+  {
+    alert("helloooo");
+    var charInput = e.keyCode;
+    if((charInput >= 97) && (charInput <= 122)) { // lowercase
+      if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+        var newChar = charInput - 32;
+        var start = e.target.selectionStart;
+        var end = e.target.selectionEnd;
+        e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+        e.target.setSelectionRange(start+1, start+1);
+        e.preventDefault();
+      }
+    }
+  }
+
+  document.getElementById("REGNO").addEventListener("keypress", forceKeyPressUppercase, false);
+</script>
