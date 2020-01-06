@@ -80,6 +80,7 @@
 		$net_total 				= $_POST['net_total']; 
 		$paid 					= $_POST["paid"];
 		$remaining 				= $_POST['remaining'];
+		$cash_return 			= $_POST['cash_return'];
 		$status 				= $_POST['status'];
 		$barcodeArray 			= $_POST['barcodeArray'];
 		$stockTypeArray 		= $_POST['stockTypeArray'];
@@ -110,6 +111,7 @@
 		'net_total'    		=> $net_total,
 		'paid_amount'    	=> $paid,
 		'remaining_amount'  => $remaining,
+		'cash_return'		=> $cash_return,
 		'status'    		=> $status,
 		'created_by'		=> $user_id,
 

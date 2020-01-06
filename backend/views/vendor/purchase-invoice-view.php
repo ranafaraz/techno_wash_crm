@@ -577,6 +577,10 @@ body td{
                   <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
                 </div>
                 <div class="form-group">
+                  <label>Cash Return</label>
+                  <input type="text" name="return" class="form-control" id="cash_return"> 
+                </div>
+                <div class="form-group">
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
                 </div>
@@ -638,6 +642,7 @@ body td{
               $('#nt').val(originalPrice);
               $('#remaining').val(originalPrice);
               $('#paid').val("0");
+              $('#cash_return').val("0");
           }else{
 
        // alert(originalPrice);
@@ -705,41 +710,44 @@ body td{
       //   }
       // }
       function cal_remaining(){
-      	var paid = $('#paid').val();
-        if(paid == "" || paid == null)
-          {
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
-          }else{
-      	var nt = $('#nt').val();
-      	var remaining =nt - paid;
-      	$('#remaining').val(remaining); 
-        
-        	if (remaining == 0) {
-        		$('#status').val('Paid');
-            $('#insert').show();
-        	}
-        	else if (remaining == nt) {
-        		$('#status').val('Unpaid');
-            $('#insert').show();
-        	}
-          
-          else if (paid > 0) {
+        var paid = $('#paid').val();
+        var nt = $('#nt').val();
+        var remaining = nt - paid;
+         
+        if (remaining == 0) {
+          $('#status').val('Paid');
+        }
+
+         if (remaining == nt && paid == 0) {
+          $('#status').val('Unpaid');
+        }        
+         if (paid > 0 && remaining > 0) {
           $('#status').val('Partially');
         }
-        $('#insert').show();
-        if (remaining < 0) {
+        
+        //$('#insert').show();
+        //$("#insert").removeAttr("disabled");
+        if (paid > nt && remaining < 0) {
           //$('#insert').hide();
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          // $("#insert").attr("disabled", true);
+          // $('#alert').css("display","block");
+          // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          var cash_return = paid - nt;
+           $('#cash_return').val(cash_return);
+           $('#remaining').val(0);
         }else{
-          $('#alert').css("display","none");
-          $("#insert").removeAttr("disabled");
+          $('#remaining').val(remaining);
+          // $('#alert').css("display","none");
+          // $("#insert").removeAttr("disabled");
         }
+
+        // if(remaining < 0){
+        //   $("#insert").attr("disabled", true);
+        //   $('#alert').css("display","block");
+        //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        // }
+
       }
-    }
 
 
 </script>
@@ -748,17 +756,6 @@ $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
 
 
 $script = <<< JS
-
-$("#paid").on('focus', function(){
-  $('#paid').val("");
-  var paid = $('#paid').val();
-  if(paid == "" || paid == null)
-          {
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
-        }
-  });
 
 	$("#stock_type").change(function(){
 		 var stockType = $('#stock_type').val();
@@ -1077,6 +1074,42 @@ $("#paid").on('focus', function(){
             }
 	});
 
+  $("#cash_return").on('input', function(){
+    var cashReturn  = $('#cash_return').val();
+    var paid        = $('#paid').val();
+    var nt          = $('#nt').val();
+    var previous_value = paid-nt;
+    var temp = cashReturn-previous_value;
+    $('#remaining').val(temp);
+
+    if(temp < 0)
+    {
+      $("#insert").attr("disabled", true);
+      $('#alert').css("display","block");
+      $('#alert').html("&ensp;Invalid Amount");
+    } else {
+      $("#insert").attr("disabled", false);
+      $('#alert').css("display","none");      
+    }
+
+  });
+
+  $("#cash_return").on('focus', function(){
+    $('#cash_return').val("");
+  });
+
+$("#paid").on('focus', function(){
+  $('#paid').val("");
+  var paid = $('#paid').val();
+   $('#cash_return').val(0);
+  // if(paid == "" || paid == null)
+  //         {
+  //         $("#insert").attr("disabled", true);
+  //         $('#alert').css("display","block");
+  //         $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+  //       }
+  });
+
 	$('#stock_type').change(function(){
 
 		var stock_type = $("#stock_type").val();
@@ -1247,6 +1280,7 @@ $("#paid").on('focus', function(){
 		var net_total 		= $('#nt').val();
 		var paid 			= $('#paid').val();
 	  var remaining 		= $('#remaining').val();
+    var cash_return = $('#cash_return').val();
 		var status 			= $('#status').val();
     barcodeArray;
 	 	stockTypeArray;
@@ -1305,6 +1339,7 @@ $("#paid").on('focus', function(){
     					net_total:net_total, 		
     					paid:paid, 			
     			    remaining:remaining,
+              cash_return:cash_return,
     			    status:status, 		
     			    barcodeArray:barcodeArray,
     			 	  stockTypeArray:stockTypeArray,

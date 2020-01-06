@@ -63,18 +63,18 @@
 				<button type="button" onclick="printContent('div1')" class="btn btn-warning btn-flat" id="print_button"><i class="glyphicon glyphicon-print"></i> Print Content</button>
 			</div>
 		</div> -->
-		<div id="div1">
+		<div id="div1" style="font-size:20px;font-family:arial;">
 			
 		
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
-					<h3  style="text-align: center;">
+					<h3  style="text-align: center;font-weight: bolder;">
 						TECHNO WASH
 					</h3>
 					<p style="text-align: center;">
-						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
+						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
 					</p>
-					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Paid Purchase Memo</h3>
+					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Paid Purchase Memo</h3>
 					
 					<div class="row">
 						<div class="col-md-12">
@@ -115,15 +115,18 @@
 						    WHERE stock_type_id = '$stocktypeid'
 						    ")->queryAll();
 					 ?>
-					 <p style="text-align: center;font-weight:bolder;border:1px solid;"> Stock: <?php echo $stockTypeName[0]['name'];?></p>
-					<table class="table">
+					<table class="table table-bordered">
 						<thead style="background-color: #3C8DBC !important;color:white;">
-								<th>Sr #</th>
-								<th>Product</th>
-								<th>Manufacturer</th>
-								<th style="text-align: center;">Price</th>
-								<th style="text-align: center;">Quantity</th>
-								<th style="text-align: center;">Total</th>
+							<tr>
+								<th colspan="6" style="text-align: center;background-color:lightgray !important;"> Stock: <?php echo $stockTypeName[0]['name'];?></th>
+							</tr>
+							<tr>
+								<th style="background-color: #f1f1f1 !important;">Sr #</th>
+								<th style="background-color: #f1f1f1 !important;">Product</th>
+								<th style="background-color: #f1f1f1 !important;">Manufacturer</th>
+								<th style="background-color: #f1f1f1 !important;">Price</th>
+								<th style="background-color: #f1f1f1 !important;">Quantity</th>
+								<th style="background-color: #f1f1f1 !important;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -173,16 +176,16 @@
 
 							?>
 							<tr>
-								<td style="text-align: left;"><?php echo $j+1; ?></td>
-								<td style="text-align: left;"><?php echo $productData[0]['product_name']; ?></td>
-								<td style="text-align: left;"><?php echo $manufacturerName[0]['name']; ?></td>
-								<td style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></td>
-								<td style="text-align: center;"><?php echo $countStock; ?></td>
-								<td style="text-align: center;">
+								<th style="text-align: left;"><?php echo $j+1; ?></th>
+								<th style="text-align: left;"><?php echo $productData[0]['product_name']; ?></th>
+								<th style="text-align: left;"><?php echo $manufacturerName[0]['name']; ?></th>
+								<th style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></th>
+								<th style="text-align: center;"><?php echo $countStock; ?></th>
+								<th style="text-align: center;">
 									<?php echo $total = $stockData[0]['purchase_price']*$countStock; 
 									$totalAmount += $total;
 									?>
-								</td>
+								</th>
 							</tr>
 							<?php } ?>
 						</tbody>
@@ -193,9 +196,9 @@
 					<table class="table table-bordered" >
 						<thead>
 							<tr>
-								<th style="text-align: center;background-color: lightgray;">Total Products: </th>
+								<th  style="text-align: center;background-color: lightgray !important;">Total Products: </th>
 								<th style="background-color: white;text-align: center;"><?php echo $totalProducts; ?></th>
-								<th style="text-align: center;background-color: lightgray;">Total Qty: </th>
+								<th style="text-align: center;background-color: lightgray !important;">Total Qty: </th>
 								<th style="background-color:white;text-align: center;"><?php echo $quantity; ?></th>
 							</tr>
 						</thead>
@@ -232,19 +235,42 @@
 								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
+								<th style="background-color:white;color:black;">Cash Returned</th>
+								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['cash_return']; ?></th>
+							</tr>
+							<tr>
 								<th>Status</th>
 								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['status']; ?></th>
 							</tr>
-							<tr style="border:none;" class="footer">
-								<td colspan="2" style="border:0px !important;" class="footer">
-											<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important;"><i>Honor To Work With You!</i></h4>
-											<p style="text-align: center;">
-												<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
-											</p>
+						</thead>
+					</table>
+				</div>
+				<div class="col-sm-3">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<td style="font-weight: bold;background-color: #f1f1f1 !important;">
+									Salesman:
+								</td>
+								<td style="text-align: center;">
+									<?php 
+
+										echo Yii::$app->user->identity->username;
+									?>
 								</td>
 							</tr>
 						</thead>
 					</table>
+				</div>
+				<div class="col-sm-3">
+					<tr style="border:none;" class="footer">
+						<td colspan="2" style="border:0px !important;" class="footer">
+							<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>
+							<p style="text-align: center;">
+								<i>IT Consultancy Provoided By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
+							</p>
+						</td>
+					</tr>
 				</div>
 			</div>
 		</div>
