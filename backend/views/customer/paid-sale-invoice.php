@@ -326,14 +326,14 @@ $customervehicleID = Yii::$app->db->createCommand("
 					</table>
 				</div>
 				<div class="col-sm-3">
-							<tr style="border:none;" class="footer">
-								<td colspan="2" style="border:0px !important;" class="footer">
-											<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>
-											<p style="text-align: center;">
-												<i>IT Consultancy Provoided By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
-											</p>
-								</td>
-							</tr>
+					<tr style="border:none;" class="footer">
+						<td colspan="2" style="border:0px !important;" class="footer">
+							<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>
+							<p style="text-align: center;">
+								<i>IT Consultancy Provoided By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
+							</p>
+						</td>
+					</tr>
 				</div>
 			</div>
 		</div>

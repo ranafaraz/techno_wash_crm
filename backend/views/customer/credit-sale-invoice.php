@@ -296,7 +296,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Status</th>
-								<?php
+								<?phps
 								 $status = $bill[0]['status'];
 								 if (($status == "Unpaid") || ($status == "unpaid")) {
 								 	?>
