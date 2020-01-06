@@ -671,7 +671,7 @@ use common\models\Products;
         <div class="box-body">
         	<div class="container-fluid" style="margin-bottom:8px;">
             <div class="row">
-              <div class="col-md-12" style="padding:10px;text-align: center;font-weight: bolder;font-size:20px;background-color: #3C8DBC;color:white;">
+              <div class="col-md-12" style="padding:8px;text-align: center;font-weight: bolder;font-size:20px;background-color: #3C8DBC;color:white;">
                 Bill
               </div>
             </div>
@@ -704,6 +704,10 @@ use common\models\Products;
                 <div class="form-group">
                   <label>Remaining</label>
                   <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
+                </div>
+                <div class="form-group">
+                  <label>Cash Return</label>
+                  <input type="text" name="return" class="form-control" id="cash_return"> 
                 </div>
                 <div class="form-group">
                   <label>status</label>
@@ -761,6 +765,7 @@ function discountFun(){
               $('#nt').val(originalPrice);
               $('#remaining').val(originalPrice);
               $('#paid').val("0");
+              $('#cash_return').val("0"); 
           }else{      
         
           if(document.getElementById('percentage').checked)
@@ -808,6 +813,7 @@ function discountFun(){
             }
             $('#paid').val("0"); 
             $('#remaining').val(purchasePrice);
+
       }
       }
 
@@ -838,7 +844,7 @@ function discountFun(){
       	var paid = $('#paid').val();
       	var nt = $('#nt').val();
       	var remaining = nt - paid;
-      	$('#remaining').val(remaining); 
+      	 
       	if (remaining == 0) {
       		$('#status').val('Paid');
       	}
@@ -849,18 +855,28 @@ function discountFun(){
          if (paid > 0 && remaining > 0) {
           $('#status').val('Partially');
         }
-
+        
       	//$('#insert').show();
         //$("#insert").removeAttr("disabled");
-        if (remaining < 0) {
+        if (paid > nt && remaining < 0) {
           //$('#insert').hide();
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          // $("#insert").attr("disabled", true);
+          // $('#alert').css("display","block");
+          // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          var cash_return = paid - nt;
+           $('#cash_return').val(cash_return);
+           $('#remaining').val(0);
         }else{
-          $('#alert').css("display","none");
-          $("#insert").removeAttr("disabled");
+          $('#remaining').val(remaining);
+          // $('#alert').css("display","none");
+          // $("#insert").removeAttr("disabled");
         }
+
+        // if(remaining < 0){
+        //   $("#insert").attr("disabled", true);
+        //   $('#alert').css("display","block");
+        //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        // }
 
       }
 </script>
@@ -883,6 +899,25 @@ $(document).ready(function(){
           }      
       });
   });
+  $("#cash_return").on('input', function(){
+    var cashReturn  = $('#cash_return').val();
+    var paid        = $('#paid').val();
+    var nt          = $('#nt').val();
+    var previous_value = paid-nt;
+    var temp = cashReturn-previous_value;
+    $('#remaining').val(temp);
+
+    if(temp < 0)
+    {
+      $("#insert").attr("disabled", true);
+      $('#alert').css("display","block");
+      $('#alert').html("&ensp;Invalid Amount");
+    } else {
+      $("#insert").attr("disabled", false);
+      $('#alert').css("display","none");      
+    }
+
+  });
 
   $("#vehicle").on('focus', function(){
     $('#item_type').val("");
@@ -894,13 +929,18 @@ $(document).ready(function(){
 
 $("#paid").on('focus', function(){
   $('#paid').val("");
+  $('#cash_return').val(0);
   var paid = $('#paid').val();
-  if(paid == "" || paid == null)
-      {
-      $("#insert").attr("disabled", true);
-      $('#alert').css("display","block");
-      $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
-    }
+  // if(paid == "" || paid == null)
+  //     {
+  //     $("#insert").attr("disabled", true);
+  //     $('#alert').css("display","block");
+  //     $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+  //   }
+  });
+
+  $("#cash_return").on('focus', function(){
+    $('#cash_return').val("");
   });
 
 $("#item_type").change(function(){
@@ -1458,8 +1498,9 @@ $('#product_quantity').on("change",function(){
  			var total_amount = $('#tp').val();
  			var net_total = $('#nt').val();
  			var paid = $('#paid').val();
-		    var remaining = $('#remaining').val();
-		    var status = $('#status').val();
+      var cash_return = $('#cash_return').val();
+		  var remaining = $('#remaining').val();
+		  var status = $('#status').val();
 			if(invoice_date=="" || invoice_date==null){
 				alert('Please Select the date ');
 				$('#invoice_date').css("border", "1px solid red");
@@ -1488,6 +1529,7 @@ $('#product_quantity').on("change",function(){
     						customer_id:customer_id,
     						paid:paid,
     						remaining:remaining,
+                cash_return:cash_return,
     						status:status,
     						serviceArray:serviceArray,
     						amountArray:amountArray,

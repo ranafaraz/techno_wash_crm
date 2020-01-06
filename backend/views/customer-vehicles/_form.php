@@ -18,7 +18,7 @@ $customerId = $_GET['id'];
 </div>
 <div class="customer-vehicles-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(); ?>
         
         <div class="row">
             <div class="col-md-6">
@@ -46,7 +46,7 @@ $customerId = $_GET['id'];
             </div>
             <div class="col-md-6">
 
-                <?= $form->field($model, 'color')->textInput(['id' => 'COLOR']) ?>
+                <?= $form->field($model, 'color')->textInput(['id' => 'color']) ?>
 
             </div>
         </div>
@@ -74,37 +74,20 @@ $customerId = $_GET['id'];
     
 </div>
 <script>
-
-
-$("#COLOR").change(function(){
-  alert("The text has been changed.");
-});
+   function testInput(event) {
+       var value = String.fromCharCode(event.which);
+       var pattern = new RegExp(/[a-zåäö ]/i);
+       return pattern.test(value);
+    }
 
 $('#COLOR').bind('keypress', testInput);
 
-// $("#REGNO").bind('keyup', function (e) {
-//     // if (e.which >= 97 && e.which <= 122) {
-//     //     var newKey = e.which - 32;
-//     //     // I have tried setting those
-//     //     e.keyCode = newKey;
-//     //     e.charCode = newKey;
-//     // }
-
-//     $("#REGNO").val(($("#REGNO").val()).strtoupper());
-// });
 $("#COLOR").bind('keyup', function (e) {
-    // if (e.which >= 97 && e.which <= 122) {
-    //     var newKey = e.which - 32;
-    //     // I have tried setting those
-    //     e.keyCode = newKey;
-    //     e.charCode = newKey;
-    // }
-
     $("#COLOR").val(($("#COLOR").val()).toUpperCase());
 });
+
   function forceKeyPressUppercase(e)
   {
-    alert("helloooo");
     var charInput = e.keyCode;
     if((charInput >= 97) && (charInput <= 122)) { // lowercase
       if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
@@ -119,4 +102,5 @@ $("#COLOR").bind('keyup', function (e) {
   }
 
   document.getElementById("REGNO").addEventListener("keypress", forceKeyPressUppercase, false);
+  
 </script>

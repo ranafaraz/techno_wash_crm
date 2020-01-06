@@ -98,6 +98,7 @@
 		$net_total = $_POST['net_total'];
 		$paid = $_POST['paid'];
 		$remaining = $_POST['remaining'];
+		$cash_return = $_POST['cash_return'];
 		$status = $_POST["status"];
 		$vehicleArray = $_POST['vehicleArray']; 
 		$serviceArray = $_POST["serviceArray"];
@@ -119,6 +120,7 @@
 				'net_total'    		=> $net_total,
 				'paid_amount'    	=> $paid,
 				'remaining_amount'  => $remaining,
+				'cash_return'		=> $cash_return,
 				'status'    		=> $status,
 				'created_by'		=> $user_id,
 

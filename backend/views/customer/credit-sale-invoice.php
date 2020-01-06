@@ -73,18 +73,18 @@ $customervehicleID = Yii::$app->db->createCommand("
 				<button type="button" onclick="printContent('div1')" class="btn btn-warning btn-flat" id="print_button"><i class="glyphicon glyphicon-print"></i> Print Invoice</button>
 			</div>
 		</div> -->
-		<div id="div1">
+		<div id="div1" style="font-size:20px;font-family:arial;">
 			
 		
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
-					<h2  style="text-align: center;">
+					<h3  style="text-align: center;font-weight: bolder;">
 						TECHNO WASH
-					</h2>
+					</h3>
 					<p style="text-align: center;">
-						Operated By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
+						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
 					</p>
-					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Credit Cash Memo</h3>
+					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Credit Cash Memo</h3>
 					
 					<div class="row">
 						<div class="col-md-12">
@@ -134,22 +134,22 @@ $customervehicleID = Yii::$app->db->createCommand("
 					    WHERE cv.customer_vehicle_id = '$customerVehID'
 					    ")->queryAll();
 					 ?>
-					<table class="table">
+					<table class="table table-bordered">
 						<thead style="background-color: #3C8DBC !important;color:white;">
 							<tr>
-								<td colspan="6" style="text-align: center;">
+								<th colspan="6" style="text-align: center;background-color:lightgray !important;">
 									<b>
 										<?php echo "VEH #: "."( ".$customervehicleData[0]['Name']." - ".$customervehicleData[0]['manufacturer']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?>
 									</b>
-								</td>
+								</th>
 							</tr>
 							<tr>
-								<th>Sr #</th>
-								<th>Item</th>
-								<th>Type</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
+								<th style="background-color: #f1f1f1 !important;">Sr #</th>
+								<th style="background-color: #f1f1f1 !important;">Item</th>
+								<th style="background-color: #f1f1f1 !important;">Type</th>
+								<th style="background-color: #f1f1f1 !important;">Price</th>
+								<th style="background-color: #f1f1f1 !important;">Quantity</th>
+								<th style="background-color: #f1f1f1 !important;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -202,16 +202,16 @@ $customervehicleID = Yii::$app->db->createCommand("
 	 					    $quantity += $countStock; 
 							?>
 							<tr>
-								<td><?php echo $j+1; ?></td>
-								<td><?php echo $productData[0]['product_name']; ?></td>
-								<td><?php echo "STOCK"; ?></td>
-								<td style="text-align: center;"><?php echo $stockData[0]['selling_price']; ?></td>
-								<td style="text-align: center;"><?php echo $countStock; ?></td>
-								<td style="text-align: center;">
+								<th><?php echo $j+1; ?></th>
+								<th><?php echo $productData[0]['product_name']; ?></th>
+								<th><?php echo "STOCK"; ?></th>
+								<th style="text-align: center;"><?php echo $stockData[0]['selling_price']; ?></th>
+								<th style="text-align: center;"><?php echo $countStock; ?></th>
+								<th style="text-align: center;">
 									<?php echo $total = $stockData[0]['selling_price']*$countStock; 
 									$totalAmount += $total;
 									?>
-								</td>
+								</th>
 							</tr>
 							<?php }
 							for ($k=0; $k <$countServiceDetails ; $k++) { 
@@ -236,16 +236,16 @@ $customervehicleID = Yii::$app->db->createCommand("
 	 					    $quantity += $countService; 
 							?>
 							<tr>
-								<td><?php echo $k+1; ?></td>
-								<td><?php echo $serviceData[0]['service_name']; ?></td>
-								<td><?php echo "SERVICE"; ?></td>
-								<td style="text-align: center;"><?php echo $serviceData[0]['price']; ?></td>
-								<td style="text-align: center;"><?php echo $countService; ?></td>
-								<td style="text-align: center;">
+								<th><?php echo $k+1; ?></th>
+								<th><?php echo $serviceData[0]['service_name']; ?></th>
+								<th><?php echo "SERVICE"; ?></th>
+								<th style="text-align: center;"><?php echo $serviceData[0]['price']; ?></th>
+								<th style="text-align: center;"><?php echo $countService; ?></th>
+								<th style="text-align: center;">
 									<?php echo $total = $serviceData[0]['price']*$countService; 
 									$totalAmount += $total;
 									?>
-								</td>
+								</th>
 							</tr>
 							<?php } ?>
 						</tbody>
@@ -256,9 +256,9 @@ $customervehicleID = Yii::$app->db->createCommand("
 					<table class="table table-bordered" >
 						<thead>
 							<tr>
-								<th style="text-align: center;background-color: lightgray;">Total Item: </th>
+								<th style="text-align: center;background-color: lightgray !important;">Total Item: </th>
 								<th style="background-color: white;text-align: center;"><?php echo $countStockItems; ?></th>
-								<th style="text-align: center;background-color: lightgray;">Total Qty: </th>
+								<th style="text-align: center;background-color: lightgray !important;">Total Qty: </th>
 								<th style="background-color:white;text-align: center;"><?php echo $quantity; ?></th>
 							</tr>
 						</thead>
@@ -287,6 +287,10 @@ $customervehicleID = Yii::$app->db->createCommand("
 								<th style="text-align: center;"><?php echo $bill[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
+								<th style="background-color:white;color:black;">Cash Returned</th>
+								<th style="text-align: center;"><?php echo $bill[0]['cash_return']; ?></th>
+							</tr>
+							<tr>
 								<th style="background-color:white;color:black;">Remaining</th>
 								<th style="text-align: center;"><?php echo $bill[0]['remaining_amount']; ?></th>
 							</tr>
@@ -302,18 +306,35 @@ $customervehicleID = Yii::$app->db->createCommand("
 									<th style="text-align: center;background-color:#FAB61C;color: white;"><?php echo $bill[0]['status']; ?> Paid</th>
 								<?php } ?>
 							</tr>
-							<tr style="border:none;" class="footer">
-								<td colspan="2" style="border:0px !important;" class="footer">
-										<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px; color: white !important">
-											Thanks For Visting us!
-										</h4>
-											<p style="text-align: center;">
-												<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
-											</p>
+						</thead>
+					</table>
+				</div>
+				<div class="col-sm-3">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<td style="font-weight: bold;background-color: #f1f1f1 !important;">
+									Salesman:
+								</td>
+								<td style="text-align: center;">
+									<?php 
+
+										echo Yii::$app->user->identity->username;
+									?>
 								</td>
 							</tr>
 						</thead>
 					</table>
+				</div>
+				<div class="col-sm-3">
+					<tr style="border:none;" class="footer">
+						<td colspan="2" style="border:0px !important;" class="footer">
+							<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>
+							<p style="text-align: center;">
+								<i>IT Consultancy Provoided By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
+							</p>
+						</td>
+					</tr>
 				</div>
 			</div>
 		</div>

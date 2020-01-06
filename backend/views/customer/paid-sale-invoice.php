@@ -292,6 +292,10 @@ $customervehicleID = Yii::$app->db->createCommand("
 								<th style="text-align: center;"><?php echo $bill[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
+								<th style="background-color:white;color:black;">Cash Returned</th>
+								<th style="text-align: center;"><?php echo $bill[0]['cash_return']; ?></th>
+							</tr>
+							<tr>
 								<th style="background-color:white;color:black;">Remaining</th>
 								<th style="text-align: center;"><?php echo $bill[0]['remaining_amount']; ?></th>
 							</tr>
