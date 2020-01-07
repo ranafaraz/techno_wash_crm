@@ -106,7 +106,7 @@ use common\models\VehicleTypeSubCategory;
                 'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
                 'widgetBody' => '.container-items', // required: css class selector
                 'widgetItem' => '.item', // required: css class
-                'limit' => 1, // the maximum times, an element can be cloned (default 999)
+                'limit' => 10, // the maximum times, an element can be cloned (default 999)
                 'min' => 1, // 0 or 1 (default 1)
                 'insertButton' => '.add-item', // css class
                 'deleteButton' => '.remove-item', // css class
@@ -144,10 +144,10 @@ use common\models\VehicleTypeSubCategory;
                                 )?>
                             </div>
                             <div class="col-sm-4">
-                                <?= $form->field($value, "[{$i}]registration_no")->textInput(['id'=>'REGNO']) ?>
+                                <?= $form->field($value, "[{$i}]registration_no")->textInput(['class' => 'form-control regnoclass' , 'id' => "REGNO"]) ?>
                             </div>
                             <div class="col-sm-4">
-                                <?= $form->field($value, "[{$i}]color")->textInput(['id' => 'COLOR']) ?>
+                                <?= $form->field($value, "[{$i}]color")->textInput(['class' => 'form-control colorveh' , 'id' => 'COLOR']) ?>
                             </div>
                             <div class="col-sm-4">
                                 <?php //$form->field($value, "[{$i}]image")->fileInput() ?>
@@ -261,6 +261,41 @@ $("#customer_occupation").bind('keyup', function (e) {
     }
   }
 
+
   document.getElementById("REGNO").addEventListener("keypress", forceKeyPressUppercase, false);
   
 </script>
+
+<?php 
+$script = <<< JS
+$(function () {
+    $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
+         $( ".regnoclass" ).each(function() {
+             $( ".regnoclass" ).keyup(function() {
+            $(this).val($(this).val().toUpperCase());
+            });
+            $('.regnoclass').keypress(function(e){
+              var keyCode = e.keyCode || e.which;
+            if ((keyCode >= 33 && keyCode <=44) || (keyCode >= 46 && keyCode <=47) || (keyCode >= 58 && keyCode <=64) || (keyCode >= 91 && keyCode <=96) || (keyCode >= 123 && keyCode <= 126)) { 
+              return false;
+            }
+            });
+        });
+        $( ".colorveh" ).each(function() {
+            $(".colorveh").keyup(function(){
+                $(this).val($(this).val().toUpperCase());
+                });
+                  $(".color_veh").keypress(function(e){
+                    var keyCode = e.keyCode || e.which;
+                if ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (keyCode == 45)) { 
+                  return true;
+                }else{
+                  return false;
+                  }
+                });
+        });
+    });
+});
+JS;
+$this->registerJS($script);
+ ?>
