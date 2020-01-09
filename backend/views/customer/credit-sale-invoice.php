@@ -296,12 +296,12 @@ $customervehicleID = Yii::$app->db->createCommand("
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Status</th>
-								<?phps
+								<?php
 								 $status = $bill[0]['status'];
 								 if (($status == "Unpaid") || ($status == "unpaid")) {
 								 	?>
 									<th style="text-align: center;background-color: #DD4B39;color: white;"><?php echo $bill[0]['status']; ?></th>
-								<?php }elseif (($status == "Partially") || ($status == "partially")) {
+								<?php } elseif (($status == "Partially") || ($status == "partially")) {
 									?>
 									<th style="text-align: center;background-color:#FAB61C;color: white;"><?php echo $bill[0]['status']; ?> Paid</th>
 								<?php } ?>
@@ -331,7 +331,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 						<td colspan="2" style="border:0px !important;" class="footer">
 							<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>
 							<p style="text-align: center;">
-								<i>IT Consultancy Provoided By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
+								<i>Powered By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
 							</p>
 						</td>
 					</tr>
