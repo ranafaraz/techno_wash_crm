@@ -578,7 +578,7 @@ body td{
                 </div>
                 <div class="form-group">
                   <label>Cash Return</label>
-                  <input type="text" name="return" class="form-control" id="cash_return"> 
+                  <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
                 </div>
                 <div class="form-group">
                   <label>status</label>
@@ -642,7 +642,7 @@ body td{
               $('#nt').val(originalPrice);
               $('#remaining').val(originalPrice);
               $('#paid').val("0");
-              $('#cash_return').val("0");
+              $('#cash_return').val("0"); 
           }else{
 
        // alert(originalPrice);
@@ -727,16 +727,19 @@ body td{
         
         //$('#insert').show();
         //$("#insert").removeAttr("disabled");
-        if (paid > nt && remaining < 0) {
+        if (remaining < 0) {
           //$('#insert').hide();
-          // $("#insert").attr("disabled", true);
+          $("#cash_return").attr("readonly", false);
+         // $("#cash_return").removeAttr("readonly");
           // $('#alert').css("display","block");
           // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
           var cash_return = paid - nt;
            $('#cash_return').val(cash_return);
            $('#remaining').val(0);
+           $('#status').val('Paid');
         }else{
           $('#remaining').val(remaining);
+          $('#cash_return').val(0);
           // $('#alert').css("display","none");
           // $("#insert").removeAttr("disabled");
         }
@@ -877,6 +880,7 @@ $script = <<< JS
 		}
 
 		else{
+      discountFun();
 		barcodeArray.push(barcode);
 		stockTypeArray.push(stock_type);
 		manufacturerArray.push(manufacture_type);
@@ -965,6 +969,8 @@ $script = <<< JS
         $('#paid').val("0");
         $('#remaining').val(tp);
         $('#status').val('Unpaid');
+        discountFun();
+
 
         if(stock_type == "" || stock_type == null)
 		{
@@ -1074,7 +1080,7 @@ $script = <<< JS
             }
 	});
 
-  $("#cash_return").on('input', function(){
+ $("#cash_return").on('input', function(){
     var cashReturn  = $('#cash_return').val();
     var paid        = $('#paid').val();
     var nt          = $('#nt').val();
@@ -1082,32 +1088,46 @@ $script = <<< JS
     var temp = cashReturn-previous_value;
     $('#remaining').val(temp);
 
+    
+    if(cashReturn == previous_value)
+    {
+     $('#status').val('Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+    if(temp > 0)
+    {
+     $('#status').val('Partially Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+
     if(temp < 0)
     {
       $("#insert").attr("disabled", true);
       $('#alert').css("display","block");
+      $('#status').val('');
       $('#alert').html("&ensp;Invalid Amount");
-    } else {
-      $("#insert").attr("disabled", false);
-      $('#alert').css("display","none");      
     }
 
   });
 
-  $("#cash_return").on('focus', function(){
-    $('#cash_return').val("");
-  });
+ 
 
 $("#paid").on('focus', function(){
   $('#paid').val("");
+  $('#cash_return').val(0);
   var paid = $('#paid').val();
-   $('#cash_return').val(0);
   // if(paid == "" || paid == null)
   //         {
   //         $("#insert").attr("disabled", true);
   //         $('#alert').css("display","block");
   //         $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
   //       }
+  });
+
+   $("#cash_return").on('focus', function(){
+    $('#cash_return').val("");
   });
 
 	$('#stock_type').change(function(){

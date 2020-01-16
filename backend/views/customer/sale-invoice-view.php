@@ -161,7 +161,7 @@ use common\models\Products;
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'paid' OR status = 'Paid')
-    ORDER BY `date` DESC
+    ORDER BY sale_inv_head_id DESC
     ")->queryAll();
 
     $countpaidinvoiceData = count($paidinvoiceData);
@@ -707,10 +707,10 @@ use common\models\Products;
                 </div>
                 <div class="form-group">
                   <label>Cash Return</label>
-                  <input type="text" name="return" class="form-control" id="cash_return"> 
+                  <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
                 </div>
                 <div class="form-group">
-                  <label>status</label>
+                  <label>Status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status" value="Unpaid">
                 </div>
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
@@ -741,6 +741,7 @@ use common\models\Products;
 
 	let user_id = <?php echo $id; ?>;
 	let customer_id        = <?php echo $customerID; ?>;
+  let regno        = <?php echo $regNoID; ?>;
 	let rIndex;
 	let table;
 	let index = 1;
@@ -858,16 +859,19 @@ function discountFun(){
         
       	//$('#insert').show();
         //$("#insert").removeAttr("disabled");
-        if (paid > nt && remaining < 0) {
+        if (remaining < 0) {
           //$('#insert').hide();
-          // $("#insert").attr("disabled", true);
+          $("#cash_return").attr("readonly", false);
+         // $("#cash_return").removeAttr("readonly");
           // $('#alert').css("display","block");
           // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
           var cash_return = paid - nt;
            $('#cash_return').val(cash_return);
            $('#remaining').val(0);
+           $('#status').val('Paid');
         }else{
           $('#remaining').val(remaining);
+          $('#cash_return').val(0);
           // $('#alert').css("display","none");
           // $("#insert").removeAttr("disabled");
         }
@@ -907,14 +911,26 @@ $(document).ready(function(){
     var temp = cashReturn-previous_value;
     $('#remaining').val(temp);
 
+    
+    if(cashReturn == previous_value)
+    {
+     $('#status').val('Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+    if(temp > 0)
+    {
+     $('#status').val('Partially Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+
     if(temp < 0)
     {
       $("#insert").attr("disabled", true);
       $('#alert').css("display","block");
+      $('#status').val('');
       $('#alert').html("&ensp;Invalid Amount");
-    } else {
-      $("#insert").attr("disabled", false);
-      $('#alert').css("display","none");      
     }
 
   });
@@ -1483,11 +1499,12 @@ $('#product_quantity').on("change",function(){
 
 
 	$('#insert').click(function(){
-    krajeeDialog.confirm('Are you sure to add bill', function(out){
-    if(out) {    
+    // krajeeDialog.confirm('Are you sure to add bill', function(out){
+    // if(out) {    
 			var invoice_date = $('#invoice_date').val();
       //pro_quantity
 			customer_id;
+      regno;
 			vehicleArray;
 			serviceArray; 
 			amountArray;
@@ -1527,6 +1544,7 @@ $('#product_quantity').on("change",function(){
 						    vehicleArray:vehicleArray,
 	        			invoice_date:invoice_date,
     						customer_id:customer_id,
+                regno:regno,
     						paid:paid,
     						remaining:remaining,
                 cash_return:cash_return,
@@ -1542,15 +1560,15 @@ $('#product_quantity').on("change",function(){
 	        success: function(result){
             console.log(result);
             if(result){
-             //  alert("Bill Added");
-              window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';              
+              //var sIHId = $.parseJSON(result); 
+              window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';        
             }
 	        }      
-    	  });
-			}
-      }
-    });
-	});
+    	  }); // ajax 
+			} // else
+      // }
+    // });
+	}); // insert button
 
 JS;
 $this->registerJs($script);

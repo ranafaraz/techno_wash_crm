@@ -8,7 +8,7 @@ $regNoID = $_GET['regno'];
     WHERE sale_inv_head_id = '$sihID'
     ")->queryAll();
     $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
-    $time = date('h:i a',strtotime($paidinvoiceData[0]['created_at']));
+    $time = date('g:i a',strtotime($paidinvoiceData[0]['created_at']));
 
     // echo $date."<br>";
     // echo $time;
