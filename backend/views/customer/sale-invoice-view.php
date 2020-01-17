@@ -226,7 +226,7 @@ use common\models\Products;
               <!-- <li><a href="#details" data-toggle="tab">Account Details</a></li> -->
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
-              <div class="active tab-pane" id="invoice">
+              <div class="active tab-pane" id="invoice"  style="background-color:lightgray;padding:10px;">
                 <div class="form-group">
                         <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
                 </div>
@@ -391,26 +391,28 @@ use common\models\Products;
                 </div> 			
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="paidd">
-                  <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Detail:</h3>
-                    </div>
+              <div class="tab-pane" id="paidd" style="background-color:lightgray;padding:10px;">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="text-info" style="text-align: center;">
+                      Paid Invoices
+                    </h3>
+                  </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">                      
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <th class="text-center" style="vertical-align:middle;">Sr #</th>
                                     <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
-                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
+                                    <th class="text-center" style="vertical-align:middle;">Date</th>
+                                    <th class="text-center" style="vertical-align:middle;">Amount</th>
                                     <th class="text-center" style="vertical-align:middle;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
                                 <?php 
 
                                     for ($i=0; $i <$countpaidinvoiceData ; $i++) {
@@ -418,12 +420,12 @@ use common\models\Products;
                                         ?>
                                         
                                     <tr>
-                                        <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
                                         <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
-                                        <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
+                                        <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
                                             echo $date; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;">
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
+                                        <td class="text-center" style="vertical-align:middle;text-align: center;">
                                           <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
                                           <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
                                            <a href="sale-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
@@ -437,10 +439,10 @@ use common\models\Products;
                     </div>
                 </div>
               </div>
-              <div class="tab-pane" id="credit">
+              <div class="tab-pane" id="credit" style="background-color:lightgray;padding:10px;">
                   <div class="row">
                     <div class="col-md-8">
-                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Detail:</h3>
+                        <h3 class="text-info" style="vertical-align: middle;">Credit Invoices</h3>
                     </div>
                             <?php
                               $totalcreditAmount=0;
@@ -449,26 +451,27 @@ use common\models\Products;
                                 }        
                             ?>
                     <div class="col-md-4">
-                        <h3 class="text-danger" style="vertical-align: middle; margin-bottom: 20px !important;background-color: white;padding: 6px;border-radius: 3px;">Total Credit: <?= $totalcreditAmount;?></h3>
+                        <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
                     </div>
                 </div>    
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">                      
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
                                     <!-- <th class="t-cen" style="vertical-align:middle;">Sr #</th> -->
                                     <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
-                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Total Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Paid Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Remaining Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Status</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                     <th style="vertical-align:middle;text-align: center;">Sr.#</th>
+                                    <th style="vertical-align:middle;text-align: center;">Date</th>
+                                    <th style="vertical-align:middle;text-align: center;">Total<br>Amount</th>
+                                    <th style="vertical-align:middle;text-align: center;">Paid<br>Amount</th>
+                                    <th style="vertical-align:middle;text-align: center;">Remaining<br>Amount</th>
+                                    <th style="vertical-align:middle;text-align: center;">Status</th>
+                                    <th style="vertical-align:middle;text-align: center;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
                                 <?php 
 
                                     for ($i=0; $i <$countcreditinvoiceData ; $i++) {
@@ -476,16 +479,16 @@ use common\models\Products;
                                         ?>
                                         
                                     <tr>
-                                        <!-- <td style="vertical-align:middle;"><?php //echo $i+1; ?></td> -->
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
                                         <!-- <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
-                                        <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
+                                        <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
                                             echo $date;?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
-                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a>
-                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
+                                         <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
+                                        <td class="text-center" style="vertical-align:middle;text-align: center;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a><br>
+                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a><br>
                                         <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
                                         </td>
                                     </tr>   
@@ -497,7 +500,7 @@ use common\models\Products;
                     </div>
                 </div>
               </div>
-              <div class="tab-pane" id="customer">
+              <div class="tab-pane" id="customer" style="background-color:lightgray;padding:10px;">
                 <div class="row">
                 <div class="col-md-11">
                   <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Details</h3>
@@ -598,7 +601,7 @@ use common\models\Products;
                 </div>
               </div> 
               </div>
-              <div class="tab-pane" id="customer_vehicles">
+              <div class="tab-pane" id="customer_vehicles" style="background-color:lightgray;padding:10px;">
                 <div class="row">
                 <div class="col-md-11">
                   <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Vehicles Details</h3>

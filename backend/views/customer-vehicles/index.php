@@ -111,9 +111,13 @@ CrudAsset::register($this);
                 //     'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
                 // ],
                 [
-                    'attribute' => 'customer_id', 
+                    'attribute' => 'Customer Name', 
                     'value' => 'customer.customer_name',
                     'width' => '50px',
+                    'headerOptions' => [
+                        // this should be on a CSS file as class instead of a inline style attribute...
+                        'style' => 'text-align: center !important;vertical-align: middle !important; color: #337AB7'
+                    ],
 
                     // 'value' => function ($model, $key, $index, $widget) { 
                     //     return $model->category->category_name;
@@ -127,11 +131,10 @@ CrudAsset::register($this);
                     'group' => true,  // enable grouping
                     'subGroupOf' => 1 // supplier column index is the parent group
                 ],
-                // [
-                //     'attribute' => 'class_name_id',
-                //     'pageSummary' => 'Page Summary',
-                //     'pageSummaryOptions' => ['class' => 'text-right'],
-                // ],
+                [
+                     'attribute' => 'customer_id', 
+                    'value' => 'customer.customer_contact_no',
+                ],
                 [
                     'attribute' => 'registration_no',
                     // 'value' => 'std.std_name',

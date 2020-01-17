@@ -7,8 +7,11 @@ $regNoID = $_GET['regno'];
     FROM sale_invoice_head
     WHERE sale_inv_head_id = '$sihID'
     ")->queryAll();
-    $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
-    $time = date('g:i a',strtotime($paidinvoiceData[0]['created_at']));
+    date_default_timezone_set("Asia/Karachi");
+    $date = date('d-M-y');
+    $time = date('h:i A');
+    //$date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
+    //$time = date('g:i a',strtotime($paidinvoiceData[0]['created_at']));
 
     // echo $date."<br>";
     // echo $time;
