@@ -359,7 +359,27 @@ public function actionGetPayment($debit_account,$title_id)
                     else
                         if($model->debit_amount == $model->credit_amount)
                         {
-                            $model->save();
+                             $trans_model= Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
+                                if($trans_model == "")
+                                {
+                                    $transaction_model->transaction_id = '1'; 
+                                }
+                                else
+                                {
+                                      $transaction_model->transaction_id = $trans_model->transaction_id + 1;  
+                                }
+                        $connection->createCommand()->insert('transactions',
+                                    [
+                                        'transaction_id' => $transaction_model->transaction_id,
+                                        'type' => 'Cash Payment',
+                                        'narration' => $model->narration,
+                                        'debit_account' => $model->debit_account,
+                                        'amount' => $model->debit_amount,
+                                        'credit_account' => $model_head->id,
+                                        'transactions_date' => $model->transactions_date,
+                                        'created_by' => \Yii::$app->user->identity->id,
+                                    ]
+                                )->execute();
                         }
                 }
                 
