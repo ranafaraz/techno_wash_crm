@@ -1,5 +1,8 @@
 <?php 
-
+use common\models\Transactions;
+use common\models\AccountNature;
+use common\models\AccountHead;
+use common\models\Employee;
 	// branch id of login user
 	$branchID = Yii::$app->user->identity->branch_id;
 
@@ -149,6 +152,36 @@
 	        'created_by'    => Yii::$app->user->identity->id,
 
 	      ])->execute();
+
+
+     		// transaction
+
+     		$trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
+	if(empty($trans))
+	{
+		$transaction_id = '1';
+	}else
+	{
+		$transaction_id = $trans->transaction_id + 1;
+	}
+	// getting current asset from Account Nature and cash debit account from account head;
+    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
+    $nature1 = AccountNature::find()->where(['name' => 'Expense'])->One();
+    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
+    $head = AccountHead::find()->where(['nature_id' => $nature1->id])->andwhere(['account_name' => 'Salaries'])->One();
+    $emplo = Employee::find()->where(['emp_id' => $employee])->One();
+    Yii::$app->db->createCommand()->insert('transactions',
+    [
+      'transaction_id' => $transaction_id,
+      'type' => 'Cash Payment',
+      'narration' => 'Employee Salary Paid to <b>'.$emplo->emp_name.'</b> Rs <b>'.$paid.'</b> for the month <b>'. $m[1] .'-'.$m[0].'</b> ',
+      'debit_account' => $head->id,
+      'credit_account' => $cred->id,
+      'amount' => $paid,
+      'transactions_date' => date('Y-m-d'),
+      'created_by' => \Yii::$app->user->identity->id,
+      
+    ])->execute();
 
 			if ($payRollHead) {
 				$payRollHeadId = Yii::$app->db->createCommand("

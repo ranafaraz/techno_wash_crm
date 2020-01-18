@@ -55,6 +55,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 								<input type="text" name="bilty_no" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="bilty_no" class="form-control" value="<?=$updateinvoiceData[0]['bilty_no']?>" oninput="inputchange()">
 							</div> -->
 							<div class="form-group">
+
 								<label>Bill No:</label>
 								
 								<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="bilty_no" class="form-control"name="bill_no" id="bill_no" class="form-control" value="<?=$updateinvoiceData[0]['bill_no']?>" oninput="inputchange()">
@@ -126,6 +127,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 						for ($amount=0; $amount <$countPurchaseInvAmount ; $amount++) {
 						$transDate = date('Y-m-d',strtotime($purchaseInvAmount[$amount]['transaction_date']));
 						$paidAmount = $purchaseInvAmount[$amount]['paid_amount']; 
+						$transid = $purchaseInvAmount[$amount]['transaction_id'];
 						
 					?>
 					<div class="row">
@@ -134,6 +136,7 @@ $updateinvoiceData = Yii::$app->db->createCommand("
 								<label>Transaction Date</label>
 								<input type="date" name="transaction_date[]"class="form-control" value="<?php echo $transDate;?>">
 							</div>
+							<input type="text" style="display: none !Important;" name="transaction_id[]" value="<?= $transid;?>">
 						</div>
 						<div class="col-md-4" style="padding-top: 5px;background-color:lightgray;">
 							<div class="form-group">

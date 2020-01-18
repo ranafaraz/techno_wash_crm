@@ -1,5 +1,7 @@
 <?php 
-
+	use common\models\Transactions;
+	use common\models\AccountNature;
+	use common\models\AccountHead;
 	if(isset($_POST['stock_type'])){
 	$stock_type = $_POST['stock_type'];
 
@@ -48,7 +50,8 @@
  	echo json_encode($manufactreName);
  	}
 
- 	if( isset($_POST['user_id'])
+ 	if( isset($_POST['narration']) 
+ 		&& isset($_POST['user_id'])
  		&& isset($_POST['vendorID'])
  		// && isset($_POST['bilty_no'])
  		&& isset($_POST['bill_no'])
@@ -68,7 +71,7 @@
  	   	&& isset($_POST['purchasePriceArray'])
  	   	&& isset($_POST['sellingPriceArray']))
  	{
-
+ 		$narration 				= $_POST['narration'];
 	 	$user_id 				= $_POST["user_id"];
 		$vendorID				= $_POST["vendorID"];
 		$bilty_no				= $_POST['bilty_no'];
@@ -114,6 +117,31 @@
 		'created_by'		=> $user_id,
 
 	])->execute();
+		 // getting transaction id with one increment ;
+	$trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
+	if(empty($trans))
+	{
+		$transaction_id = '1';
+	}else
+	{
+		$transaction_id = $trans->transaction_id + 1;
+	}
+	// getting current asset from Account Nature and cash debit account from account head;
+	$nature = AccountNature::find()->where(['name' => 'Asset'])->One();
+	$head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
+	$cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
+	Yii::$app->db->createCommand()->insert('transactions',
+	[
+		'transaction_id' => $transaction_id,
+		'type' => 'Cash Payment',
+		'narration' => $narration,
+		'debit_account' => $cred->id,
+		'credit_account' => $head->id,
+		'amount' => $paid,
+		'transactions_date' => $purchase_date,
+		'created_by' => \Yii::$app->user->identity->id,
+	 	
+	])->execute();
 	 if ($purchase_invoice) {
 
 		$select_purchase_invoice = Yii::$app->db->createCommand("
@@ -140,6 +168,7 @@
 		'purchase_invoice_id' => $selectedPurchInvID,
 		'transaction_date'    => date('y-m-d'),
 		'paid_amount'    	  => $paid,
+		'transaction_id'	  => $transaction_id,
 		'created_by'		  => $user_id,
 
 	])->execute();

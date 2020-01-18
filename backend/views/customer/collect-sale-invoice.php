@@ -96,6 +96,14 @@
 								<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
 							</div>	
 						</div>
+						<div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Narration</label>
+                  <input type="text" name="narration" id="narration" class="form-control" required="">
+                </div>
+              </div>
+            </div>
 						<div class="row" id="msg" style="display: none;">
 							<div class="col-md-1">
 								

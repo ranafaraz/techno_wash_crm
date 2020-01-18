@@ -103,6 +103,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 				for ($amount=0; $amount <$countSaleInvAmount ; $amount++) { 
 					$transDate = date('Y-m-d',strtotime($saleInvoiceAmount[$amount]['transaction_date']));
 					$paidAmount = $saleInvoiceAmount[$amount]['paid_amount'];
+					$transid = $saleInvoiceAmount[$amount]['transaction_id'];
 
 				?>
 				<div class="row">
@@ -110,6 +111,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 						<div class="form-group">
 							<label>Transaction Date</label>
 							<input type="date" name="transaction_date[]"class="form-control" value="<?php echo $transDate;?>">
+							<input type="text" style="display: none !Important;" name="transaction_id[]" value="<?= $transid;?>">
 						</div>
 					</div>
 					<div class="col-md-4" style="padding:5px;background-color:lightgray;">

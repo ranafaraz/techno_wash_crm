@@ -1,5 +1,8 @@
 <?php  
 use common\models\Branches;
+use common\models\Transactions;
+use common\models\AccountNature;
+use common\models\AccountHead;
 use yii\helpers\Html;
 use kartik\dialog\Dialog;
 
@@ -15,12 +18,23 @@ use kartik\dialog\Dialog;
    $remaining   = $_POST['remaining'];
    $pay         = $_POST['pay'];
    $status      = $_POST['status'];
+   $narration   = $_POST['narration'];
+   $transaction_date = $_POST['transaction_date'];
 
    $id   =Yii::$app->user->identity->id;
 
      // starting of transaction handling
      $transaction = \Yii::$app->db->beginTransaction();
      try {
+
+      $trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
+    if(empty($trans))
+    {
+      $transaction_id = '1';
+    }else
+    {
+      $transaction_id = $trans->transaction_id + 1;
+    }
       $insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
 
      'net_total'        => $netTotal,
@@ -33,14 +47,33 @@ use kartik\dialog\Dialog;
 
     )->execute();
 
-      $purchase_invoice_amount = Yii::$app->db->createCommand()->insert('purchase_invoice_amount_detail',[
+    $purchase_invoice_amount = Yii::$app->db->createCommand()->insert('purchase_invoice_amount_detail',[
 
     'purchase_invoice_id' => $piID,
-    'transaction_date'    => date('y-m-d'),
+    'transaction_date'    => $transaction_date,
     'paid_amount'       => $pay,
+    'transaction_id'    => $transaction_id,
     'created_by'      => $id,
 
   ])->execute();
+   // getting transaction id with one increment ;
+    
+    
+    // getting current asset from Account Nature and cash debit account from account head;
+    $head = AccountHead::find()->where(['account_name' => 'Cash'])->One();
+    $cred = AccountHead::find()->where(['account_name' => 'Account Payable'])->One();
+    Yii::$app->db->createCommand()->insert('transactions',
+    [
+      'transaction_id' => $transaction_id,
+      'type' => 'Cash Payment',
+      'narration' => $narration,
+      'credit_account' => $head->id,
+      'debit_account' => $cred->id,
+      'amount' => $pay,
+      'transactions_date' => $transaction_date,
+      'created_by' => $id,
+    ])->execute();
+  
      // transaction commit
      $transaction->commit();
      \Yii::$app->response->redirect(['./purchase-invoice-view', 'customer_id' => $customerID]);
@@ -74,7 +107,7 @@ use kartik\dialog\Dialog;
    $transactionDateArray    = $_POST['transaction_date'];
    $paidAmountArray         = $_POST['detail_paid_amount'];
    $purchaseInvAmountIDArray    = $_POST['purchaseInvAmountID'];
-   
+   $transaction_update_id  = $_POST['transaction_id'];
 
    $id   =Yii::$app->user->identity->id;
 
@@ -98,7 +131,22 @@ use kartik\dialog\Dialog;
 
     )->execute();
 
+
+
     $countpaidAmountArray = count($paidAmountArray);
+    $counttransid = count($transaction_update_id);
+    for($j=0; $j<$counttransid; $j++)
+    {
+     $tran = Yii::$app->db->createCommand()->update('transactions',
+        [
+          'transactions_date' => $transactionDateArray[$j],
+          'amount' => $paidAmountArray[$j],
+          'narration' => 'After Updation paid '.$paidAmountArray[$j].' out of total ' .$updatetotalamount,
+        ],['transaction_id' => $transaction_update_id[$j]]
+      )->execute();
+    }
+
+
 
     for($i=0; $i<$countpaidAmountArray; $i++){
       $p_inv_amount_detail = Yii::$app->db->createCommand()->update('purchase_invoice_amount_detail',[
@@ -579,6 +627,10 @@ body td{
                 <div class="form-group">
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
+                </div>
+                <div class="form-group">
+                  <label>Narration</label>
+                  <input type="text" name="narration" class="form-control"  id="narration">
                 </div>
                 <div class="form-group">
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
@@ -1248,6 +1300,7 @@ $("#paid").on('focus', function(){
 		var paid 			= $('#paid').val();
 	  var remaining 		= $('#remaining').val();
 		var status 			= $('#status').val();
+    var narration = $('#narration').val();
     barcodeArray;
 	 	stockTypeArray;
 	 	manufacturerArray;
@@ -1294,6 +1347,7 @@ $("#paid").on('focus', function(){
  			$.ajax({
 		        type:'post',
 		        data:{
+              narration:narration,
 		        	user_id:user_id,
 		        	vendorID:vendorID,
               bilty_no:bilty_no,    

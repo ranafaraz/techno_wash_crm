@@ -1,4 +1,8 @@
 <?php
+use common\models\Transactions;
+use common\models\AccountNature;
+use common\models\AccountHead;
+
 	if(isset($_POST['PRODUCTid']))
 	{
 		$PRODUCTid = $_POST['PRODUCTid'];
@@ -84,14 +88,14 @@
  		   echo json_encode($register); 
  	}
 
- 	if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
+ 	if(isset($_POST['invoice_date']) && isset($_POST['narration']) && isset($_POST['customer_id'])
 	 	&& isset($_POST['total_amount']) && isset($_POST['net_total']) 
 	 	&& isset($_POST['paid']) && isset($_POST['remaining'])
 	 	&& isset($_POST['status']) && isset($_POST['vehicleArray'])
 	 	&& isset($_POST['serviceArray']) && isset($_POST['amountArray'])
 	 	&& isset($_POST['ItemTypeArray']))
  		{
-
+ 		$narration = $_POST['narration'];
 		$total_amount = $_POST["total_amount"];
 		$invoice_date= $_POST["invoice_date"];
 		$customer_id= $_POST['customer_id'];
@@ -105,6 +109,7 @@
 		$ItemTypeArray = $_POST['ItemTypeArray'];
 		$user_id = $_POST["user_id"];
 		$quantityArray = $_POST["quantityArray"];
+
 		$disc_amount = $total_amount - $net_total;
 		$countItemArray = count($vehicleArray);
 		//starting of transaction handling
@@ -123,6 +128,35 @@
 				'created_by'		=> $user_id,
 
 			])->execute();
+
+			// transaction
+
+
+			$trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
+    if(empty($trans))
+    {
+      $transaction_id = '1';
+    }else
+    {
+      $transaction_id = $trans->transaction_id + 1;
+    }
+    // getting current asset from Account Nature and cash debit account from account head;
+    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
+    $head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
+    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
+    Yii::$app->db->createCommand()->insert('transactions',
+    [
+      'transaction_id' => $transaction_id,
+      'type' => 'Cash Payment',
+      'narration' => $narration,
+      'debit_account' => $head->id,
+      'credit_account' => $cred->id,
+      'amount' => $paid,
+      'transactions_date' => date('Y-m-d'),
+      'created_by' => \Yii::$app->user->identity->id,
+      
+    ])->execute();
+
 
 			if ($insert_invoice_head) {
 				$select_invoice = Yii::$app->db->createCommand("
@@ -146,6 +180,7 @@
 				'sale_inv_head_id' => $selectedInvHeadID,
 				'transaction_date'    	=> new \yii\db\Expression('NOW()'),
 				'paid_amount'    		=> $paid,
+				'transaction_id'	  => $transaction_id,
 				'created_by'			=> $user_id,
 
 			])->execute();

@@ -113,7 +113,6 @@ class SaleInvoiceHeadController extends Controller
         }
         return json_encode($insert);
     }
-
     public function actionCreateSaleInvoice(){
         return $this->render('create-sale-invoice');
     }
@@ -156,7 +155,6 @@ class SaleInvoiceHeadController extends Controller
                 // starting of transaction handling
         $transaction = \Yii::$app->db->beginTransaction();
         try {
-            
             $model->created_by = Yii::$app->user->identity->id; 
             $model->created_at = new \yii\db\Expression('NOW()');
             $model->updated_by = '0';

@@ -68,6 +68,13 @@ tr td{
 					<form method="post" action="purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>">
 						<input type="hidden" name="<?= Yii::$app->request->csrfParam;?>" value="<?= Yii::$app->request->csrfToken;?>">
 						<div class="row">
+							<div class="col-md-12" style="margin-bottom: 5px !important;">
+								<label>Transaction Date</label>
+								<?PHP $transaction_date = date('Y-m-d');?>
+								<input type="date" name="transaction_date" class="form-control" value="<?PHP echo $transaction_date;?>">
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Net Total</label>
@@ -96,6 +103,7 @@ tr td{
 									<label>Status</label>
 									<input type="text" name="status" id="status" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['status'];?>">
 								</div>
+								
 								<div class="form-group">
 									<label>Remaining</label>
 									<input type="text" name="remaining" id="remaining_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
@@ -105,6 +113,14 @@ tr td{
 								<input type="hidden" name="vendorID" value="<?php echo $vendorID; ?>">
 								<input type="hidden" name="piID" value="<?php echo $purchaseInvID; ?>">	
 							</div>	
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Narration</label>
+									<input type="text" name="narration" id="narration" class="form-control">
+								</div>
+							</div>
 						</div>
 						<div class="row" id="msg" style="display: none;">
 							<div class="col-md-12">

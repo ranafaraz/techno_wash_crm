@@ -6,6 +6,9 @@ use yii\helpers\Html;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use common\models\Products;
+use common\models\Transactions;
+use common\models\AccountNature;
+use common\models\AccountHead;
 
   $customerID = $_GET['customer_id'];
   $regNoID = $_GET['regno'];
@@ -24,6 +27,8 @@ use common\models\Products;
    $remaining   = $_POST['remaining'];
    $collect     = $_POST['collect'];
    $status      = $_POST['status'];
+   $narration   = $_POST['narration'];
+   
 
    $id   =Yii::$app->user->identity->id;
 
@@ -41,12 +46,37 @@ use common\models\Products;
        ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
 
     )->execute();
-
+      $trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
+      $transaction_id =0;
+    if(empty($trans))
+    {
+      $transaction_id = '1';
+    }else
+    {
+      $transaction_id = $trans->transaction_id + 1;
+    }
+    // getting current asset from Account Nature and cash debit account from account head;
+    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
+    $head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
+    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Account Recievable'])->One();
+    Yii::$app->db->createCommand()->insert('transactions',
+    [
+      'transaction_id' => $transaction_id,
+      'type' => 'Cash Payment',
+      'narration' => $narration,
+      'debit_account' => $head->id,
+      'credit_account' => $cred->id,
+      'amount' => $collect,
+      'transactions_date' => date('Y-m-d'),
+      'created_by' => \Yii::$app->user->identity->id,
+      
+    ])->execute();
       $insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
 
         'sale_inv_head_id' => $invID,
         'transaction_date'      => new \yii\db\Expression('NOW()'),
         'paid_amount'       => $collect,
+        'transaction_id'  => $transaction_id,
         'created_by'      => $id,
 
       ])->execute();
@@ -85,8 +115,8 @@ use common\models\Products;
    $transactionDateArray    = $_POST['transaction_date'];
    $paidAmountArray         = $_POST['detail_paid_amount'];
    $saleInvAmountIDArray    = $_POST['saleInvAmountID'];
+   $transaction_update_id  = $_POST['transaction_id'];
    
-
    $id   =Yii::$app->user->identity->id;
 
      // starting of transaction handling
@@ -107,6 +137,18 @@ use common\models\Products;
     )->execute();
 
     $countpaidAmountArray = count($paidAmountArray);
+
+    $counttransid = count($transaction_update_id);
+    for($j=0; $j<$counttransid; $j++)
+    {
+     $tran = Yii::$app->db->createCommand()->update('transactions',
+        [
+          'transactions_date' => $transactionDateArray[$j],
+          'amount' => $paidAmountArray[$j],
+          'narration' => 'After Updation paid '.$paidAmountArray[$j].' out of total ' .$updatetotalamount,
+        ],['transaction_id' => $transaction_update_id[$j]]
+      )->execute();
+    }
 
     for($i=0; $i<$countpaidAmountArray; $i++){
       $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
@@ -709,6 +751,14 @@ use common\models\Products;
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status" value="Unpaid">
                 </div>
+                <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Narration</label>
+                  <input type="text" name="narration" id="narration" class="form-control" required="">
+                </div>
+              </div>
+            </div>
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
                 <hr>
@@ -1460,6 +1510,7 @@ $('#product_quantity').on("change",function(){
  			var paid = $('#paid').val();
 		    var remaining = $('#remaining').val();
 		    var status = $('#status').val();
+        var narration = $('#narration').val();
 			if(invoice_date=="" || invoice_date==null){
 				alert('Please Select the date ');
 				$('#invoice_date').css("border", "1px solid red");
@@ -1487,6 +1538,7 @@ $('#product_quantity').on("change",function(){
 	        			invoice_date:invoice_date,
     						customer_id:customer_id,
     						paid:paid,
+                narration:narration,
     						remaining:remaining,
     						status:status,
     						serviceArray:serviceArray,
