@@ -71,7 +71,7 @@ class CustomerVehiclesSearch extends CustomerVehicles
         $query->andFilterWhere(['like', 'registration_no', $this->registration_no])
             ->andFilterWhere(['like', 'color', $this->color])
             ->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'customer.customer_name', $this->customer_id])
+            ->andFilterWhere(['like', 'customer.customer_contact_no', $this->customer_id])
             ->andFilterWhere(['like', 'vehicleTypSub.name', $this->vehicle_typ_sub_id]);
 
         return $dataProvider;

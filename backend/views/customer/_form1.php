@@ -190,3 +190,17 @@ $("#customer_occupation").bind('keyup', function (e) {
     $("#customer_occupation").val(($("#customer_occupation").val()).toUpperCase());
 });
 </script>
+<?php 
+$script = <<< JS
+  $( "#customerName" ).keyup(function() {
+    $(this).val($(this).val().toUpperCase());
+    });
+    $( "#fatherName" ).keyup(function() {
+    $(this).val($(this).val().toUpperCase());
+    });
+    $( "#customer_address" ).keyup(function() {
+    $(this).val($(this).val().toUpperCase());
+    });
+JS;
+$this->registerJS($script);
+ ?>

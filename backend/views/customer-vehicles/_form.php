@@ -18,7 +18,7 @@ $customerId = $_GET['id'];
 </div>
 <div class="customer-vehicles-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(); ?>
         
         <div class="row">
             <div class="col-md-6">
@@ -41,12 +41,12 @@ $customerId = $_GET['id'];
         <div class="row">
             <div class="col-md-6">
 
-                <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true,'id' => 'reg_no']) ?>
 
             </div>
             <div class="col-md-6">
 
-                <?= $form->field($model, 'color')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'color')->textInput(['id' => 'color_veh']) ?>
 
             </div>
         </div>
@@ -73,3 +73,62 @@ $customerId = $_GET['id'];
     <?php ActiveForm::end(); ?>
     
 </div>
+<script>
+   function testInput(event) {
+       var value = String.fromCharCode(event.which);
+       var pattern = new RegExp(/[a-zåäö ]/i);
+       return pattern.test(value);
+    }
+
+$('#COLOR').bind('keypress', testInput);
+
+$("#COLOR").bind('keyup', function (e) {
+    $("#COLOR").val(($("#COLOR").val()).toUpperCase());
+});
+
+  function forceKeyPressUppercase(e)
+  {
+    var charInput = e.keyCode;
+    if((charInput >= 97) && (charInput <= 122)) { // lowercase
+      if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+        var newChar = charInput - 32;
+        var start = e.target.selectionStart;
+        var end = e.target.selectionEnd;
+        e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+        e.target.setSelectionRange(start+1, start+1);
+        e.preventDefault();
+      }
+    }
+  }
+
+  document.getElementById("REGNO").addEventListener("keypress", forceKeyPressUppercase, false);
+  
+</script>
+
+<?php 
+$script = <<< JS
+
+  $("#reg_no").keyup(function(){
+    $(this).val($(this).val().toUpperCase());
+    });
+      $("#reg_no").keypress(function(e){
+        var keyCode = e.keyCode || e.which;
+    if ((keyCode >= 33 && keyCode <=44) || (keyCode >= 46 && keyCode <=47) || (keyCode >= 58 && keyCode <=64) || (keyCode >= 91 && keyCode <=96) || (keyCode >= 123 && keyCode <= 126)) { 
+      return false;
+    }
+    });
+
+    $("#color_veh").keyup(function(){
+    $(this).val($(this).val().toUpperCase());
+    });
+      $("#color_veh").keypress(function(e){
+        var keyCode = e.keyCode || e.which;
+    if ((keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (keyCode == 45)) { 
+      return true;
+    }else{
+      return false;
+      }
+    });
+JS;
+$this->registerJS($script);
+ ?>

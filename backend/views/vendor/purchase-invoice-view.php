@@ -207,7 +207,7 @@ use kartik\dialog\Dialog;
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID'
     AND (status = 'Paid' OR status = 'paid')
-    ORDER BY purchase_date DESC
+    ORDER BY purchase_invoice_id DESC
     ")->queryAll();
   $count_piad_invoice = count($paid_invoice);
 
@@ -215,8 +215,8 @@ use kartik\dialog\Dialog;
     SELECT *
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
-    AND (status = 'Partially' OR status = 'Unpaid')
-    ORDER BY purchase_date DESC
+    AND (status = 'Partially')
+    ORDER BY purchase_invoice_id DESC
     ")->queryAll();
   $count_credit_invoice = count($credit_invoice);
 
@@ -265,7 +265,7 @@ body td{
               <li><a href="#profile" data-toggle="tab">Vendor Profile</a></li>
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
-              <div class="active tab-pane" id="invoice">
+              <div class="active tab-pane" id="invoice"  style="background-color:lightgray;padding:10px;">
                
                   <div class="form-group">
                     <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">   
@@ -408,28 +408,28 @@ body td{
                 </div>
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="paid_invoices">
+              <div class="tab-pane" id="paid_invoices"  style="background-color:lightgray;padding:10px;">
                 <div class="row">
                   <div class="col-md-12">
-                      <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Detail:</h3>
+                      <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;text-align: center;">Paid Invoices Detail</h3>
                     </div>    
                   </div>
                   <div class="row">
                     <div class="col-md-12">
                       <div class="table-responsive">                      
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen">Sr.#</th>
+                                    <th style="text-align: center;">Sr.#</th>
                                     <!-- <th class="t-cen">Invoice #</th> -->
                                     <!-- <th class="t-cen">Bilty No#</th> -->
-                                    <th class="t-cen">Bill No#</th>
-                                    <th class="t-cen">Paid Amount</th>
-                                    <th class="t-cen">Purchase Date</th>
-                                    <th class="text-center">Action</th>
+                                    <th style="text-align: center;">Bill No#</th>
+                                    <th style="text-align: center;">Paid Amount</th>
+                                    <th style="text-align: center;">Purchase Date</th>
+                                    <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
                               <?php 
                                   
                                   
@@ -437,16 +437,16 @@ body td{
 
                                       ?>
                                       <tr>
-                                        <td><?php echo $i+1; ?></td>
+                                        <td  style="text-align: center;"><?php echo $i+1; ?></td>
                                         <!-- <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td> -->
-                                        <td><?php echo $paid_invoice[$i]['bill_no']; ?></td>
-                                        <td><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
-                                        <td><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['purchase_date']));
+                                        <td  style="text-align: center;"><?php echo $paid_invoice[$i]['bill_no']; ?></td>
+                                        <td  style="text-align: center;"><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
+                                        <td  style="text-align: center;"><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['purchase_date']));
                                             echo $date; ?></td>
                                             <td class="text-center">
                                               <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
-                                              </a>&ensp;
-                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a>
+                                              </a><br>
+                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a><br>
                                               <a href="./purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
                                             </td>
                                       </tr>
@@ -463,10 +463,10 @@ body td{
                   </div>
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="payable">
+              <div class="tab-pane" id="payable" style="background-color:lightgray;padding:10px;">
                   <div class="row">
                     <div class="col-md-8">
-                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Detail:</h3>
+                        <h3 class="text-info" style="">Payable Invoices</h3>
                     </div>
                             <?php
                               $totalcreditAmount=0;
@@ -475,28 +475,28 @@ body td{
                                 }        
                             ?>
                     <div class="col-md-4">
-                        <h3 class="text-danger" style="vertical-align: middle; margin-bottom: 20px !important;background-color: white;padding: 6px;border-radius: 3px;">Total Credit: <?= $totalcreditAmount;?></h3>
+                        <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
                     </div>
                 </div>    
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">                      
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen">Sr.#</th>
+                                    <th style="text-align: center;">Sr.#</th>
                                     <!-- <th class="t-cen">Invoice #</th> -->
                                     <!-- <th class="t-cen">Bilty No#</th> -->
-                                    <th class="t-cen">Bill No#</th>                              
-                                    <th class="t-cen">Net Total</th>
-                                    <th class="t-cen">Paid Amount</th>
-                                    <th class="t-cen">Remaining Amount</th>
-                                    <th class="t-cen">Purchase Date</th>
-                                    <th class="t-cen">Status</th>
-                                    <th class="t-cen">Action</th>
+                                    <th style="text-align: center;">Bill No#</th>                              
+                                    <th style="text-align: center;">Net<br>Total</th>
+                                    <th style="text-align: center;">Paid<br>Amount</th>
+                                    <th style="text-align: center;">Remaining<br>Amount</th>
+                                    <th style="text-align: center;">Purchase<br>Date</th>
+                                    <th style="text-align: center;">Status</th>
+                                    <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
                                 <?php 
 
                                     for ($i=0; $i <$count_credit_invoice ; $i++) {
@@ -504,21 +504,20 @@ body td{
                                         ?>
                                         
                                     <tr>
-                                        <td><?php echo $i+1; ?></td>
+                                        <td style="text-align: center;"><?php echo $i+1; ?></td>
                                         <!-- <td><?php echo $credit_invoice[$i]['bilty_no']; ?></td> -->
-                                        <td><?php echo $credit_invoice[$i]['bill_no']; ?></td>
-                                        <td><?php echo $credit_invoice[$i]['net_total']; ?></td>
-                                        <td><?php echo $credit_invoice[$i]['paid_amount']; ?></td>
-                                        <td><?php echo $credit_invoice[$i]['remaining_amount']; ?></td>
-                                        <td><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['purchase_date']));
+                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['bill_no']; ?></td>
+                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['net_total']; ?></td>
+                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['paid_amount']; ?></td>
+                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['remaining_amount']; ?></td>
+                                        <td style="text-align: center;"><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['purchase_date']));
                                             echo $date; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $credit_invoice[$i]['status']; ?></td>
+                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">
                                           <a href="./credit-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill
-                                              </a>
-                                          <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
-
-                                          <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Pay</a>
+                                              </a><br>
+                                          <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Pay</a><br>
+                                           <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
                                         </td>
                                       </tr>   
                                 
@@ -530,47 +529,40 @@ body td{
                 </div>
               </div>
               <!--- close tab pane --->
-              <div class="tab-pane" id="profile">
+              <div class="tab-pane" id="profile"  style="background-color:lightgray;padding:10px;">
             	<div class="row">
-            		<div class="col-md-11">
-            			<h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Vendor Details</h3>
-            		</div>
-            		<div class="col-md-1">
+            		<div class="col-md-12">
             			 <a href="./vendor-update?id=<?php echo $vendorID;?>" class="btn btn-info" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
             				<i class="glyphicon glyphicon-edit"></i> Edit
             			</a>
-            		</div>
-            	</div>
-            	<div class="row" style="margin-bottom:10px;">
-            		<div class="col-md-12">
-            			<table class="table table-bordered">
-            				<thead style="background-color: #367FA9;color:white;">
-            					<tr>
-            						<th class="text-center">
-    								<?php
-			            				echo "Vendor Name: <b style='font-size:16px; font-family:georgia;'>".$vendorData[0]['name']."</b>";
-    				 				?>
-            						</th>
-            					</tr>
-            				</thead>
-            			</table>
             		</div>
             	</div>
             	<div class="row">
             		<div class="col-md-12">
             			<table class="table table-bordered">
             				<thead>
+                      <tr>
+                        <th class="text-info" colspan="2" style="text-align: center;font-size:20px;background-color:#367FA9;color:#ffffff;">
+                            Vendor Details
+                        </th>
+                      </tr>
             					<tr>
-            						<th class="bg-color" style="padding: 12px;">Branch Name:</th>
-            						<th class="t-cen" style="background-color: white;">
+            						<th style="background-color:lightgray;color:black;">Branch Name:</th>
+            						<td class="t-cen" style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;text-align: center;">
             							<?php echo $branchData->branch_name; ?>
-            						</th>
+            						</td>
             					</tr>
+                      <tr>
+                        <th style="background-color:lightgray;color:black;">Vendor Name:</th>
+                        <td class="t-cen" style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;text-align: center;">
+                          <?php echo $vendorData[0]['name']; ?>
+                        </td>
+                      </tr>
             					<tr>
-            						<th class="bg-color" style="padding: 12px;">Vendor NTN:</th>
-            						<th class="t-cen" style="background-color: white;">
+            						<th style="background-color:lightgray;color:black;">Vendor NTN:</th>
+            						<td class="t-cen" style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;text-align: center;">
             							<?php echo $vendorData[0]['ntn']; ?>
-            						</th>
+            						</td>
             					</tr>
             				</thead>
             			</table>
@@ -623,6 +615,10 @@ body td{
                 <div class="form-group">
                   <label>Remaining</label>
                   <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
+                </div>
+                <div class="form-group">
+                  <label>Cash Return</label>
+                  <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
                 </div>
                 <div class="form-group">
                   <label>status</label>
@@ -690,6 +686,7 @@ body td{
               $('#nt').val(originalPrice);
               $('#remaining').val(originalPrice);
               $('#paid').val("0");
+              $('#cash_return').val("0"); 
           }else{
 
        // alert(originalPrice);
@@ -757,41 +754,47 @@ body td{
       //   }
       // }
       function cal_remaining(){
-      	var paid = $('#paid').val();
-        if(paid == "" || paid == null)
-          {
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
-          }else{
-      	var nt = $('#nt').val();
-      	var remaining =nt - paid;
-      	$('#remaining').val(remaining); 
-        
-        	if (remaining == 0) {
-        		$('#status').val('Paid');
-            $('#insert').show();
-        	}
-        	else if (remaining == nt) {
-        		$('#status').val('Unpaid');
-            $('#insert').show();
-        	}
-          
-          else if (paid > 0) {
+        var paid = $('#paid').val();
+        var nt = $('#nt').val();
+        var remaining = nt - paid;
+         
+        if (remaining == 0) {
+          $('#status').val('Paid');
+        }
+
+         if (remaining == nt && paid == 0) {
+          $('#status').val('Unpaid');
+        }        
+         if (paid > 0 && remaining > 0) {
           $('#status').val('Partially');
         }
-        $('#insert').show();
+        
+        //$('#insert').show();
+        //$("#insert").removeAttr("disabled");
         if (remaining < 0) {
           //$('#insert').hide();
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          $("#cash_return").attr("readonly", false);
+         // $("#cash_return").removeAttr("readonly");
+          // $('#alert').css("display","block");
+          // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          var cash_return = paid - nt;
+           $('#cash_return').val(cash_return);
+           $('#remaining').val(0);
+           $('#status').val('Paid');
         }else{
-          $('#alert').css("display","none");
-          $("#insert").removeAttr("disabled");
+          $('#remaining').val(remaining);
+          $('#cash_return').val(0);
+          // $('#alert').css("display","none");
+          // $("#insert").removeAttr("disabled");
         }
+
+        // if(remaining < 0){
+        //   $("#insert").attr("disabled", true);
+        //   $('#alert').css("display","block");
+        //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        // }
+
       }
-    }
 
 
 </script>
@@ -800,17 +803,6 @@ $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
 
 
 $script = <<< JS
-
-$("#paid").on('focus', function(){
-  $('#paid').val("");
-  var paid = $('#paid').val();
-  if(paid == "" || paid == null)
-          {
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
-        }
-  });
 
 	$("#stock_type").change(function(){
 		 var stockType = $('#stock_type').val();
@@ -932,6 +924,7 @@ $("#paid").on('focus', function(){
 		}
 
 		else{
+      discountFun();
 		barcodeArray.push(barcode);
 		stockTypeArray.push(stock_type);
 		manufacturerArray.push(manufacture_type);
@@ -1020,6 +1013,8 @@ $("#paid").on('focus', function(){
         $('#paid').val("0");
         $('#remaining').val(tp);
         $('#status').val('Unpaid');
+        discountFun();
+
 
         if(stock_type == "" || stock_type == null)
 		{
@@ -1128,6 +1123,56 @@ $("#paid").on('focus', function(){
 	              };
             }
 	});
+
+ $("#cash_return").on('input', function(){
+    var cashReturn  = $('#cash_return').val();
+    var paid        = $('#paid').val();
+    var nt          = $('#nt').val();
+    var previous_value = paid-nt;
+    var temp = cashReturn-previous_value;
+    $('#remaining').val(temp);
+
+    
+    if(cashReturn == previous_value)
+    {
+     $('#status').val('Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+    if(temp > 0)
+    {
+     $('#status').val('Partially Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+
+    if(temp < 0)
+    {
+      $("#insert").attr("disabled", true);
+      $('#alert').css("display","block");
+      $('#status').val('');
+      $('#alert').html("&ensp;Invalid Amount");
+    }
+
+  });
+
+ 
+
+$("#paid").on('focus', function(){
+  $('#paid').val("");
+  $('#cash_return').val(0);
+  var paid = $('#paid').val();
+  // if(paid == "" || paid == null)
+  //         {
+  //         $("#insert").attr("disabled", true);
+  //         $('#alert').css("display","block");
+  //         $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+  //       }
+  });
+
+   $("#cash_return").on('focus', function(){
+    $('#cash_return').val("");
+  });
 
 	$('#stock_type').change(function(){
 
@@ -1299,6 +1344,7 @@ $("#paid").on('focus', function(){
 		var net_total 		= $('#nt').val();
 		var paid 			= $('#paid').val();
 	  var remaining 		= $('#remaining').val();
+    var cash_return = $('#cash_return').val();
 		var status 			= $('#status').val();
     var narration = $('#narration').val();
     barcodeArray;
@@ -1359,6 +1405,7 @@ $("#paid").on('focus', function(){
     					net_total:net_total, 		
     					paid:paid, 			
     			    remaining:remaining,
+              cash_return:cash_return,
     			    status:status, 		
     			    barcodeArray:barcodeArray,
     			 	  stockTypeArray:stockTypeArray,

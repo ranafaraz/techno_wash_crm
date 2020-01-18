@@ -99,9 +99,11 @@ use common\models\AccountHead;
 		$total_amount = $_POST["total_amount"];
 		$invoice_date= $_POST["invoice_date"];
 		$customer_id= $_POST['customer_id'];
+		$regno=$_POST['regno'];
 		$net_total = $_POST['net_total'];
 		$paid = $_POST['paid'];
 		$remaining = $_POST['remaining'];
+		$cash_return = $_POST['cash_return'];
 		$status = $_POST["status"];
 		$vehicleArray = $_POST['vehicleArray']; 
 		$serviceArray = $_POST["serviceArray"];
@@ -124,6 +126,7 @@ use common\models\AccountHead;
 				'net_total'    		=> $net_total,
 				'paid_amount'    	=> $paid,
 				'remaining_amount'  => $remaining,
+				'cash_return'		=> $cash_return,
 				'status'    		=> $status,
 				'created_by'		=> $user_id,
 
@@ -245,8 +248,15 @@ use common\models\AccountHead;
 			    	} // closing of quantity else
 			    } // end of for loop itemarray
 			    // transaction commit
-		    	$transaction->commit();
-			    echo json_encode($examScheduleUpdate);
+			    //if($examScheduleUpdate){
+			    	$transaction->commit();
+				    echo json_encode($examScheduleUpdates);
+				    ?>
+				    <!-- <script type="text/javascript">
+						window.location = './paid-sale-invoice?sihID=<?php //echo $selectedInvHeadID; ?>&regno<?php //echo $regno; ?>'; 
+					</script> -->
+				<?php
+				//} // if($examScheduleUpdate)
 			} // end of if
 		} // closing of try block 
 		catch (Exception $e) {

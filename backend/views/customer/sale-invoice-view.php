@@ -203,7 +203,7 @@ use common\models\AccountHead;
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'paid' OR status = 'Paid')
-    ORDER BY `date` DESC
+    ORDER BY sale_inv_head_id DESC
     ")->queryAll();
 
     $countpaidinvoiceData = count($paidinvoiceData);
@@ -268,7 +268,7 @@ use common\models\AccountHead;
               <!-- <li><a href="#details" data-toggle="tab">Account Details</a></li> -->
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
-              <div class="active tab-pane" id="invoice">
+              <div class="active tab-pane" id="invoice"  style="background-color:lightgray;padding:10px;">
                 <div class="form-group">
                         <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
                 </div>
@@ -433,26 +433,28 @@ use common\models\AccountHead;
                 </div> 			
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="paidd">
-                  <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Paid Invoices Detail:</h3>
-                    </div>
+              <div class="tab-pane" id="paidd" style="background-color:lightgray;padding:10px;">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="text-info" style="text-align: center;">
+                      Paid Invoices
+                    </h3>
+                  </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">                      
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
-                                    <th class="t-cen" style="vertical-align:middle;">Sr #</th>
+                                    <th class="text-center" style="vertical-align:middle;">Sr #</th>
                                     <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
-                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Amount</th>
+                                    <th class="text-center" style="vertical-align:middle;">Date</th>
+                                    <th class="text-center" style="vertical-align:middle;">Amount</th>
                                     <th class="text-center" style="vertical-align:middle;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
                                 <?php 
 
                                     for ($i=0; $i <$countpaidinvoiceData ; $i++) {
@@ -460,12 +462,12 @@ use common\models\AccountHead;
                                         ?>
                                         
                                     <tr>
-                                        <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
                                         <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
-                                        <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
+                                        <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
                                             echo $date; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;">
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
+                                        <td class="text-center" style="vertical-align:middle;text-align: center;">
                                           <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
                                           <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
                                            <a href="sale-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
@@ -479,10 +481,10 @@ use common\models\AccountHead;
                     </div>
                 </div>
               </div>
-              <div class="tab-pane" id="credit">
+              <div class="tab-pane" id="credit" style="background-color:lightgray;padding:10px;">
                   <div class="row">
                     <div class="col-md-8">
-                        <h3 class="text-info" style="vertical-align: middle;">Partially & Unpaid Invoices Detail:</h3>
+                        <h3 class="text-info" style="vertical-align: middle;">Credit Invoices</h3>
                     </div>
                             <?php
                               $totalcreditAmount=0;
@@ -491,26 +493,27 @@ use common\models\AccountHead;
                                 }        
                             ?>
                     <div class="col-md-4">
-                        <h3 class="text-danger" style="vertical-align: middle; margin-bottom: 20px !important;background-color: white;padding: 6px;border-radius: 3px;">Total Credit: <?= $totalcreditAmount;?></h3>
+                        <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
                     </div>
                 </div>    
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">                      
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered">
                             <thead style="background-color: #367FA9;color:white;">
                                 <tr>
                                     <!-- <th class="t-cen" style="vertical-align:middle;">Sr #</th> -->
                                     <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
-                                    <th class="t-cen" style="vertical-align:middle;">Date</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Total Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Paid Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Remaining Amount</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Status</th>
-                                    <th class="t-cen" style="vertical-align:middle;">Action</th>
+                                     <th style="vertical-align:middle;text-align: center;">Sr.#</th>
+                                    <th style="vertical-align:middle;text-align: center;">Date</th>
+                                    <th style="vertical-align:middle;text-align: center;">Total<br>Amount</th>
+                                    <th style="vertical-align:middle;text-align: center;">Paid<br>Amount</th>
+                                    <th style="vertical-align:middle;text-align: center;">Remaining<br>Amount</th>
+                                    <th style="vertical-align:middle;text-align: center;">Status</th>
+                                    <th style="vertical-align:middle;text-align: center;">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
                                 <?php 
 
                                     for ($i=0; $i <$countcreditinvoiceData ; $i++) {
@@ -518,16 +521,16 @@ use common\models\AccountHead;
                                         ?>
                                         
                                     <tr>
-                                        <!-- <td style="vertical-align:middle;"><?php //echo $i+1; ?></td> -->
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
                                         <!-- <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
-                                        <td style="vertical-align:middle;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
+                                        <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
                                             echo $date;?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
-                                         <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
-                                        <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a>
-                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
+                                         <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
+                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
+                                        <td class="text-center" style="vertical-align:middle;text-align: center;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a><br>
+                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a><br>
                                         <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
                                         </td>
                                     </tr>   
@@ -539,7 +542,7 @@ use common\models\AccountHead;
                     </div>
                 </div>
               </div>
-              <div class="tab-pane" id="customer">
+              <div class="tab-pane" id="customer" style="background-color:lightgray;padding:10px;">
                 <div class="row">
                 <div class="col-md-11">
                   <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Details</h3>
@@ -640,7 +643,7 @@ use common\models\AccountHead;
                 </div>
               </div> 
               </div>
-              <div class="tab-pane" id="customer_vehicles">
+              <div class="tab-pane" id="customer_vehicles" style="background-color:lightgray;padding:10px;">
                 <div class="row">
                 <div class="col-md-11">
                   <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Vehicles Details</h3>
@@ -713,7 +716,7 @@ use common\models\AccountHead;
         <div class="box-body">
         	<div class="container-fluid" style="margin-bottom:8px;">
             <div class="row">
-              <div class="col-md-12" style="padding:10px;text-align: center;font-weight: bolder;font-size:20px;background-color: #3C8DBC;color:white;">
+              <div class="col-md-12" style="padding:8px;text-align: center;font-weight: bolder;font-size:20px;background-color: #3C8DBC;color:white;">
                 Bill
               </div>
             </div>
@@ -748,7 +751,11 @@ use common\models\AccountHead;
                   <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
                 </div>
                 <div class="form-group">
-                  <label>status</label>
+                  <label>Cash Return</label>
+                  <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
+                </div>
+                <div class="form-group">
+                  <label>Status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status" value="Unpaid">
                 </div>
                 <div class="row">
@@ -787,6 +794,7 @@ use common\models\AccountHead;
 
 	let user_id = <?php echo $id; ?>;
 	let customer_id        = <?php echo $customerID; ?>;
+  let regno        = <?php echo $regNoID; ?>;
 	let rIndex;
 	let table;
 	let index = 1;
@@ -811,6 +819,7 @@ function discountFun(){
               $('#nt').val(originalPrice);
               $('#remaining').val(originalPrice);
               $('#paid').val("0");
+              $('#cash_return').val("0"); 
           }else{      
         
           if(document.getElementById('percentage').checked)
@@ -858,6 +867,7 @@ function discountFun(){
             }
             $('#paid').val("0"); 
             $('#remaining').val(purchasePrice);
+
       }
       }
 
@@ -888,7 +898,7 @@ function discountFun(){
       	var paid = $('#paid').val();
       	var nt = $('#nt').val();
       	var remaining = nt - paid;
-      	$('#remaining').val(remaining); 
+      	 
       	if (remaining == 0) {
       		$('#status').val('Paid');
       	}
@@ -899,18 +909,31 @@ function discountFun(){
          if (paid > 0 && remaining > 0) {
           $('#status').val('Partially');
         }
-
+        
       	//$('#insert').show();
         //$("#insert").removeAttr("disabled");
         if (remaining < 0) {
           //$('#insert').hide();
-          $("#insert").attr("disabled", true);
-          $('#alert').css("display","block");
-          $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          $("#cash_return").attr("readonly", false);
+         // $("#cash_return").removeAttr("readonly");
+          // $('#alert').css("display","block");
+          // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          var cash_return = paid - nt;
+           $('#cash_return').val(cash_return);
+           $('#remaining').val(0);
+           $('#status').val('Paid');
         }else{
-          $('#alert').css("display","none");
-          $("#insert").removeAttr("disabled");
+          $('#remaining').val(remaining);
+          $('#cash_return').val(0);
+          // $('#alert').css("display","none");
+          // $("#insert").removeAttr("disabled");
         }
+
+        // if(remaining < 0){
+        //   $("#insert").attr("disabled", true);
+        //   $('#alert').css("display","block");
+        //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        // }
 
       }
 </script>
@@ -933,6 +956,37 @@ $(document).ready(function(){
           }      
       });
   });
+  $("#cash_return").on('input', function(){
+    var cashReturn  = $('#cash_return').val();
+    var paid        = $('#paid').val();
+    var nt          = $('#nt').val();
+    var previous_value = paid-nt;
+    var temp = cashReturn-previous_value;
+    $('#remaining').val(temp);
+
+    
+    if(cashReturn == previous_value)
+    {
+     $('#status').val('Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+    if(temp > 0)
+    {
+     $('#status').val('Partially Paid');
+    $("#insert").attr("disabled", false);
+    $('#alert').css("display","none"); 
+    }
+
+    if(temp < 0)
+    {
+      $("#insert").attr("disabled", true);
+      $('#alert').css("display","block");
+      $('#status').val('');
+      $('#alert').html("&ensp;Invalid Amount");
+    }
+
+  });
 
   $("#vehicle").on('focus', function(){
     $('#item_type').val("");
@@ -944,13 +998,18 @@ $(document).ready(function(){
 
 $("#paid").on('focus', function(){
   $('#paid').val("");
+  $('#cash_return').val(0);
   var paid = $('#paid').val();
-  if(paid == "" || paid == null)
-      {
-      $("#insert").attr("disabled", true);
-      $('#alert').css("display","block");
-      $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
-    }
+  // if(paid == "" || paid == null)
+  //     {
+  //     $("#insert").attr("disabled", true);
+  //     $('#alert').css("display","block");
+  //     $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
+  //   }
+  });
+
+  $("#cash_return").on('focus', function(){
+    $('#cash_return').val("");
   });
 
 $("#item_type").change(function(){
@@ -1493,11 +1552,12 @@ $('#product_quantity').on("change",function(){
 
 
 	$('#insert').click(function(){
-    krajeeDialog.confirm('Are you sure to add bill', function(out){
-    if(out) {    
+    // krajeeDialog.confirm('Are you sure to add bill', function(out){
+    // if(out) {    
 			var invoice_date = $('#invoice_date').val();
       //pro_quantity
 			customer_id;
+      regno;
 			vehicleArray;
 			serviceArray; 
 			amountArray;
@@ -1511,6 +1571,7 @@ $('#product_quantity').on("change",function(){
 		    var remaining = $('#remaining').val();
 		    var status = $('#status').val();
         var narration = $('#narration').val();
+      var cash_return = $('#cash_return').val();
 			if(invoice_date=="" || invoice_date==null){
 				alert('Please Select the date ');
 				$('#invoice_date').css("border", "1px solid red");
@@ -1537,9 +1598,11 @@ $('#product_quantity').on("change",function(){
 						    vehicleArray:vehicleArray,
 	        			invoice_date:invoice_date,
     						customer_id:customer_id,
+                regno:regno,
     						paid:paid,
                 narration:narration,
     						remaining:remaining,
+                cash_return:cash_return,
     						status:status,
     						serviceArray:serviceArray,
     						amountArray:amountArray,
@@ -1552,15 +1615,15 @@ $('#product_quantity').on("change",function(){
 	        success: function(result){
             console.log(result);
             if(result){
-             //  alert("Bill Added");
-              window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';              
+              //var sIHId = $.parseJSON(result); 
+              window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';        
             }
 	        }      
-    	  });
-			}
-      }
-    });
-	});
+    	  }); // ajax 
+			} // else
+      // }
+    // });
+	}); // insert button
 
 JS;
 $this->registerJs($script);
