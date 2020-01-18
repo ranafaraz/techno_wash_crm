@@ -1572,6 +1572,7 @@ $('#product_quantity').on("change",function(){
 		    var status = $('#status').val();
         var narration = $('#narration').val();
       var cash_return = $('#cash_return').val();
+      
 			if(invoice_date=="" || invoice_date==null){
 				alert('Please Select the date ');
 				$('#invoice_date').css("border", "1px solid red");
