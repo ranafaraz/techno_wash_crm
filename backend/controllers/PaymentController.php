@@ -322,16 +322,6 @@ public function actionGetPayment($debit_account,$title_id)
 
                         // Account Payable Query FOr remaning Amount;
 
-                        $modelap = AccountPayable::find('transaction_id')->orderBy(['id' => SORT_DESC])->One();
-                        if($modelap == "")
-                        {
-                            $transaction_id = '1';
-                        }
-                        else
-                        {
-                            (int)$transap = (int)$modelap->transaction_id;
-                            $transaction_id = $transap + 1;
-                        }
                         $connection->createCommand()->Insert('account_payable',
                             [
                                 'amount'=>$remaning,
