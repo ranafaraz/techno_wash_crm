@@ -4,25 +4,25 @@
 	$customerid = $_GET['customerid'];
 	$regNoID = $_GET['regno'];
 
-$updateinvoiceData = Yii::$app->db->createCommand("
-    SELECT *
-    FROM sale_invoice_head
-    WHERE sale_inv_head_id = '$saleinvHeadID'
-    ")->queryAll();
-    $countupdateinvoiceData = count($updateinvoiceData);
+	$updateinvoiceData = Yii::$app->db->createCommand("
+	    SELECT *
+	    FROM sale_invoice_head
+	    WHERE sale_inv_head_id = '$saleinvHeadID'
+	    ")->queryAll();
+	    $countupdateinvoiceData = count($updateinvoiceData);
 
-$customerData = Yii::$app->db->createCommand("
-    SELECT *
-    FROM customer
-    WHERE customer_id = $customerid
-    ")->queryAll();
-$saleInvoiceAmount = Yii::$app->db->createCommand("
-    SELECT *
-    FROM sale_invoice_amount_detail
-    WHERE sale_inv_head_id = '$saleinvHeadID'
-    ")->queryAll();
-$countSaleInvAmount = count($saleInvoiceAmount);
-//echo $countSaleInvAmount;
+	$customerData = Yii::$app->db->createCommand("
+	    SELECT *
+	    FROM customer
+	    WHERE customer_id = $customerid
+	    ")->queryAll();
+	$saleInvoiceAmount = Yii::$app->db->createCommand("
+	    SELECT *
+	    FROM sale_invoice_amount_detail
+	    WHERE sale_inv_head_id = '$saleinvHeadID'
+	    ")->queryAll();
+	$countSaleInvAmount = count($saleInvoiceAmount);
+	//echo $countSaleInvAmount;
 
  ?>
 <!DOCTYPE html>
@@ -33,7 +33,7 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 <body>
 	<div class="container">
 		
-		<form action="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" method="POST" accept-charset="utf-8">
+		<form method="POST" accept-charset="utf-8">
 		<div class="row">
 			<div class="col-md-2">
 				
@@ -148,6 +148,83 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 </body>
 </html>
 <?php } ?>
+<?php 
+
+ if(isset($_POST['update_invoice']))
+ {
+   $customerID              = $_POST['custID'];
+   $invID                   = $_POST['invID'];
+   $regNoID                 = $_POST['regno'];
+  // $net_total               = $_POST['net_total'];
+   $updateDate              = $_POST['date'];
+   $updateDiscount          = $_POST['update_discount'];
+   $updatetotalamount       = $_POST['total_amount'];
+   $updatedpaidAmount       = $_POST['paid_amount'];
+   $updatenetTotal          = $_POST['net_total'];
+   $updateremainingAmount   = $_POST['remaining_amount'];
+   $updatestatus            = $_POST['status'];
+
+   $transactionDateArray    = $_POST['transaction_date'];
+   $paidAmountArray         = $_POST['detail_paid_amount'];
+   $saleInvAmountIDArray    = $_POST['saleInvAmountID'];
+   $transaction_update_id  = $_POST['transaction_id'];
+   
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'date' => $updateDate,
+     'total_amount' => $updatetotalamount,
+     'discount' => $updateDiscount,
+     'net_total' => $updatenetTotal,
+     'paid_amount' => $updatedpaidAmount,
+     'remaining_amount' => $updateremainingAmount,
+     'status' => $updatestatus,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+
+    $countpaidAmountArray = count($paidAmountArray);
+
+    $counttransid = count($transaction_update_id);
+
+    for($i=0; $i<$countpaidAmountArray; $i++){
+      $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
+      'transaction_date' => $transactionDateArray[$i],
+      'paid_amount' => $paidAmountArray[$i],
+      ],
+         ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $saleInvAmountIDArray[$i]]
+
+      )->execute();
+
+      $tran = Yii::$app->db->createCommand()->update('transactions',
+        [
+          'transactions_date' => $transactionDateArray[$i],
+          'amount' => $paidAmountArray[$i],
+          'narration' => 'After Updation paid '.$paidAmountArray[$i].' out of total ' .$updatetotalamount,
+        ],['ref_no' => $saleInvAmountIDArray[$i], 'ref_name' => "Sale"]
+      )->execute();
+
+    }
+     // transaction commit
+     $transaction->commit();
+      \Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID&regno=$regNoID"]);
+     
+        
+     } // closing of try block 
+     catch (Exception $e) {
+     	echo $e;
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
  <script>
  	function datechange(){
  		$('#alert').css("display","none");

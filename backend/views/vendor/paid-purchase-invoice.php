@@ -3,21 +3,23 @@
   if (isset($_GET['piID']) && isset($_GET['vendorID'])) {
 	$purchaseInvID = $_GET['piID'];
 	$vendorID = $_GET['vendorID'];
+	$status = $_GET['status'];
+	$status2 = $_GET['status2'];
 
-	$paidinvoiceData = Yii::$app->db->createCommand("
+	$invoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
     AND  purchase_invoice_id = '$purchaseInvID'
-    AND (status = 'Paid' OR status = 'paid')
+    AND (status = '$status' OR status = '$status2')
     ")->queryAll();
-    $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
-    $time = date('h:i a',strtotime($paidinvoiceData[0]['created_at']));
+    $date = date('d-M-Y',strtotime($invoiceData[0]['created_at']));
+    $time = date('h:i a',strtotime($invoiceData[0]['created_at']));
 
     // echo $date."<br>";
     // echo $time;
     
-    $vendorId = $paidinvoiceData[0]['vendor_id'];
+    $vendorId = $invoiceData[0]['vendor_id'];
 
     $vendorData  = Yii::$app->db->createCommand("
     SELECT name
@@ -39,7 +41,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Paid Purchase Invoice</title>
+	<title>Purchase Invoice</title>
 </head>
 <body onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
@@ -64,8 +66,6 @@
 			</div>
 		</div> -->
 		<div id="div1" style="font-size:20px;font-family:arial;">
-			
-		
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<h3  style="text-align: center;font-weight: bolder;">
@@ -74,12 +74,10 @@
 					<p style="text-align: center;">
 						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
 					</p>
-					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Paid Purchase Memo</h3>
-					
+					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Purchase Memo</h3>
 					<div class="row">
 						<div class="col-md-12">
 							<table class="table table-bordered">
-								
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>
@@ -93,13 +91,10 @@
 										<th>Time</th>
 										<td style="text-align: center;"><?php echo $time; ?></td>
 										<th>Bill #</th>
-										<td style="text-align: center;"><?php echo $paidinvoiceData[0]['bill_no'];; ?></td>
+										<td style="text-align: center;"><?php echo $invoiceData[0]['bill_no'];; ?></td>
 									</tr>
 								</thead>
-								
 							</table>
-							
-							
 						</div>
 					</div>
 					<?php 
@@ -203,10 +198,8 @@
 							</tr>
 						</thead>
 					</table>
-
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="col-sm-6">
 					
@@ -216,31 +209,31 @@
 						<thead>
 							<tr>
 								<th>Total Amount</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['total_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
 								<th>Invoice Discount</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['discount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['discount']; ?></th>
 							</tr>
 							<tr>
 								<th>Net Bill</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['net_total']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['net_total']; ?></th>
 							</tr>
 							<tr>
 								<th>Paid</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
 								<th>Remaining</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['remaining_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Cash Returned</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['cash_return']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['cash_return']; ?></th>
 							</tr>
 							<tr>
 								<th>Status</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['status']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['status']; ?></th>
 							</tr>
 						</thead>
 					</table>

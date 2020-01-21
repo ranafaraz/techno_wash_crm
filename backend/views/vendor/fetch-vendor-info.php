@@ -50,8 +50,7 @@
  	echo json_encode($manufactreName);
  	}
 
- 	if( isset($_POST['narration']) 
- 		&& isset($_POST['user_id'])
+ 	if( isset($_POST['user_id'])
  		&& isset($_POST['vendorID'])
  		// && isset($_POST['bilty_no'])
  		&& isset($_POST['bill_no'])
@@ -66,13 +65,14 @@
  	   	&& isset($_POST['stockTypeArray'])
  	   	&& isset($_POST['manufacturerArray'])
  	   	&& isset($_POST['nameArray'])
- 	   	&& isset($_POST['expiryDateArray'])
+ 	   	// && isset($_POST['expiryDateArray'])
  	   	//&& isset($_POST['originalPriceArray'])
  	   	&& isset($_POST['purchasePriceArray'])
  	   	&& isset($_POST['sellingPriceArray']))
  	{
  		$narration 				= $_POST['narration'];
 	 	$user_id 				= $_POST["user_id"];
+		$branch_id 				= $_POST['branch_id'];
 		$vendorID				= $_POST["vendorID"];
 		$bilty_no				= $_POST['bilty_no'];
 		$bill_no				= $_POST['bill_no'];
@@ -102,7 +102,7 @@
 	$transaction = \Yii::$app->db->beginTransaction();
 	try {
 		 $purchase_invoice = Yii::$app->db->createCommand()->insert('purchase_invoice',[
-
+		'branch_id' 		=> $branch_id,
 		'vendor_id'   		=> $vendorID,
 		'bilty_no'    		=> $bilty_no,
 		'bill_no'    		=> $bill_no,
@@ -118,109 +118,107 @@
 		'status'    		=> $status,
 		'created_by'		=> $user_id,
 
-	])->execute();
-		 // getting transaction id with one increment ;
-	$trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
-	if(empty($trans))
-	{
-		$transaction_id = '1';
-	}else
-	{
-		$transaction_id = $trans->transaction_id + 1;
-	}
-	// getting current asset from Account Nature and cash debit account from account head;
-	$nature = AccountNature::find()->where(['name' => 'Asset'])->One();
-	$head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
-	$cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
-	Yii::$app->db->createCommand()->insert('transactions',
-	[
-		'transaction_id' => $transaction_id,
-		'type' => 'Cash Payment',
-		'narration' => $narration,
-		'debit_account' => $cred->id,
-		'credit_account' => $head->id,
-		'amount' => $paid,
-		'transactions_date' => $purchase_date,
-		'created_by' => \Yii::$app->user->identity->id,
-	 	
-	])->execute();
-	 if ($purchase_invoice) {
-
-		$select_purchase_invoice = Yii::$app->db->createCommand("
-	    SELECT 	purchase_invoice_id
-	    FROM purchase_invoice
-	    WHERE vendor_id						= '$vendorID'
-	    -- AND bilty_no						= '$bilty_no'
-	    AND bill_no						= '$bill_no'
-		AND CAST(purchase_date as DATE) 	= '$purchase_date'
-		-- AND CAST(dispatch_date as DATE) 	= '$dispatch_date'
-		-- AND CAST(receiving_date as DATE) 	= '$receiving_date'
-		AND	total_amount					= '$total_amount'
-		AND	discount						= '$disc_amount'
-		AND	net_total						= '$net_total'
-		AND	paid_amount					= '$paid'
-		AND remaining_amount			= '$remaining'
-		AND	status						= '$status'
-	    ")->queryAll();
+		])->execute();
 	
-	$selectedPurchInvID = $select_purchase_invoice[0]['purchase_invoice_id'];
-
-	$purchase_invoice_amount = Yii::$app->db->createCommand()->insert('purchase_invoice_amount_detail',[
-
-		'purchase_invoice_id' => $selectedPurchInvID,
-		'transaction_date'    => date('y-m-d'),
-		'paid_amount'    	  => $paid,
-		'transaction_id'	  => $transaction_id,
-		'created_by'		  => $user_id,
-
-	])->execute();
+	 	if ($purchase_invoice) {
+			$select_purchase_invoice = Yii::$app->db->createCommand("
+		    SELECT 	purchase_invoice_id
+		    FROM purchase_invoice
+		    WHERE vendor_id						= '$vendorID'
+		    -- AND bilty_no						= '$bilty_no'
+		    AND bill_no						= '$bill_no'
+			AND CAST(purchase_date as DATE) 	= '$purchase_date'
+			-- AND CAST(dispatch_date as DATE) 	= '$dispatch_date'
+			-- AND CAST(receiving_date as DATE) 	= '$receiving_date'
+			AND	total_amount					= '$total_amount'
+			AND	discount						= '$disc_amount'
+			AND	net_total						= '$net_total'
+			AND	paid_amount					= '$paid'
+			AND remaining_amount			= '$remaining'
+			AND	status						= '$status'
+		    ")->queryAll();
 	
-	for ($j=0; $j <$countStockTypeArray ; $j++) { 
+			$selectedPurchInvID = $select_purchase_invoice[0]['purchase_invoice_id'];
 
-		$qty = $quantityArray[$j];
-
-		if($qty > 1){
-
-			for ($i=0; $i <$qty ; $i++) { 
-				$insert_stock = Yii::$app->db->createCommand()->insert('stock',[
-
-				'stock_type_id'  		=> $stockTypeArray[$j],
-				'purchase_invoice_id'   => $selectedPurchInvID,
-				'manufacture_id'    	=> $manufacturerArray[$j],
-				'barcode'    			=> $barcodeArray[$j],
-				'name'  				=> $nameArray[$j],
-				'expiry_date'  			=> $expiryDateArray[$j],
-				'original_price'  		=> $originalPriceArray[$j],
-				'purchase_price'  		=> $purchasePriceArray[$j],
-				'selling_price'  		=> $sellingPriceArray[$j],
-				'status'  				=> "In-stock",
-				'created_by'			=> $user_id,
+			$purchase_invoice_amount = Yii::$app->db->createCommand()->insert('purchase_invoice_amount_detail',[
+				'purchase_invoice_id' => $selectedPurchInvID,
+				'transaction_date'    => date('y-m-d'),
+				'paid_amount'    	  => $paid,
+				'created_by'		  => $user_id,
 				])->execute();
+
+			if ($purchase_invoice_amount) {
+				$invoice_amount = Yii::$app->db->createCommand("
+			    SELECT 	*
+			    FROM purchase_invoice_amount_detail
+			    WHERE purchase_invoice_id	= '$selectedPurchInvID'
+			    ORDER BY p_inv_amount_detail DESC
+			    ")->queryAll();
+				$invoice_amount = $invoice_amount[0]['p_inv_amount_detail'];
+				
+				// getting current asset from Account Nature and cash debit account from account head;
+				$nature = AccountNature::find()->where(['name' => 'Asset'])->One();
+				$head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
+				$cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
+				$transactions = Yii::$app->db->createCommand()->insert('transactions',
+				[
+					'branch_id' => $branch_id,
+					'type' => 'Cash Payment',
+					'narration' => $narration,
+					'debit_account' => $cred->id,
+					'credit_account' => $head->id,
+					'amount' => $paid,
+					'ref_no' => $invoice_amount,
+					'ref_name' => "Purchase",
+					'transactions_date' => $purchase_date,
+					'created_by' => \Yii::$app->user->identity->id,
+				 	
+				])->execute();
+	
 			}
-		}	
-	    else 
-	    {
-	    	$insert_stock = Yii::$app->db->createCommand()->insert('stock',[
+			for ($j=0; $j <$countStockTypeArray ; $j++) { 
+				$qty = $quantityArray[$j];
 
-				'stock_type_id'  		=> $stockTypeArray[$j],
-				'purchase_invoice_id'   => $selectedPurchInvID,
-				'manufacture_id'    	=> $manufacturerArray[$j],
-				'barcode'    			=> $barcodeArray[$j],
-				'name'  				=> $nameArray[$j],
-				'expiry_date'  			=> $expiryDateArray[$j],
-				'original_price'  		=> $originalPriceArray[$j],
-				'purchase_price'  		=> $purchasePriceArray[$j],
-				'selling_price'  		=> $sellingPriceArray[$j],
-				'status'  				=> "In-stock",
-				'created_by'			=> $user_id,
-				])->execute();
-	    	}
-	} // end of for loop
-	    // transaction commit
-    	$transaction->commit();
-	    echo json_encode($insert_stock);
-	} // end of if
-    
+				if($qty > 1){
+					for ($i=0; $i <$qty ; $i++) { 
+						$insert_stock = Yii::$app->db->createCommand()->insert('stock',[
+
+						'stock_type_id'  		=> $stockTypeArray[$j],
+						'purchase_invoice_id'   => $selectedPurchInvID,
+						'manufacture_id'    	=> $manufacturerArray[$j],
+						'barcode'    			=> $barcodeArray[$j],
+						'name'  				=> $nameArray[$j],
+						'expiry_date'  			=> $expiryDateArray[$j],
+						'original_price'  		=> $originalPriceArray[$j],
+						'purchase_price'  		=> $purchasePriceArray[$j],
+						'selling_price'  		=> $sellingPriceArray[$j],
+						'status'  				=> "In-stock",
+						'created_by'			=> $user_id,
+						])->execute();
+					}
+				}	
+			    else 
+			    {
+			    	$insert_stock = Yii::$app->db->createCommand()->insert('stock',[
+
+						'stock_type_id'  		=> $stockTypeArray[$j],
+						'purchase_invoice_id'   => $selectedPurchInvID,
+						'manufacture_id'    	=> $manufacturerArray[$j],
+						'barcode'    			=> $barcodeArray[$j],
+						'name'  				=> $nameArray[$j],
+						'expiry_date'  			=> $expiryDateArray[$j],
+						'original_price'  		=> $originalPriceArray[$j],
+						'purchase_price'  		=> $purchasePriceArray[$j],
+						'selling_price'  		=> $sellingPriceArray[$j],
+						'status'  				=> "In-stock",
+						'created_by'			=> $user_id,
+						])->execute();
+			    	}
+			} // end of for loop
+		    // transaction commit
+	    	$transaction->commit();
+		    echo json_encode($insert_stock);
+		} // end of if
 	} // closing of try block 
 	catch (Exception $e) {
 		// transaction rollback

@@ -88,7 +88,7 @@ use common\models\AccountHead;
  		   echo json_encode($register); 
  	}
 
- 	if(isset($_POST['invoice_date']) && isset($_POST['narration']) && isset($_POST['customer_id'])
+ 	if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
 	 	&& isset($_POST['total_amount']) && isset($_POST['net_total']) 
 	 	&& isset($_POST['paid']) && isset($_POST['remaining'])
 	 	&& isset($_POST['status']) && isset($_POST['vehicleArray'])
@@ -110,6 +110,7 @@ use common\models\AccountHead;
 		$amountArray = $_POST['amountArray'];
 		$ItemTypeArray = $_POST['ItemTypeArray'];
 		$user_id = $_POST["user_id"];
+		$branch_id = $_POST['branch_id'];
 		$quantityArray = $_POST["quantityArray"];
 
 		$disc_amount = $total_amount - $net_total;
@@ -118,7 +119,7 @@ use common\models\AccountHead;
 		$transaction = \Yii::$app->db->beginTransaction();
 		try {
 			$insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
-
+				'branch_id' => $branch_id,
 				'customer_id'   	=> $customer_id,
 				'date'    			=> $invoice_date,
 				'total_amount'    	=> $total_amount,
@@ -129,43 +130,14 @@ use common\models\AccountHead;
 				'cash_return'		=> $cash_return,
 				'status'    		=> $status,
 				'created_by'		=> $user_id,
-
 			])->execute();
-
-			// transaction
-
-
-			$trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
-    if(empty($trans))
-    {
-      $transaction_id = '1';
-    }else
-    {
-      $transaction_id = $trans->transaction_id + 1;
-    }
-    // getting current asset from Account Nature and cash debit account from account head;
-    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
-    $head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
-    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
-    Yii::$app->db->createCommand()->insert('transactions',
-    [
-      'transaction_id' => $transaction_id,
-      'type' => 'Cash Payment',
-      'narration' => $narration,
-      'debit_account' => $head->id,
-      'credit_account' => $cred->id,
-      'amount' => $paid,
-      'transactions_date' => date('Y-m-d'),
-      'created_by' => \Yii::$app->user->identity->id,
-      
-    ])->execute();
-
 
 			if ($insert_invoice_head) {
 				$select_invoice = Yii::$app->db->createCommand("
 				    SELECT 	sale_inv_head_id
 				    FROM sale_invoice_head
 				    WHERE customer_id		= '$customer_id'
+				    AND branch_id = '$branch_id'
 					AND CAST(date as DATE) 	= '$invoice_date'
 					AND	total_amount		= '$total_amount'
 					AND	discount			= '$disc_amount'
@@ -180,14 +152,41 @@ use common\models\AccountHead;
 
 				$insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
 
-				'sale_inv_head_id' => $selectedInvHeadID,
-				'transaction_date'    	=> new \yii\db\Expression('NOW()'),
-				'paid_amount'    		=> $paid,
-				'transaction_id'	  => $transaction_id,
-				'created_by'			=> $user_id,
+					'sale_inv_head_id' => $selectedInvHeadID,
+					'transaction_date'    	=> new \yii\db\Expression('NOW()'),
+					'paid_amount'    		=> $paid,
+					//'transaction_id'	  => $transactionId,
+					'created_by'			=> $user_id,
+					])->execute();
 
-			])->execute();
+				if ($insert_invoice_amount) {
+					$invoice_amount = Yii::$app->db->createCommand("
+				    SELECT 	*
+				    FROM sale_invoice_amount_detail
+				    WHERE sale_inv_head_id	= '$selectedInvHeadID'
+				    ORDER BY s_inv_amount_detail DESC
+				    ")->queryAll();
+					$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
 
+					// getting current asset from Account Nature and cash debit account from account head;
+					$nature = AccountNature::find()->where(['name' => 'Asset'])->One();
+					$head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
+					$cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
+					$transactions = Yii::$app->db->createCommand()->insert('transactions',
+					[
+						'branch_id' => $branch_id,
+						'type' => 'Cash Payment',
+						'narration' => $narration,
+						'debit_account' => $cred->id,
+						'credit_account' => $head->id,
+						'amount' => $paid,
+						'ref_no' => $invoice_amount,
+						'ref_name' => "Sale",
+						'transactions_date' => $invoice_date,
+						'created_by' => \Yii::$app->user->identity->id,
+					 	
+					])->execute();				
+				}
 				for ($j=0; $j <$countItemArray ; $j++) {
 					$itemType = $ItemTypeArray[$j];
 					$quantity = $quantityArray[$j];
@@ -218,10 +217,10 @@ use common\models\AccountHead;
 							])->execute();
 
 				    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
-										'status'		=> "Sold",	
-										'updated_by'	=> $user_id
-				                        ],
-				                        ['stock_id' => $stock_id]
+								'status'		=> "Sold",	
+								'updated_by'	=> $user_id
+		                        ],
+		                        ['stock_id' => $stock_id]
 				            )->execute();
 			    		}
 			    	} //closing of quantity if 
@@ -248,15 +247,8 @@ use common\models\AccountHead;
 			    	} // closing of quantity else
 			    } // end of for loop itemarray
 			    // transaction commit
-			    //if($examScheduleUpdate){
-			    	$transaction->commit();
-				    echo json_encode($examScheduleUpdates);
-				    ?>
-				    <!-- <script type="text/javascript">
-						window.location = './paid-sale-invoice?sihID=<?php //echo $selectedInvHeadID; ?>&regno<?php //echo $regno; ?>'; 
-					</script> -->
-				<?php
-				//} // if($examScheduleUpdate)
+		    	$transaction->commit();
+			    echo json_encode($selectedInvHeadID);
 			} // end of if
 		} // closing of try block 
 		catch (Exception $e) {
@@ -264,7 +256,6 @@ use common\models\AccountHead;
 	 	 $transaction->rollback();
 		} // closing of catch block
 		//closing of transaction handling
-		//echo json_encode($insert_invoice_detail);
 	} // closing of isset
 		
 ?>

@@ -10,169 +10,12 @@ use common\models\Transactions;
 use common\models\AccountNature;
 use common\models\AccountHead;
 
-  $customerID = $_GET['customer_id'];
-  $regNoID = $_GET['regno'];
-
-  ?>
-
-  <?php 
-
- if(isset($_POST['insert_collect']))
- {
-   $customerID  = $_POST['custID'];
-   $invID       = $_POST['invID'];
-   $regNoID     = $_POST['regno'];
-   $netTotal    = $_POST['net_total'];
-   $paid_amount = $_POST['paid_amount'];
-   $remaining   = $_POST['remaining'];
-   $collect     = $_POST['collect'];
-   $status      = $_POST['status'];
-   $narration   = $_POST['narration'];
-   
-
-   $id   =Yii::$app->user->identity->id;
-
-     // starting of transaction handling
-     $transaction = \Yii::$app->db->beginTransaction();
-     try {
-      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
-
-     'net_total'        => $netTotal,
-     'paid_amount'      => $paid_amount,
-     'remaining_amount' => $remaining,
-     'status'           => $status,
-     'created_by'       => $id,
-    ],
-       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
-
-    )->execute();
-      $trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
-      $transaction_id =0;
-    if(empty($trans))
-    {
-      $transaction_id = '1';
-    }else
-    {
-      $transaction_id = $trans->transaction_id + 1;
-    }
-    // getting current asset from Account Nature and cash debit account from account head;
-    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
-    $head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
-    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Account Recievable'])->One();
-    Yii::$app->db->createCommand()->insert('transactions',
-    [
-      'transaction_id' => $transaction_id,
-      'type' => 'Cash Payment',
-      'narration' => $narration,
-      'debit_account' => $head->id,
-      'credit_account' => $cred->id,
-      'amount' => $collect,
-      'transactions_date' => date('Y-m-d'),
-      'created_by' => \Yii::$app->user->identity->id,
-      
-    ])->execute();
-      $insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
-
-        'sale_inv_head_id' => $invID,
-        'transaction_date'      => new \yii\db\Expression('NOW()'),
-        'paid_amount'       => $collect,
-        'transaction_id'  => $transaction_id,
-        'created_by'      => $id,
-
-      ])->execute();
-
-
-     // transaction commit
-     $transaction->commit();
-     header("Location: ./sale-invoice-view?customer_id=$customerID&&regno=$regNoID");
-        
-     } // closing of try block 
-     catch (Exception $e) {
-      // transaction rollback
-         $transaction->rollback();
-     } // closing of catch block
-     // closing of transaction handling
-}
+$customerID = $_GET['customer_id'];
+$regNoID = $_GET['regno'];
 
  ?>
 
- <?php 
-
- if(isset($_POST['update_invoice']))
- {
-   $customerID              = $_POST['custID'];
-   $invID                   = $_POST['invID'];
-   $regNoID                 = $_POST['regno'];
-  // $net_total               = $_POST['net_total'];
-   $updateDate              = $_POST['date'];
-   $updateDiscount          = $_POST['update_discount'];
-   $updatetotalamount       = $_POST['total_amount'];
-   $updatedpaidAmount       = $_POST['paid_amount'];
-   $updatenetTotal          = $_POST['net_total'];
-   $updateremainingAmount   = $_POST['remaining_amount'];
-   $updatestatus            = $_POST['status'];
-
-   $transactionDateArray    = $_POST['transaction_date'];
-   $paidAmountArray         = $_POST['detail_paid_amount'];
-   $saleInvAmountIDArray    = $_POST['saleInvAmountID'];
-   $transaction_update_id  = $_POST['transaction_id'];
-   
-   $id   =Yii::$app->user->identity->id;
-
-     // starting of transaction handling
-     $transaction = \Yii::$app->db->beginTransaction();
-     try {
-      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
-
-     'date' => $updateDate,
-     'total_amount' => $updatetotalamount,
-     'discount' => $updateDiscount,
-     'net_total' => $updatenetTotal,
-     'paid_amount' => $updatedpaidAmount,
-     'remaining_amount' => $updateremainingAmount,
-     'status' => $updatestatus,
-    ],
-       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
-
-    )->execute();
-
-    $countpaidAmountArray = count($paidAmountArray);
-
-    $counttransid = count($transaction_update_id);
-    for($j=0; $j<$counttransid; $j++)
-    {
-     $tran = Yii::$app->db->createCommand()->update('transactions',
-        [
-          'transactions_date' => $transactionDateArray[$j],
-          'amount' => $paidAmountArray[$j],
-          'narration' => 'After Updation paid '.$paidAmountArray[$j].' out of total ' .$updatetotalamount,
-        ],['transaction_id' => $transaction_update_id[$j]]
-      )->execute();
-    }
-
-    for($i=0; $i<$countpaidAmountArray; $i++){
-      $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
-      'transaction_date' => $transactionDateArray[$i],
-      'paid_amount' => $paidAmountArray[$i],
-      ],
-         ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $saleInvAmountIDArray[$i]]
-
-      )->execute();
-    }
-     // transaction commit
-     $transaction->commit();
-      header("Location: ./sale-invoice-view?customer_id=$customerID&regno=$regNoID");
-     
-        
-     } // closing of try block 
-     catch (Exception $e) {
-      // transaction rollback
-         $transaction->rollback();
-     } // closing of catch block
-     // closing of transaction handling
-}
-
- ?>
+ 
   <?php
 
   // getting customer name
@@ -270,7 +113,7 @@ use common\models\AccountHead;
             <div class="tab-content" style="background-color: #efefef;">
               <div class="active tab-pane" id="invoice"  style="background-color:lightgray;padding:10px;">
                 <div class="form-group">
-                        <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
+                  <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
                 </div>
                 <div class="row">
                   <div class="col-md-12">
@@ -333,9 +176,9 @@ use common\models\AccountHead;
                                 <?php } ?>
                               </select>
                             </div>
-                          <div class="form-group">
-                            <input type="hidden" name="amount" class="form-control" id="price" readonly="" >
-                          </div>
+                            <div class="form-group">
+                              <input type="hidden" name="amount" class="form-control" id="price" readonly="" >
+                            </div>
                           </div>
                           <div id="stock" style="display: none;">
                             <div class="form-group">
@@ -371,7 +214,6 @@ use common\models\AccountHead;
                               <input type="text" id="product_quantity" class="form-control">
                               <input type="hidden" id="hide_quantity" class="form-control">
                             </div>
-                            
                           </div>
                         </div>
                         <div class="col-md-3">
@@ -393,14 +235,12 @@ use common\models\AccountHead;
                         <div class="col-md-4">
                           <input type="hidden" id="remove_value">
                           <input type="text" placeholder="" class="form-control" id="removed_value" readonly="" style="display:none;">
-                          
                         </div>
                         <div class="col-md-4" style="display: none" id="check_quantity">
                           <input type="text" id="check_no" class="form-control" placeholder="Quantity To Remove" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                           <input type="hidden" id="check_no_quantity" >
                         </div>
                         <div class="col-md-2">
-                          
                           <button type="button" class="btn btn-warning btn-flat" id="remove" style="display:none;"><i class="fa fa-times"></i> Remove</button>
                         </div>
                       </div><br>
@@ -408,16 +248,14 @@ use common\models\AccountHead;
                         <div class="col-md-12">
                           <table class="table table-bordered" id="myTableData">
                             <thead>
-                                <th style="background-color: skyblue">Sr # </th>
-                                <th style="background-color: skyblue">Vehicle </th>
-                                <th style="background-color: skyblue">Item</th>
-                                <th style="background-color: skyblue">Type</th>
-                                <th style="background-color: skyblue">Quantity</th>
-                                <th style="background-color: skyblue">Amount</th>
-                              
+                              <th style="background-color: skyblue">Sr # </th>
+                              <th style="background-color: skyblue">Vehicle </th>
+                              <th style="background-color: skyblue">Item</th>
+                              <th style="background-color: skyblue">Type</th>
+                              <th style="background-color: skyblue">Quantity</th>
+                              <th style="background-color: skyblue">Amount</th>
                             </thead>
                             <tbody>
-                              
                             </tbody>
                           </table>
                         </div>
@@ -442,104 +280,92 @@ use common\models\AccountHead;
                   </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-responsive">                      
-                        <table class="table table-bordered">
-                            <thead style="background-color: #367FA9;color:white;">
-                                <tr>
-                                    <th class="text-center" style="vertical-align:middle;">Sr #</th>
-                                    <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
-                                    <th class="text-center" style="vertical-align:middle;">Date</th>
-                                    <th class="text-center" style="vertical-align:middle;">Amount</th>
-                                    <th class="text-center" style="vertical-align:middle;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
-                                <?php 
-
-                                    for ($i=0; $i <$countpaidinvoiceData ; $i++) {
-                                        
-                                        ?>
-                                        
-                                    <tr>
-                                        <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
-                                        <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
-                                        <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
-                                            echo $date; ?></td>
-                                        <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;text-align: center;">
-                                          <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
-                                          <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
-                                           <a href="sale-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
-                                        </td>
-                                    </tr>   
-                                
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                        </div>
+                  <div class="col-md-12">
+                    <div class="table-responsive">                      
+                      <table class="table table-bordered">
+                        <thead style="background-color: #367FA9;color:white;">
+                          <tr>
+                            <th class="text-center" style="vertical-align:middle;">Sr #</th>
+                            <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
+                            <th class="text-center" style="vertical-align:middle;">Date</th>
+                            <th class="text-center" style="vertical-align:middle;">Amount</th>
+                            <th class="text-center" style="vertical-align:middle;">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
+                          <?php for ($i=0; $i <$countpaidinvoiceData ; $i++) { ?>   
+                            <tr>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
+                              <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
+                              <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($paidinvoiceData[$i]['date']));
+                                  echo $date; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
+                              <td class="text-center" style="vertical-align:middle;text-align: center;">
+                                <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
+                                <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                 <a href="sale-invoice-transaction?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>&regno=<?=$regNoID?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
+                              </td>
+                            </tr>  
+                            <?php } ?>
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
                 </div>
               </div>
               <div class="tab-pane" id="credit" style="background-color:lightgray;padding:10px;">
-                  <div class="row">
-                    <div class="col-md-8">
-                        <h3 class="text-info" style="vertical-align: middle;">Credit Invoices</h3>
-                    </div>
-                            <?php
-                              $totalcreditAmount=0;
-                                for ($i=0; $i <$countcreditinvoiceData ; $i++) {
-                                     $totalcreditAmount += $creditinvoiceData[$i]['remaining_amount'];
-                                }        
-                            ?>
-                    <div class="col-md-4">
-                        <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
-                    </div>
+                <div class="row">
+                  <div class="col-md-8">
+                    <h3 class="text-info" style="vertical-align: middle;">Credit Invoices</h3>
+                  </div>
+                  <?php
+                    $totalcreditAmount=0;
+                    for ($i=0; $i <$countcreditinvoiceData ; $i++) {
+                      $totalcreditAmount += $creditinvoiceData[$i]['remaining_amount'];
+                    }        
+                  ?>
+                  <div class="col-md-4">
+                    <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
+                  </div>
                 </div>    
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-responsive">                      
-                        <table class="table table-bordered">
-                            <thead style="background-color: #367FA9;color:white;">
-                                <tr>
-                                    <!-- <th class="t-cen" style="vertical-align:middle;">Sr #</th> -->
-                                    <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
-                                     <th style="vertical-align:middle;text-align: center;">Sr.#</th>
-                                    <th style="vertical-align:middle;text-align: center;">Date</th>
-                                    <th style="vertical-align:middle;text-align: center;">Total<br>Amount</th>
-                                    <th style="vertical-align:middle;text-align: center;">Paid<br>Amount</th>
-                                    <th style="vertical-align:middle;text-align: center;">Remaining<br>Amount</th>
-                                    <th style="vertical-align:middle;text-align: center;">Status</th>
-                                    <th style="vertical-align:middle;text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
-                                <?php 
-
-                                    for ($i=0; $i <$countcreditinvoiceData ; $i++) {
-                                        
-                                        ?>
-                                        
-                                    <tr>
-                                        <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
-                                        <!-- <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
-                                        <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
-                                            echo $date;?></td>
-                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
-                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
-                                         <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
-                                        <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;text-align: center;"><a href="./credit-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a><br>
-                                        <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a><br>
-                                        <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
-                                        </td>
-                                    </tr>   
-                                
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                        </div>
+                  <div class="col-md-12">
+                    <div class="table-responsive">                      
+                      <table class="table table-bordered">
+                        <thead style="background-color: #367FA9;color:white;">
+                          <tr>
+                            <!-- <th class="t-cen" style="vertical-align:middle;">Sr #</th> -->
+                            <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
+                             <th style="vertical-align:middle;text-align: center;">Sr.#</th>
+                            <th style="vertical-align:middle;text-align: center;">Date</th>
+                            <th style="vertical-align:middle;text-align: center;">Total<br>Amount</th>
+                            <th style="vertical-align:middle;text-align: center;">Paid<br>Amount</th>
+                            <th style="vertical-align:middle;text-align: center;">Remaining<br>Amount</th>
+                            <th style="vertical-align:middle;text-align: center;">Status</th>
+                            <th style="vertical-align:middle;text-align: center;">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
+                          <?php for ($i=0; $i <$countcreditinvoiceData ; $i++) {  ?>
+                            <tr>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
+                              <!-- <td style="vertical-align:middle;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
+                              <td style="vertical-align:middle;text-align: center;"><?php $date = date('d-M-Y',strtotime($creditinvoiceData[$i]['date']));
+                                  echo $date;?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
+                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
+                              <td class="text-center" style="vertical-align:middle;text-align: center;"><a href="./paid-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&regno=<?=$regNoID?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a><br>
+                              <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a><br>
+                              <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>&regno=<?=$regNoID?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
+                              </td>
+                            </tr>   
+                          <?php } ?>
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
                 </div>
               </div>
               <div class="tab-pane" id="customer" style="background-color:lightgray;padding:10px;">
@@ -670,14 +496,11 @@ use common\models\AccountHead;
                       </tr>
                     </thead>
                     <tbody>
-                      <?php 
-
-                        for ($i=0; $i <$countcustomerVehicles ; $i++) {
+                      <?php  for ($i=0; $i <$countcustomerVehicles ; $i++) {
 
                       $vehicleSubTypId = $customerVehicles[$i]['vehicle_typ_sub_id'];
 
-                      
-                    $vehicleSubType = Yii::$app->db->createCommand("
+                      $vehicleSubType = Yii::$app->db->createCommand("
                       SELECT *
                       FROM vehicle_type_sub_category
                       WHERE vehicle_typ_sub_id = '$vehicleSubTypId'
@@ -694,10 +517,8 @@ use common\models\AccountHead;
                           <td class="text-center" style="vertical-align:middle;"><img src="<?php echo $customerVehicles[$i]['image']; ?>" class="img-thumbnail" alt="Image" style="width:140px; height:100px;"/></td>
                           <td class="text-center" style="vertical-align:middle;"><a href="customer-vehicles-update?id=<?php echo $customerVehicles[$i]['customer_vehicle_id'] ?>&regno=<?=$regNoID?>" title="Edit" class="label label-info"><i class="glyphicon glyphicon-edit"></i> Edit</a></td>
                         </tr> 
-                      
                       <?php } ?>
                     </tbody>
-                      
                   </table>
                   </div>
                 </div>
@@ -723,55 +544,51 @@ use common\models\AccountHead;
           </div>
           <div class="row" >
             <div class="col-md-12">
-         
-                <div class="form-group">
-                  <label>Total Amount</label>
-                  <input type="text" name="total_amount" class="form-control" readonly="" id="tp" value="0">
-                </div>
-                <div class="form-group">
-					<label>Discount</label>
-
-					  <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
-            <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
-					<input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-
-					<input type="hidden" id="name" >
-					<input type="hidden" id="vehicle_name" >
-				</div>
-                <div class="form-group">
-                  <label>Net Total</label>
-                  <input type="text" name="net_total" class="form-control" id="nt"readonly="">
-                </div>
-                <div class="form-group">
-                  <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-                </div>
-                <div class="form-group">
-                  <label>Remaining</label>
-                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
-                </div>
-                <div class="form-group">
-                  <label>Cash Return</label>
-                  <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
-                </div>
-                <div class="form-group">
-                  <label>Status</label>
-                  <input type="text" name="status" class="form-control" readonly="" id="status" value="Unpaid">
-                </div>
-                <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label>Narration</label>
-                  <input type="text" name="narration" id="narration" class="form-control" required="">
+              <div class="form-group">
+                <label>Total Amount</label>
+                <input type="text" name="total_amount" class="form-control" readonly="" id="tp" value="0">
+              </div>
+              <div class="form-group">
+  					     <label>Discount</label>
+  					       <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
+                  <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
+  					      <input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+  					     <input type="hidden" id="name" >
+  					     <input type="hidden" id="vehicle_name" >
+				      </div>
+              <div class="form-group">
+                <label>Net Total</label>
+                <input type="text" name="net_total" class="form-control" id="nt"readonly="">
+              </div>
+              <div class="form-group">
+                <label>Paid</label>
+                <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+              </div>
+              <div class="form-group">
+                <label>Remaining</label>
+                <input type="text" name="remain" class="form-control" readonly="" id="remaining">
+              </div>
+              <div class="form-group">
+                <label>Cash Return</label>
+                <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
+              </div>
+              <div class="form-group">
+                <label>Status</label>
+                <input type="text" name="status" class="form-control" readonly="" id="status" value="Unpaid">
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Narration</label>
+                    <input type="text" name="narration" id="narration" class="form-control">
+                  </div>
                 </div>
               </div>
-            </div>
-                <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
-                </div>
-                <hr>
-                <button class="btn btn-success btn-block btn-flat" id="insert" >
-                	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
-              
+              <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
+              </div>
+              <hr>
+              <button class="btn btn-success btn-block btn-flat" id="insert" >
+              	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
             </div>
           </div>
         </div>
@@ -788,11 +605,10 @@ use common\models\AccountHead;
 	let amountArray 				= new Array();
 	let ItemTypeArray       = new Array();
   let quantityArray       = new Array();
-
   let tempProductArray    = new Array();
   let tempquantityArray   = new Array();
-
 	let user_id = <?php echo $id; ?>;
+  let branch_id = <?php echo Yii::$app->user->identity->branch_id; ?>;
 	let customer_id        = <?php echo $customerID; ?>;
   let regno        = <?php echo $regNoID; ?>;
 	let rIndex;
@@ -806,70 +622,59 @@ use common\models\AccountHead;
     var total = $('#tp').val();
     $('#nt').val(total);
     $('#remaining').val(total);
-    $('#paid').val("");
-     
+    $('#paid').val(""); 
   }
   
-function discountFun(){
-        // Getting the value from the original price
-       originalPrice = parseInt(document.getElementById("tp").value);
+  function discountFun(){
+    // Getting the value from the original price
+    originalPrice = parseInt(document.getElementById("tp").value);
 
-       disco = document.getElementById("disc").value;
-       if (disco =="" || disco == null) {
-              $('#nt').val(originalPrice);
-              $('#remaining').val(originalPrice);
-              $('#paid').val("0");
-              $('#cash_return').val("0"); 
-          }else{      
+    disco = document.getElementById("disc").value;
+    if (disco =="" || disco == null) {
+      $('#nt').val(originalPrice);
+      $('#remaining').val(originalPrice);
+      $('#paid').val("0");
+      $('#cash_return').val("0"); 
+    }else{      
+      if(document.getElementById('percentage').checked){
+          	
+        discount = parseInt(document.getElementById("disc").value);
         
-          if(document.getElementById('percentage').checked)
-              {
-              	
-            discount = parseInt(document.getElementById("disc").value);
-            
-            discountReceived = parseInt((originalPrice*discount)/100);
-            
-            purchasePrice = originalPrice-discountReceived;
-            $('#nt').val(purchasePrice);
-            if($('#paid').val()!="" || $('#paid').val()!=null){
-              remaining = purchasePrice-$('#paid').val();
-              $('#remaining').val(remaining);
-            }
-
-              
-            }
-            else if(document.getElementById('amount').checked)
-            {
-            	
-            discount = parseInt(document.getElementById("disc").value);
-
-
-            purchasePrice = originalPrice - discount;
-            //alert(purchasePrice);
-              //discountReceived = discount;
-             $('#nt').val(purchasePrice);
+        discountReceived = parseInt((originalPrice*discount)/100);
+        
+        purchasePrice = originalPrice-discountReceived;
+        $('#nt').val(purchasePrice);
+        if($('#paid').val()!="" || $('#paid').val()!=null){
+          remaining = purchasePrice-$('#paid').val();
+          $('#remaining').val(remaining);
+        }       
+      } else if(document.getElementById('amount').checked) {
+          discount = parseInt(document.getElementById("disc").value);
+          purchasePrice = originalPrice - discount;
+          //alert(purchasePrice);
+          //discountReceived = discount;
+          $('#nt').val(purchasePrice);
              
-             if($('#paid').val()!="" || $('#paid').val()!=null){
-              remaining = purchasePrice-$('#paid').val();
-              $('#remaining').val(remaining);
-            }
-            }
-            //$('#insert').show(); 
-            //$("#insert").removeAttr("disabled");
-            if (purchasePrice < 0) {
-              //$('#insert').hide();
-              $("#insert").attr("disabled", true);
-              $('#alert').css("display","block");
-              $('#alert').html("&ensp;Discount Cannot Be Greater Than Total Amount");
-            }else{
-              $('#alert').css("display","none");
-              $("#insert").removeAttr("disabled");
-            }
-            $('#paid').val("0"); 
-            $('#remaining').val(purchasePrice);
-
+          if($('#paid').val()!="" || $('#paid').val()!=null){
+            remaining = purchasePrice-$('#paid').val();
+            $('#remaining').val(remaining);
+          }
       }
-      }
+        //$('#insert').show(); 
+        //$("#insert").removeAttr("disabled");
+        if (purchasePrice < 0) {
+          //$('#insert').hide();
+          $("#insert").attr("disabled", true);
+          $('#alert').css("display","block");
+          $('#alert').html("&ensp;Discount Cannot Be Greater Than Total Amount");
+        }else{
+          $('#alert').css("display","none");
+          $("#insert").removeAttr("disabled");
+        }
+        $('#paid').val("0"); 
+        $('#remaining').val(purchasePrice);
+    }
+  }
 
       function deleteRow(tableID) 
       {
@@ -1555,7 +1360,6 @@ $('#product_quantity').on("change",function(){
     // krajeeDialog.confirm('Are you sure to add bill', function(out){
     // if(out) {    
 			var invoice_date = $('#invoice_date').val();
-      //pro_quantity
 			customer_id;
       regno;
 			vehicleArray;
@@ -1572,6 +1376,8 @@ $('#product_quantity').on("change",function(){
 		    var status = $('#status').val();
         var narration = $('#narration').val();
       var cash_return = $('#cash_return').val();
+
+      // alert(customer_id +"-"+ regno +"-"+ vehicleArray +"-"+ serviceArray +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ narration +"-"+ cash_return);
       
 			if(invoice_date=="" || invoice_date==null){
 				alert('Please Select the date ');
@@ -1588,36 +1394,38 @@ $('#product_quantity').on("change",function(){
         alert('Please Enter the Paid Amount');
         $('#paid').css("border", "1px solid red");
         $('#nt').css("border", "1px solid white");
-        
         $('#paid').focus();
       }
-					else{
-						$.ajax({
-			        type:'post',
-			        data:{
-			        	user_id:user_id,
-						    vehicleArray:vehicleArray,
-	        			invoice_date:invoice_date,
-    						customer_id:customer_id,
-                regno:regno,
-    						paid:paid,
-                narration:narration,
-    						remaining:remaining,
-                cash_return:cash_return,
-    						status:status,
-    						serviceArray:serviceArray,
-    						amountArray:amountArray,
-    						ItemTypeArray:ItemTypeArray,
-    						total_amount:total_amount,
-                quantityArray:quantityArray,
-    						net_total:net_total
-	        	},
+			else{
+				$.ajax({
+		      type:'post',
+		      data:{
+	        	user_id:user_id,
+            branch_id:branch_id,
+      			invoice_date:invoice_date,
+						customer_id:customer_id,
+            regno:regno,
+            vehicleArray:vehicleArray,
+						paid:paid,
+            narration:narration,
+						remaining:remaining,
+            cash_return:cash_return,
+						status:status,
+						serviceArray:serviceArray,
+						amountArray:amountArray,
+						ItemTypeArray:ItemTypeArray,
+						total_amount:total_amount,
+            quantityArray:quantityArray,
+						net_total:net_total
+        	},
 	        url: "$url",
 	        success: function(result){
-            console.log(result);
+            
             if(result){
+              
               //var sIHId = $.parseJSON(result); 
-              window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';        
+              console.log(result);
+             window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';        
             }
 	        }      
     	  }); // ajax 
@@ -1629,3 +1437,4 @@ $('#product_quantity').on("change",function(){
 JS;
 $this->registerJs($script);
 ?>
+
