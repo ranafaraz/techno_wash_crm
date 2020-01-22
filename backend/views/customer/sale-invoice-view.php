@@ -266,6 +266,7 @@ $regNoID = $_GET['regno'];
                       <input type="hidden" id="serviceDetailId">
                       <input type="hidden" id="productSellingPrice">
                       <input type="hidden" id="productName">
+                      <input type="hidden" id="saleInvId">
                     </div>
                   </div>
                 </div> 			
@@ -740,6 +741,12 @@ $regNoID = $_GET['regno'];
         //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
         // }
 
+      }
+
+      function bill(){
+        var saleId = $('#saleInvId').val();
+        
+        window.location = './paid-sale-invoice?sihID='+saleId+'&regno='+regno;
       }
 </script>
 <?php
@@ -1335,7 +1342,7 @@ $('#product_quantity').on("change",function(){
         $("#productSellingPrice").val("");
         //$('#vehicle').val("");
         $('#item_type').val("");
-        $('#types').hide();
+        //$('#types').hide();
         $('#stock').hide();
         $('#servic').hide();
         $('#pname').hide();
@@ -1422,10 +1429,9 @@ $('#product_quantity').on("change",function(){
 	        success: function(result){
             
             if(result){
-              
-              //var sIHId = $.parseJSON(result); 
-              console.log(result);
-             window.location = './sale-invoice-view?customer_id=$customerID&regno=$regNoID';        
+             var sIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+             $('#saleInvId').val(sIHId[0]);
+                bill();
             }
 	        }      
     	  }); // ajax 

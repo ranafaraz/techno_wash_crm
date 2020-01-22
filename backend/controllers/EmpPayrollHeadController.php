@@ -287,17 +287,7 @@ class EmpPayrollHeadController extends Controller
                     $payrollDetail->status = $model->status;
                     $payrollDetail->save();
                 }
-                                    // transaction 
-
-
-    $trans = Transactions::find()->orderBy(['transaction_id' => SORT_DESC])->One();
-    if(empty($trans))
-    {
-      $transaction_id = '1';
-    }else
-    {
-      $transaction_id = $trans->transaction_id + 1;
-    }
+      
     // getting current asset from Account Nature and cash debit account from account head;
     $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
     $nature1 = AccountNature::find()->where(['name' => 'Expense'])->One();
@@ -306,13 +296,15 @@ class EmpPayrollHeadController extends Controller
     $emplo = Employee::find()->where(['emp_id' => $model->emp_id])->One();
     Yii::$app->db->createCommand()->insert('transactions',
     [
-      'transaction_id' => $transaction_id,
+      'branch_id' => Yii::$app->user->identity->branch_id,
       'type' => 'Cash Payment',
       'narration' => 'Employee Salary Paid to <b>'.$emplo->emp_name.'</b> Rs <b>'.$model->paid_amount.'</b> for the month <b>'. $payment_month .'-'.$payment_year.'</b> ',
       'debit_account' => $head->id,
       'credit_account' => $cred->id,
       'amount' => $model->paid_amount,
       'transactions_date' => date('Y-m-d'),
+      'ref_no' => $model->emp_id,
+      'ref_name' => "Employee",
       'created_by' => \Yii::$app->user->identity->id,
       
     ])->execute();

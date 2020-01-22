@@ -42,7 +42,7 @@ tr td{
 <body>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
+		<div class="col-md-6 col-md-offset-3">
 			<div class="box box-default">
 				<div class="box-body">
 					<p style="color:#3C8DBC;font-size:25px;text-align: center;font-family:georgia;margin-bottom:-15px;">Pay Invoice</p>

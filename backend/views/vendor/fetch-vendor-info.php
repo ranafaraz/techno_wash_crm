@@ -217,7 +217,7 @@
 			} // end of for loop
 		    // transaction commit
 	    	$transaction->commit();
-		    echo json_encode($insert_stock);
+		    echo json_encode("[".$selectedPurchInvID."]");
 		} // end of if
 	} // closing of try block 
 	catch (Exception $e) {

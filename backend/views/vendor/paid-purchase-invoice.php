@@ -3,15 +3,12 @@
   if (isset($_GET['piID']) && isset($_GET['vendorID'])) {
 	$purchaseInvID = $_GET['piID'];
 	$vendorID = $_GET['vendorID'];
-	$status = $_GET['status'];
-	$status2 = $_GET['status2'];
 
 	$invoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
     AND  purchase_invoice_id = '$purchaseInvID'
-    AND (status = '$status' OR status = '$status2')
     ")->queryAll();
     $date = date('d-M-Y',strtotime($invoiceData[0]['created_at']));
     $time = date('h:i a',strtotime($invoiceData[0]['created_at']));

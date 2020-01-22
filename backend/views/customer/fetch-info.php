@@ -2,7 +2,7 @@
 use common\models\Transactions;
 use common\models\AccountNature;
 use common\models\AccountHead;
-
+use yii\helpers\Json;
 	if(isset($_POST['PRODUCTid']))
 	{
 		$PRODUCTid = $_POST['PRODUCTid'];
@@ -248,7 +248,7 @@ use common\models\AccountHead;
 			    } // end of for loop itemarray
 			    // transaction commit
 		    	$transaction->commit();
-			    echo json_encode($selectedInvHeadID);
+			    echo Json::encode("[".$selectedInvHeadID."]");
 			} // end of if
 		} // closing of try block 
 		catch (Exception $e) {

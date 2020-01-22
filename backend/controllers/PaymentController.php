@@ -114,7 +114,7 @@ public function actionGetPayment($debit_account,$title_id)
         // $model->updated_at = date('Y-m-d h:m:s');
         $model->transactions_date = date('Y-m-d h:m:s');
         // $model->transaction_type='payment';
-        $model1 = Payment::find('transaction_id')->orderBy(['id' => SORT_DESC])->One();
+        $model1 = Payment::find('transaction_id')->orderBy(['transaction_id' => SORT_DESC])->One();
         if($model1 == "")
         {
             $model->transaction_id = '1';
@@ -148,6 +148,7 @@ public function actionGetPayment($debit_account,$title_id)
                             }
                             $connection->createCommand()->update('account_payable',
                                     [
+                                        'branch_id' => Yii::$app->user->identity->branch_id,
                                         'amount'=>$amount,
                                         'narration' => $model->payable_narration,
                                         'updated_at'=>date('Y-m-d h:m:s'),
@@ -182,6 +183,7 @@ public function actionGetPayment($debit_account,$title_id)
                             $remaning = $remaning - $model->credit_amount;
                             $connection->createCommand()->update('account_payable',
                                     [
+                                        'branch_id' => Yii::$app->user->identity->branch_id,
                                         'amount'=>$remaning,
                                         'narration' => $model->payable_narration,
                                         'updated_at'=>date('Y-m-d h:m:s'),
@@ -217,7 +219,8 @@ public function actionGetPayment($debit_account,$title_id)
                                
                                 // $remaning1 = $model->debit_amount - $model->prev_remaning;
                                 $connection->createCommand()->update('account_payable',
-                                    [
+                                    [   
+                                        'branch_id' => Yii::$app->user->identity->branch_id,
                                         'amount'=>$remaning,
                                         'updated_at'=>date('Y-m-d h:m:s'),
                                         'updated_by'=>\Yii::$app->user->identity->username,
@@ -252,6 +255,7 @@ public function actionGetPayment($debit_account,$title_id)
                                 // $remaning1 = $model->debit_amount - $model->prev_remaning;
                                 $connection->createCommand()->update('account_payable',
                                     [
+                                        'branch_id' => Yii::$app->user->identity->branch_id,
                                         'amount'=>$remaning,
                                         'updated_at'=>date('Y-m-d h:m:s'),
                                         'updated_by'=>\Yii::$app->user->identity->username,
@@ -285,7 +289,8 @@ public function actionGetPayment($debit_account,$title_id)
 
                         {
                             $connection->createCommand()->update('account_payable',
-                                    [
+                                    [   
+                                        'branch_id' => Yii::$app->user->identity->branch_id,
                                         'amount'=>0,
                                         'updated_at'=>date('Y-m-d h:m:s'),
                                         'updated_by'=>\Yii::$app->user->identity->username,
@@ -323,7 +328,8 @@ public function actionGetPayment($debit_account,$title_id)
                         // Account Payable Query FOr remaning Amount;
 
                         $connection->createCommand()->Insert('account_payable',
-                            [
+                            [   
+                                'branch_id' => Yii::$app->user->identity->branch_id,
                                 'amount'=>$remaning,
                                 'account_payable'=>$model->debit_account,
                                 'due_date'=>$accountpayable->due_date,

@@ -65,7 +65,7 @@ class Payment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            //'id' => 'ID',
             'transaction_id' => 'Transaction ID',
             'type' => 'Type',
             'narration' => 'Narration',

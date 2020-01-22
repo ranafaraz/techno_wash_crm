@@ -18,7 +18,7 @@ class PaymentSearch extends Payment
     public function rules()
     {
         return [
-            [['id', 'transaction_id', 'credit_account'], 'integer'],
+            [['transaction_id', 'credit_account'], 'integer'],
             [['type', 'narration', 'transactions_date', 'ref_no', 'created_by', 'debit_account','amount','account_title_id'], 'safe'],
         ];
     }
@@ -57,7 +57,7 @@ class PaymentSearch extends Payment
 
         $query->joinWith('debitAccount');
         $query->andFilterWhere([
-            'id' => $this->id,
+            //'id' => $this->id,
             'amount' => $this->amount,
             'credit_account' => $this->credit_account,
             'transactions_date' => $this->transactions_date,

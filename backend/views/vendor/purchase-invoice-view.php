@@ -68,7 +68,7 @@ body th{
 } 
 body td{
   vertical-align:middle !important;
-}    
+}
 </style>
 <body>
 <div class="container-fluid">
@@ -276,7 +276,7 @@ body td{
                                         <td  style="text-align: center;"><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['purchase_date']));
                                             echo $date; ?></td>
                                             <td class="text-center">
-                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>&status=Paid&status2=paid" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
+                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
                                               </a><br>
                                               <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a><br>
                                               <a href="./purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
@@ -346,7 +346,7 @@ body td{
                                             echo $date; ?></td>
                                         <td style="text-align: center;"><?php echo $credit_invoice[$i]['status']; ?></td>
                                         <td class="text-center" style="vertical-align:middle;">
-                                          <a href="./paid-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>&status=Unpaid&status2=Partially" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
+                                          <a href="./paid-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
                                           </a><br>
                                           <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Pay</a><br>
                                            <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
@@ -364,7 +364,7 @@ body td{
               <div class="tab-pane" id="profile"  style="background-color:lightgray;padding:10px;">
             	<div class="row">
             		<div class="col-md-12">
-            			 <a href="./vendor-update?id=<?php echo $vendorID;?>" class="btn btn-info" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
+            			 <a href="./vendor-update?id=<?php echo $vendorID;?>" class="btn btn-info btn-xs" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
             				<i class="glyphicon glyphicon-edit"></i> Edit
             			</a>
             		</div>
@@ -435,6 +435,7 @@ body td{
           					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
           					<input type="hidden" id="name" >
           					<input type="hidden" id="vehicle_name" >
+                    <input type="hidden" id="purchaseinvId" >
           				</div>
                 <div class="form-group">
                   <label>Net Total</label>
@@ -607,6 +608,11 @@ body td{
     //   $('#alert').css("display","block");
     //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
     // }
+  }
+  function bill(){
+    var pId = $('#purchaseinvId').val();
+    
+    window.location = './paid-purchase-invoice?piID='+pId+'&vendorID='+vendorID;
   }
 
 
@@ -1195,7 +1201,9 @@ $('#insert').click(function(){
           success: function(result){ 
             console.log(result);
         		if(result){
-              window.location = './purchase-invoice-view?vendor_id=$vendorID';
+              var pIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+              $('#purchaseinvId').val(pIHId[0]);
+                bill();
       			}     	
         	}      
       	}); 	
