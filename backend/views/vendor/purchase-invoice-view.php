@@ -47,7 +47,7 @@ use kartik\dialog\Dialog;
     SELECT *
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
-    AND (status = 'Partially')
+    AND (status = 'Partially' OR status = 'Unpaid')
     ORDER BY purchase_invoice_id DESC
     ")->queryAll();
   $count_credit_invoice = count($credit_invoice);
@@ -59,11 +59,9 @@ use kartik\dialog\Dialog;
   <title></title>
 </head>
 <style type="text/css" media="screen">
-#myTableData thead tr:hover{
-      background-color: #ECF0F5;
+    #myTableData thead tr:hover{
       cursor: pointer;
-    }
-body th{
+    }body th{
   vertical-align:middle !important;
 } 
 body td{
@@ -230,8 +228,7 @@ body td{
                       						<th style="background-color: #3C8DBC;color:white;">Qty</th>
 										</tr>
 									</thead>
-									<tbody style="background-color:lightgray;color:black;">
-										
+									<tbody>
 									</tbody>
 								</table>
 							</div>
@@ -348,8 +345,8 @@ body td{
                                         <td class="text-center" style="vertical-align:middle;">
                                           <a href="./paid-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
                                           </a><br>
-                                          <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Pay</a><br>
-                                           <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                          <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="label label-success"><i class="fa fa-money"></i> Pay</a><br>
+                                           <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="label label-info"><i class="fa fa-edit"></i> Update</a>
                                         </td>
                                       </tr>   
                                 
@@ -379,19 +376,19 @@ body td{
                         </th>
                       </tr>
             					<tr>
-            						<th style="background-color:lightgray;color:black;">Branch Name:</th>
+            						<th style="background-color:white;color:black;">Branch Name:</th>
             						<td class="t-cen" style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;text-align: center;">
             							<?php echo $branchData->branch_name; ?>
             						</td>
             					</tr>
                       <tr>
-                        <th style="background-color:lightgray;color:black;">Vendor Name:</th>
+                        <th style="background-color:white;color:black;">Vendor Name:</th>
                         <td class="t-cen" style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;text-align: center;">
                           <?php echo $vendorData[0]['name']; ?>
                         </td>
                       </tr>
             					<tr>
-            						<th style="background-color:lightgray;color:black;">Vendor NTN:</th>
+            						<th style="background-color:white;color:black;">Vendor NTN:</th>
             						<td class="t-cen" style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;text-align: center;">
             							<?php echo $vendorData[0]['ntn']; ?>
             						</td>

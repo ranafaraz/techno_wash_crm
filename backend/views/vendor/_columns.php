@@ -37,12 +37,12 @@ return [
                         if (empty($model->vendor_id) || empty($model->vendor_id)) {
                             return;
                         }
-                        return Html::a($model->name, [ './purchase-invoice-view','vendor_id' => $model->vendor_id ], ['id' => $model->vendor_id , 'target' => '_self', 'data' => ['pjax' => 0]] );
+                        return Html::a($model->name, [ './purchase-invoice-view','vendor_id' => $model->vendor_id ], ['id' => $model->vendor_id , 'target' => '_self','style'=>'color:white;', 'data' => ['pjax' => 0]] );
                     },
         'contentOptions' => function ($model, $key, $index, $column) {
         return ['class' => 'text-center','style' => 'background-color:' 
             . (!empty($model->vendor_id) && $model->vendor_id / $model->vendor_id < 2
-                ? '#c1efba' : 'black')];
+                ? '#72B6DE' : 'black')];
         },
     ],
     [

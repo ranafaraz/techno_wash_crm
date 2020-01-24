@@ -24,7 +24,6 @@ use kartik\dialog\Dialog;
     WHERE vendor_id = '$vendorID' 
     AND  purchase_invoice_id = '$purchaseInvID'
     ")->queryAll();
-
 ?>
 <!DOCTYPE html>
 <html>

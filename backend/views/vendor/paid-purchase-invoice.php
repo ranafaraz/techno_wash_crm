@@ -10,8 +10,9 @@
     WHERE vendor_id = '$vendorID' 
     AND  purchase_invoice_id = '$purchaseInvID'
     ")->queryAll();
-    $date = date('d-M-Y',strtotime($invoiceData[0]['created_at']));
-    $time = date('h:i a',strtotime($invoiceData[0]['created_at']));
+    date_default_timezone_set("Asia/Karachi");
+    $date = date('d-M-y');
+    $time = date('h:i A');
 
     // echo $date."<br>";
     // echo $time;
@@ -108,17 +109,17 @@
 						    ")->queryAll();
 					 ?>
 					<table class="table table-bordered">
-						<thead style="background-color: #3C8DBC !important;color:white;">
+						<thead>
 							<tr>
 								<th colspan="6" style="text-align: center;background-color:lightgray !important;"> Stock: <?php echo $stockTypeName[0]['name'];?></th>
 							</tr>
 							<tr>
-								<th style="background-color: #f1f1f1 !important;">Sr #</th>
-								<th style="background-color: #f1f1f1 !important;">Product</th>
-								<th style="background-color: #f1f1f1 !important;">Manufacturer</th>
-								<th style="background-color: #f1f1f1 !important;">Price</th>
-								<th style="background-color: #f1f1f1 !important;">Quantity</th>
-								<th style="background-color: #f1f1f1 !important;">Total</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Sr #</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Product</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Manufacturer</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Price</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Quantity</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -168,9 +169,9 @@
 
 							?>
 							<tr>
-								<th style="text-align: left;"><?php echo $j+1; ?></th>
-								<th style="text-align: left;"><?php echo $productData[0]['product_name']; ?></th>
-								<th style="text-align: left;"><?php echo $manufacturerName[0]['name']; ?></th>
+								<th style="text-align: center;"><?php echo $j+1; ?></th>
+								<th style="text-align: center;"><?php echo $productData[0]['product_name']; ?></th>
+								<th style="text-align: center;"><?php echo $manufacturerName[0]['name']; ?></th>
 								<th style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></th>
 								<th style="text-align: center;"><?php echo $countStock; ?></th>
 								<th style="text-align: center;">
@@ -196,12 +197,7 @@
 						</thead>
 					</table>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					
-				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-6 col-md-offset-3">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -235,7 +231,7 @@
 						</thead>
 					</table>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-6 col-md-offset-3">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -244,7 +240,6 @@
 								</td>
 								<td style="text-align: center;">
 									<?php 
-
 										echo Yii::$app->user->identity->username;
 									?>
 								</td>
@@ -252,7 +247,7 @@
 						</thead>
 					</table>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-6 col-md-offset-3">
 					<tr style="border:none;" class="footer">
 						<td colspan="2" style="border:0px !important;" class="footer">
 							<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>

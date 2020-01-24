@@ -46,7 +46,7 @@ return [
         'contentOptions' => function ($model, $key, $index, $column) {
         return ['class' => '','style' => 'background-color:' 
             . (!empty($model->customer_id) && $model->customer_id / $model->customer_id < 2
-                ? '#3C8DBC' : 'black')];
+                ? '#72B6DE' : 'black')];
         },
     ],
     // [

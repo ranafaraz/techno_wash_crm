@@ -370,25 +370,20 @@ $regNoID = $_GET['regno'];
                 </div>
               </div>
               <div class="tab-pane" id="customer" style="background-color:lightgray;padding:10px;">
-                <div class="row">
-                <div class="col-md-11">
-                  <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Details</h3>
-                </div>
-                <div class="col-md-1">
-                   <a href="./customer-update?id=<?php echo $customerID;?>&regno=<?=$regNoID?>" class="btn btn-info" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
+              <div class="row">
+                <div class="col-md-12">
+                   <a href="./customer-update?id=<?php echo $customerID;?>&regno=<?=$regNoID?>"  class="btn btn-info btn-xs" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
                     <i class="glyphicon glyphicon-edit"></i> Edit
                   </a>
                 </div>
               </div>
-              <div class="row" style="margin-bottom:10px;">
+              <div class="row" style="margin-bottom:0px;">
                 <div class="col-md-12">
                   <table class="table table-bordered">
                     <thead style="background-color: #367FA9;color:white;">
                       <tr>
-                        <th class="text-center">
-                    <?php
-                          echo "Customer Name: <b style='font-size:15px; font-family:georgia;'>".$customerData[0]['customer_name']."</b>";
-                    ?>
+                        <th class="text-info" colspan="2" style="text-align: center;font-size:20px;background-color:#367FA9;color:#ffffff;">
+                            Customer Details
                         </th>
                       </tr>
                     </thead>
@@ -400,38 +395,44 @@ $regNoID = $_GET['regno'];
                   <table class="table table-bordered">
                     <thead>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Branch Name:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Customer Name:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
+                          <?php echo $customerData[0]['customer_name']; ?>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Branch Name:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $branchData->branch_name; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Gender:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Gender:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_gender']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">CNIC:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">CNIC:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_cnic']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Address:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Address:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_address']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Contact No:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Contact No:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_contact_no']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Registration Date:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Registration Date:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_registration_date']; ?>
                         </th>
                       </tr>
@@ -442,27 +443,27 @@ $regNoID = $_GET['regno'];
                   <table class="table table-bordered">
                     <thead>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Age:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Age:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_age']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Email:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Email:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_email']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="bg-color" style="padding: 12px;">Occupation:</th>
-                        <th class="t-cen" style="background-color: white;">
+                        <th class="bg-color" style="padding: 12px;background-color:#ffffff;">Occupation:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;">
                           <?php echo $customerData[0]['customer_occupation']; ?>
                         </th>
                       </tr>
                       <tr>
-                        <th class="text-center bg-color" style="vertical-align:middle;">Image:</th>
-                        <th class="t-cen" style="background-color: white;">
-                          <img src="<?php echo $customerData[0]['customer_image']; ?>" class="img-rounded" alt="Image" style="width:160px; height:150px;"/>
+                        <th class="text-center bg-color" style="vertical-align:middle;background-color:#ffffff;">Image:</th>
+                        <th class="t-cen" style="background-color: #B0E0E6;text-align:center;padding:15px;">
+                          <img src="<?php echo $customerData[0]['customer_image']; ?>" class="img-thumbnail" alt="Image" style="width:160px; height:150px;border:1px solid #ffffff;"/>
                         </th>
                       </tr>
                     </thead>
@@ -471,12 +472,12 @@ $regNoID = $_GET['regno'];
               </div> 
               </div>
               <div class="tab-pane" id="customer_vehicles" style="background-color:lightgray;padding:10px;">
-                <div class="row">
-                <div class="col-md-11">
-                  <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;">Customer Vehicles Details</h3>
+              <div class="row">
+                <div class="col-md-10">
+                  <h3 class="text-info" style="vertical-align: middle;margin-top:5px;">Vehicles Details</h3>
                 </div>
-                <div class="col-md-1">
-                  <a href="./customer-vehicles-create?id=<?php echo $customerID;?>&regno=<?=$regNoID?>" class="btn btn-success" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;">
+                <div class="col-md-2">
+                  <a href="./customer-vehicles-create?id=<?php echo $customerID;?>&regno=<?=$regNoID?>" class="btn btn-success btn-xs" style="float:right; margin-right: 3px;margin-top:10px;">
                     <i class="glyphicon glyphicon-plus"></i> Insert
                   </a>
                 </div>
@@ -487,13 +488,13 @@ $regNoID = $_GET['regno'];
                   <table class="table table-bordered table-striped">
                     <thead style="background-color: #367FA9;color:white;">
                       <tr>
-                        <th class="t-cen" style="vertical-align:middle;">Sr #.</th>
-                        <th class="t-cen" style="vertical-align:middle;">Customer Name</th>
-                        <th class="t-cen" style="vertical-align:middle;">Vehicle Sub Type</th>
-                        <th class="t-cen" style="vertical-align:middle;">Registration No</th>
-                        <th class="t-cen" style="vertical-align:middle;">Vehicle Color</th>
-                        <th class="t-cen" style="vertical-align:middle;">Vehicle Image</th>
-                        <th class="t-cen" style="vertical-align:middle;">Action</th>
+                        <th style="vertical-align:middle;text-align: center;">Sr #.</th>
+                        <th style="vertical-align:middle;text-align: center;">Customer Name</th>
+                        <th style="vertical-align:middle;text-align: center;">Vehicle Sub Type</th>
+                        <th style="vertical-align:middle;text-align: center;">Registration No</th>
+                        <th style="vertical-align:middle;text-align: center;">Vehicle Color</th>
+                        <th style="vertical-align:middle;text-align: center;">Vehicle Image</th>
+                        <th style="vertical-align:middle;text-align: center;">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -508,8 +509,7 @@ $regNoID = $_GET['regno'];
                       ")->queryAll();
 
                           ?>
-                          
-                        <tr>
+                        <tr style="background-color: #B0E0E6;text-align: center;font-weight: bolder;">
                           <td style="vertical-align:middle;"><?php echo $i+1; ?></td>
                           <td style="vertical-align:middle;"><?php echo $customerData[0]['customer_name']; ?></td>
                           <td style="vertical-align:middle;"><?php echo $vehicleSubType[0]['name']; ?></td>

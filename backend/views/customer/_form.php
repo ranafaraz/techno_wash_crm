@@ -77,7 +77,7 @@ use common\models\VehicleTypeSubCategory;
     <?= $form->field($model, 'customer_address')->textInput(['maxlength' => true,'id'=>'customer_address']) ?>  
 
     </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="margin-top:5px;">
 
     <?= $form->field($model, 'customer_image')->fileInput(['maxlength' => true]) ?>
     </div>
