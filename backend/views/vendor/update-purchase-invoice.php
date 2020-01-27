@@ -114,7 +114,7 @@ if (isset($_GET['piID']) && isset($_GET['vendorID'])) {
 								<div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center;" id="alert">
 	            				</div>								
 							</div>							
-						</div>
+						</div><br>
 						<div class="row">
 					    	<div class="col-md-6"></div>
 							<div class="col-md-3">
