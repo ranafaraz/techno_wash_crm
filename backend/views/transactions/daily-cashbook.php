@@ -45,7 +45,6 @@ $id = null;
 		</div>
 	</div>
 </div>
-
 <?PHP
 $script =<<< JS
 		$('#button').on('click',function()
@@ -93,7 +92,6 @@ $script =<<< JS
 		})
 	JS;
 	$this->registerJs($script);
-
 ?>
 <script>
 function printContent(el){

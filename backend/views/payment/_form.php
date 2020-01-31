@@ -11,137 +11,125 @@ use dosamigos\datepicker\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Payment */
 /* @var $form yii\widgets\ActiveForm */
-$this->title = 'Payment';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->title = 'Payment';
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="payment-form">
-
+<div class="containe-fluid">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-        <div class="col-md-2" style="display: none">
-            <?= $form->field($model, 'transaction_id')->textInput(['readonly'=> true]) ?>
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#367FA9;">
+                                Payments
+                    </h3>
+                    <div class="row" style="padding:16px;">
+                        <div class="col-md-4" style="border-top:2px solid #D2D6DE;padding:10px;">
+                            <?PHP
+                                $model->transactions_date = date('Y-m-d');?>
+                                <?= $form->field($model,'transactions_date')->widget(
+                                    DatePicker::className(), [
+                                    // inline too, not bad
+                                     'inline' => false, 
+                                     // modify template for custom rendering
+                                    // 'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+                                    'clientOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'yyyy-mm-dd'
+                                    ]
+                                ]);
+                            ?>
+                            <?= $form->field($model, 'type')->dropDownList([ 'Cash Payment' => 'Cash Payment', 'Bank Payment' => 'Bank Payment', ], ['prompt' => 'Select payment Type']) ?>
+                            <?php
+                                $natureca=AccountNature::findOne(['name'=>'Asset']);
+                                $nature_idca=$natureca->id;
+                            ?>
+                            <?= $form->field($model, 'credit_account')->widget(Select2::classname(), [
+                                'data' =>ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idca])->andwhere(['!=' , 'account_name','Account Recievable'])->andwhere(['!=' , 'account_name','Services And Stock'])->all(),'id', 'account_name'),
+                                'language' => 'en',
+                                'options' => ['placeholder' => 'Select a state ...'],
 
-        </div>
+                                'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                            ])->label('Paying From');
+                            ?>
+                        </div>
+                        <div class="col-md-4" style="border-top:2px solid #D2D6DE;border-right:2px solid #D2D6DE;padding:10px;">
+                            <?php
+                                $natureex=AccountNature::findOne(['name'=>'Expense']);
+                                $nature_idex=$natureex->id;
+                                $data1=ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idex])->andwhere(['!=' , 'account_name' , 'Salaries'])->all(),'id', 'account_name');
+                            ?>
+                            <?= $form->field($model, 'debit_account',['options'=>['id'=>'debit_id']])->widget(Select2::classname(), [
+                                'data' =>$data1,
+                                'language' => 'en',
+                                'options' => ['placeholder' => 'Select a state ...'],
 
-        <div class="col-md-3">
-            <?= $form->field($model, 'type')->dropDownList([ 'Cash Payment' => 'Cash Payment', 'Bank Payment' => 'Bank Payment', ], ['prompt' => 'Select payment Type']) ?>
-        </div>
-        <div class="col-md-3">
-            <?PHP
-            $accountpayable->due_date = date('Y-m-d');?>
-            <?= $form->field($accountpayable,'due_date')->widget(
-                    DatePicker::className(), [
-                    // inline too, not bad
-                     'inline' => false, 
-                     // modify template for custom rendering
-                    // 'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
-                    'clientOptions' => [
-                        'autoclose' => true,
-                        'format' => 'yyyy-mm-dd'
-                    ]
-                ]);
-            ?>
-        </div>
-        <div class="col-md-3">
-            <?php
-                $natureex=AccountNature::findOne(['name'=>'Expense']);
-                $nature_idex=$natureex->id;
-                $data1=ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idex])->andwhere(['!=' , 'account_name' , 'Salaries'])->all(),'id', 'account_name');
-            ?>
-            <?= $form->field($model, 'debit_account',['options'=>['id'=>'debit_id']])->widget(Select2::classname(), [
-                'data' =>$data1,
-                'language' => 'en',
-                'options' => ['placeholder' => 'Select a state ...'],
-
-                'pluginOptions' => [
-                'allowClear' => true
-            ],
-            ])->label('Paying To');
-        ?>
-        </div>
-        <div class="col-md-3">
-             <?PHP
-            $model->transactions_date = date('Y-m-d');?>
-            <?= $form->field($model,'transactions_date')->widget(
-                    DatePicker::className(), [
-                    // inline too, not bad
-                     'inline' => false, 
-                     // modify template for custom rendering
-                    // 'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
-                    'clientOptions' => [
-                        'autoclose' => true,
-                        'format' => 'yyyy-mm-dd'
-                    ]
-                ]);
-            ?>
-        </div>
-    </div>
-    <div class="row" style="margin: 20px 0px;">
-        <div class="col-12 my-auto" style="border-top:2px dashed skyblue;border-bottom:2px dashed skyblue;">
-        </div>
-    </div>
-    <div class="row">
-                <div class="col-md-3">
-            <?php
-                $natureca=AccountNature::findOne(['name'=>'Asset']);
-                $nature_idca=$natureca->id;
-            ?>
-
-            <?= $form->field($model, 'credit_account')->widget(Select2::classname(), [
-                'data' =>ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idca])->andwhere(['!=' , 'account_name','Account Recievable'])->andwhere(['!=' , 'account_name','Services And Stock'])->all(),'id', 'account_name'),
-                'language' => 'en',
-                'options' => ['placeholder' => 'Select a state ...'],
-
-                'pluginOptions' => [
-                'allowClear' => true
-            ],
-            ])->label('Paying From');
-        ?>
-        </div>
-        
-        <div class="col-md-3">
-            <?= $form->field($model, 'prev_remaning')->textInput(['readonly' => true]) ?>
-        </div>
-        <div class="col-md-3">
-
-            <?= $form->field($model, 'debit_amount')->textInput()->label("Total amount") ?>
-
-        </div>
-        <div class="col-md-3">
-            <?= $form->field($model, 'credit_amount')->textInput()->label("Paid amount") ?>
-        </div>
-    </div>
-        <div class="row">
-            <div class="col-12">
-                <div id="debitnoamaountmsg" class="text-danger font-weight-bold mx-auto text-center"></div>
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                                ])->label('Paying To');
+                            ?>
+                            <?= $form->field($model, 'prev_remaning')->textInput(['readonly' => true]) ?>
+                            <?PHP
+                            $accountpayable->due_date = date('Y-m-d');?>
+                            <?= $form->field($accountpayable,'due_date')->widget(
+                                    DatePicker::className(), [
+                                    // inline too, not bad
+                                     'inline' => false, 
+                                     // modify template for custom rendering
+                                    // 'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+                                    'clientOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'yyyy-mm-dd'
+                                    ]
+                                ]);
+                            ?>
+                        </div>
+                        <div class="col-md-4" style="padding:10px;background-color:#F5F5F5;">
+                            <?= $form->field($model, 'debit_amount')->textInput(['value'=>0])->label("Total amount") ?>
+                             <?= $form->field($model, 'credit_amount')->textInput(['value'=>0])->label("Paid amount") ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="debitnoamaountmsg" class="text-danger font-weight-bold mx-auto text-center"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                           <?php if (!Yii::$app->request->isAjax){ ?>
+                                <div class="form-group" style="float: right;">
+                                    <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success glyphicon glyphicon-plus' : 'btn btn-primary']) ?>
+                                    <a href="./payment" class="btn btn-danger" style="color:white !important" title=""> <i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+                                </div>
+                            <?php } ?> 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'narration')->textarea(['rows' => 2])->label('Transaction Narration'); ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'payable_narration')->textarea(['rows' => 2])->label('Account Payable Narration') ?>
+        <div class="col-md-4">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#00A65A;">
+                                Narrations
+                    </h3><br>
+                    <?= $form->field($model, 'narration')->textarea(['rows' => 2])->label('Transaction Narration'); ?>
+                    <?= $form->field($model, 'payable_narration')->textarea(['rows' => 2])->label('Account Payable Narration') ?>
+                    <span style="display: none">
+                        <?= $form->field($model, 'transaction_id')->textInput(['readonly'=> true]) ?>
+                        <?= $form->field($model, 'updateid')->textInput(['readOnly' => true]) ?>
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="row" style="display: none">
-        <?= $form->field($model, 'updateid')->textInput(['readOnly' => true]) ?>
-    </div>    
-    
-<!--     <?= $form->field($model, 'checkstate')->textInput()?> -->
-
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success glyphicon glyphicon-plus' : 'btn btn-primary']) ?>
-            <a href="./payment" class="btn btn-danger" style="color:white !important" title=""> <i class="glyphicon glyphicon-arrow-left"></i> Back</a>
-	    </div>
-	<?php } ?>
-
     <?php ActiveForm::end(); ?>
-
-</div>
+</div>   
+<!--     <?= $form->field($model, 'checkstate')->textInput()?> -->
 <?php
 $script=<<<JS
 var rec_id;
