@@ -10,42 +10,95 @@ use backend\models\Customer;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use common\models\AccountTitle;
-$this->title = 'Cash Book';
-$this->params['breadcrumbs'][] = $this->title;
-$id = null;
+// $this->title = 'Cash Book';
+// $this->params['breadcrumbs'][] = $this->title;
+// $id = null;
 ?>
-<div class="row">
-	<div class="col-md-12">
-		<div class="row">
-			<div class="col-md-3">
-				<label>Select Starting Date</label>
-            	<input type="date" id="start_date" name="date" class="form form-control">
-			</div>
-			<div class="col-md-3">
-				<label>Select Ending Date</label>
-            	<input type="date" id="end_date" name="date" class="form form-control">
-			</div>
-			<div class="col-md-2">
-				<button class="btn" id="button" style="margin-top:24px;color:white;padding: 7px !important; border-radius: 2px !important;background-color: #7C9494;">Search Report</button>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		/*#tb1 tr th{
+			border:2px solid;
+		}*/
+		#tb2 tr th{
+			border:1px solid;
+		}
+	</style>
+</head>
+<body>
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="box box-primary">
+				<div class="box-header">
+					<h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#367FA9;">
+                                Cash Book
+                    </h3>
+                    <div class="row" style="margin-top:10px;">
+						<div class="col-md-4">
+							<label>Select Starting Date</label>
+			            	<input type="date" id="start_date" name="date" class="form form-control">
+						</div>
+						<div class="col-md-4">
+							<label>Select Ending Date</label>
+			            	<input type="date" id="end_date" name="date" class="form form-control">
+						</div>
+						<div class="col-md-2">
+							<button class="btn btn-success" id="button" style="margin-top:24px;color:white;padding: 7px;">Get Report</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<th id="mydata"></th>
+	<div class="row" id="mydata" style="display: none;padding:10px;">
+		<h3 style="text-align: center;margin-bottom:20px;">CASH BOOK</h3>
+        <div class="col-md-6">
+          <table class="table table-bordered" id="tb2" style="height:290px;">
+            <thead>
+            	<tr>
+            		<th style="background-color:lightgray;" colspan="5">
+            			Debit (Receipts)
+            		</th>
+            	</tr>
+              <th>Date</th>
+              <th>Particluars </th>
+              <th style="text-align: center;">R.N</th>
+              <th style="text-align: center;">L.F</th>
+              <th style="text-align: center;">Amount Rs.</th>
+            </thead>
+            <tbody id="showDataRecipts">
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-bordered" id="tb2" style="height:290px;">
+            <thead>
+            	<tr>
+            		<th style="background-color:lightgray;" colspan="5">
+            			Credit (Payments)
+            		</th>
+            	</tr>
+              <th>Date</th>
+              <th>Particluars </th>
+              <th style="text-align: center;">V.N</th>
+              <th style="text-align: center;">L.F</th>
+              <th style="text-align: center;">Amount Rs.</th>
+            </thead>
+            <tbody id="showDataPayments">
+            </tbody>
+          </table>
+        </div>
+    </div>
 </div>
-<div class="row">
-	<div class="col-md-12">
-		<ul class="nav nav-tabs">
-		  <li class="active"><a data-toggle="tab" href="#Receipts">Receipts</a></li>
-		  <li><a data-toggle="tab" href="#Payments">Payments</a></li>
-		</ul>
-		<div class="tab-content">
-		  <div id="Receipts" class="tab-pane fade in active">
-		  </div>
-		  <div id="Payments" class="tab-pane fade">
-		  </div>
-		</div>
-	</div>
-</div>
-<?PHP
+</body>
+</html>
+<?php
 $script =<<< JS
 		$('#button').on('click',function()
 		{
@@ -68,30 +121,66 @@ $script =<<< JS
 				$('#end_date').css('border','1px solid green');
 			}
 			$.ajax({
-				url : "daily-cashbook-data-receipt",
-				method:"POST",
-				data:{sdate:starting_date,edate:end_date},
-				success:function(data)
-				{
-					$('#Receipts').html(data);
-					$('#s_date').html(starting_date);
-					$('#e_date').html(end_date);
-				}
-			})
-			$.ajax({
 				url : "daily-cashbook-data",
 				method:"POST",
 				data:{sdate:starting_date,edate:end_date},
-				success:function(data)
+				success:function(result)
 				{
-					$('#Payments').html(data);
-					$('#si_date').html(starting_date);
-					$('#ei_date').html(end_date);
+					var jsonResult = JSON.parse(result);
+					var transactionDetail = jsonResult[0];
+					var transactionHead = jsonResult[1];
+					// console.log(transactionDetail);
+					// console.log(transactionHead);
+
+					var recipttotal = 0;
+					var paymentstotal = 0;
+					for(var r=0; r<transactionDetail.length; r++)
+					{
+						if(transactionDetail[r]['ref_name'] == "Sale")
+						{
+								recipttotal+=parseInt(transactionDetail[r]['amount']);
+
+						}
+						else 
+						{
+
+							paymentstotal+=parseInt(transactionDetail[r]['amount']);
+							
+						}
+					}
+
+					$("#mydata").show();
+					
+					var rec = '';
+					var paymnts = '';
+					for(var r=0; r<transactionDetail.length; r++)
+					{
+						if(transactionDetail[r]['ref_name'] == "Sale")
+						{
+							rec += '<tr><td style="border:1px solid;">'+transactionDetail[r]['transactions_date']+'</td><td style="border:1px solid;">'+transactionHead[r]+'</td><td style="text-align:center;border:1px solid;">'+transactionDetail[r]['ref_no']+'</td><td style="text-align:center;border:1px solid;">---</td><td style="text-align:center;border:1px solid;">'+transactionDetail[r]['amount']+'</td></tr>';
+						}
+						else 
+						{
+							if(transactionDetail[r]['ref_name'] == "Payments"){
+								paymnts += '<tr><td style="border:1px solid;">'+transactionDetail[r]['transactions_date']+'</td><td style="border:1px solid;">'+transactionHead[r]+'</td><td style="text-align:center;border:1px solid;">'+transactionDetail[r]['transaction_id']+'</td><td style="text-align:center;border:1px solid;">---</td><td style="text-align:center;border:1px solid;">'+transactionDetail[r]['amount']+'</td></tr>';
+							}
+							else{
+								paymnts += '<tr><td style="border:1px solid;">'+transactionDetail[r]['transactions_date']+'</td><td style="border:1px solid;">'+transactionHead[r]+'</td><td style="text-align:center;border:1px solid;">'+transactionDetail[r]['ref_no']+'</td><td style="text-align:center;border:1px solid;">---</td><td style="text-align:center;border:1px solid;">'+transactionDetail[r]['amount']+'</td></tr>';
+							}	
+						}
+					}
+					var balanceCd = recipttotal-paymentstotal;
+					rec += '<tr><td colspan="4" style="border:1px solid;"></td><td style="font-weight:bold;text-align:center;border:1px solid;">'+recipttotal+'</td></tr>';
+					rec += '<tr><td style="border:1px solid;"></td><td colspan="3" style="font-weight:bold;border:1px solid;">To Balance b/d</td><td style="text-align:center;border:1px solid;">'+balanceCd+'</td></tr>';
+					paymnts += '<tr><td style="border:1px solid;"></td><td colspan="3" style="font-weight:bold;border:1px solid;">By Balance c/d</td><td style="text-align:center;border:1px solid;">'+balanceCd+'</td></tr>';
+					paymnts += '<tr><td colspan="4" style="border:1px solid;"></td><td style="font-weight:bold;text-align:center;border:1px solid;">'+recipttotal+'</td></tr>';
+					$('#showDataRecipts').append(rec);
+					$('#showDataPayments').append(paymnts);	
 				}
 			})
 		})
-	JS;
-	$this->registerJs($script);
+JS;
+$this->registerJs($script);
 ?>
 <script>
 function printContent(el){

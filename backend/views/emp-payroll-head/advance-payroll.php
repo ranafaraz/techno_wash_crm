@@ -79,7 +79,7 @@ use common\models\Employee;
 						
 						<div class="row">
 							<div class="col-md-6">
-								<a href="./purchase-invoice-view?vendor_id=<?php //echo $vendorID; ?>" class="btn btn-warning" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
+								<a href="./emp-payroll-head" class="btn btn-warning" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
 							</div>
 							<div class="col-md-6">
 								<button type="submit" name="insert_pay" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Save</button>

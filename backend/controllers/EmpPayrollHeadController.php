@@ -288,26 +288,26 @@ class EmpPayrollHeadController extends Controller
                     $payrollDetail->save();
                 }
       
-    // getting current asset from Account Nature and cash debit account from account head;
-    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
-    $nature1 = AccountNature::find()->where(['name' => 'Expense'])->One();
-    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
-    $head = AccountHead::find()->where(['nature_id' => $nature1->id])->andwhere(['account_name' => 'Salaries'])->One();
-    $emplo = Employee::find()->where(['emp_id' => $model->emp_id])->One();
-    Yii::$app->db->createCommand()->insert('transactions',
-    [
-      'branch_id' => Yii::$app->user->identity->branch_id,
-      'type' => 'Cash Payment',
-      'narration' => 'Employee Salary Paid to <b>'.$emplo->emp_name.'</b> Rs <b>'.$model->paid_amount.'</b> for the month <b>'. $payment_month .'-'.$payment_year.'</b> ',
-      'debit_account' => $head->id,
-      'credit_account' => $cred->id,
-      'amount' => $model->paid_amount,
-      'transactions_date' => date('Y-m-d'),
-      'ref_no' => $model->emp_id,
-      'ref_name' => "Employee",
-      'created_by' => \Yii::$app->user->identity->id,
-      
-    ])->execute();
+            // getting current asset from Account Nature and cash debit account from account head;
+            $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
+            $nature1 = AccountNature::find()->where(['name' => 'Expense'])->One();
+            $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
+            $head = AccountHead::find()->where(['nature_id' => $nature1->id])->andwhere(['account_name' => 'Salaries'])->One();
+            $emplo = Employee::find()->where(['emp_id' => $model->emp_id])->One();
+            Yii::$app->db->createCommand()->insert('transactions',
+            [
+              'branch_id' => Yii::$app->user->identity->branch_id,
+              'type' => 'Cash Payment',
+              'narration' => 'Employee Salary Paid to <b>'.$emplo->emp_name.'</b> Rs <b>'.$model->paid_amount.'</b> for the month <b>'. $payment_month .'-'.$payment_year.'</b> ',
+              'debit_account' => $head->id,
+              'credit_account' => $cred->id,
+              'amount' => $model->paid_amount,
+              'transactions_date' => date('Y-m-d'),
+              'ref_no' => $model->emp_id,
+              'ref_name' => "Employee",
+              'created_by' => \Yii::$app->user->identity->id,
+              
+            ])->execute();
                     
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
@@ -332,6 +332,7 @@ class EmpPayrollHeadController extends Controller
             /*
             *   Process for non-ajax request
             */
+            
             if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->payroll_head_id]);
             } else {

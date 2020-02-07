@@ -169,23 +169,42 @@ use yii\helpers\Json;
 					$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
 
 					// getting current asset from Account Nature and cash debit account from account head;
-					$nature = AccountNature::find()->where(['name' => 'Asset'])->One();
-					$head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
-					$cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
-					$transactions = Yii::$app->db->createCommand()->insert('transactions',
-					[
-						'branch_id' => $branch_id,
-						'type' => 'Cash Payment',
-						'narration' => $narration,
-						'debit_account' => $cred->id,
-						'credit_account' => $head->id,
-						'amount' => $paid,
-						'ref_no' => $invoice_amount,
-						'ref_name' => "Sale",
-						'transactions_date' => $invoice_date,
-						'created_by' => \Yii::$app->user->identity->id,
-					 	
-					])->execute();				
+					//id 3 is reserved for Cash Account
+					//id 5 is reserved for Account Payable
+					//id 12 is reserved for Sale Account
+					if ($paid == 0) {
+						$transactions = Yii::$app->db->createCommand()->insert('transactions',
+						[
+							'branch_id' => $branch_id,
+							'type' => 'Cash Payment',
+							'narration' => $narration,
+							'debit_account' => 5,
+							'credit_account' => 12,
+							'amount' => $paid,
+							'ref_no' => $invoice_amount,
+							'ref_name' => "Sale",
+							'transactions_date' => $invoice_date,
+							'created_by' => \Yii::$app->user->identity->id,
+						 	
+						])->execute();
+					}
+					else{
+						$transactions = Yii::$app->db->createCommand()->insert('transactions',
+						[
+							'branch_id' => $branch_id,
+							'type' => 'Cash Payment',
+							'narration' => $narration,
+							'debit_account' => 3,
+							'credit_account' => 12,
+							'amount' => $paid,
+							'ref_no' => $invoice_amount,
+							'ref_name' => "Sale",
+							'transactions_date' => $invoice_date,
+							'created_by' => \Yii::$app->user->identity->id,
+						 	
+						])->execute();
+					}
+									
 				}
 				for ($j=0; $j <$countItemArray ; $j++) {
 					$itemType = $ItemTypeArray[$j];

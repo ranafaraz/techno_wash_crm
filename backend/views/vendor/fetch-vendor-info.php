@@ -160,21 +160,38 @@
 				$nature = AccountNature::find()->where(['name' => 'Asset'])->One();
 				$head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
 				$cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Services And Stock'])->One();
-				$transactions = Yii::$app->db->createCommand()->insert('transactions',
-				[
-					'branch_id' => $branch_id,
-					'type' => 'Cash Payment',
-					'narration' => $narration,
-					'debit_account' => $cred->id,
-					'credit_account' => $head->id,
-					'amount' => $paid,
-					'ref_no' => $invoice_amount,
-					'ref_name' => "Purchase",
-					'transactions_date' => $purchase_date,
-					'created_by' => \Yii::$app->user->identity->id,
-				 	
-				])->execute();
-	
+				if ($paid == 0) {
+					$transactions = Yii::$app->db->createCommand()->insert('transactions',
+					[
+						'branch_id' => $branch_id,
+						'type' => 'Cash Payment',
+						'narration' => $narration,
+						'debit_account' => 5,
+						'credit_account' => 12,
+						'amount' => $paid,
+						'ref_no' => $invoice_amount,
+						'ref_name' => "Purchase",
+						'transactions_date' => $purchase_date,
+						'created_by' => \Yii::$app->user->identity->id,
+					 	
+					])->execute();
+				}
+				else{
+					$transactions = Yii::$app->db->createCommand()->insert('transactions',
+					[
+						'branch_id' => $branch_id,
+						'type' => 'Cash Payment',
+						'narration' => $narration,
+						'debit_account' => 3,
+						'credit_account' => 12,
+						'amount' => $paid,
+						'ref_no' => $invoice_amount,
+						'ref_name' => "Purchase",
+						'transactions_date' => $purchase_date,
+						'created_by' => \Yii::$app->user->identity->id,
+					 	
+					])->execute();
+				}
 			}
 			for ($j=0; $j <$countStockTypeArray ; $j++) { 
 				$qty = $quantityArray[$j];
