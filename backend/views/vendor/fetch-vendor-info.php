@@ -80,7 +80,8 @@
 		$dispatch_date 			= $_POST['dispatch_date'];
 		$receiving_date 		= $_POST['receiving_date'];
 		$total_amount 			= $_POST["total_amount"];
-		$net_total 				= $_POST['net_total']; 
+		$net_total 				= $_POST['net_total'];
+		$payment_type 			= $_POST['payment_type'];
 		$paid 					= $_POST["paid"];
 		$remaining 				= $_POST['remaining'];
 		$cash_return 			= $_POST['cash_return'];
@@ -164,11 +165,12 @@
 					$transactions = Yii::$app->db->createCommand()->insert('transactions',
 					[
 						'branch_id' => $branch_id,
-						'type' => 'Cash Payment',
+						'type' => $payment_type,
 						'narration' => $narration,
 						'debit_account' => 5,
 						'credit_account' => 12,
 						'amount' => $paid,
+						'head_id' => $selectedPurchInvID,
 						'ref_no' => $invoice_amount,
 						'ref_name' => "Purchase",
 						'transactions_date' => $purchase_date,
@@ -180,11 +182,12 @@
 					$transactions = Yii::$app->db->createCommand()->insert('transactions',
 					[
 						'branch_id' => $branch_id,
-						'type' => 'Cash Payment',
+						'type' => $payment_type,
 						'narration' => $narration,
 						'debit_account' => 3,
 						'credit_account' => 12,
 						'amount' => $paid,
+						'head_id' => $selectedPurchInvID,
 						'ref_no' => $invoice_amount,
 						'ref_name' => "Purchase",
 						'transactions_date' => $purchase_date,

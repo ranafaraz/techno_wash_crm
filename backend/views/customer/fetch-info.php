@@ -101,6 +101,7 @@ use yii\helpers\Json;
 		$customer_id= $_POST['customer_id'];
 		$regno=$_POST['regno'];
 		$net_total = $_POST['net_total'];
+		$payment_type = $_POST['payment_type'];
 		$paid = $_POST['paid'];
 		$remaining = $_POST['remaining'];
 		$cash_return = $_POST['cash_return'];
@@ -176,11 +177,12 @@ use yii\helpers\Json;
 						$transactions = Yii::$app->db->createCommand()->insert('transactions',
 						[
 							'branch_id' => $branch_id,
-							'type' => 'Cash Payment',
+							'type' => $payment_type,
 							'narration' => $narration,
 							'debit_account' => 5,
 							'credit_account' => 12,
 							'amount' => $paid,
+							'head_id' => $selectedInvHeadID,
 							'ref_no' => $invoice_amount,
 							'ref_name' => "Sale",
 							'transactions_date' => $invoice_date,
@@ -192,11 +194,12 @@ use yii\helpers\Json;
 						$transactions = Yii::$app->db->createCommand()->insert('transactions',
 						[
 							'branch_id' => $branch_id,
-							'type' => 'Cash Payment',
+							'type' => $payment_type,
 							'narration' => $narration,
 							'debit_account' => 3,
 							'credit_account' => 12,
 							'amount' => $paid,
+							'head_id' => $selectedInvHeadID,
 							'ref_no' => $invoice_amount,
 							'ref_name' => "Sale",
 							'transactions_date' => $invoice_date,

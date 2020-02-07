@@ -439,6 +439,13 @@ body td{
                   <input type="text" name="net_total" class="form-control" id="nt"readonly="" >
                 </div>
                 <div class="form-group">
+                <label>Payment Type</label>
+                <select class="form-control" id="payment-type">
+                  <option value="Cash Payment">Cash Payment</option>
+                  <option value="Bank Payment">Bank Payment</option>
+                </select>
+              </div>
+                <div class="form-group">
                   <label>Paid</label>
                   <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                 </div> 
@@ -1132,6 +1139,7 @@ $('#insert').click(function(){
      	purchasePriceArray;
      	sellingPriceArray;
      	quantityArray;
+      var payment_type = $('#payment-type').val();
 
    		// if(bilty_no == "" || bilty_no == null )
    		// {
@@ -1179,7 +1187,8 @@ $('#insert').click(function(){
   					dispatch_date:dispatch_date, 	
   					receiving_date:receiving_date, 	
   					total_amount:total_amount, 	
-  					net_total:net_total, 		
+  					net_total:net_total,
+            payment_type:payment_type,		
   					paid:paid, 			
   			    remaining:remaining,
             cash_return:cash_return,
