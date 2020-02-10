@@ -65,7 +65,7 @@ class Customer extends \yii\db\ActiveRecord
         return [
             'customer_id' => 'Customer ID',
             'branch_id' => 'Branch Name',
-            'customer_name' => 'Name',
+            'customer_name' => 'Customer Name',
             'customer_gender' => 'Gender',
             'customer_cnic' => 'CNIC#',
             'customer_address' => 'Address',

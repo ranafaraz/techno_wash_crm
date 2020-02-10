@@ -6,27 +6,32 @@ use yii\helpers\Html;
 $vehicleTypeID = $_GET['id'];
 
 if(isset($_POST['insert_model']))
- { 
+{ 
  	$vechicalType = $_POST['vechicalType'];
 	$carmanufactureId  = $_POST['carmanufacture_id'];
 	$modelName  = $_POST['model_name'];
 	$user_id   =Yii::$app->user->identity->id;
 	$count = count($modelName);
+
+	// starting of transaction handling
+    $transaction = \Yii::$app->db->beginTransaction();
+    try {
+
 	for($i=0; $i<$count; $i++){
 		if(!empty($modelName[$i])){
 			$car_manufac = $carmanufactureId[$i];
 			$model = $modelName[$i];
-			 // starting of transaction handling
-     $transaction = \Yii::$app->db->beginTransaction();
-     try {
-      $insert_model = Yii::$app->db->createCommand()->insert('vehicle_type_sub_category',[
-     'manufacture'      => $car_manufac,
-     'name'      		=> $model,
-     'created_at' 		=> new \yii\db\Expression('NOW()'),
-     'updated_at' 		=> '0',
-     'created_by'       => $user_id,
-	 'updated_by' 		=> '0',
-    ])->execute();
+	
+	      	$insert_model = Yii::$app->db->createCommand()->insert('vehicle_type_sub_category',[
+			     'manufacture'      => $car_manufac,
+			     'name'      		=> $model,
+			     'created_at' 		=> new \yii\db\Expression('NOW()'),
+			     'updated_at' 		=> '0',
+			     'created_by'       => $user_id,
+				 'updated_by' 		=> '0',
+		    ])->execute();
+        }
+	}
      // transaction commit
      $transaction->commit();
     Yii::$app->session->setFlash('success', "Model added successfuly");
@@ -37,39 +42,14 @@ if(isset($_POST['insert_model']))
 
     <?php
         
-     } // closing of try block 
-     catch (Exception $e) {
+    } // closing of try block 
+    catch (Exception $e) {
       // transaction rollback
-         $transaction->rollback();
-     } // closing of catch block
-     // closing of transaction handling
-		}
-	}	
+        $transaction->rollback();
+    } // closing of catch block
+     // closing of transaction handling	
 }
-
-	// if (isset($_POST['VehicleTypeSubId'])) {
-
-	// 	$VehicleTypeSubID = $_POST['VehicleTypeSubId'];
-	//     $transaction = \Yii::$app->db->beginTransaction();
-	//      try {
-	//      	$connection = \Yii::$app->db;
-	//       	$delete_model =  $connection->createCommand("DELETE FROM vehicle_type_sub_category WHERE vehicle_typ_sub_id='$VehicleTypeSubID'")->execute();
-	//     //   VehicleTypeSubCategory::Yii::$app->db->createCommand()
-	//     // ->delete('vehicle_type_sub_category', ['vehicle_typ_sub_id' => $VehicleTypeSubID])
-	//     // ->execute();
-	//      // transaction commit
-	//      $transaction->commit();
-	//       Yii::$app->session->setFlash('success', "Model deleted successfuly");
-	        
-	//      } // closing of try block 
-	//      catch (Exception $e) {
-	//       // transaction rollback
-	//       Yii::$app->session->setFlash('danger', "Customer have a Vehicle against this model. So, cannot be deleted");
-	//          $transaction->rollback();
-	//      } // closing of catch block
-	//      // closing of transaction handling
-	// }
-	?>
+?>
 
 <?php
 // getting vehicle Type data
@@ -87,12 +67,6 @@ WHERE vehical_type_id = $vehicleTypeID
 ")->queryAll();
 $countcarmanufactureData = count($carmanufactureData);
 
-
-
-
-// $this->title = 'Customer Profile';
-// $this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -108,9 +82,6 @@ $countcarmanufactureData = count($carmanufactureData);
 	      	<a href="./vehicle-type" class="btn btn-success">
 		      	<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
 			</a>&ensp;<?php echo "Vehicle Type: ".$vehicleTypeData[0]['name']; ?>
-	      	<!-- <a href="./update-stock" class="btn btn-info btn-xs" style="">
-					<i class="glyphicon glyphicon-edit"></i>  Update Stock
-				</a> -->
 	      </h2>
 	    </div>
   	</div>
@@ -121,16 +92,16 @@ $countcarmanufactureData = count($carmanufactureData);
 					<div class="nav-tabs-custom">
 			            <ul class="nav nav-tabs">
 			            	<?php 
-									for ($i=0; $i <$countcarmanufactureData ; $i++) { 
-									$carmanufactureName = $carmanufactureData[$i]['manufacturer'];
-									$carmanufactureID = $carmanufactureData[$i]['car_manufacture_id'];
-									$vehicleSubData = Yii::$app->db->createCommand("
-									SELECT *
-									FROM  vehicle_type_sub_category
-									WHERE manufacture = $carmanufactureID
-									")->queryAll();
+								for ($i=0; $i <$countcarmanufactureData ; $i++) { 
+								$carmanufactureName = $carmanufactureData[$i]['manufacturer'];
+								$carmanufactureID = $carmanufactureData[$i]['car_manufacture_id'];
+								$vehicleSubData = Yii::$app->db->createCommand("
+								SELECT *
+								FROM  vehicle_type_sub_category
+								WHERE manufacture = $carmanufactureID
+								")->queryAll();
 
-									$countvehicleSub = count($vehicleSubData);
+								$countvehicleSub = count($vehicleSubData);
 							?>
 				            <li class="">
 				              	<a href="#<?php echo $carmanufactureID; ?>" data-toggle="tab">
@@ -189,8 +160,7 @@ $countcarmanufactureData = count($carmanufactureData);
 					               				</tr>
 					               			</thead>
 					               			<?php 
-												for ($j=0; $j <$countvehicleSub ; $j++) { 
-
+											for ($j=0; $j <$countvehicleSub ; $j++) { 
 											?>
 					               			<tbody>
 					               				<tr>

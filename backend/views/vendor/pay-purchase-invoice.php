@@ -1,4 +1,10 @@
 <?php 
+use common\models\Branches;
+use common\models\Transactions;
+use common\models\AccountNature;
+use common\models\AccountHead;
+use yii\helpers\Html;
+use kartik\dialog\Dialog;
 
   if (isset($_GET['piID']) && isset($_GET['vendorID'])) {
 	$purchaseInvID = $_GET['piID'];
@@ -18,7 +24,6 @@
     WHERE vendor_id = '$vendorID' 
     AND  purchase_invoice_id = '$purchaseInvID'
     ")->queryAll();
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,7 +41,7 @@ tr td{
 <body>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
+		<div class="col-md-6 col-md-offset-3">
 			<div class="box box-default">
 				<div class="box-body">
 					<p style="color:#3C8DBC;font-size:25px;text-align: center;font-family:georgia;margin-bottom:-15px;">Pay Invoice</p>
@@ -65,8 +70,15 @@ tr td{
 							</table>
 						</div>
 					</div><hr style="border:1px solid #3C8DBC ;">
-					<form method="post" action="purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>">
+					<form method="post">
 						<input type="hidden" name="<?= Yii::$app->request->csrfParam;?>" value="<?= Yii::$app->request->csrfToken;?>">
+						<div class="row">
+							<div class="col-md-12" style="margin-bottom: 5px !important;">
+								<label>Transaction Date</label>
+								<?PHP $transaction_date = date('Y-m-d');?>
+								<input type="date" name="transaction_date" class="form-control" value="<?PHP echo $transaction_date;?>">
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -85,7 +97,6 @@ tr td{
 
 									<input type="hidden" name="pamount" id="pamount" value="<?php echo $creditInvoiceData[0]['paid_amount'];?>">
 								</div>
-								
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
@@ -96,6 +107,7 @@ tr td{
 									<label>Status</label>
 									<input type="text" name="status" id="status" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['status'];?>">
 								</div>
+								
 								<div class="form-group">
 									<label>Remaining</label>
 									<input type="text" name="remaining" id="remaining_amount" class="form-control" readonly="" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
@@ -106,6 +118,14 @@ tr td{
 								<input type="hidden" name="piID" value="<?php echo $purchaseInvID; ?>">	
 							</div>	
 						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Narration</label>
+									<input type="text" name="narration" id="narration" class="form-control">
+								</div>
+							</div>
+						</div>
 						<div class="row" id="msg" style="display: none;">
 							<div class="col-md-12">
 								<div class="alert-danger glyphicon glyphicon-ban-circle" style="padding: 10px;" id="alert">
@@ -113,7 +133,6 @@ tr td{
 	            				<hr>								
 							</div>												
 						</div>
-						
 						<div class="row">
 							<div class="col-md-6">
 								<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-warning" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i>&ensp;Back</a>
@@ -130,13 +149,87 @@ tr td{
 </div>
 </body>
 </html>
+<?php } ?>
+<?php 
+if(isset($_POST['insert_pay']))
+{
+    $piID        = $_POST['piID'];
+    $vendorID    = $_POST['vendorID'];
+    $netTotal    = $_POST['net_total'];
+    $paid_amount = $_POST['paid_amount'];
+    $remaining   = $_POST['remaining'];
+    $pay         = $_POST['pay'];
+    $status      = $_POST['status'];
+    $narration   = $_POST['narration'];
+    $transaction_date = $_POST['transaction_date'];
+    $id   =Yii::$app->user->identity->id;
+
+    // starting of transaction handling
+    $transaction = \Yii::$app->db->beginTransaction();
+    try {
+     	$insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
+
+	     'net_total'        => $netTotal,
+	     'paid_amount'      => $paid_amount,
+	     'remaining_amount' => $remaining,
+	     'status'           => $status,
+	     'created_by'       => $id,
+    	],
+       ['vendor_id' => $vendorID ,'purchase_invoice_id' => $piID]
+    	)->execute();
+
+     	$purchase_invoice_amount = Yii::$app->db->createCommand()->insert('purchase_invoice_amount_detail',[
+			    'purchase_invoice_id' => $piID,
+			    'transaction_date'    => $transaction_date,
+			    'paid_amount'       => $pay,
+			    'created_by'      => $id,
+			 ])->execute();
+
+	    if ($purchase_invoice_amount) {
+			$invoice_amount = Yii::$app->db->createCommand("
+			    SELECT 	*
+			    FROM purchase_invoice_amount_detail
+			    WHERE purchase_invoice_id	= '$piID'
+			    ORDER BY p_inv_amount_detail DESC
+			    ")->queryAll();
+				$invoice_amount = $invoice_amount[0]['p_inv_amount_detail'];
+	
+	    	// getting current asset from Account Nature and cash debit account from account head;
+		    $head = AccountHead::find()->where(['account_name' => 'Cash'])->One();
+		    $cred = AccountHead::find()->where(['account_name' => 'Account Payable'])->One();
+
+		    $transactions = Yii::$app->db->createCommand()->insert('transactions',
+		    [
+		      'branch_id' => Yii::$app->user->identity->branch_id,
+		      'type' => 'Cash Payment',
+		      'narration' => $narration,
+		      'credit_account' => $head->id,
+		      'debit_account' => $cred->id,
+		      'amount' => $pay,
+		      'ref_no' => $invoice_amount,
+			  'ref_name' => "Purchase",
+		      'transactions_date' => $transaction_date,
+		      'created_by' => $id,
+		    ])->execute();
+	
+		}
+	    
+	    // transaction commit
+	    $transaction->commit();
+	    Yii::$app->response->redirect(['./purchase-invoice-view', 'vendor_id' => $vendorID]);
+    } // closing of try block 
+    catch (Exception $e) {
+    	echo $e;
+        $transaction->rollback();
+    } // closing of catch block
+}
+ ?>
 <script>
 	 $(document).ready(function(){
 		$('#pay_amount').focus();
 	});
 	 
 	function cal_remaining(){
-
       	var paid = parseInt($('#paid_amount').val());
       	var pamount = parseInt($('#pamount').val());
       	var ramount = parseInt($('#ramount').val());
@@ -187,6 +280,3 @@ tr td{
     }
 
 </script>
-?>
-
-<?php } ?>

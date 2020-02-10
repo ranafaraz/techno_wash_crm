@@ -1,4 +1,8 @@
 <?php
+use common\models\Transactions;
+use common\models\AccountNature;
+use common\models\AccountHead;
+use yii\helpers\Json;
 	if(isset($_POST['PRODUCTid']))
 	{
 		$PRODUCTid = $_POST['PRODUCTid'];
@@ -91,12 +95,13 @@
 	 	&& isset($_POST['serviceArray']) && isset($_POST['amountArray'])
 	 	&& isset($_POST['ItemTypeArray']))
  		{
-
+ 		//$narration = $_POST['narration'];
 		$total_amount = $_POST["total_amount"];
 		$invoice_date= $_POST["invoice_date"];
 		$customer_id= $_POST['customer_id'];
 		$regno=$_POST['regno'];
 		$net_total = $_POST['net_total'];
+		//$payment_type = $_POST['payment_type'];
 		$paid = $_POST['paid'];
 		$remaining = $_POST['remaining'];
 		$cash_return = $_POST['cash_return'];
@@ -106,14 +111,16 @@
 		$amountArray = $_POST['amountArray'];
 		$ItemTypeArray = $_POST['ItemTypeArray'];
 		$user_id = $_POST["user_id"];
+		$branch_id = $_POST['branch_id'];
 		$quantityArray = $_POST["quantityArray"];
+
 		$disc_amount = $total_amount - $net_total;
 		$countItemArray = count($vehicleArray);
 		//starting of transaction handling
 		$transaction = \Yii::$app->db->beginTransaction();
 		try {
 			$insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
-
+				'branch_id' => $branch_id,
 				'customer_id'   	=> $customer_id,
 				'date'    			=> $invoice_date,
 				'total_amount'    	=> $total_amount,
@@ -124,7 +131,6 @@
 				'cash_return'		=> $cash_return,
 				'status'    		=> $status,
 				'created_by'		=> $user_id,
-
 			])->execute();
 
 			if ($insert_invoice_head) {
@@ -132,6 +138,7 @@
 				    SELECT 	sale_inv_head_id
 				    FROM sale_invoice_head
 				    WHERE customer_id		= '$customer_id'
+				    AND branch_id = '$branch_id'
 					AND CAST(date as DATE) 	= '$invoice_date'
 					AND	total_amount		= '$total_amount'
 					AND	discount			= '$disc_amount'
@@ -146,13 +153,61 @@
 
 				$insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
 
-				'sale_inv_head_id' => $selectedInvHeadID,
-				'transaction_date'    	=> new \yii\db\Expression('NOW()'),
-				'paid_amount'    		=> $paid,
-				'created_by'			=> $user_id,
+					'sale_inv_head_id' => $selectedInvHeadID,
+					'transaction_date'    	=> new \yii\db\Expression('NOW()'),
+					'paid_amount'    		=> $paid,
+					//'transaction_id'	  => $transactionId,
+					'created_by'			=> $user_id,
+					])->execute();
 
-			])->execute();
+				if ($insert_invoice_amount) {
+					$invoice_amount = Yii::$app->db->createCommand("
+				    SELECT 	*
+				    FROM sale_invoice_amount_detail
+				    WHERE sale_inv_head_id	= '$selectedInvHeadID'
+				    ORDER BY s_inv_amount_detail DESC
+				    ")->queryAll();
+					$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
 
+					// getting current asset from Account Nature and cash debit account from account head;
+					// id 3 is reserved for Cash Account
+					// id 5 is reserved for Account Payable
+					// id 12 is reserved for Sale Account
+					//if ($paid == 0) {
+						$transactions = Yii::$app->db->createCommand()->insert('transactions',
+						[
+							'branch_id' => $branch_id,
+							'account_head' => 12,
+							'total_amount' => $net_total,
+							'amount' => $paid,
+							'remaining' => $remaining,
+							'head_id' => $selectedInvHeadID,
+							'ref_no' => $invoice_amount,
+							'ref_name' => "Sale",
+							'transactions_date' => $invoice_date,
+							'created_by' => \Yii::$app->user->identity->id,
+						 	
+						])->execute();
+					// }
+					// else{
+					// 	$transactions = Yii::$app->db->createCommand()->insert('transactions',
+					// 	[
+					// 		'branch_id' => $branch_id,
+					// 		'type' => $payment_type,
+					// 		'narration' => $narration,
+					// 		'debit_account' => 3,
+					// 		'credit_account' => 12,
+					// 		'amount' => $paid,
+					// 		'head_id' => $selectedInvHeadID,
+					// 		'ref_no' => $invoice_amount,
+					// 		'ref_name' => "Sale",
+					// 		'transactions_date' => $invoice_date,
+					// 		'created_by' => \Yii::$app->user->identity->id,
+						 	
+					// 	])->execute();
+					// }
+									
+				}
 				for ($j=0; $j <$countItemArray ; $j++) {
 					$itemType = $ItemTypeArray[$j];
 					$quantity = $quantityArray[$j];
@@ -183,10 +238,10 @@
 							])->execute();
 
 				    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
-										'status'		=> "Sold",	
-										'updated_by'	=> $user_id
-				                        ],
-				                        ['stock_id' => $stock_id]
+								'status'		=> "Sold",	
+								'updated_by'	=> $user_id
+		                        ],
+		                        ['stock_id' => $stock_id]
 				            )->execute();
 			    		}
 			    	} //closing of quantity if 
@@ -213,15 +268,8 @@
 			    	} // closing of quantity else
 			    } // end of for loop itemarray
 			    // transaction commit
-			    //if($examScheduleUpdate){
-			    	$transaction->commit();
-				    echo json_encode($examScheduleUpdates);
-				    ?>
-				    <!-- <script type="text/javascript">
-						window.location = './paid-sale-invoice?sihID=<?php //echo $selectedInvHeadID; ?>&regno<?php //echo $regno; ?>'; 
-					</script> -->
-				<?php
-				//} // if($examScheduleUpdate)
+		    	$transaction->commit();
+			    echo Json::encode("[".$selectedInvHeadID."]");
 			} // end of if
 		} // closing of try block 
 		catch (Exception $e) {
@@ -229,7 +277,6 @@
 	 	 $transaction->rollback();
 		} // closing of catch block
 		//closing of transaction handling
-		//echo json_encode($insert_invoice_detail);
 	} // closing of isset
 		
 ?>

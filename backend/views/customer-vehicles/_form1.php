@@ -10,70 +10,47 @@ use common\models\Customer;
 /* @var $form yii\widgets\ActiveForm */
 $customerId = $model->customer_id;
 ?>
-<div class="row">
-        <div class="col-md-12">
-            <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Customer Vehicle</h2>
-        </div>
-</div>
-<div class="customer-vehicles-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
-
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
+<div class="container-fluid">
     <div class="row">
-            <div class="col-md-6">
-
-                <?= $form->field($model, 'customer_id')->dropDownList(
-                ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),["disabled"=>"disabled" ]
-                )?>
+        <div class="col-md-6 col-md-offset-3 customer-vehicles-form" style="background-color:#d3d3d3;padding:20px;border-top:3px solid #367FA9;">
+            <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+            <div class="row" style="border-bottom:1px solid #367FA9;margin-bottom:10px; ">
+                <div class="col-md-12">
+                    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update Customer Vehicle</h2>
+                </div>
             </div>
-            <div class="col-md-6">
-
-                <?= $form->field($model, 'vehicle_typ_sub_id')->dropDownList(
-                ArrayHelper::map(VehicleTypeSubCategory::find()->all(),'vehicle_typ_sub_id','name'),
-                ['prompt'=>'Select Vehicle Sub Type',]
-                )?>
-
+            <div class="row" style="margin-bottom:10px;">
+                    <div class="col-md-6" style="background-color:#f5f5f5;padding:10px;border-radius:5px;">
+                        <?= $form->field($model, 'customer_id')->dropDownList(
+                        ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),["disabled"=>"disabled" ]
+                        )?>
+                        <?= $form->field($model, 'vehicle_typ_sub_id')->dropDownList(
+                        ArrayHelper::map(VehicleTypeSubCategory::find()->all(),'vehicle_typ_sub_id','name'),
+                        ['prompt'=>'Select Vehicle Sub Type',]
+                        )?>
+                        <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true,'id' => 'reg_no']) ?>
+                        <?= $form->field($model, 'color')->textInput(['maxlength' => true, 'id' => 'color_veh']) ?>
+                    </div>
+                    <div class="col-md-6" style="text-align: center;padding:10px;">
+                        <img src="<?php echo $model->image; ?>" class="img-circle" style="width:160px; height:150px;border:1px solid #ffffff;"/>
+                        <?= $form->field($model, 'image')->fileInput(['maxlength' => true,'style' => 'margin-left:auto','margin-right:auto']) ?>
+                    </div>
+            </div>
+                 <!-- row 1 close -->
+            <div class="row" style="background-color:;border-top:1px solid #ecf0f5 ;padding-top:15px;">
+                <div class="col-md-12">
+                   <?php if (!Yii::$app->request->isAjax){ ?>
+                        <div class="form-group" style="float: right;">            
+                            <a href="./sale-invoice-view?customer_id=<?php echo $customerId;?>&regno=<?=$regno?>" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+                            <?= Html::submitButton($model->isNewRecord ? 'Create' : '<i class="glyphicon glyphicon-open"></i> Update', ['class' => $model->isNewRecord ? 'btn btn-success btn-xs' : 'btn btn-primary btn-xs']) ?>
+                        </div>
+                    <?php } ?>
+                    <?php ActiveForm::end(); ?> 
+                </div>
             </div>
         </div>
-
-         <!-- row 1 close -->
-
-        <div class="row">
-            <div class="col-md-6">
-
-                <?= $form->field($model, 'registration_no')->textInput(['maxlength' => true,'id' => 'reg_no']) ?>
-
-            </div>
-            <div class="col-md-6">
-
-                <?= $form->field($model, 'color')->textInput(['maxlength' => true, 'id' => 'color_veh']) ?>
-
-            </div>
-        </div>
-         <!-- row 2 close -->
-
-        <div class="row">    
-            <div class="col-md-6">
-
-                <?= $form->field($model, 'image')->fileInput(['maxlength' => true]) ?>
-
-             </div>
-        </div>
-
-        <!-- row 3 close -->
-
-  
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">            
-            <a href="./sale-invoice-view?customer_id=<?php echo $customerId;?>&regno=<?=$regno?>" class="btn btn-danger"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : '<i class="glyphicon glyphicon-open"></i> Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
-
-    <?php ActiveForm::end(); ?>
-    
+    </div>
 </div>
-
 <?php 
 $script = <<< JS
 

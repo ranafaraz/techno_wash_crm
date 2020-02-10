@@ -11,8 +11,9 @@ $paidinvoiceData = Yii::$app->db->createCommand("
     AND  purchase_invoice_id = '$purchaseinvoiceID'
     AND (status = 'Paid' OR status = 'paid')
     ")->queryAll();
-    $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
-    $time = date('h:i a',strtotime($paidinvoiceData[0]['created_at']));
+    date_default_timezone_set("Asia/Karachi");
+    $date = date('d-M-y');
+    $time = date('h:i A');
 
 	$vendorId 		= $paidinvoiceData[0]['vendor_id'];
 	$remainAmount 	= $paidinvoiceData[0]['remaining_amount'];
@@ -28,67 +29,74 @@ $paidinvoiceData = Yii::$app->db->createCommand("
 <html>
 <head>
 	<title>Purchase Invoice Transaction</title>
+	<style type="text/css" media="print">
+		footer{
+			display: none;
+		}
+		body{
+			font-size:18px;
+		}
+		#footer1{
+			color: white;
+		}
+	</style>
 </head>
-<body>
+<body onload="window.print();"  onafterprint="returnBack();">
 	<div class="container-fluid">
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-2">
-				<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
+				<a href="./purchase-invoice-view?vendor_id=<?php //echo $vendorID; ?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
 			</div>
 			<div class="col-md-8"></div>
 			<div class="col-md-2">
 				<button type="button" onclick="printContent('div1')" class="btn btn-warning btn-flat" id="print_button"><i class="glyphicon glyphicon-print"></i> Print Invoice</button>
 			</div>
-		</div>
-		<div id="div1">
+		</div> -->
+		<div id="div1" style="font-size:20px;font-family:arial;">
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
-					<h3  style="text-align: center;">
+					<h3  style="text-align: center;font-weight: bolder;">
 						TECHNO WASH
 					</h3>
 					<p style="text-align: center;">
-						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.facebook.com/technowashbwp/
+						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
 					</p>
-					<h3 style="text-align: center;background-color: lightgray !important;padding:10px;">Paid Transactions Memo</h3>
-					
+					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Transactions</h3>
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table">
+							<table class="table table-bordered">
 								
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>			
-										<td><?php echo $vendor_name; ?></td>
+										<td style="text-align: center;"><?php echo $vendor_name; ?></td>
 
 										<th>Date</th>										
-										<td><?php echo $date; ?></td>
+										<td style="text-align: center;"><?php echo $date; ?></td>
 									</tr>
 									<tr>
 										<th><b>INV #</b></th>
-										<td><?php echo $purchaseinvoiceID; ?></td>
+										<td style="text-align: center;"><?php echo $purchaseinvoiceID; ?></td>
 
 										<th>Time</th>
-										<td><?php echo $time; ?></td>
+										<td style="text-align: center;"><?php echo $time; ?></td>
 									</tr>
 									<tr>
 										<th><b>Total Amount:</b></th>
-										<td><?php echo $paidinvoiceData[0]['total_amount']; ?></td>
+										<td style="text-align: center;"><?php echo $paidinvoiceData[0]['total_amount']; ?></td>
 
 										<th>Discount:</th>
-										<td><?php echo $paidinvoiceData[0]['discount']; ?></td>
+										<td style="text-align: center;"><?php echo $paidinvoiceData[0]['discount']; ?></td>
 									</tr>
 									<tr>
 										<th><b>Net Amount:</b></th>
-										<td><?php echo $paidinvoiceData[0]['net_total']; ?></td>
+										<td style="text-align: center;"><?php echo $paidinvoiceData[0]['net_total']; ?></td>
 
 										<th>Paid Amount:</th>
-										<td><?php echo $paidinvoiceData[0]['paid_amount']; ?></td>
+										<td style="text-align: center;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></td>
 									</tr>
 								</thead>
-								
-							</table>
-							
-							
+							</table>	
 						</div>
 					</div>
 
@@ -101,12 +109,12 @@ $paidinvoiceData = Yii::$app->db->createCommand("
     					$countpurchaseInvoiceDetailData = count($purchaseInvoiceDetailData);
 
 					 ?>
-					<table class="table">
-						<thead style="background-color: #3C8DBC !important;color:white;">
+					<table class="table table-bordered">
+						<thead>
 							<tr>
-								<th style="vertical-align: middle;text-align: center;">Sr #</th>
-								<th style="vertical-align: middle;text-align: center;">Transaction Date</th>
-								<th style="vertical-align: middle;text-align: center;">Paid Amount</th>
+								<th style="background-color:lightgray !important;text-align: center;">Sr #</th>
+								<th style="background-color:lightgray !important;text-align: center;">Transaction Date</th>
+								<th style="background-color:lightgray !important;text-align: center;">Paid Amount</th>
 						</thead>
 						<tbody>
 							<?php for ($i = 0; $i < $countpurchaseInvoiceDetailData; $i++) {
@@ -129,31 +137,44 @@ $paidinvoiceData = Yii::$app->db->createCommand("
 					<table class="table table-bordered" >
 						<thead>
 							<tr>
-								<th style="text-align: center;background-color: lightgray;">Total Transactions: </th>
+								<th  style="text-align: center;background-color: lightgray !important;">Total Transactions: </th>
 								<th style="background-color: white;text-align:center;"><?php echo $countpurchaseInvoiceDetailData; ?></th>
-								<th style="text-align: center;background-color: lightgray;">Total Paid: </th>
+								<th  style="text-align: center;background-color: lightgray !important;">Total Paid: </th>
 								<th style="background-color: white;text-align:center;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
-								<th></th>
-								<th></th>
-								<th style="text-align: center;background-color: lightgray;">Remaining Amount</th>
+								<th colspan="3" style="text-align: center;">Remaining Amount</th>
 								<th style="background-color: white;text-align:center;"><?php echo $remainAmount; ?></th>
 							</tr>
 						</thead>
 					</table>
 				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-md-3">
-					
+				<div class="col-sm-6 col-md-offset-3">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<td style="font-weight: bold;background-color: #f1f1f1 !important;">
+									Salesman:
+								</td>
+								<td style="text-align: center;">
+									<?php 
+
+										echo Yii::$app->user->identity->username;
+									?>
+								</td>
+							</tr>
+						</thead>
+					</table>
 				</div>
-				<div class="col-md-6">
-					<h4 style="text-align: center;background-color: #3C8DBC !important;padding:10px;color: white !important"><i>Thanks For Visting us!</i></h4>
-					<p style="text-align: center;">
-						<i>IT Consultancy Provoided By:</i>&nbsp;<b>DEXDEVS</b><br>Contact #: +92 (300) 699 9824<br><b>Email: </b><i>info@dexdevs.com</i>
-					</p>
+				<div class="col-sm-6 col-md-offset-3">
+					<tr style="border:none;" class="footer">
+						<td colspan="2" style="border:0px !important;" class="footer">
+							<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>
+							<p style="text-align: center;">
+								<i>Powered By:</i>&nbsp;<b>Dexterous Developers</b><br>Contact #: +92 (306) 377 2106<br><b>Website: </b><i>www.dexdevs.com</i>
+							</p>
+						</td>
+					</tr>
 				</div>
 			</div>
 		</div>
@@ -165,11 +186,14 @@ $paidinvoiceData = Yii::$app->db->createCommand("
 <html>
 <head>
 <script>
-function printContent(el){
-	var restorepage = document.body.innerHTML;
-	var printcontent = document.getElementById(el).innerHTML;
-	document.body.innerHTML = printcontent;
-	window.print();
-	document.body.innerHTML = restorepage;
+// function printContent(el){
+// 	var restorepage = document.body.innerHTML;
+// 	var printcontent = document.getElementById(el).innerHTML;
+// 	document.body.innerHTML = printcontent;
+// 	window.print();
+// 	document.body.innerHTML = restorepage;
+// }
+function returnBack() {
+  window.location='purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>';
 }
 </script>

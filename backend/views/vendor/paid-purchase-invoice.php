@@ -4,20 +4,20 @@
 	$purchaseInvID = $_GET['piID'];
 	$vendorID = $_GET['vendorID'];
 
-	$paidinvoiceData = Yii::$app->db->createCommand("
+	$invoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM purchase_invoice 
     WHERE vendor_id = '$vendorID' 
     AND  purchase_invoice_id = '$purchaseInvID'
-    AND (status = 'Paid' OR status = 'paid')
     ")->queryAll();
-    $date = date('d-M-Y',strtotime($paidinvoiceData[0]['created_at']));
-    $time = date('h:i a',strtotime($paidinvoiceData[0]['created_at']));
+    date_default_timezone_set("Asia/Karachi");
+    $date = date('d-M-y');
+    $time = date('h:i A');
 
     // echo $date."<br>";
     // echo $time;
     
-    $vendorId = $paidinvoiceData[0]['vendor_id'];
+    $vendorId = $invoiceData[0]['vendor_id'];
 
     $vendorData  = Yii::$app->db->createCommand("
     SELECT name
@@ -39,7 +39,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Paid Purchase Invoice</title>
+	<title>Purchase Invoice</title>
 </head>
 <body onload="window.print();"  onafterprint="returnBack();">
 	<style type="text/css" media="print">
@@ -64,8 +64,6 @@
 			</div>
 		</div> -->
 		<div id="div1" style="font-size:20px;font-family:arial;">
-			
-		
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3">
 					<h3  style="text-align: center;font-weight: bolder;">
@@ -74,12 +72,10 @@
 					<p style="text-align: center;">
 						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
 					</p>
-					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Paid Purchase Memo</h3>
-					
+					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Purchase Memo</h3>
 					<div class="row">
 						<div class="col-md-12">
 							<table class="table table-bordered">
-								
 								<thead>
 									<tr>
 										<th style="vertical-align: top;">Name:</th>
@@ -93,13 +89,10 @@
 										<th>Time</th>
 										<td style="text-align: center;"><?php echo $time; ?></td>
 										<th>Bill #</th>
-										<td style="text-align: center;"><?php echo $paidinvoiceData[0]['bill_no'];; ?></td>
+										<td style="text-align: center;"><?php echo $invoiceData[0]['bill_no'];; ?></td>
 									</tr>
 								</thead>
-								
 							</table>
-							
-							
 						</div>
 					</div>
 					<?php 
@@ -116,17 +109,17 @@
 						    ")->queryAll();
 					 ?>
 					<table class="table table-bordered">
-						<thead style="background-color: #3C8DBC !important;color:white;">
+						<thead>
 							<tr>
 								<th colspan="6" style="text-align: center;background-color:lightgray !important;"> Stock: <?php echo $stockTypeName[0]['name'];?></th>
 							</tr>
 							<tr>
-								<th style="background-color: #f1f1f1 !important;">Sr #</th>
-								<th style="background-color: #f1f1f1 !important;">Product</th>
-								<th style="background-color: #f1f1f1 !important;">Manufacturer</th>
-								<th style="background-color: #f1f1f1 !important;">Price</th>
-								<th style="background-color: #f1f1f1 !important;">Quantity</th>
-								<th style="background-color: #f1f1f1 !important;">Total</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Sr #</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Product</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Manufacturer</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Price</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Quantity</th>
+								<th style="background-color: #f1f1f1 !important;text-align: center;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -176,9 +169,9 @@
 
 							?>
 							<tr>
-								<th style="text-align: left;"><?php echo $j+1; ?></th>
-								<th style="text-align: left;"><?php echo $productData[0]['product_name']; ?></th>
-								<th style="text-align: left;"><?php echo $manufacturerName[0]['name']; ?></th>
+								<th style="text-align: center;"><?php echo $j+1; ?></th>
+								<th style="text-align: center;"><?php echo $productData[0]['product_name']; ?></th>
+								<th style="text-align: center;"><?php echo $manufacturerName[0]['name']; ?></th>
 								<th style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></th>
 								<th style="text-align: center;"><?php echo $countStock; ?></th>
 								<th style="text-align: center;">
@@ -203,49 +196,42 @@
 							</tr>
 						</thead>
 					</table>
-
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-6">
-					
-				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-6 col-md-offset-3">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
 								<th>Total Amount</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['total_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['total_amount']; ?></th>
 							</tr>
 							<tr>
 								<th>Invoice Discount</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['discount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['discount']; ?></th>
 							</tr>
 							<tr>
 								<th>Net Bill</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['net_total']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['net_total']; ?></th>
 							</tr>
 							<tr>
 								<th>Paid</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['paid_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['paid_amount']; ?></th>
 							</tr>
 							<tr>
 								<th>Remaining</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['remaining_amount']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['remaining_amount']; ?></th>
 							</tr>
 							<tr>
 								<th style="background-color:white;color:black;">Cash Returned</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['cash_return']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['cash_return']; ?></th>
 							</tr>
 							<tr>
 								<th>Status</th>
-								<th style="text-align: center;"><?php echo $paidinvoiceData[0]['status']; ?></th>
+								<th style="text-align: center;"><?php echo $invoiceData[0]['status']; ?></th>
 							</tr>
 						</thead>
 					</table>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-6 col-md-offset-3">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -254,7 +240,6 @@
 								</td>
 								<td style="text-align: center;">
 									<?php 
-
 										echo Yii::$app->user->identity->username;
 									?>
 								</td>
@@ -262,7 +247,7 @@
 						</thead>
 					</table>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-6 col-md-offset-3">
 					<tr style="border:none;" class="footer">
 						<td colspan="2" style="border:0px !important;" class="footer">
 							<h4 style="text-align: center;background-color:#000000!important;padding:10px;color: white !important;">Thanks For Visting Us!</h4>

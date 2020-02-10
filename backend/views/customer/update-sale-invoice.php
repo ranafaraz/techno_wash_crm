@@ -4,25 +4,26 @@
 	$customerid = $_GET['customerid'];
 	$regNoID = $_GET['regno'];
 
-$updateinvoiceData = Yii::$app->db->createCommand("
-    SELECT *
-    FROM sale_invoice_head
-    WHERE sale_inv_head_id = '$saleinvHeadID'
-    ")->queryAll();
-    $countupdateinvoiceData = count($updateinvoiceData);
+	$updateinvoiceData = Yii::$app->db->createCommand("
+	    SELECT *
+	    FROM sale_invoice_head
+	    WHERE sale_inv_head_id = '$saleinvHeadID'
+	    ")->queryAll();
+	$statusCheck = $updateinvoiceData[0]['status'];
+	    $countupdateinvoiceData = count($updateinvoiceData);
 
-$customerData = Yii::$app->db->createCommand("
-    SELECT *
-    FROM customer
-    WHERE customer_id = $customerid
-    ")->queryAll();
-$saleInvoiceAmount = Yii::$app->db->createCommand("
-    SELECT *
-    FROM sale_invoice_amount_detail
-    WHERE sale_inv_head_id = '$saleinvHeadID'
-    ")->queryAll();
-$countSaleInvAmount = count($saleInvoiceAmount);
-//echo $countSaleInvAmount;
+	$customerData = Yii::$app->db->createCommand("
+	    SELECT *
+	    FROM customer
+	    WHERE customer_id = $customerid
+	    ")->queryAll();
+	$saleInvoiceAmount = Yii::$app->db->createCommand("
+	    SELECT *
+	    FROM sale_invoice_amount_detail
+	    WHERE sale_inv_head_id = '$saleinvHeadID'
+	    ")->queryAll();
+	$countSaleInvAmount = count($saleInvoiceAmount);
+	//echo $countSaleInvAmount;
 
  ?>
 <!DOCTYPE html>
@@ -31,121 +32,259 @@ $countSaleInvAmount = count($saleInvoiceAmount);
 	<title></title>
 </head>
 <body>
-	<div class="container">
-		
-		<form action="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" method="POST" accept-charset="utf-8">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-2">
-				
-			</div>
-			<div class="col-md-8">
-				<div class="row">		
-					<div class="col-md-10">
-					    <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Update (<b><?php echo $customerData[0]['customer_name']; ?></b>) Paid Invoice</h2>
-					</div>
-				</div>
-				<div class="row" style="background-color:white;padding:10px;border-top:2px solid #367FA9;">
-					<input type="hidden" name="<?= Yii::$app->request->csrfParam;?>" value="<?= Yii::$app->request->csrfToken;?>">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Date</label>
-							<?php $date = date('Y-m-d',strtotime($updateinvoiceData[0]['date']));?>
-							<input type="date" name="date" id="date" class="form-control" value="<?php echo $date;?>" onchange="datechange()">
-						</div>
-						<div class="form-group">
-							<label>Discount</label> &emsp;
-							 <input type="radio" name="discountType" id="amount"   checked  onclick="discEmpty()">Amount
-								&emsp;
-							  <input type="radio" name="discountType" id="percentage" onclick="discEmpty()">Percent
-							<input type="text" name="discount" oninput="discountFun()" class="form-control" id="disc" value="<?php echo $updateinvoiceData[0]['discount'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-						</div>
-						<div class="form-group">
-							<label>Remaining</label>
-							<input type="number" name="remaining_amount" id="remaining" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['remaining_amount'];?>">
-						</div>
-								
-							<input type="hidden" name="custID" value="<?php echo $customerid; ?>">
-							<input type="hidden" name="invID" value="<?php echo $saleinvHeadID; ?>"
-							>
-							<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
-							<input type="hidden" name="update_discount" id="update_disc" value="<?php echo $updateinvoiceData[0]['discount'];?>">
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Total Amount</label>
-							<input type="number" name="total_amount" id="tp" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['total_amount'];?>">
-						</div>
-						<div class="form-group">
-							<label>Net Total</label>
-							<input type="text" name="net_total" id="nt" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
-						</div>
-						<div class="form-group">
-							<label>Paid Amount</label>
-							<input type="number" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" readonly="">
-						</div>
-					</div>
-				</div>
-				<div class="row">		
-					<div class="col-md-12" style="background-color: white;">
-					    <div class="form-group">
-							<label>Status</label>
-							<?php $status = $updateinvoiceData[0]['status'];?>
-							<input type="text" name="status" id="status" class="form-control" readonly="" value="<?=$status?>">
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<h3 style="color:#367FA9;margin-bottom:20px;">Transaction Details</h3>
-					</div>
-				</div>
-				<?php 
-				for ($amount=0; $amount <$countSaleInvAmount ; $amount++) { 
-					$transDate = date('Y-m-d',strtotime($saleInvoiceAmount[$amount]['transaction_date']));
-					$paidAmount = $saleInvoiceAmount[$amount]['paid_amount'];
+			<form method="POST" accept-charset="utf-8">
+				<input type="hidden" name="<?= Yii::$app->request->csrfParam;?>" value="<?= Yii::$app->request->csrfToken;?>">
+				<div class="col-md-8">
+					<div class="box box-warning">
+						<div class="box-header">
+							<h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#367FA9;">Update (<b><?php echo $customerData[0]['customer_name']; ?></b>) <?php if ($statusCheck == "Paid"){
+						    	echo 'Paid';
+							    }else {
+							    	echo "Credit";
+							    } ?> Invoice</h3>
+							<div class="row" style="padding:16px;">
+								<div class="col-md-4" style="border-top:2px solid #D2D6DE;padding:10px;border-right:2px solid #D2D6DE;">
+									<div class="form-group">
+										<label>Date</label>
+										<?php $date = date('Y-m-d',strtotime($updateinvoiceData[0]['date']));?>
+										<input type="date" name="date" id="date" class="form-control" value="<?php echo $date;?>" onchange="datechange()">
+									</div>
+									<label>Invoice Status: </label>
+									<?php if ($statusCheck == "Paid"){ ?>
+										<div class="well" style="text-align: center;border:2px solid #008D4C;">
+											<i class="glyphicon glyphicon-ok-circle" style="font-size:30px;color:#008D4C;"></i>
+											<br>
+											<b>Paid</b>
+										</div>
+								   	<?php } ?>
+								   	<?php if ($statusCheck == "Unpaid"){ ?>
+								   		<div class="well" style="text-align: center;border:2px solid #D73925;">
+								   			<i class="glyphicon glyphicon-remove-circle" style="font-size:30px;color:#D73925;"></i>
+									    	<br>
+											<b>Unpaid</b>
+								   		</div>
+								   	<?php } ?>
+								   	<?php if ($statusCheck == "Partially"){ ?>
+								   		<div class="well" style="text-align: center;border:2px solid #F39C12;">
+								   			<i class="glyphicon glyphicon-thumbs-up" style="font-size:30px;color:#F39C12;"></i>
+									    	<br>
+											<b>Partially Paid</b>
+								   		</div>
+								   	<?php } ?>
+								</div>
+								<div class="col-md-8" style="border-top:2px solid #D2D6DE;">
+									<h3 style="color:#000000;margin-bottom:5px;margin-top:6px;text-align: center;background-color:lightgray;padding:5px;">Transaction Details</h3>
+									<?php 
+									for ($amount=0; $amount <$countSaleInvAmount ; $amount++) { 
+										$transDate = date('Y-m-d',strtotime($saleInvoiceAmount[$amount]['transaction_date']));
+										$paidAmount = $saleInvoiceAmount[$amount]['paid_amount'];
+										$transid = $saleInvoiceAmount[$amount]['transaction_id'];
 
-				?>
-				<div class="row">
-					<div class="col-md-4" style="padding:5px;background-color:lightgray;">
-						<div class="form-group">
-							<label>Transaction Date</label>
-							<input type="date" name="transaction_date[]"class="form-control" value="<?php echo $transDate;?>">
+									?>
+									<div class="row" style="padding:0px;">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Transaction Date</label>
+												<input type="date" name="transaction_date[]"class="form-control" value="<?php echo $transDate;?>" style="background-color:#D2D6DE;">
+												<input type="text" style="display: none !Important;" name="transaction_id[]" value="<?= $transid;?>">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Paid Amount</label>
+												<input type="text" name="detail_paid_amount[]" class="form-control" value="<?php echo $paidAmount;?>" oninput="cal_paid_amount(<?php echo $amount; ?>, <?php echo $countSaleInvAmount; ?>)" id="d_p_a_<?php echo $amount; ?>">
+												<input type="hidden" name="saleInvAmountID[]" value="<?php echo $saleInvoiceAmount[$amount]['s_inv_amount_detail'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+											</div>
+										</div>
+									</div>
+									<?php } ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center;" id="alert">
+				    				</div>								
+								</div>							
+							</div><br>
+							<div class="row">
+								<div class="col-md-6"></div>
+								<div class="col-md-3">
+									<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" class="btn btn-danger btn-xs btn-block" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+								</div>
+								<div class="col-md-3">
+									<button type="submit" name="update_invoice" id="update" class="btn btn-success btn-xs btn-block" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-4" style="padding:5px;background-color:lightgray;">
-						<div class="form-group">
-							<label>Paid Amount</label>
-							<input type="text" name="detail_paid_amount[]" class="form-control" value="<?php echo $paidAmount;?>" oninput="cal_paid_amount(<?php echo $amount; ?>, <?php echo $countSaleInvAmount; ?>)" id="d_p_a_<?php echo $amount; ?>">
-							<input type="hidden" name="saleInvAmountID[]" value="<?php echo $saleInvoiceAmount[$amount]['s_inv_amount_detail'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+				</div>
+				<div class="col-md-4">
+					<div class="box box-warning">
+						<div class="box-header">
+							<h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#367FA9;">
+							Bill
+							</h3>
+							<table class="table">
+								<thead>
+									<tr>
+										<td style="line-height:2.8;">
+											<label>Total Amount</label>
+										</td>
+										<td>
+											<div class="form-group">
+												<input type="number" name="total_amount" id="tp" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['total_amount'];?>">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td style="line-height:2.8;">
+											<label>Discount</label>
+										</td>
+										<td>
+											<div class="form-group">
+												 <input type="radio" name="discountType" id="amount"   checked  onclick="discEmpty()">Amount
+													&emsp;
+												  <input type="radio" name="discountType" id="percentage" onclick="discEmpty()">Percent
+												<input type="text" name="discount" oninput="discountFun()" class="form-control" id="disc" value="<?php echo $updateinvoiceData[0]['discount'];?>" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td style="line-height:2.8;">
+											<label>Net Total</label>
+										</td>
+										<td>
+											<div class="form-group">
+												<input type="text" name="net_total" id="nt" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td style="line-height:2.8;">
+											<label>Paid Amount</label>
+										</td>
+										<td>
+											<div class="form-group">
+												<input type="number" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" readonly="">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td style="line-height:2.8;">
+											<label>Remaining</label>
+										</td>
+										<td>
+											<div class="form-group">
+												<input type="number" name="remaining_amount" id="remaining" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['remaining_amount'];?>">
+											</div>
+											<input type="hidden" name="custID" value="<?php echo $customerid; ?>">
+											<input type="hidden" name="invID" value="<?php echo $saleinvHeadID; ?>"
+											>
+											<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
+											<input type="hidden" name="update_discount" id="update_disc" value="<?php echo $updateinvoiceData[0]['discount'];?>">
+										</td>
+									</tr>
+									<tr class="invisible">
+										<td style="line-height:2.8;">
+											<label>Status</label>
+										</td>
+										<td>
+											<div class="form-group">
+												<?php $status = $updateinvoiceData[0]['status'];?>
+												<input type="text" name="status" id="status" class="form-control" readonly="" value="<?=$status?>">
+											</div>
+										</td>
+									</tr>
+								</thead>
+							</table>
 						</div>
 					</div>
 				</div>
-				<?php } ?>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;text-align: center;" id="alert">
-	    				</div>								
-					</div>							
-				</div>
-				<br />
-				<div class="row">
-					<div class="col-md-2">
-						<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
-					</div>
-					<div class="col-md-3">
-						<button type="submit" name="update_invoice" id="update" class="btn btn-success" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
-					</div>
-				</div>
-			</div>
-			<div class="col-md-2">
-				
-			</div>
+			</form>
 		</div>
-		<form>
 	</div>
 </body>
 </html>
 <?php } ?>
+<?php 
+
+ if(isset($_POST['update_invoice']))
+ {
+   $customerID              = $_POST['custID'];
+   $invID                   = $_POST['invID'];
+   $regNoID                 = $_POST['regno'];
+  // $net_total               = $_POST['net_total'];
+   $updateDate              = $_POST['date'];
+   $updateDiscount          = $_POST['update_discount'];
+   $updatetotalamount       = $_POST['total_amount'];
+   $updatedpaidAmount       = $_POST['paid_amount'];
+   $updatenetTotal          = $_POST['net_total'];
+   $updateremainingAmount   = $_POST['remaining_amount'];
+   $updatestatus            = $_POST['status'];
+
+   $transactionDateArray    = $_POST['transaction_date'];
+   $paidAmountArray         = $_POST['detail_paid_amount'];
+   $saleInvAmountIDArray    = $_POST['saleInvAmountID'];
+   $transaction_update_id  = $_POST['transaction_id'];
+   
+   $id   =Yii::$app->user->identity->id;
+
+     // starting of transaction handling
+     $transaction = \Yii::$app->db->beginTransaction();
+     try {
+      $insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+
+     'date' => $updateDate,
+     'total_amount' => $updatetotalamount,
+     'discount' => $updateDiscount,
+     'net_total' => $updatenetTotal,
+     'paid_amount' => $updatedpaidAmount,
+     'remaining_amount' => $updateremainingAmount,
+     'status' => $updatestatus,
+    ],
+       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+
+    )->execute();
+
+    $countpaidAmountArray = count($paidAmountArray);
+
+    $counttransid = count($transaction_update_id);
+
+    for($i=0; $i<$countpaidAmountArray; $i++){
+      $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
+      'transaction_date' => $transactionDateArray[$i],
+      'paid_amount' => $paidAmountArray[$i],
+      ],
+         ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $saleInvAmountIDArray[$i]]
+
+      )->execute();
+
+      $tran = Yii::$app->db->createCommand()->update('transactions',
+        [
+          'transactions_date' => $transactionDateArray[$i],
+          'amount' => $paidAmountArray[$i],
+          'narration' => 'After Updation paid '.$paidAmountArray[$i].' out of total ' .$updatetotalamount,
+        ],['ref_no' => $saleInvAmountIDArray[$i], 'ref_name' => "Sale"]
+      )->execute();
+
+    }
+     // transaction commit
+     $transaction->commit();
+      \Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID&regno=$regNoID"]);
+     
+        
+     } // closing of try block 
+     catch (Exception $e) {
+     	echo $e;
+      // transaction rollback
+         $transaction->rollback();
+     } // closing of catch block
+     // closing of transaction handling
+}
+
+ ?>
  <script>
  	function datechange(){
  		$('#alert').css("display","none");
