@@ -750,55 +750,50 @@ $(document).ready(function(){
   $('#types').show();
   var vehicle = $("#vehicle").val();
   $.ajax({
-          type:'post',
-          data:{vehicle:vehicle},
-          url: "$url",
-          success: function(result){
-            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-             $('#vehicle_name').val(jsonResult[0]['registration_no']);
-             //alert(jsonResult[0]['vehical_type_id']);
-          }      
-      });
+    type:'post',
+    data:{vehicle:vehicle},
+    url: "$url",
+    success: function(result){
+      var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+      $('#vehicle_name').val(jsonResult[0]['registration_no']);
+    }      
   });
-  $("#cash_return").on('input', function(){
-    var cashReturn  = $('#cash_return').val();
-    var paid        = $('#paid').val();
-    var nt          = $('#nt').val();
-    var previous_value = paid-nt;
-    var temp = cashReturn-previous_value;
-    $('#remaining').val(temp);
+});
 
-    
-    if(cashReturn == previous_value)
-    {
-     $('#status').val('Paid');
+$("#cash_return").on('input', function(){
+  var cashReturn  = $('#cash_return').val();
+  var paid        = $('#paid').val();
+  var nt          = $('#nt').val();
+  var previous_value = paid-nt;
+  var temp = cashReturn-previous_value;
+  $('#remaining').val(temp);
+
+  if(cashReturn == previous_value){
+    $('#status').val('Paid');
     $("#insert").attr("disabled", false);
     $('#alert').css("display","none"); 
-    }
-    if(temp > 0)
-    {
-     $('#status').val('Partially Paid');
+  }
+  if(temp > 0){
+    $('#status').val('Partially Paid');
     $("#insert").attr("disabled", false);
     $('#alert').css("display","none"); 
-    }
+  }
 
-    if(temp < 0)
-    {
-      $("#insert").attr("disabled", true);
-      $('#alert').css("display","block");
-      $('#status').val('');
-      $('#alert').html("&ensp;Invalid Amount");
-    }
+  if(temp < 0){
+    $("#insert").attr("disabled", true);
+    $('#alert').css("display","block");
+    $('#status').val('');
+    $('#alert').html("&ensp;Invalid Amount");
+  }
+});
 
-  });
-
-  $("#vehicle").on('focus', function(){
-    $('#item_type').val("");
-    $('#servic').hide();
-    $('#stock').hide();
-    $('#pname').hide();
-    $('#quantity').hide();
-    });
+$("#vehicle").on('focus', function(){
+  $('#item_type').val("");
+  $('#servic').hide();
+  $('#stock').hide();
+  $('#pname').hide();
+  $('#quantity').hide();
+});
 
 $("#paid").on('focus', function(){
   $('#paid').val("");
@@ -810,211 +805,186 @@ $("#paid").on('focus', function(){
   //     $('#alert').css("display","block");
   //     $('#alert').html("&ensp;Paid Amount Cannot Be Empty");
   //   }
-  });
+});
 
-  $("#cash_return").on('focus', function(){
-    $('#cash_return').val("");
-  });
+$("#cash_return").on('focus', function(){
+  $('#cash_return').val("");
+});
 
 $("#item_type").change(function(){
   $('#servic').val("SelectServices");
   $('#selling_price').val("");
   $('#price').val("");
-		var item_type = $('#item_type').val();
-		 if(item_type == "Service")
-		 {
-		 	$('#servic').show();
-      $('#services').focus();
-		 	$('#stock').hide();
-      $('#pname').hide();
-      $('#quantity').hide();
-      $('#availbleStock').hide();
-      $('#message').hide();
-		 }
-		 else if(item_type == "Stock")
-		 {
-		 	$('#stock').show();
-      $('#pname').show();
-      $('#barcode').focus();
-      $('#barcode').val("");
-      $('#servic').hide();
-      $('#productid').val('').trigger("change");
-		 }
-		 else{
-		 	$('#stock').hide();
-		 	$('#servic').hide();
-		 }
-
-	});
-
-  $("#pname").focusin(function(){
-    $('#quantity').show();
-    $('#availbleStock').show();
-    $('#availbleStock').val("");
-    $('#barcode').val("");
-  });
-
-  $("#barcode").focusin(function(){
+	var item_type = $('#item_type').val();
+	if(item_type == "Service"){
+	 	$('#servic').show();
+    $('#services').focus();
+	 	$('#stock').hide();
+    $('#pname').hide();
     $('#quantity').hide();
     $('#availbleStock').hide();
-    $('#availble_stock').val("");
     $('#message').hide();
-    $('#productid').val('').trigger("change");  
-  });
+	} else if(item_type == "Stock") {
+	 	$('#stock').show();
+    $('#pname').show();
+    $('#barcode').focus();
+    $('#barcode').val("");
+    $('#servic').hide();
+    $('#productid').val('').trigger("change");
+	} else{
+	 	$('#stock').hide();
+	 	$('#servic').hide();
+	}
+});
 
+$("#pname").focusin(function(){
+  $('#quantity').show();
+  $('#availbleStock').show();
+  $('#availbleStock').val("");
+  $('#barcode').val("");
+});
 
-	$("#services").on('click',function(){
-		var serviceID = $("#services").val();
-    $('#product_quantity').val("");
-    var customerVehicle = $("#vehicle").val()
-		//alert(serviceID);
-		$.ajax({
-	        type:'post',
-	        data:{
-            serviceID:serviceID,
-            customerVehicle:customerVehicle
-            },
-	        url: "$url",
-	        success: function(result){
-	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-            console.log(jsonResult);
-	        	
+$("#barcode").focusin(function(){
+  $('#quantity').hide();
+  $('#availbleStock').hide();
+  $('#availble_stock').val("");
+  $('#message').hide();
+  $('#productid').val('').trigger("change");  
+});
+
+$("#services").on('click',function(){
+	var serviceID = $("#services").val();
+  $('#product_quantity').val("");
+  var customerVehicle = $("#vehicle").val()
+	
+	$.ajax({
+    type:'post',
+    data:{
+        serviceID:serviceID,
+        customerVehicle:customerVehicle
+    },
+    url: "$url",
+    success: function(result){
+        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+          console.log(jsonResult);
+        	
           $('#price').val(jsonResult[0]['price']);
           $('#serviceDetailId').val(jsonResult[0]['service_detail_id']);
           $('#service_name').val(jsonResult[0]['service_name']);
 
-            var totalAmount = parseInt($('#tp').val());
-				    var tprice = jsonResult[0]['price'];
-				    var tp = parseInt(totalAmount)+parseInt(tprice);
-            $('#tp').val(tp);
-            //var after_disc =  $('#disc').val();
-            //$('#nt').val(tp);
-            //$('#remaining').val(tp);
-				    //$('#status').val('Unpaid');
+          var totalAmount = parseInt($('#tp').val());
+			    var tprice = jsonResult[0]['price'];
+			    var tp = parseInt(totalAmount)+parseInt(tprice);
+          $('#tp').val(tp);
+          $('#disc').val("");
+          discountFun();
 
-            $('#disc').val("");
-            discountFun();
+			    var vehicle 						= $('#vehicle').val();
+					var services 						= $('#serviceDetailId').val();
+					var price 							= $('#price').val();
+					var servicesName				= $('#service_name').val();
+					var reg_name 						= $('#vehicle_name').val();
+					var type                = $('#item_type').val();
+          var quantity            = 1;
+					
+					if (vehicle=="" || vehicle==null) {
+						alert("Select the Vehicle name ");
+					} else if (services =="" || services==null) {
+								//alert("Select the Services ");
+					} else {
+						vehicleArray.push(vehicle);
+						serviceArray.push(services);
+						amountArray.push(price);
+						ItemTypeArray.push(type);
+            quantityArray.push(quantity);
 
-				    var vehicle 						= $('#vehicle').val();
-						var services 						= $('#serviceDetailId').val();
-						var price 							= $('#price').val();
-						var servicesName				= $('#service_name').val();
-						var reg_name 						= $('#vehicle_name').val();
-						var type                = $('#item_type').val();
-            var quantity            = 1;
+						$("#mydata").show();
+						$('#bill_form').show();
+						$('#insertdata').attr("disabled", false);
+						let table = document.getElementById("myTableData");
+
+						//count the table row
+						let rowCount = table.rows.length;
 						
-						if (vehicle=="" || vehicle==null)
-						{
-							alert("Select the Vehicle name ");
-						}
-						else if (services =="" || services==null) {
-									//alert("Select the Services ");
-						} else {
-  						vehicleArray.push(vehicle);
-  						serviceArray.push(services);
-  						amountArray.push(price);
-  						ItemTypeArray.push(type);
-              quantityArray.push(quantity);
+						//insert the new row
+						let row = table.insertRow(1);
+						
+						//insert the coulmn against the row
+						row.insertCell(0).innerHTML=rowCount;
+            row.insertCell(1).innerHTML=reg_name;
+						row.insertCell(2).innerHTML= servicesName;
+						row.insertCell(3).innerHTML= type;
+            row.insertCell(4).innerHTML= quantity;
+						row.insertCell(5).innerHTML= price;
+						
+            $('#services').val("");
+						$('#remove_index').show();
+						for(var i = 1; i < table.rows.length; i++){
+              table.rows[i].onclick = function() {
+                $('#removed_value').show();
+                $('#remove').show();
+                // get the seected row index
+                rIndex = this.rowIndex;
+                document.getElementById("remove_value").value = rIndex;
+                document.getElementById("removed_value").value = this.cells[2].innerHTML;
+                document.getElementById("check_no").value = this.cells[4].innerHTML;
+                document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
+                document.getElementById("remove_amount").value = this.cells[5].innerHTML;
+                $('#check_no').val("");
+                var q = this.cells[4].innerHTML;
 
-  						$("#mydata").show();
-  						$('#bill_form').show();
-  						//document.getElementById('insertdata').disabled=false;
-  						$('#insertdata').attr("disabled", false);
-  						let table = document.getElementById("myTableData");
+                $("#hide_quantity").val(q); 
+                if(q>1){
+                  $('#check_quantity').show();
+                  $('#check_no').focus();
+                } else{
+                    $('#check_quantity').hide();
+                }        
+              };
+            }
+          }
+  	}   
+	}); 
+});
 
-  						//count the table row
-  						let rowCount = table.rows.length;
-  						
-  						//insert the new row
-  						let row = table.insertRow(1);
-  						
-  						//insert the coulmn against the row
-  						row.insertCell(0).innerHTML=rowCount;
-              row.insertCell(1).innerHTML=reg_name;
-  						row.insertCell(2).innerHTML= servicesName;
-  						row.insertCell(3).innerHTML= type;
-              row.insertCell(4).innerHTML= quantity;
-  						row.insertCell(5).innerHTML= price;
-  						
-  					  // $('#vehicle').val("");
-              $('#services').val("");
-
-  						$('#remove_index').show();
-  						for(var i = 1; i < table.rows.length; i++){
-                table.rows[i].onclick = function()
-                {
-                  $('#removed_value').show();
-                  $('#remove').show();
-                  // get the seected row index
-                  rIndex = this.rowIndex;
-                  document.getElementById("remove_value").value = rIndex;
-                  document.getElementById("removed_value").value = this.cells[2].innerHTML;
-                  document.getElementById("check_no").value = this.cells[4].innerHTML;
-                  document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
-                  document.getElementById("remove_amount").value = this.cells[5].innerHTML;
-                  $('#check_no').val("");
-                  var q = this.cells[4].innerHTML;
-
-                  $("#hide_quantity").val(q); 
-                  if(q>1){
-                    $('#check_quantity').show();
-                    $('#check_no').focus();
-                  } 
-                  else{
-                      $('#check_quantity').hide();
-                  }        
-                };
-              }
-	          }
-        	}   
-    	}); 
-	});
-
-
- // for vehicel name
-	$("#vehicle").on("change",function(){
-		var vehicle = $("#vehicle").val();
-     if(vehicle == null || vehicle ==""){  
-      $('#types').hide();
-      $('#servic').hide();
-      $('#stock').hide();
-      $('#pname').hide();
-      $('#quantity').hide();
-    }
-    else{
-      $('#types').val("");
-      $('#types').show();
-      
-    }
-		
-		//alert(vehicle);
-		$.ajax({
-	        type:'post',
-	        data:{vehicle:vehicle},
-	        url: "$url",
-	        success: function(result){
-	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	 $('#vehicle_name').val(jsonResult[0]['registration_no']);
-             //alert(jsonResult[0]['vehical_type_id']);
-        	}      
-    	}); 
-     
-	});
+// for vehicel name
+$("#vehicle").on("change",function(){
+	var vehicle = $("#vehicle").val();
+  if(vehicle == null || vehicle ==""){  
+    $('#types').hide();
+    $('#servic').hide();
+    $('#stock').hide();
+    $('#pname').hide();
+    $('#quantity').hide();
+  } else{
+    $('#types').val("");
+    $('#types').show();
+  }
+	
+	$.ajax({
+    type:'post',
+    data:{vehicle:vehicle},
+    url: "$url",
+    success: function(result){
+    	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+    	$('#vehicle_name').val(jsonResult[0]['registration_no']);
+  	}      
+  }); 
+});
   
-	$("#barcode").on('change',function(){
-		var barcode = $("#barcode").val();
-    if(barcode=="" || barcode==null){
-  
-    }
-    else{
+$("#barcode").on('change',function(){
+	var barcode = $("#barcode").val();
+  if(barcode=="" || barcode==null){
+
+  } else{
 		$.ajax({
-	        type:'post',
-	        data:{barcode:barcode},
-	        url: "$url",
-	        success: function(result){
+        type:'post',
+        data:{barcode:barcode},
+        url: "$url",
+	      success: function(result){
 	        	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-	        	 $('#selling_price').val(jsonResult[0]['selling_price']);
-	        	 $('#stock_name').val(jsonResult[0]['product_name']);
+        	  $('#selling_price').val(jsonResult[0]['selling_price']);
+	        	$('#stock_name').val(jsonResult[0]['product_name']);
                      
 	        	var totalAmount = parseInt($('#tp').val());
 				    var tprice = jsonResult[0]['selling_price'];
@@ -1026,7 +996,6 @@ $("#item_type").change(function(){
             $('#disc').val("");
             discountFun();
 
-
 				    var vehicle 						= $('#vehicle').val();
 						var barcode             = jsonResult[0]['stock_id'];
 						var stock_price 				= $('#selling_price').val();
@@ -1035,113 +1004,100 @@ $("#item_type").change(function(){
 						var type                = $('#item_type').val();
             var quantity            = 1;
 
-						
-						if (vehicle=="" || vehicle==null)
-						{
+						if (vehicle=="" || vehicle==null) {
 									alert("Select the Vehicle name ");
-						}
-						else if (services=="" || services==null) {
+						} else if (services=="" || services==null) {
 									alert("Select the Services ");
-						}
-						else
-						{
-						vehicleArray.push(vehicle);
-						serviceArray.push(barcode);
-						amountArray.push(stock_price);
-						ItemTypeArray.push(type);
-            quantityArray.push(quantity);
+						} else {
+  						vehicleArray.push(vehicle);
+  						serviceArray.push(barcode);
+  						amountArray.push(stock_price);
+  						ItemTypeArray.push(type);
+              quantityArray.push(quantity);
 
-						$("#mydata").show();
-						$('#bill_form').show();
-						//document.getElementById('insertdata').disabled=false;
-						$('#insertdata').attr("disabled", false);
-						let table = document.getElementById("myTableData");
+  						$("#mydata").show();
+  						$('#bill_form').show();
+  						//document.getElementById('insertdata').disabled=false;
+  						$('#insertdata').attr("disabled", false);
+  						let table = document.getElementById("myTableData");
 
-						//count the table row
-						let rowCount = table.rows.length;
+  						//count the table row
+  						let rowCount = table.rows.length;
 
-						//insert the new row
-						let row = table.insertRow(1);
-						  
-						//insert the coulmn against the row
-						row.insertCell(0).innerHTML= rowCount;
-						row.insertCell(1).innerHTML= reg_name;
-						row.insertCell(2).innerHTML= servicesName;
-						row.insertCell(3).innerHTML= type;
-            row.insertCell(4).innerHTML= quantity;
-						row.insertCell(5).innerHTML= stock_price;
+  						//insert the new row
+  						let row = table.insertRow(1);
+  						  
+  						//insert the coulmn against the row
+  						row.insertCell(0).innerHTML= rowCount;
+  						row.insertCell(1).innerHTML= reg_name;
+  						row.insertCell(2).innerHTML= servicesName;
+  						row.insertCell(3).innerHTML= type;
+              row.insertCell(4).innerHTML= quantity;
+  						row.insertCell(5).innerHTML= stock_price;
 
+  						$('#barcode').val("");
+  						$('#barcode').focus();
+  						$('#remove_index').show();
 
-						$('#barcode').val("");
-						$('#barcode').focus();
-						$('#remove_index').show();
+              for(var i = 1; i < table.rows.length; i++) {
+			          table.rows[i].onclick = function() {
+                  $('#removed_value').show();
+                  $('#remove').show();
+                   // get the seected row index
+                  rIndex = this.rowIndex;
+                  document.getElementById("remove_value").value = rIndex;
+                  document.getElementById("removed_value").value = this.cells[2].innerHTML;
+                  document.getElementById("check_no").value = this.cells[4].innerHTML;
+                  document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
+                  document.getElementById("remove_amount").value = this.cells[5].innerHTML;
+                  $('#check_no').val("");
+                  var q = this.cells[4].innerHTML;
+                  $("#hide_quantity").val(q); 
+                  if(q>1){
+                    $('#check_quantity').show();
+                    $('#check_no').focus();
+                  }  
+                  else{ 
+                    $('#check_quantity').hide();
+                  }       
+                };
+			        }// loop
+				    } // else     
+        } // success
+    }); 
+  }
+});
 
-                
-                for(var i = 1; i < table.rows.length; i++)
-			                {
-			                    table.rows[i].onclick = function()
-			                    {
-
-                            $('#removed_value').show();
-                            $('#remove').show();
-			                      // get the seected row index
-			                      rIndex = this.rowIndex;
-			                      document.getElementById("remove_value").value = rIndex;
-			                       document.getElementById("removed_value").value = this.cells[2].innerHTML;
-			                     document.getElementById("check_no").value = this.cells[4].innerHTML;
-                           document.getElementById("check_no_quantity").value = this.cells[4].innerHTML;
-                           document.getElementById("remove_amount").value = this.cells[5].innerHTML;
-                           $('#check_no').val("");
-                          var q = this.cells[4].innerHTML;
-                          $("#hide_quantity").val(q); 
-                          if(q>1){
-                            $('#check_quantity').show();
-                            $('#check_no').focus();
-                          }  
-                          else{  $('#check_quantity').hide();}       
-			                    };
-			                }
-				}
-        	}      
-    	}); 
-          }
-	});
-   $('#productid').on("change",function(){
-   var PRODUCTid = parseInt($('#productid').val());
-   
-
-   //$('#message').val("");
-    $.ajax({
-          type:'post',
-          data:{PRODUCTid:PRODUCTid},
-          url: "$url",
-          success: function(result){
-            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-             var count = jsonResult.length;
-             if(count > 0){
-                $("#availble_stock").val(count);
-                $("#message").removeAttr("Style");
-                $("#message").html("Stock available");
-                $("#message").css({
-                "color":"#008D4C",
-                "text-align":"left",
-                "margin-top":"25px",
-                });
-              
-             }
-             else if(count == 0){
-                $("#availble_stock").val(count);
-                $("#message").html("Stock is not available");
-                $("#message").css({
-                "color":"red",
-                "text-align":"left",
-                "margin-top":"25px",
-                });
-             } 
-          }      
-    });
-
+$('#productid').on("change",function(){
+  var PRODUCTid = parseInt($('#productid').val());
+  $.ajax({
+      type:'post',
+      data:{PRODUCTid:PRODUCTid},
+      url: "$url",
+      success: function(result){
+        var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+        var count = jsonResult.length;
+        if(count > 0){
+          $("#availble_stock").val(count);
+          $("#message").removeAttr("Style");
+          $("#message").html("Stock available");
+          $("#message").css({
+            "color":"#008D4C",
+            "text-align":"left",
+            "margin-top":"25px",
+          });
+        } else if(count == 0) {
+            $("#availble_stock").val(count);
+            $("#message").html("Stock is not available");
+            $("#message").css({
+              "color":"red",
+              "text-align":"left",
+              "margin-top":"25px",
+            });
+        } 
+      }      
   });
+});
 
 $('#product_quantity').on("change",function(){
   var productID  = parseInt($("#productid").val());
@@ -1175,7 +1131,7 @@ $('#product_quantity').on("change",function(){
         $('#nt').val(totalprices);
         $('#remaining').val(totalprices);
         $('#disc').val("");
-            discountFun();
+        discountFun();
 
         var vehicle             = $('#vehicle').val();
         var productid           = parseInt($("#productid").val());
@@ -1222,7 +1178,6 @@ $('#product_quantity').on("change",function(){
 
           for(var i = 1; i < table.rows.length; i++) {
             table.rows[i].onclick = function(){
-              
               $('#removed_value').show();
               $('#check_quantity').show();
               $('#remove').show();
@@ -1250,36 +1205,28 @@ $('#product_quantity').on("change",function(){
   }
 });
 
-	$('#remove').click(function(){
-
-		var remove_value1= $('#remove_value').val();
-    var no_quantity = Number(document.getElementById("hide_quantity").value);
-    var check_quantity = Number(document.getElementById("check_no").value);
-		  var remain_number = no_quantity - check_quantity;
-			if(remove_value1 =="" || remove_value1==null){
-				alert("Please Select the Service/Item to remove");
-			}
-      
-      else if((check_quantity>no_quantity)&&(no_quantity>1)){
-        alert("Enter valid Amount");
-        $("#check_no").css("border", "1px solid red");
-        $('#check_no').focus();
-        $('#check_no').val("");
-      } 
-       else if((check_quantity=="" || check_quantity==null)&&(no_quantity>1)){
-        alert("The No of item are required ");
-        $("#check_no").css("border", "1px solid red");
-        $('#check_no').focus();
-        $('#check_no').val("");
-        }  
-
-
-			else{      
-         var qty = $("#hide_quantity").val();
-         var nt=$('#tp').val();
-         var remove_value = $('#remove_value').val();
-      if((qty > 1)&&(check_quantity<no_quantity)){
-    // alert(remain_number);
+$('#remove').click(function(){
+	var remove_value1= $('#remove_value').val();
+  var no_quantity = Number(document.getElementById("hide_quantity").value);
+  var check_quantity = Number(document.getElementById("check_no").value);
+	var remain_number = no_quantity - check_quantity;
+	if(remove_value1 =="" || remove_value1==null){
+		alert("Please Select the Service/Item to remove");
+	} else if((check_quantity>no_quantity)&&(no_quantity>1)){
+    alert("Enter valid Amount");
+    $("#check_no").css("border", "1px solid red");
+    $('#check_no').focus();
+    $('#check_no').val("");
+  } else if((check_quantity=="" || check_quantity==null)&&(no_quantity>1)){
+    alert("The No of item are required ");
+    $("#check_no").css("border", "1px solid red");
+    $('#check_no').focus();
+    $('#check_no').val("");
+  } else{      
+    var qty = $("#hide_quantity").val();
+    var nt=$('#tp').val();
+    var remove_value = $('#remove_value').val();
+    if((qty > 1)&&(check_quantity<no_quantity)) {
       document.getElementById("myTableData").rows[remove_value].cells[4].innerHTML = remain_number;
       var remove_amount = Number(document.getElementById("remove_amount").value);
 
@@ -1293,15 +1240,10 @@ $('#product_quantity').on("change",function(){
       $('#checke_no').val("");
       $('#remove_value').val("");
       $('#remove_value1').val("");
-      
-      } 
-        else{
-          document.getElementById("myTableData").deleteRow(remove_value1);
+    } else{
+      document.getElementById("myTableData").deleteRow(remove_value1);
       var a =amountArray.length - remove_value1;
-      
-     
-      //var nta = nt-amountArray[a];
-
+    
       if(qty > 1){
         var qty_amount = amountArray[a]*qty;
         var nta = nt-qty_amount;
@@ -1343,96 +1285,90 @@ $('#product_quantity').on("change",function(){
         $('#nta').val("");
         $("#availbleStock").hide();
         $("#message").hide();
-        
-        }
-        }
       }
-      $('#removed_value').hide();
-      $('#remove').hide();
-      $('#check_quantity').hide();
-      $('#check_no').val("");
-		});
+    }
+  }
+  $('#removed_value').hide();
+  $('#remove').hide();
+  $('#check_quantity').hide();
+  $('#check_no').val("");
+});
 
+$('#insert').click(function(){
+  // krajeeDialog.confirm('Are you sure to add bill', function(out){
+  // if(out) {    
+		var invoice_date = $('#invoice_date').val();
+    //var payment_type = $('#payment-type').val();
+		customer_id;
+    regno;
+		vehicleArray;
+		serviceArray; 
+		amountArray;
+		ItemTypeArray;
+    quantityArray;
 
+		var total_amount = $('#tp').val();
+		var net_total = $('#nt').val();
+		var paid = $('#paid').val();
+    var remaining = $('#remaining').val();
+    var status = $('#status').val();
+    //var narration = $('#narration').val();
+    var cash_return = $('#cash_return').val();
 
-	$('#insert').click(function(){
-    // krajeeDialog.confirm('Are you sure to add bill', function(out){
-    // if(out) {    
-			var invoice_date = $('#invoice_date').val();
-      //var payment_type = $('#payment-type').val();
-			customer_id;
-      regno;
-			vehicleArray;
-			serviceArray; 
-			amountArray;
- 			ItemTypeArray;
-      quantityArray;
-      //alert(quantityArray);
-
- 			var total_amount = $('#tp').val();
- 			var net_total = $('#nt').val();
- 			var paid = $('#paid').val();
-		    var remaining = $('#remaining').val();
-		    var status = $('#status').val();
-        //var narration = $('#narration').val();
-      var cash_return = $('#cash_return').val();
-
-      // alert(customer_id +"-"+ regno +"-"+ vehicleArray +"-"+ serviceArray +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ narration +"-"+ cash_return);
-      
-			if(invoice_date=="" || invoice_date==null){
-				alert('Please Select the date ');
-				$('#invoice_date').css("border", "1px solid red");
-				$('#invoice_date').focus();
-			}
-			else if(net_total=="" || net_total==null){
-				alert('Please Enter the value Net Total');
-				$('#nt').css("border", "1px solid red");
-				$('#invoice_date').css("border", "1px solid ");
-				$('#nt').focus();
-			}
-      else if(paid=="" || paid==null){
-        alert('Please Enter the Paid Amount');
-        $('#paid').css("border", "1px solid red");
-        $('#nt').css("border", "1px solid white");
-        $('#paid').focus();
-      }
-			else{
-				$.ajax({
-		      type:'post',
-		      data:{
-	        	user_id:user_id,
-            branch_id:branch_id,
-      			invoice_date:invoice_date,
-						customer_id:customer_id,
-            regno:regno,
-            vehicleArray:vehicleArray,
-            //payment_type:payment_type,
-						paid:paid,
-            //narration:narration,
-						remaining:remaining,
-            cash_return:cash_return,
-						status:status,
-						serviceArray:serviceArray,
-						amountArray:amountArray,
-						ItemTypeArray:ItemTypeArray,
-						total_amount:total_amount,
-            quantityArray:quantityArray,
-						net_total:net_total
-        	},
-	        url: "$url",
-	        success: function(result){
-            
-            if(result){
-             var sIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-             $('#saleInvId').val(sIHId[0]);
-                bill();
-            }
-	        }      
-    	  }); // ajax 
-			} // else
-      // }
-    // });
-	}); // insert button
+    alert(customer_id +"-"+ regno +"-"+ vehicleArray +"-"+ serviceArray +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ cash_return);
+    
+		if(invoice_date=="" || invoice_date==null){
+			alert('Please Select the date ');
+			$('#invoice_date').css("border", "1px solid red");
+			$('#invoice_date').focus();
+		}
+		else if(net_total=="" || net_total==null){
+			alert('Please Enter the value Net Total');
+			$('#nt').css("border", "1px solid red");
+			$('#invoice_date').css("border", "1px solid ");
+			$('#nt').focus();
+		}
+    else if(paid=="" || paid==null){
+      alert('Please Enter the Paid Amount');
+      $('#paid').css("border", "1px solid red");
+      $('#nt').css("border", "1px solid white");
+      $('#paid').focus();
+    }
+		else{
+			$.ajax({
+	      type:'post',
+	      data:{
+        	user_id:user_id,
+          branch_id:branch_id,
+    			invoice_date:invoice_date,
+					customer_id:customer_id,
+          regno:regno,
+          vehicleArray:vehicleArray,
+					paid:paid,
+					remaining:remaining,
+          cash_return:cash_return,
+					status:status,
+					serviceArray:serviceArray,
+					amountArray:amountArray,
+					ItemTypeArray:ItemTypeArray,
+					total_amount:total_amount,
+          quantityArray:quantityArray,
+					net_total:net_total
+      	},
+        url: "$url",
+        success: function(result){
+          if(result){
+            var sIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            alert(sIHId);
+            // $('#saleInvId').val(sIHId[0]);
+            // bill();
+          }
+        }      
+  	  }); // ajax 
+		} // else
+    // }
+  // });
+}); // insert button
 
 JS;
 $this->registerJs($script);
