@@ -562,13 +562,6 @@ $regNoID = $_GET['regno'];
                 <input type="text" name="net_total" class="form-control" id="nt"readonly="">
               </div>
               <div class="form-group">
-                <label>Payment Type</label>
-                <select class="form-control" id="payment-type">
-                  <option value="Cash Payment">Cash Payment</option>
-                  <option value="Bank Payment">Bank Payment</option>
-                </select>
-              </div>
-              <div class="form-group">
                 <label>Paid</label>
                 <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
               </div>
@@ -583,14 +576,6 @@ $regNoID = $_GET['regno'];
               <div class="form-group">
                 <label>Status</label>
                 <input type="text" name="status" class="form-control" readonly="" id="status" value="Unpaid">
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label>Narration</label>
-                    <input type="text" name="narration" id="narration" class="form-control">
-                  </div>
-                </div>
               </div>
               <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
               </div>
@@ -1374,7 +1359,7 @@ $('#product_quantity').on("change",function(){
     // krajeeDialog.confirm('Are you sure to add bill', function(out){
     // if(out) {    
 			var invoice_date = $('#invoice_date').val();
-      var payment_type = $('#payment-type').val();
+      //var payment_type = $('#payment-type').val();
 			customer_id;
       regno;
 			vehicleArray;
@@ -1389,7 +1374,7 @@ $('#product_quantity').on("change",function(){
  			var paid = $('#paid').val();
 		    var remaining = $('#remaining').val();
 		    var status = $('#status').val();
-        var narration = $('#narration').val();
+        //var narration = $('#narration').val();
       var cash_return = $('#cash_return').val();
 
       // alert(customer_id +"-"+ regno +"-"+ vehicleArray +"-"+ serviceArray +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ narration +"-"+ cash_return);
@@ -1421,9 +1406,9 @@ $('#product_quantity').on("change",function(){
 						customer_id:customer_id,
             regno:regno,
             vehicleArray:vehicleArray,
-            payment_type:payment_type,
+            //payment_type:payment_type,
 						paid:paid,
-            narration:narration,
+            //narration:narration,
 						remaining:remaining,
             cash_return:cash_return,
 						status:status,

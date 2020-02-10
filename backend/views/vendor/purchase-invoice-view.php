@@ -439,13 +439,6 @@ body td{
                   <input type="text" name="net_total" class="form-control" id="nt"readonly="" >
                 </div>
                 <div class="form-group">
-                <label>Payment Type</label>
-                <select class="form-control" id="payment-type">
-                  <option value="Cash Payment">Cash Payment</option>
-                  <option value="Bank Payment">Bank Payment</option>
-                </select>
-              </div>
-                <div class="form-group">
                   <label>Paid</label>
                   <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
                 </div> 
@@ -460,10 +453,6 @@ body td{
                 <div class="form-group">
                   <label>status</label>
                   <input type="text" name="status" class="form-control" readonly="" id="status">
-                </div>
-                <div class="form-group">
-                  <label>Narration</label>
-                  <input type="text" name="narration" class="form-control"  id="narration">
                 </div>
                 <div class="form-group">
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
@@ -1129,7 +1118,7 @@ $('#insert').click(function(){
       var remaining 		= $('#remaining').val();
       var cash_return = $('#cash_return').val();
     	var status 			= $('#status').val();
-      var narration = $('#narration').val();
+      //var narration = $('#narration').val();
       barcodeArray;
      	stockTypeArray;
      	manufacturerArray;
@@ -1139,7 +1128,7 @@ $('#insert').click(function(){
      	purchasePriceArray;
      	sellingPriceArray;
      	quantityArray;
-      var payment_type = $('#payment-type').val();
+      //var payment_type = $('#payment-type').val();
 
    		// if(bilty_no == "" || bilty_no == null )
    		// {
@@ -1177,7 +1166,7 @@ $('#insert').click(function(){
    			$.ajax({
           type:'post',
           data:{
-            narration:narration,
+            //narration:narration,
           	user_id:user_id,
           	vendorID:vendorID,
             branch_id:branch_id,
@@ -1188,7 +1177,7 @@ $('#insert').click(function(){
   					receiving_date:receiving_date, 	
   					total_amount:total_amount, 	
   					net_total:net_total,
-            payment_type:payment_type,		
+            //payment_type:payment_type,		
   					paid:paid, 			
   			    remaining:remaining,
             cash_return:cash_return,
