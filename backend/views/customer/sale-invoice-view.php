@@ -1353,8 +1353,6 @@ $('#product_quantity').on("change",function(){
       $('#check_no').val("");
 		});
 
-
-
 	$('#insert').click(function(){
     // krajeeDialog.confirm('Are you sure to add bill', function(out){
     // if(out) {    
