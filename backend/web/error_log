@@ -9215,3 +9215,8 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1558864784.5043709278106689453125,
     'REQUEST_TIME' => 1558864784,
 ]
+[05-Jan-2020 12:40:52 America/New_York] PHP Notice:  Undefined offset: 0 in /home/ranaifwh/technowashbwp.pk/techno_wash/vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-backend-app/layouts/header.php on line 12
+[05-Jan-2020 12:40:52 America/New_York] PHP Notice:  Trying to get property 'username' of non-object in /home/ranaifwh/technowashbwp.pk/techno_wash/vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-backend-app/layouts/header.php on line 211
+[05-Jan-2020 12:40:52 America/New_York] PHP Notice:  Trying to get property 'email' of non-object in /home/ranaifwh/technowashbwp.pk/techno_wash/vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-backend-app/layouts/header.php on line 221
+[05-Jan-2020 12:40:52 America/New_York] PHP Notice:  Undefined offset: 0 in /home/ranaifwh/technowashbwp.pk/techno_wash/vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-backend-app/layouts/left.php on line 6
+[05-Jan-2020 12:40:52 America/New_York] PHP Notice:  Trying to get property 'username' of non-object in /home/ranaifwh/technowashbwp.pk/techno_wash/vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-backend-app/layouts/left.php on line 43

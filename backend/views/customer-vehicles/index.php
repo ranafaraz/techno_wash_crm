@@ -86,7 +86,7 @@ CrudAsset::register($this);
                 [
                     'attribute' => 'Customer Name', 
                     'value' => 'customer.customer_name',
-                    'width' => '50px',
+                    'width' => '250px',
                     'headerOptions' => [
                         // this should be on a CSS file as class instead of a inline style attribute...
                         'style' => 'text-align: center !important;vertical-align: middle !important; color: #337AB7'
@@ -95,11 +95,14 @@ CrudAsset::register($this);
                     'subGroupOf' => 1 // supplier column index is the parent group
                 ],
                 [
-                     'attribute' => 'customer_id', 
+                    'attribute' => 'customer_id', 
                     'value' => 'customer.customer_contact_no',
                 ],
                 [
                     'attribute' => 'registration_no',
+
+                    // 'value' => 'std.std_name',
+                    //'width' => '500px',
                     'width' => '750px',
                     'format' => 'raw',
                     'value' => function($model, $key, $index, $column) {
