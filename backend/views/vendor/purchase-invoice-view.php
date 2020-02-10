@@ -461,7 +461,6 @@ body td{
                 <button class="btn btn-success btn-block btn-flat" id="insert">
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
                 </div>
-               
             </div>
           </div>
         </div>
