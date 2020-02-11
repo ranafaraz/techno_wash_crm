@@ -32,7 +32,7 @@ class SaleInvoiceHeadController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice','customer-invoice-lists', 'insert-services-invoice'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','branch-details','sale-invoice-view','add-sale-invoice-service','add-sale-invoice-stock','fetch-info','create-sale-invoice','customer-invoice-lists', 'insert-services-invoice', 'insert-invoice'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -96,23 +96,168 @@ class SaleInvoiceHeadController extends Controller
      * @return mixed
      */
 
-    public function actionInsertServiceInvoice($invoice_id, $vehicleArray, $serviceArray, $discountArray){
-        $countvehicle       = count($vehicleArray);
+    // public function actionInsertInvoice($user_id, $branch_id, $invoice_date, $customer_id, $regno, $vehicleArray, $paid, $remaining, $cash_return, $status, $serviceArray, $amountArray, $ItemTypeArray, $total_amount, $quantityArray, $net_total){
+    //     // data inserted from customer/sale-invoice-view page
 
-        for ($i=0; $i <$countvehicle ; $i++) {
-            $insert = Yii::$app->db->createCommand()->insert('sale_invoice_services_detail',
-                [
-                    'sale_inv_haed_id'      => $invoice_id,
-                    'services_id'           => $serviceArray[$i],
-                    'customer_vehicle_id'   => $vehicleArray[$i],
-                    'discount_per_service'  => $discountArray[$i],
-                    'created_at'            => new \yii\db\Express('NOW()'),
-                    'created_by'            => Yii::$app->user->identity->id,
-                ]
-            )->queryAll();
-        }
-        return json_encode($insert);
-    }
+    //     $disc_amount = $total_amount - $net_total;
+    //     $countItemArray = count($vehicleArray);
+
+    //     //starting of transaction handling
+    //     // $transaction = \Yii::$app->db->beginTransaction();
+    //     // try {
+    //     //     $insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
+    //     //         'branch_id' => $branch_id,
+    //     //         'customer_id'       => $customer_id,
+    //     //         'date'              => $invoice_date,
+    //     //         'total_amount'      => $total_amount,
+    //     //         'discount'          => $disc_amount,
+    //     //         'net_total'         => $net_total,
+    //     //         'paid_amount'       => $paid,
+    //     //         'remaining_amount'  => $remaining,
+    //     //         'cash_return'       => $cash_return,
+    //     //         'status'            => $status,
+    //     //         'created_by'        => $user_id,
+    //     //     ])->execute();
+
+    //     //     if ($insert_invoice_head) {
+    //     //         $select_invoice = Yii::$app->db->createCommand("
+    //     //             SELECT  sale_inv_head_id
+    //     //             FROM sale_invoice_head
+    //     //             WHERE customer_id       = '$customer_id'
+    //     //             AND branch_id = '$branch_id'
+    //     //             AND CAST(date as DATE)  = '$invoice_date'
+    //     //             AND total_amount        = '$total_amount'
+    //     //             AND discount            = '$disc_amount'
+    //     //             AND net_total           = '$net_total'
+    //     //             AND paid_amount         = '$paid'
+    //     //             AND remaining_amount    = '$remaining'
+    //     //             AND status              = '$status'
+    //     //             ORDER BY sale_inv_head_id DESC
+    //     //             ")->queryAll();
+                
+    //     //         $selectedInvHeadID = $select_invoice[0]['sale_inv_head_id'];
+
+    //     //         $insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
+
+    //     //                 'sale_inv_head_id' => $selectedInvHeadID,
+    //     //                 'transaction_date'      => new \yii\db\Expression('NOW()'),
+    //     //                 'paid_amount'           => $paid,
+    //     //                 //'transaction_id'    => $transactionId,
+    //     //                 'created_by'            => $user_id,
+    //     //             ])->execute();
+
+    //     //         if ($insert_invoice_amount) {
+    //     //             $invoiceData = Yii::$app->db->createCommand("
+    //     //                 SELECT  *
+    //     //                 FROM sale_invoice_amount_detail
+    //     //                 WHERE sale_inv_head_id  = '$selectedInvHeadID'
+    //     //                 ORDER BY s_inv_amount_detail DESC
+    //     //             ")->queryAll();
+    //     //             $invoice_amount = $invoiceData[0]['s_inv_amount_detail'];
+
+    //     //             // id 12 is reserved for Sale Account
+    //     //             $transactions = Yii::$app->db->createCommand()->insert('transactions',
+    //     //             [
+    //     //                 'branch_id' => $branch_id,
+    //     //                 'account_head' => 12,
+    //     //                 'total_amount' => $net_total,
+    //     //                 'amount' => $paid,
+    //     //                 'remaining' => $remaining,
+    //     //                 'head_id' => $selectedInvHeadID,
+    //     //                 'ref_no' => $invoice_amount,
+    //     //                 'ref_name' => "Sale",
+    //     //                 'transactions_date' => $invoice_date,
+    //     //                 'created_by' => \Yii::$app->user->identity->id,
+    //     //             ])->execute();          
+
+    //     //             for ($j=0; $j <$countItemArray ; $j++) {
+    //     //                 $itemType = $ItemTypeArray[$j];
+    //     //                 $quantity = $quantityArray[$j];
+
+    //     //                 if($itemType == "Product"){
+    //     //                     $product_id = $serviceArray[$j];
+
+    //     //                     $selectProduct = Yii::$app->db->createCommand("
+    //     //                         SELECT *
+    //     //                         FROM stock
+    //     //                         WHERE name = '$product_id'
+    //     //                         AND status = 'In-stock'
+    //     //                         LIMIT $quantity
+    //     //                         ")->queryAll();
+    //     //                     $count = count($selectProduct);
+
+    //     //                     for ($i=0; $i<$count; $i++) { 
+    //     //                         $stock_id = $selectProduct[$i]['stock_id'];
+
+    //     //                         $insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
+
+    //     //                         'sale_inv_head_id'      => $selectedInvHeadID,
+    //     //                         'customer_vehicle_id'   => $vehicleArray[$j],
+    //     //                         'item_id'               => $stock_id,
+    //     //                         'item_type'             => "Stock",
+    //     //                         'discount_per_service'  => $amountArray[$j],
+    //     //                         'created_by'            => $user_id,
+    //     //                         ])->execute();
+
+    //     //                         $examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+    //     //                             'status'        => "Sold",  
+    //     //                             'updated_by'    => $user_id
+    //     //                             ],
+    //     //                             ['stock_id' => $stock_id]
+    //     //                         )->execute();
+    //     //                     }
+    //     //                 } //closing of quantity if 
+    //     //                 else {
+    //     //                     $insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
+
+    //     //                         'sale_inv_head_id'      => $selectedInvHeadID,
+    //     //                         'customer_vehicle_id'   => $vehicleArray[$j],
+    //     //                         'item_id'               => $serviceArray[$j],
+    //     //                         'item_type'             => $ItemTypeArray[$j],
+    //     //                         'discount_per_service'  => $amountArray[$j],
+    //     //                         'created_by'            => $user_id,
+    //     //                         ])->execute();
+
+    //     //                     if ($ItemTypeArray[$j] == "Stock") {
+
+    //     //                         $examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+    //     //                                 'status'        => "Sold",  
+    //     //                                 'updated_by'    => $user_id
+    //     //                                 ],
+    //     //                             ['stock_id' => $serviceArray[$j]]
+    //     //                         )->execute();
+    //     //                     }
+    //     //                 } // closing of quantity else
+    //     //             } // end of for loop itemarray
+    //     //             // transaction commit
+    //     //             $transaction->commit();
+    //     //             return json_encode("[".$selectedInvHeadID."]");
+    //     //         } //if ($insert_invoice_amount)
+    //     //     } // end of if ($insert_invoice_head) 
+    //     // } // closing of try block 
+    //     // catch (Exception $e) {
+    //     //     // transaction rollback
+    //     //     $transaction->rollback();
+    //     // } // closing of catch block
+
+    //     return json_encode($branch_id);
+    //     return json_encode($invoice_date);
+    //     return json_encode($customer_id);
+    //     return json_encode($regno);
+    //     return json_encode($vehicleArray);
+    //     return json_encode($paid);
+    //     return json_encode($remaining);
+    //     return json_encode($cash_return);
+    //     return json_encode($status);
+    //     return json_encode($serviceArray);
+    //     return json_encode($amountArray);
+    //     return json_encode($ItemTypeArray);
+    //     return json_encode($total_amount);
+    //     return json_encode($quantityArray);
+    //     return json_encode($net_total);
+
+    // }
+
     public function actionCreateSaleInvoice(){
         return $this->render('create-sale-invoice');
     }
@@ -131,6 +276,7 @@ class SaleInvoiceHeadController extends Controller
     public function actionCustomerInvoiceLists(){
         return $this->render('customer-invoice-lists');
     }
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -199,8 +345,7 @@ class SaleInvoiceHeadController extends Controller
                     'model' => $model,
                 ]);
             }
-        }
-       
+        }  
     }
 
     /**
@@ -287,8 +432,6 @@ class SaleInvoiceHeadController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -319,7 +462,6 @@ class SaleInvoiceHeadController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**

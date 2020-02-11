@@ -1046,7 +1046,6 @@ $('#remove').click(function(){
       document.getElementById("myTableData").deleteRow(remove_value); 
       var remove_amount = Number(document.getElementById("get_purchase_value").value);
       net_of_remove_amount = remove_amount*hide_quantity;
-      //alert(quantityArray);
       nt=nt - net_of_remove_amount;
       $('#tp').val(nt); 
       $('#nt').val(nt); 
@@ -1060,7 +1059,6 @@ $('#remove').click(function(){
       purchasePriceArray.splice(a,1);
       sellingPriceArray.splice(a,1);
       quantityArray.splice(a,1);
-      //alert(quantityArray);
     }
     else{
       document.getElementById("myTableData").deleteRow(remove_value);
@@ -1106,6 +1104,7 @@ $('#insert').click(function(){
     if(out) {
     	user_id;
     	vendorID;
+      branch_id;
       var bilty_no    = $('#bilty_no').val();
     	var bill_no 		= $('#bill_no').val();
     	var purchase_date 	= $('#purchase_date').val();
@@ -1117,7 +1116,6 @@ $('#insert').click(function(){
       var remaining 		= $('#remaining').val();
       var cash_return = $('#cash_return').val();
     	var status 			= $('#status').val();
-      //var narration = $('#narration').val();
       barcodeArray;
      	stockTypeArray;
      	manufacturerArray;
@@ -1128,6 +1126,9 @@ $('#insert').click(function(){
      	sellingPriceArray;
      	quantityArray;
       //var payment_type = $('#payment-type').val();
+      //var narration = $('#narration').val();
+
+      //alert(vendorID +"-"+ branch_id +"-"+ bilty_no +"-"+ bill_no +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ cash_return);
 
    		// if(bilty_no == "" || bilty_no == null )
    		// {
@@ -1165,7 +1166,6 @@ $('#insert').click(function(){
    			$.ajax({
           type:'post',
           data:{
-            //narration:narration,
           	user_id:user_id,
           	vendorID:vendorID,
             branch_id:branch_id,
@@ -1175,8 +1175,7 @@ $('#insert').click(function(){
   					dispatch_date:dispatch_date, 	
   					receiving_date:receiving_date, 	
   					total_amount:total_amount, 	
-  					net_total:net_total,
-            //payment_type:payment_type,		
+  					net_total:net_total,		
   					paid:paid, 			
   			    remaining:remaining,
             cash_return:cash_return,
@@ -1193,7 +1192,6 @@ $('#insert').click(function(){
           },
           url: "$url",
           success: function(result){ 
-            console.log(result);
         		if(result){
               var pIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
               $('#purchaseinvId').val(pIHId[0]);

@@ -80,12 +80,17 @@ if (isset($_POST["vehicle"])) {
 	echo json_encode($register); 
 }
 
- 	if(isset($_POST['invoice_date']) && isset($_POST['customer_id'])
-	 	&& isset($_POST['total_amount']) && isset($_POST['net_total']) 
-	 	&& isset($_POST['paid']) && isset($_POST['remaining'])
-	 	&& isset($_POST['status']) && isset($_POST['vehicleArray'])
-	 	&& isset($_POST['serviceArray']) && isset($_POST['amountArray'])
-	 	&& isset($_POST['ItemTypeArray'])) {
+ 	if( isset($_POST['invoice_date']) 
+ 		&& isset($_POST['customer_id'])
+	 	&& isset($_POST['total_amount']) 
+	 	&& isset($_POST['net_total']) 
+	 	&& isset($_POST['paid']) 
+	 	&& isset($_POST['remaining'])
+	 	&& isset($_POST['status']) 
+	 	&& isset($_POST['vehicleArray'])
+	 	&& isset($_POST['serviceArray'])
+	 	&& isset($_POST['amountArray'])
+	 	&& isset($_POST['ItemTypeArray']) ) {
  		//$narration = $_POST['narration'];
 		$total_amount = $_POST["total_amount"];
 		$invoice_date= $_POST["invoice_date"];
@@ -107,7 +112,7 @@ if (isset($_POST["vehicle"])) {
 
 		$disc_amount = $total_amount - $net_total;
 		$countItemArray = count($vehicleArray);
-		//starting of transaction handling
+		
 		$transaction = \Yii::$app->db->beginTransaction();
 		try {
 			$insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
@@ -160,11 +165,11 @@ if (isset($_POST["vehicle"])) {
 				    ")->queryAll();
 					$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
 
-					// id 12 is reserved for Sale Account
+					// id 3 is reserved for Sale Account
 					$transactions = Yii::$app->db->createCommand()->insert('transactions',
 					[
 						'branch_id' => $branch_id,
-						'account_head' => 12,
+						'account_head' => 3,
 						'total_amount' => $net_total,
 						'amount' => $paid,
 						'remaining' => $remaining,
@@ -244,7 +249,6 @@ if (isset($_POST["vehicle"])) {
 			// transaction rollback
 	 	 $transaction->rollback();
 		} // closing of catch block
-		//closing of transaction handling
 	} // closing of isset
 		
 ?>

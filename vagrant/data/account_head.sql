@@ -51,8 +51,8 @@ INSERT INTO `account_head` (`id`, `nature_id`, `account_name`, `account_no`, `cr
 (5, 4, 'Account Payable', '04-001', 'Superadmin', '2019-11-09 11:11:39', 'Superadmin', '2019-11-09 11:11:39'),
 (6, 3, 'Account Recievable', '03-003', 'Superadmin', '2019-11-09 11:11:20', 'Superadmin', '2019-11-09 11:11:20'),
 (7, 2, 'Salaries', '02-002', 'Superadmin', '2019-11-11 05:11:51', 'Superadmin', '2019-11-11 05:11:51'),
-(12, 3, 'Sales', '03-004', 'admin_techno', '2019-12-15 00:00:00', 'admin_techno', '2019-12-15 00:00:00'),
-(13, 2, 'Refreshment', '02-003', 'Superadmin', '2020-01-14 00:00:00', 'Superadmin', '2020-01-14 00:00:00');
+(8, 3, 'Sales', '03-004', 'admin_techno', '2019-12-15 00:00:00', 'admin_techno', '2019-12-15 00:00:00'),
+(9, 2, 'Refreshment', '02-003', 'Superadmin', '2020-01-14 00:00:00', 'Superadmin', '2020-01-14 00:00:00');
 
 --
 -- Indexes for dumped tables

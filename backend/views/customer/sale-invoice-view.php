@@ -177,7 +177,7 @@ $regNoID = $_GET['regno'];
                               </select>
                             </div>
                             <div class="form-group">
-                              <input type="hidden" name="amount" class="form-control" id="price" readonly="" >
+                              <input type="hidden" name="amount" class="form-control" value="0" id="price" readonly="" >
                             </div>
                           </div>
                           <div id="stock" style="display: none;">
@@ -1315,7 +1315,7 @@ $('#insert').click(function(){
     //var narration = $('#narration').val();
     var cash_return = $('#cash_return').val();
 
-    alert(customer_id +"-"+ regno +"-"+ vehicleArray +"-"+ serviceArray +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ cash_return);
+    //alert(customer_id +"-"+ regno +"-"+ vehicleArray +"-"+ serviceArray +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ cash_return);
     
 		if(invoice_date=="" || invoice_date==null){
 			alert('Please Select the date ');
@@ -1359,9 +1359,8 @@ $('#insert').click(function(){
         success: function(result){
           if(result){
             var sIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-            alert(sIHId);
-            // $('#saleInvId').val(sIHId[0]);
-            // bill();
+            $('#saleInvId').val(sIHId[0]);
+            bill();
           }
         }      
   	  }); // ajax 
