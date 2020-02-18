@@ -23,6 +23,8 @@
 	    WHERE sale_inv_head_id = '$saleinvHeadID'
 	    ")->queryAll();
 	$countSaleInvAmount = count($saleInvoiceAmount);
+
+
 	//echo $countSaleInvAmount;
 
  ?>
@@ -80,7 +82,16 @@
 									for ($amount=0; $amount <$countSaleInvAmount ; $amount++) { 
 										$transDate = date('Y-m-d',strtotime($saleInvoiceAmount[$amount]['transaction_date']));
 										$paidAmount = $saleInvoiceAmount[$amount]['paid_amount'];
-										$transid = $saleInvoiceAmount[$amount]['transaction_id'];
+										$sIAD = $saleInvoiceAmount[0]['s_inv_amount_detail'];
+
+										$transactionData = Yii::$app->db->createCommand("
+										    SELECT *
+										    FROM transactions
+										    WHERE head_id = '$saleinvHeadID'
+										    AND ref_no = '$sIAD'
+										    AND ref_name = 'Sale'
+										    ")->queryAll();
+										$transid = $transactionData[0]['transaction_id'];
 
 									?>
 									<div class="row" style="padding:0px;">
