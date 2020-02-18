@@ -172,10 +172,10 @@
 								<th style="text-align: center;"><?php echo $j+1; ?></th>
 								<th style="text-align: center;"><?php echo $productData[0]['product_name']; ?></th>
 								<th style="text-align: center;"><?php echo $manufacturerName[0]['name']; ?></th>
-								<th style="text-align: center;"><?php echo $stockData[0]['purchase_price']; ?></th>
+								<th style="text-align: center;"><?php echo $stockCount[0]['purchase_price']; ?></th>
 								<th style="text-align: center;"><?php echo $countStock; ?></th>
 								<th style="text-align: center;">
-									<?php echo $total = $stockData[0]['purchase_price']*$countStock; 
+									<?php echo $total = $stockCount[0]['purchase_price']*$countStock; 
 									$totalAmount += $total;
 									?>
 								</th>
