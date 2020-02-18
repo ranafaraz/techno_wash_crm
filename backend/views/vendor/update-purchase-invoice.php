@@ -88,7 +88,16 @@ if (isset($_GET['piID']) && isset($_GET['vendorID'])) {
 								for ($amount=0; $amount <$countPurchaseInvAmount ; $amount++) {
 									$transDate = date('Y-m-d',strtotime($purchaseInvAmount[$amount]['transaction_date']));
 									$paidAmount = $purchaseInvAmount[$amount]['paid_amount']; 
-									$transid = $purchaseInvAmount[$amount]['transaction_id'];	
+									$pIAD = $purchaseInvAmount[0]['p_inv_amount_detail'];
+
+									$transactionData = Yii::$app->db->createCommand("
+									    SELECT *
+									    FROM transactions
+									    WHERE head_id = '$purchaseInvID'
+									    AND ref_no = '$pIAD'
+									    AND ref_name = 'Purchase'
+									    ")->queryAll();
+									$transid = $transactionData[0]['transaction_id'];	
 								?>
 								<div class="row" style="padding:0px;">
 									<div class="col-md-6">
