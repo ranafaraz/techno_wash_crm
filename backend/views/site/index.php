@@ -132,19 +132,16 @@ use yii\helpers\Url;
     <!-- Message of the day close -->
     <div class="row">
         <div class="col-md-3" style="background-color:white;padding:10px;border-top:3px solid #FAB61C;">
+          <p style="text-align: center;font-weight: bolder;color:#000000;">Today's</p>
         <a href="./car-wash-details?customer">
           <!--   <div class="panel panel-default" style="border:1px solid #FAB61C;"> -->
               <!-- <div class="panel-body" style="text-align: center;padding:30px" -->
                 <div class="row">
                   <div class="col-md-12">
-                    <p style="text-align: center;font-weight: bolder;color:#000000;">Today's</p>
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>CUSTOMERS</th>
-                        <th style="text-align: center;">
-                            <?php echo $countcustomer ?>
-                        </th>
+                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>CUSTOMERS <b>(<?php echo $countcustomer ?>)</b></th>
                         </tr>
                       <!-- <tr>
                         <th>Count</th>
@@ -171,10 +168,7 @@ use yii\helpers\Url;
                             $polishCount = $countwax + $countinteriorprot + $countenginedressing + $countundercarriage;
                         ?>
                         <tr>
-                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>POLISHES</th>
-                        <th style="text-align: center;">
-                           <?php echo $polishCount;?> 
-                        </th>
+                        <th colspan="3" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>POLISHES <b>(<?php echo $polishCount;?>)</b></th>
                         </tr>
                       <!-- <tr>
                         <th>Count</th>
@@ -233,10 +227,7 @@ use yii\helpers\Url;
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span> WASH</th>
-                        <th style="text-align:center;">
-                            <?php echo $countwash; ?> 
-                        </th>
+                        <th colspan="3" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>WASH <b>(<?php echo $countwash; ?>)</b></th>
                         </tr>
                       <!-- <tr>
                         <th>Count</th>
@@ -281,10 +272,7 @@ use yii\helpers\Url;
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span> CREDIT INVOICES</th>
-                        <th style="text-align:center;">
-                            <?php echo $count; ?>
-                        </th>
+                        <th colspan="3" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>CREDIT INVOICES <b>(<?php echo $count; ?>)</b></th>
                         </tr>
                       <!-- <tr>
                         <th>Count</th>
@@ -328,10 +316,7 @@ use yii\helpers\Url;
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>DEBIT INVOICES</th>
-                        <th style="text-align:center;">
-                            <?php echo $countdebit; ?>
-                        </th>
+                        <th colspan="3" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>DEBIT INVOICES <b>(<?php echo $countdebit; ?>)</b></th>
                         </tr>
                       <!-- <tr>
                         <th>Count</th>

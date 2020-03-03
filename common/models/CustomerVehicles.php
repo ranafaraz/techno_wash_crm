@@ -38,9 +38,9 @@ class CustomerVehicles extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vehicle_typ_sub_id', 'registration_no', 'color'], 'required'],
+            [['vehicle_typ_sub_id', 'registration_no'], 'required'],
             [['customer_id', 'vehicle_typ_sub_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by','image','customer_id'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by','image','customer_id', 'color'], 'safe'],
             [['registration_no'], 'string', 'max' => 20],
             [['color'], 'string', 'max' => 10],
             [['image'], 'string', 'max' => 200],

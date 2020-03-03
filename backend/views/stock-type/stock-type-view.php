@@ -76,7 +76,7 @@ $countManufactureData = count($manufactureData);
       	<a href="./stock-type" class="btn btn-success">
       		<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
 		</a>
-				&ensp;<?php echo "Stock Type: ".$stockTypeName[0]['name']; ?>
+				&ensp;<?php //echo "Stock Type: ".$stockTypeName[0]['name']; ?>
       	<!-- <a href="./update-stock" class="btn btn-info btn-xs" style="">
 				<i class="glyphicon glyphicon-edit"></i>  Update Stock
 			</a> -->
