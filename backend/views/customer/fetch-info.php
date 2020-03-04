@@ -169,7 +169,7 @@ if (isset($_POST["vehicle"])) {
 					$transactions = Yii::$app->db->createCommand()->insert('transactions',
 					[
 						'branch_id' => $branch_id,
-						'account_head' => 3,
+						'account_head_id' => 3,
 						'total_amount' => $net_total,
 						'amount' => $paid,
 						'remaining' => $remaining,

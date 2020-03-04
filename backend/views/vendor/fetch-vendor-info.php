@@ -52,11 +52,8 @@
 
  	if( isset($_POST['user_id'])
  		&& isset($_POST['vendorID'])
- 		// && isset($_POST['bilty_no'])
  		&& isset($_POST['bill_no'])
  	 	&& isset($_POST['purchase_date'])
- 	 	// && isset($_POST['dispatch_date']) 
- 	 	// && isset($_POST['receiving_date'])
  	 	&& isset($_POST['total_amount'])
  	  	&& isset($_POST['net_total'])
  	  	&& isset($_POST['paid'])
@@ -65,12 +62,10 @@
  	   	&& isset($_POST['stockTypeArray'])
  	   	&& isset($_POST['manufacturerArray'])
  	   	&& isset($_POST['nameArray'])
- 	   	// && isset($_POST['expiryDateArray'])
- 	   	//&& isset($_POST['originalPriceArray'])
  	   	&& isset($_POST['purchasePriceArray'])
  	   	&& isset($_POST['sellingPriceArray']))
  	{
- 		//$narration 				= $_POST['narration'];
+ 		//$narration 			= $_POST['narration'];
 	 	$user_id 				= $_POST["user_id"];
 		$branch_id 				= $_POST['branch_id'];
 		$vendorID				= $_POST["vendorID"];
@@ -101,7 +96,7 @@
 
 	$transaction = \Yii::$app->db->beginTransaction();
 	try {
-		 $purchase_invoice = Yii::$app->db->createCommand()->insert('purchase_invoice',[
+		$purchase_invoice = Yii::$app->db->createCommand()->insert('purchase_invoice',[
 			'branch_id' 		=> $branch_id,
 			'vendor_id'   		=> $vendorID,
 			'bilty_no'    		=> $bilty_no,
@@ -121,21 +116,18 @@
 	
 	 	if ($purchase_invoice) {
 			$select_purchase_invoice = Yii::$app->db->createCommand("
-		    SELECT 	purchase_invoice_id
-		    FROM purchase_invoice
-		    WHERE vendor_id	= '$vendorID'
-		    AND branch_id 	= '$branch_id'
-		    -- AND bilty_no						= '$bilty_no'
-		    AND bill_no= '$bill_no'
-			AND CAST(purchase_date as DATE) = '$purchase_date'
-			-- AND CAST(dispatch_date as DATE) 	= '$dispatch_date'
-			-- AND CAST(receiving_date as DATE) 	= '$receiving_date'
-			AND	total_amount = '$total_amount'
-			AND	discount = '$disc_amount'
-			AND	net_total = '$net_total'
-			AND	paid_amount	= '$paid'
-			AND remaining_amount = '$remaining'
-			AND	status = '$status'
+			    SELECT 	purchase_invoice_id
+			    FROM purchase_invoice
+			    WHERE vendor_id	= '$vendorID'
+			    AND branch_id 	= '$branch_id'
+			    AND bill_no= '$bill_no'
+				AND CAST(purchase_date as DATE) = '$purchase_date'
+				AND	total_amount = '$total_amount'
+				AND	discount = '$disc_amount'
+				AND	net_total = '$net_total'
+				AND	paid_amount	= '$paid'
+				AND remaining_amount = '$remaining'
+				AND	status = '$status'
 		    ")->queryAll();
 	
 			$selectedPurchInvID = $select_purchase_invoice[0]['purchase_invoice_id'];
@@ -145,7 +137,7 @@
 				'transaction_date'    => date('y-m-d'),
 				'paid_amount'    	  => $paid,
 				'created_by'		  => $user_id,
-				])->execute();
+			])->execute();
 
 			if ($purchase_invoice_amount) {
 				$invoice_amount = Yii::$app->db->createCommand("
@@ -154,23 +146,23 @@
 			    WHERE purchase_invoice_id	= '$selectedPurchInvID'
 			    ORDER BY p_inv_amount_detail DESC
 			    ")->queryAll();
-				$invoice_amount = $invoice_amount[0]['p_inv_amount_detail'];
+				$invoice_amountId = $invoice_amount[0]['p_inv_amount_detail'];
+
+				$accountHead = 4;
 				
-				$transactions = Yii::$app->db->createCommand()->insert('transactions',
-				[
+				$transactionData = Yii::$app->db->createCommand()->insert('transactions',[
 					'branch_id' => $branch_id,
-					'account_head' => 4,
+					'account_head_id' => $accountHead,
 					'total_amount' => $net_total,
 					'amount' => $paid,
 					'remaining' => $remaining,
-					'head_id' => $selectedPurchInvID,
-					'ref_no' => $invoice_amount,
-					'ref_name' => "Purchase",
 					'transactions_date' => $purchase_date,
-					'created_by' => \Yii::$app->user->identity->id,
-				 	
+					'head_id' => $selectedPurchInvID,
+					'ref_no' => $invoice_amountId,
+					'ref_name' => "Purchase",
+					'created_by' => $user_id,
 				])->execute();
-			
+				
 				for ($j=0; $j <$countStockTypeArray ; $j++) { 
 					$qty = $quantityArray[$j];
 
@@ -191,9 +183,7 @@
 							'created_by'			=> $user_id,
 							])->execute();
 						}
-					}	
-				    else 
-				    {
+					} else {
 				    	$insert_stock = Yii::$app->db->createCommand()->insert('stock',[
 
 							'stock_type_id'  		=> $stockTypeArray[$j],
@@ -207,42 +197,19 @@
 							'selling_price'  		=> $sellingPriceArray[$j],
 							'status'  				=> "In-stock",
 							'created_by'			=> $user_id,
-							])->execute();
-				    	}
-				} // end of for loop
-			    // transaction commit
+						])->execute();
+				    }
+				} // end of for loop			
 		    	$transaction->commit();
 			    echo json_encode("[".$selectedPurchInvID."]");
 			} //if ($purchase_invoice_amount)
 		} // end of if
 	} // closing of try block 
 	catch (Exception $e) {
+		echo json_encode($e);
 		// transaction rollback
         $transaction->rollback();
 	} // closing of catch block
-
-		// echo json_encode($user_id);
-		// echo json_encode($branch_id);
-  //       echo json_encode($bilty_no);
-  //       echo json_encode($bill_no);
-  //       echo json_encode($purchase_date);
-  //       echo json_encode($dispatch_date);
-  //       echo json_encode($receiving_date);
-  //       echo json_encode($total_amount);
-  //       echo json_encode($net_total);	
-  //       echo json_encode($paid);
-  //       echo json_encode($remaining);
-  //       echo json_encode($cash_return);
-  //       echo json_encode($status);
-  //       echo json_encode($barcodeArray);
-  //       echo json_encode($stockTypeArray);
-  //       echo json_encode($manufacturerArray);
-  //       echo json_encode($nameArray);
-  //       echo json_encode($expiryDateArray);
-  //       echo json_encode($originalPriceArray);
-  //       echo json_encode($purchasePriceArray);
-  //       echo json_encode($sellingPriceArray);
-  //       echo json_encode($quantityArray);
 }
 
  ?>

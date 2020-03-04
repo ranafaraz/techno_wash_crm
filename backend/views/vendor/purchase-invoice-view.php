@@ -1,3 +1,4 @@
+
 <?php  
 use common\models\Branches;
 use common\models\Transactions;
@@ -1193,6 +1194,7 @@ $('#insert').click(function(){
           url: "$url",
           success: function(result){ 
         		if(result){
+              //console.log(result);
               var pIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
               $('#purchaseinvId').val(pIHId[0]);
                 bill();
