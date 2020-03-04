@@ -34,7 +34,7 @@ use common\models\VehicleTypeSubCategory;
         <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
     </div>
     <div class="col-md-4">
-        <?= $form->field($model, 'customer_contact_no')->widget(yii\widgets\MaskedInput::class, [ 'mask' => '+99-999-9999999', ]) ?>
+        <?= $form->field($model, 'customer_contact_no')->textInput(['id' => 'contact_no' ]) ?>
     </div>
     </div>  
     <!-- row 1 close -->
@@ -216,6 +216,26 @@ $("#customer_occupation").bind('keyup', function (e) {
 
 <?php 
 $script = <<< JS
+$(document).ready(function(){
+  $("#contact_no").val("+92");
+});
+$("#contact_no").on("keypress", function(e){
+  var input = $(this).val();
+  if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) {return false;}
+  if(input==''){
+    $(this).val('+92');
+  }else{
+    if(input.length == 3){
+      $("#contact_no").val(input + '-');
+    }
+    if(input.length == 7){
+      $("#contact_no").val(input + '-');
+    }
+    if(input.length <= 15){
+      
+    }
+  }
+});
 $(function () {
     $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
          $( ".regnoclass" ).each(function() {
