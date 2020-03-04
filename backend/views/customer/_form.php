@@ -34,7 +34,7 @@ use common\models\VehicleTypeSubCategory;
         <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
     </div>
     <div class="col-md-4">
-        <?= $form->field($model, 'customer_contact_no')->textInput(['id' => 'contact_no' ]) ?>
+        <?= $form->field($model, 'customer_contact_no')->textInput(['id' => 'contact_no','maxlength' => 15,'minlength' => 15 ]) ?>
     </div>
     </div>  
     <!-- row 1 close -->
