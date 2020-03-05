@@ -76,7 +76,7 @@ $countManufactureData = count($manufactureData);
       	<a href="./stock-type" class="btn btn-success">
       		<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
 		</a>
-				&ensp;<?php echo "Stock Type: ".$stockTypeName[0]['name']; ?>
+				&ensp;<?php //echo "Stock Type: ".$stockTypeName[0]['name']; ?>
       	<!-- <a href="./update-stock" class="btn btn-info btn-xs" style="">
 				<i class="glyphicon glyphicon-edit"></i>  Update Stock
 			</a> -->
@@ -134,7 +134,7 @@ $countManufactureData = count($manufactureData);
 				               		</div>
 					               	<div class="col-md-3">
 					               		<div class="form-group">
-											<input type="text" name="product_name[]" id="productName" class="form-control">
+											<input type="text" name="product_name[]" id="productName" class="form-control" class="prodclassname">
 										</div>
 					               	</div>
 					               	<div class="col-md-1">
@@ -296,5 +296,55 @@ $countManufactureData = count($manufactureData);
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+     function testInput(event) {
+        var value = String.fromCharCode(event.which);
+        var pattern = new RegExp(/[a-zåäö ]/i);
+        return pattern.test(value);
+    }
+    // $('#productName').bind('keypress', testInput);
+    // $("#productName").bind('keyup', function (e) {
+    //     $("#productName").val(($("#productName").val()).toUpperCase());
+    // });
+    // $('#description').bind('keypress', testInput);
+    // $("#description").bind('keyup', function (e) {
+    //     $("#description").val(($("#description").val()).toUpperCase());
+    // });
+    function forceKeyPressUppercase(e) {
+        var charInput = e.keyCode;
+        if((charInput >= 97) && (charInput <= 122)) { // lowercase
+          if(!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+            var newChar = charInput - 32;
+            var start = e.target.selectionStart;
+            var end = e.target.selectionEnd;
+            e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+            e.target.setSelectionRange(start+1, start+1);
+            e.preventDefault();
+          }
+        }
+  }
+        document.getElementById("productName").addEventListener("keypress", forceKeyPressUppercase, false);
+        // document.getElementById("category_description").addEventListener("keypress", forceKeyPressUppercase, false);
+</script>
+<?php 
+$script = <<< JS
+$(function () {
+   
+         $( ".prodclassname" ).each(function() {
+             $( ".prodclassname" ).keyup(function() {
+            $(this).val($(this).val().toUpperCase());
+            });
+            $('.prodclassname').keypress(function(e){
+              var keyCode = e.keyCode || e.which;
+            if ((keyCode >= 33 && keyCode <=44) || (keyCode >= 46 && keyCode <=47) || (keyCode >= 58 && keyCode <=64) || (keyCode >= 91 && keyCode <=96) || (keyCode >= 123 && keyCode <= 126)) { 
+              return false;
+            }
+            });
+        });
+    
+});
+JS;
+$this->registerJS($script);
+ ?>
 </body>
 </html>
