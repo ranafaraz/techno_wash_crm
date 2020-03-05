@@ -17,12 +17,12 @@
     // echo $date."<br>";
     // echo $time;
     
-    $vendorId = $invoiceData[0]['vendor_id'];
+    //$vendorId = $invoiceData[0]['vendor_id'];
 
     $vendorData  = Yii::$app->db->createCommand("
     SELECT name
     FROM vendor
-    WHERE vendor_id = '$vendorId'
+    WHERE vendor_id = '$vendorID'
     ")->queryAll();
     $vendor_name = $vendorData[0]['name'];
 

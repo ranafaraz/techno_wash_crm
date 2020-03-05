@@ -104,6 +104,9 @@ class EmpAttendanceController extends Controller
     public function actionCreate()
     {
         $model = new EmpAttendance();
+        date_default_timezone_set("Asia/Karachi");
+        $date = date('d-M-y');
+        $time = date('h:i A');
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $transaction = \Yii::$app->db->beginTransaction();
@@ -128,8 +131,8 @@ class EmpAttendanceController extends Controller
                     if(empty($emp_att)){
                         $model->branch_id = $branch_id;
                         $model->emp_id = $empId;
-                        $model->att_date = new \yii\db\Expression('NOW()');
-                        $model->check_in = new \yii\db\Expression('NOW()');
+                        $model->att_date = $date." ".$time;
+                        $model->check_in = $date." ".$time;
                         $model->attendance = "P";
                         $model->created_by = Yii::$app->user->identity->id; 
                         $model->created_at = new \yii\db\Expression('NOW()');
@@ -146,7 +149,7 @@ class EmpAttendanceController extends Controller
                             return $this->redirect(['./emp-atten-create', Yii::$app->session->setFlash('warning', "Employee: ".$empName." | CNIC: ".$cnic." is Already Checked out for today...")]);
                         } else {
                             $att = Yii::$app->db->createCommand()->update('emp_attendance', [
-                                'check_out'=> new \yii\db\Expression('NOW()'),
+                                'check_out'=> $date." ".$time,
                                 'updated_at'    => new \yii\db\Expression('NOW()'),
                                 'updated_by'    => Yii::$app->user->identity->id,
                                 ],

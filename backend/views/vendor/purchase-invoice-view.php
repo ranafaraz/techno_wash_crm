@@ -97,269 +97,263 @@ body td{
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
               <div class="active tab-pane" id="invoice"  style="background-color:lightgray;padding:10px;">
-               
                   <div class="form-group">
                     <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">   
-
-                        <input type="hidden"  class="form-control" id="dispatch_date">  
-                        <input type="hidden"  class="form-control" id="receiving_date"> 
-                        <input type="hidden"  class="form-control" id="bilty_no" onkeypress="return checkSpcialChar(event)">
-                        <input type="hidden"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="original_price" class="form-control">   
+                    <input type="hidden"  class="form-control" id="dispatch_date">  
+                    <input type="hidden"  class="form-control" id="receiving_date"> 
+                    <input type="hidden"  class="form-control" id="bilty_no" onkeypress="return checkSpcialChar(event)">
+                    <input type="hidden" class="form-control" id="expiry_date">
+                    <input type="hidden"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="original_price" class="form-control">   
                   </div> 
                 </form>
                 <div class="row">
                 	<div class="col-md-12">
-        				<div class="container-fluid" style="margin-bottom:;">
-                    <?php echo Dialog::widget([
-                         'libName' => 'krajeeDialog',
-                         'options' => [], // default options
-                      ]); ?>
-                    <div class="row" style="font-weight: bolder;font-size:20px;background-color:#3C8DBC;color:white;">
-                      <div class="col-md-6">
-                        <p style="margin-top:12px;text-align: center;">Add Stock</p>
-                      </div>
-                      <div class="col-md-2" style="margin-top:12px;">
-                        <label style="float: right;">Bill:</label>
-                      </div>
-                      <div class="col-md-4" style="margin-top:8px;">
-                        <div class="form-group>">
-                          <input type="text"  class="form-control" id="bill_no" onkeypress="return checkSpcialChar(event)">
+            				<div class="container-fluid" style="margin-bottom:;">
+                        <?php echo Dialog::widget([
+                             'libName' => 'krajeeDialog',
+                             'options' => [], // default options
+                          ]); ?>
+                      <div class="row" style="font-weight: bolder;font-size:20px;background-color:#3C8DBC;color:white;">
+                        <div class="col-md-6">
+                          <p style="margin-top:12px;text-align: center;">Add Stock</p>
+                        </div>
+                        <div class="col-md-2" style="margin-top:12px;">
+                          <label style="float: right;">Bill:</label>
+                        </div>
+                        <div class="col-md-4" style="margin-top:8px;">
+                          <div class="form-group>">
+                            <input type="text"  class="form-control" id="bill_no" onkeypress="return checkSpcialChar(event)">
+                          </div>
                         </div>
                       </div>
-                    </div>
-						    </div><br>
-			            <div class="row">
-			            	<div class="col-md-3">
-			            		<div class="form-group">
-				            		<label>Select Stock Type</label>
-				            		<select class="form-control" id="stock_type">
-				            			<option value="">Select Stock Type</option>
-				            			<?php 
-				            			for ($i=0; $i <$countStockType ; $i++) {
-				            			?>
-				            			<option value="<?php echo $stockType[$i]['stock_type_id']; ?>"><?php echo $stockType[$i]['name'];  ?></option>
-				            			<?php } ?>
-				            		</select>
-			            		</div>
-			            	</div>
-			            	<div class="col-md-3">
-			            		<div class="form-group">
-				            		<label>Manufacture</label>
-				            		<select class="form-control" id="manufacture_type">
-				            			<option value="">First Select StockType</option>
-				            		</select>
-			            		</div>
-			            	</div>
-			            	<div class="col-md-3">
-			            		<div class="form-group">
-				            		<label>Product Name</label>
-				            		<select class="form-control" id="product_name">
-                          <option value="">First Select Manufacturer</option>
-                        </select>
-			            		</div>
-			            	</div>
-			            	<div class="col-md-3">
-			            		<div class="form-group">
-				            		<label>Expiry Date</label>
-				            		<input type="date" class="form-control" id="expiry_date">
-			            		</div>
-			            	</div>
-			            </div>
-			            <div class="row">
-			            	<div class="col-md-3">
-			            		<div class="form-group">
-				            		<label>Purchase Price</label>
-                        <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="purchase_price" class="form-control">
-			            		</div>
-			            	</div>
-			            	<div class="col-md-3">
-			            		<div class="form-group">
-				            		<label>Selling Price</label>
-                        <input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="selling_price" class="form-control" >
-			            		</div>
-			            	</div>
-			            	<div class="col-md-3">
-			            		<div class="form-group">
-				            		<label>Barcode</label>
-				            		<input type="text" class="form-control" id="barcode">
-			            		</div>
-			            	</div>
-                    <div class="col-md-3">
-                      <div class="fomr-group">
-                        <label>Quantity</label>
-                        <input type="text" name="" class="form-control" id="quantity" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+    						    </div><br>
+  			            <div class="row">
+  			            	<div class="col-md-3">
+  			            		<div class="form-group">
+  				            		<label>Select Stock Type</label>
+  				            		<select class="form-control" id="stock_type">
+  				            			<option value="">Select Stock Type</option>
+  				            			<?php 
+  				            			for ($i=0; $i <$countStockType ; $i++) {
+  				            			?>
+  				            			<option value="<?php echo $stockType[$i]['stock_type_id']; ?>"><?php echo $stockType[$i]['name'];  ?></option>
+  				            			<?php } ?>
+  				            		</select>
+  			            		</div>
+  			            	</div>
+  			            	<div class="col-md-3">
+  			            		<div class="form-group">
+  				            		<label>Manufacture</label>
+  				            		<select class="form-control" id="manufacture_type">
+  				            			<option value="">First Select StockType</option>
+  				            		</select>
+  			            		</div>
+  			            	</div>
+  			            	<div class="col-md-3">
+  			            		<div class="form-group">
+  				            		<label>Product Name</label>
+  				            		<select class="form-control" id="product_name">
+                            <option value="">First Select Manufacturer</option>
+                          </select>
+  			            		</div>
+  			            	</div>
+  			            	<div class="col-md-3">
+  			            		<div class="form-group">
+  				            		<label>Stock Status</label>
+                          <select id="stock_status" class="form-control">
+                            <option value="Purchased">Purchased</option>
+                            <option value="Partnership">Partnership</option>
+                          </select>
+  			            		</div>
+  			            	</div>
+  			            </div>
+  			            <div class="row">
+  			            	<div class="col-md-3">
+  			            		<div class="form-group">
+  				            		<label>Purchase Price</label>
+                          <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="purchase_price" class="form-control">
+  			            		</div>
+  			            	</div>
+  			            	<div class="col-md-3">
+  			            		<div class="form-group">
+  				            		<label>Selling Price</label>
+                          <input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="selling_price" class="form-control" >
+  			            		</div>
+  			            	</div>
+  			            	<div class="col-md-3">
+  			            		<div class="form-group">
+  				            		<label>Barcode</label>
+  				            		<input type="text" class="form-control" id="barcode">
+  			            		</div>
+  			            	</div>
+                      <div class="col-md-3">
+                        <div class="fomr-group">
+                          <label>Quantity</label>
+                          <input type="text" name="" class="form-control" id="quantity" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+                        </div>
                       </div>
-                    </div>
-			            	<input type="hidden" id="stockTypeName">
-			            	<input type="hidden" id="manufactreName">
-                    <input type="hidden" id="productName">
-			            </div>		
-                	</div>
+  			            	<input type="hidden" id="stockTypeName">
+  			            	<input type="hidden" id="manufactreName">
+                      <input type="hidden" id="productName">
+                      <input type="hidden" id="orgProfit" value="0">
+  			            </div>		
+                  </div>
                 </div><hr>			
-                <div class="row">
-                    <div class="col-md-12" >
-                        <div class="row" id="mydata" style="display:none;">
-                          <div class="col-md-1"></div>
-                          <div class="col-md-4">
-                             <input type="text" class="form-control" id="remove_value" style="display: none;" readonly="">
-                             <input type="text"  id="remove_value1" style="display: none;">
-                             <input type="text" id="hide_quantity" style="display: none;">
-                             <input type="text" id="get_purchase_value" style="display: none;">
-                          </div>
-                          <div class="col-md-4" style="display: none" id="quantity_no_div">
-                            <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-                          </div>
-                          <div class="col-md-2">
-                            <button type="button" class="btn btn-danger btn-flat" id="remove" style="display: none;"> <i class="fa fa-times"></i> Remove</button>
-                          </div>
-                        
-							<div class="col-md-12">
-                <br>
-								<table class="table table-bordered" id="myTableData">
-									<thead>
-										<tr>
-											<th style="background-color: #3C8DBC;color:white;">Sr #</th>
-											<th style="background-color: #3C8DBC;color:white;">ST.</th>
-											<th style="background-color: #3C8DBC;color:white;">Mnu.</th>
-											<th style="background-color: #3C8DBC;color:white;">Name</th>
-											<!-- <th style="background-color: #3C8DBC;color:white;">Exp. Date</th> -->
-											<!-- <th style="background-color: #3C8DBC;color:white;">Org. Price</th> -->
-											<th style="background-color: #3C8DBC;color:white;">Purch Price</th>
-											<th style="background-color: #3C8DBC;color:white;">Sale Price</th>
-                      						<th style="background-color: #3C8DBC;color:white;">Qty</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-							</div>
-						</div>
-                    </div>
-                </div>
-              </div>
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="paid_invoices"  style="background-color:lightgray;padding:10px;">
-                <div class="row">
-                  <div class="col-md-12">
-                      <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;text-align: center;">Paid Invoices Detail</h3>
-                    </div>    
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="table-responsive">                      
-                        <table class="table table-bordered">
-                            <thead style="background-color: #367FA9;color:white;">
-                                <tr>
-                                    <th style="text-align: center;">Sr.#</th>
-                                    <!-- <th class="t-cen">Invoice #</th> -->
-                                    <!-- <th class="t-cen">Bilty No#</th> -->
-                                    <th style="text-align: center;">Bill No#</th>
-                                    <th style="text-align: center;">Paid Amount</th>
-                                    <th style="text-align: center;">Purchase Date</th>
-                                    <th style="text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
-                              <?php 
-                                  
-                                  
-                                    for ($i=0; $i <$count_piad_invoice ; $i++) {
-
-                                      ?>
-                                      <tr>
-                                        <td  style="text-align: center;"><?php echo $i+1; ?></td>
-                                        <!-- <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td> -->
-                                        <td  style="text-align: center;"><?php echo $paid_invoice[$i]['bill_no']; ?></td>
-                                        <td  style="text-align: center;"><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
-                                        <td  style="text-align: center;"><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['purchase_date']));
-                                            echo $date; ?></td>
-                                            <td class="text-center">
-                                              <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
-                                              </a><br>
-                                              <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a><br>
-                                              <a href="./purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
-                                            </td>
-                                      </tr>
-
-                                    <?php
-                                  }
-                                 ?>
-                              
-                            </tbody>
-                          </table>
-                        </div>
-                      
-                    </div>
-                  </div>
-              </div>
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="payable" style="background-color:lightgray;padding:10px;">
-                  <div class="row">
-                    <div class="col-md-8">
-                        <h3 class="text-info" style="">Payable Invoices</h3>
-                    </div>
-                            <?php
-                              $totalcreditAmount=0;
-                                for ($i=0; $i <$count_credit_invoice ; $i++) {
-                                     $totalcreditAmount += $credit_invoice[$i]['remaining_amount'];
-                                }        
-                            ?>
+              <div class="row">
+                <div class="col-md-12" >
+                  <div class="row" id="mydata" style="display:none;">
+                    <div class="col-md-1"></div>
                     <div class="col-md-4">
-                        <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
+                       <input type="text" class="form-control" id="remove_value" style="display: none;" readonly="">
+                       <input type="text"  id="remove_value1" style="display: none;">
+                       <input type="text" id="hide_quantity" style="display: none;">
+                       <input type="text" id="get_purchase_value" style="display: none;">
                     </div>
-                </div>    
-                <div class="row">
+                    <div class="col-md-4" style="display: none" id="quantity_no_div">
+                      <input type="text" class="form-control" id="check_no" placeholder="Enter quantity to remove" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+                    </div>
+                    <div class="col-md-2">
+                      <button type="button" class="btn btn-danger btn-flat" id="remove" style="display: none;"> <i class="fa fa-times"></i> Remove</button>
+                    </div>      						
                     <div class="col-md-12">
-                        <div class="table-responsive">                      
-                        <table class="table table-bordered">
-                            <thead style="background-color: #367FA9;color:white;">
-                                <tr>
-                                    <th style="text-align: center;">Sr.#</th>
-                                    <!-- <th class="t-cen">Invoice #</th> -->
-                                    <!-- <th class="t-cen">Bilty No#</th> -->
-                                    <th style="text-align: center;">Bill No#</th>                              
-                                    <th style="text-align: center;">Net<br>Total</th>
-                                    <th style="text-align: center;">Paid<br>Amount</th>
-                                    <th style="text-align: center;">Remaining<br>Amount</th>
-                                    <th style="text-align: center;">Purchase<br>Date</th>
-                                    <th style="text-align: center;">Status</th>
-                                    <th style="text-align: center;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
-                                <?php 
-
-                                    for ($i=0; $i <$count_credit_invoice ; $i++) {
-                                        
-                                        ?>
-                                        
-                                    <tr>
-                                        <td style="text-align: center;"><?php echo $i+1; ?></td>
-                                        <!-- <td><?php echo $credit_invoice[$i]['bilty_no']; ?></td> -->
-                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['bill_no']; ?></td>
-                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['net_total']; ?></td>
-                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['paid_amount']; ?></td>
-                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['remaining_amount']; ?></td>
-                                        <td style="text-align: center;"><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['purchase_date']));
-                                            echo $date; ?></td>
-                                        <td style="text-align: center;"><?php echo $credit_invoice[$i]['status']; ?></td>
-                                        <td class="text-center" style="vertical-align:middle;">
-                                          <a href="./paid-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
-                                          </a><br>
-                                          <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="label label-success"><i class="fa fa-money"></i> Pay</a><br>
-                                           <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="label label-info"><i class="fa fa-edit"></i> Update</a>
-                                        </td>
-                                      </tr>   
-                                
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div>
+                      <br>
+      								<table class="table table-bordered" id="myTableData">
+      									<thead>
+      										<tr>
+      											<th style="background-color: #3C8DBC;color:white;">Sr #</th>
+      											<th style="background-color: #3C8DBC;color:white;">ST.</th>
+      											<th style="background-color: #3C8DBC;color:white;">Mnu.</th>
+      											<th style="background-color: #3C8DBC;color:white;">Name</th>
+      											<!-- <th style="background-color: #3C8DBC;color:white;">Exp. Date</th> -->
+      											<!-- <th style="background-color: #3C8DBC;color:white;">Org. Price</th> -->
+      											<th style="background-color: #3C8DBC;color:white;">Purch Price</th>
+      											<th style="background-color: #3C8DBC;color:white;">Sale Price</th>
+                            <th style="background-color: #3C8DBC;color:white;">Qty</th>
+      										</tr>
+      									</thead>
+      									<tbody>
+      									</tbody>
+      								</table>
+      							</div>
+      						</div>
                 </div>
               </div>
-              <!--- close tab pane --->
-              <div class="tab-pane" id="profile"  style="background-color:lightgray;padding:10px;">
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="paid_invoices"  style="background-color:lightgray;padding:10px;">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 class="text-info" style="vertical-align: middle; margin-bottom: 25px !important;text-align: center;">Paid Invoices Detail</h3>
+                </div>    
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">                      
+                    <table class="table table-bordered">
+                      <thead style="background-color: #367FA9;color:white;">
+                        <tr>
+                          <th style="text-align: center;">Sr.#</th>
+                          <!-- <th class="t-cen">Invoice #</th> -->
+                          <!-- <th class="t-cen">Bilty No#</th> -->
+                          <th style="text-align: center;">Bill No#</th>
+                          <th style="text-align: center;">Paid Amount</th>
+                          <th style="text-align: center;">Purchase Date</th>
+                          <th style="text-align: center;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
+                        <?php 
+                          for ($i=0; $i <$count_piad_invoice ; $i++) {
+                                ?>
+                            <tr>
+                              <td  style="text-align: center;"><?php echo $i+1; ?></td>
+                              <!-- <td><?php echo $paid_invoice[$i]['bilty_no']; ?></td> -->
+                              <td  style="text-align: center;"><?php echo $paid_invoice[$i]['bill_no']; ?></td>
+                              <td  style="text-align: center;"><?php echo $paid_invoice[$i]['paid_amount']; ?></td>
+                              <td  style="text-align: center;"><?php $date = date('d-M-Y',strtotime($paid_invoice[$i]['purchase_date']));
+                                  echo $date; ?></td>
+                              <td class="text-center">
+                                <a href="./paid-purchase-invoice?piID=<?=$paid_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
+                                </a><br>
+                                <a href="./update-purchase-invoice?piID=<?php echo $paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a><br>
+                                <a href="./purchase-invoice-transaction?purchaseinvoiceID=<?=$paid_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?=$vendorID?>" title="Transaction" class="label label-success"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
+                              </td>
+                            </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="payable" style="background-color:lightgray;padding:10px;">
+              <div class="row">
+                <div class="col-md-8">
+                    <h3 class="text-info" style="">Payable Invoices</h3>
+                </div>
+                  <?php
+                    $totalcreditAmount=0;
+                      for ($i=0; $i <$count_credit_invoice ; $i++) {
+                        $totalcreditAmount += $credit_invoice[$i]['remaining_amount'];
+                        }        
+                    ?>
+                  <div class="col-md-4">
+                    <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
+                  </div>
+              </div>    
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="table-responsive">                      
+                      <table class="table table-bordered">
+                          <thead style="background-color: #367FA9;color:white;">
+                              <tr>
+                                  <th style="text-align: center;">Sr.#</th>
+                                  <!-- <th class="t-cen">Invoice #</th> -->
+                                  <!-- <th class="t-cen">Bilty No#</th> -->
+                                  <th style="text-align: center;">Bill No#</th>                              
+                                  <th style="text-align: center;">Net<br>Total</th>
+                                  <th style="text-align: center;">Paid<br>Amount</th>
+                                  <th style="text-align: center;">Remaining<br>Amount</th>
+                                  <th style="text-align: center;">Purchase<br>Date</th>
+                                  <th style="text-align: center;">Status</th>
+                                  <th style="text-align: center;">Action</th>
+                              </tr>
+                          </thead>
+                          <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
+                              <?php 
+
+                                  for ($i=0; $i <$count_credit_invoice ; $i++) {
+                                      
+                                      ?>
+                                      
+                                  <tr>
+                                      <td style="text-align: center;"><?php echo $i+1; ?></td>
+                                      <!-- <td><?php echo $credit_invoice[$i]['bilty_no']; ?></td> -->
+                                      <td style="text-align: center;"><?php echo $credit_invoice[$i]['bill_no']; ?></td>
+                                      <td style="text-align: center;"><?php echo $credit_invoice[$i]['net_total']; ?></td>
+                                      <td style="text-align: center;"><?php echo $credit_invoice[$i]['paid_amount']; ?></td>
+                                      <td style="text-align: center;"><?php echo $credit_invoice[$i]['remaining_amount']; ?></td>
+                                      <td style="text-align: center;"><?php $date = date('d-M-Y',strtotime($credit_invoice[$i]['purchase_date']));
+                                          echo $date; ?></td>
+                                      <td style="text-align: center;"><?php echo $credit_invoice[$i]['status']; ?></td>
+                                      <td class="text-center" style="vertical-align:middle;">
+                                        <a href="./paid-purchase-invoice?piID=<?=$credit_invoice[$i]['purchase_invoice_id']?>&vendorID=<?=$vendorID?>" title="View" class="label label-warning"><i class="fa fa-eye"></i> Bill
+                                        </a><br>
+                                        <a href="./pay-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Pay" class="label label-success"><i class="fa fa-money"></i> Pay</a><br>
+                                         <a href="./update-purchase-invoice?piID=<?php echo $credit_invoice[$i]['purchase_invoice_id'];?>&vendorID=<?php echo $vendorID;?>" title="Edit" class="label label-info"><i class="fa fa-edit"></i> Update</a>
+                                      </td>
+                                    </tr>   
+                              
+                              <?php } ?>
+                          </tbody>
+                      </table>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <!--- close tab pane --->
+            <div class="tab-pane" id="profile"  style="background-color:lightgray;padding:10px;">
             	<div class="row">
             		<div class="col-md-12">
             			 <a href="./vendor-update?id=<?php echo $vendorID;?>" class="btn btn-info btn-xs" style="float:right; margin-right: 3px; margin-bottom: 3px; margin-top: 15px;"> 
@@ -420,48 +414,52 @@ body td{
           </div>
           <div class="row" >
             <div class="col-md-12">
-                <div class="form-group">
-                  <label>Total Amount</label>
-                  <input type="text" name="total_amount" class="form-control" readonly="" id="tp" value="0">
-                </div>
-                <div class="form-group">
-          					<label>Discount</label>
-
-                      <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
-          					 <input type="radio" name="discountType" id="percentage"  onclick="abc()"> Percentage
-          	
-          					<input type="text" name="discount" class="form-control" id="disc" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-          					<input type="hidden" id="name" >
-          					<input type="hidden" id="vehicle_name" >
-                    <input type="hidden" id="purchaseinvId" >
-          				</div>
-                <div class="form-group">
-                  <label>Net Total</label>
-                  <input type="text" name="net_total" class="form-control" id="nt"readonly="" >
-                </div>
-                <div class="form-group">
-                  <label>Paid</label>
-                  <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-                </div> 
-                <div class="form-group">
-                  <label>Remaining</label>
-                  <input type="text" name="remain" class="form-control" readonly="" id="remaining"> 
-                </div>
-                <div class="form-group">
-                  <label>Cash Return</label>
-                  <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
-                </div>
-                <div class="form-group">
-                  <label>status</label>
-                  <input type="text" name="status" class="form-control" readonly="" id="status">
-                </div>
-                <div class="form-group">
+              <div class="form-group">
+                <label>Total Amount</label>
+                <input type="text" name="total_amount" class="form-control" readonly="" id="tp" value="0">
+              </div>
+              <div class="form-group">
+                <input type="radio" name="discountType" id="amount" checked onclick="abc()"> Amount
+      					<input type="radio" name="discountType" id="percentage"  onclick="abc()"> Percentage
+      					<input type="text" name="discount" class="form-control" id="disc" placeholder="Discount" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+      					<input type="hidden" id="name" >
+      					<input type="hidden" id="vehicle_name" >
+                <input type="hidden" id="purchaseinvId" >
+        			</div>
+              <div class="form-group">
+                <label>Net Total</label>
+                <input type="text" name="net_total" class="form-control" id="nt"readonly="" >
+              </div>
+              <div class="form-group">
+                <label>Paid</label>
+                <input type="text" name="paid" class="form-control"  id="paid" value="0" oninput="cal_remaining()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+              </div> 
+              <div class="form-group">
+                <label>Payment Type</label>
+                <select type="text" id="payment_type" class="form-control">
+                  <option value="Cash">Cash</option>
+                  <option value="Bank">Bank</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Remaining</label>
+                <input type="text" class="form-control" readonly="" id="remaining"> 
+              </div>
+              <div class="form-group">
+                <label>Cash Return</label>
+                <input type="text" name="return" class="form-control" readonly="" id="cash_return"> 
+              </div>
+              <div class="form-group">
+                <label>status</label>
+                <input type="text" name="status" class="form-control" readonly="" id="status">
+              </div>
+              <div class="form-group">
                 <div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
                 </div>
                 <hr>
                 <button class="btn btn-success btn-block btn-flat" id="insert">
                 	<i class="glyphicon glyphicon-plus" ></i> Add Bill</button>
-                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -478,13 +476,14 @@ body td{
 	let stockTypeArray 		 = new Array();
 	let manufacturerArray  = new Array();
 	let nameArray 			   = new Array();
+  let stockStatusArray   = new Array();
 	let expiryDateArray    = new Array();
 	let originalPriceArray = new Array();
 	let purchasePriceArray = new Array();
 	let sellingPriceArray  = new Array();
 	let quantityArray      = new Array();
 	let vendorID 			     = <?php echo $vendorID; ?>;
-  let branch_id          = <?php echo Yii::$app->user->identity->branch_id; ?>;
+  let branch_id   = <?php echo Yii::$app->user->identity->branch_id; ?>;
 	let user_id= <?php echo $id; ?>;
 
   function abc(){
@@ -602,13 +601,12 @@ body td{
     //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
     // }
   }
+
   function bill(){
     var pId = $('#purchaseinvId').val();
     
     window.location = './paid-purchase-invoice?piID='+pId+'&vendorID='+vendorID;
   }
-
-
 </script>
 <?php
 $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
@@ -663,24 +661,43 @@ $("#barcode").change(function(){
 	var barcode 			= $("#barcode").val();
 	var stock_type 			= $("#stock_type").val();
 	var manufacture_type 	= $("#manufacture_type").val();
-	var name 				= $("#product_name").val();
-	var expiry_date 		= $("#expiry_date").val();
+	var name 				      = $("#product_name").val();
+  var stock_status      = $("#stock_status").val();
+	var expiry_date 		  = $("#expiry_date").val();
 	var original_price 		= $("#original_price").val();
 	var purchase_price 		= $("#purchase_price").val();
 	var selling_price 		= $("#selling_price").val();
 	var qty					      = 1;
-	var stockTypeName 		=  $('#stockTypeName').val();
-	var manufactreName 		=  $('#manufactreName').val();
-  var product_name    	=  $('#productName').val();
-	var totalAmount = parseInt($('#tp').val());
+	var stockTypeName 		= $('#stockTypeName').val();
+	var manufactreName 		= $('#manufactreName').val();
+  var product_name    	= $('#productName').val();
+	var totalAmount       = parseInt($('#tp').val());
+  var profitOrg         = parseInt($('#orgProfit').val());
+  
+  if(stock_status == 'Partnership'){
+    var totalProfit = parseInt(selling_price)-parseInt(purchase_price);
+    var divideProfit = totalProfit/2;
+    var op = parseInt(profitOrg)+divideProfit;
+    var tp = parseInt(totalAmount)+parseInt(purchase_price);
+    var remain = parseInt(tp)+parseInt(op);
 
-	var tp = parseInt(totalAmount)+parseInt(purchase_price);
-  $('#tp').val(tp);
-  $('#nt').val(tp);
-  $('#disc').val("");
-  $('#paid').val("0");
-  $('#remaining').val(tp);
-  $('#status').val('Unpaid');
+    $('#tp').val(tp);
+    $('#orgProfit').val(op);
+    $('#nt').val(tp);
+    $('#disc').val("");
+    $('#paid').val("0");
+    $('#remaining').val(remain);
+    $('#status').val('Unpaid');
+  } else {
+    var tp = parseInt(totalAmount)+parseInt(purchase_price);
+
+    $('#tp').val(tp);
+    $('#nt').val(tp);
+    $('#disc').val("");
+    $('#paid').val("0");
+    $('#remaining').val(tp);
+    $('#status').val('Unpaid');
+  }
 
 	if(stock_type == "" || stock_type == null)
 	{
@@ -724,6 +741,7 @@ $("#barcode").change(function(){
 		stockTypeArray.push(stock_type);
 		manufacturerArray.push(manufacture_type);
 		nameArray.push(name);
+    stockStatusArray.push(stock_status);
 		expiryDateArray.push(expiry_date);
 		originalPriceArray.push(original_price);
 		purchasePriceArray.push(purchase_price);
@@ -786,6 +804,7 @@ $("#quantity").change(function(){
 	var stock_type 			= $("#stock_type").val();
 	var manufacture_type 	= $("#manufacture_type").val();
 	var name 				= $("#product_name").val();
+  var stock_status      = $("#stock_status").val();
 	var expiry_date 		= $("#expiry_date").val();
 	var original_price 		= $("#original_price").val();
 	var purchase_price 		= $("#purchase_price").val();
@@ -793,36 +812,58 @@ $("#quantity").change(function(){
 	var stockTypeName 		= $('#stockTypeName').val();
 	var manufactreName 		= $('#manufactreName').val();
   var product_name    	= $('#productName').val();
-  var barcode				= ''; 
+  var barcode				    = ''; 
+  var totalAmount       = parseInt($('#tp').val());
+  var profitOrg         = parseInt($('#orgProfit').val());
 
-	var totalAmount = parseInt($('#tp').val());
-	var pp = parseInt(purchase_price)*qty;
-	var tp = parseInt(totalAmount)+pp;
-	$('#tp').val(tp);
-  $('#nt').val(tp);
-  $('#disc').val("");
-  $('#paid').val("0");
-  $('#remaining').val(tp);
-  $('#status').val('Unpaid');
+  if(stock_status == 'Partnership'){
+    var pp = parseInt(purchase_price)*qty;
+    var sp = parseInt(selling_price)*qty;
+    var totalProfit = parseInt(sp)-parseInt(pp);
+    var divideProfit = totalProfit/2;
+    var op = parseInt(profitOrg)+divideProfit;
+    var tp = parseInt(totalAmount)+pp;
+    var remain = parseInt(tp)+parseInt(op);
+
+    alert(pp+" "+sp+" "+totalProfit+" "+divideProfit+" "+op+" "+tp+" "+remain);
+
+    $('#tp').val(tp);
+    $('#orgProfit').val(op);
+    $('#nt').val(tp);
+    $('#disc').val("");
+    $('#paid').val("0");
+    $('#remaining').val(remain);
+    $('#status').val('Unpaid');
+  } else {
+  	var pp = parseInt(purchase_price)*qty;
+  	var tp = parseInt(totalAmount)+pp;
+
+  	$('#tp').val(tp);
+    $('#nt').val(tp);
+    $('#disc').val("");
+    $('#paid').val("0");
+    $('#remaining').val(tp);
+    $('#status').val('Unpaid');
+  }
   discountFun();
 
   if(stock_type == "" || stock_type == null)
 	{
 		alert('Please Select the Stock Type');
-	    $('#stock_type').css("border", "1px solid red");
-	    $('#stock_type').focus();
+    $('#stock_type').css("border", "1px solid red");
+    $('#stock_type').focus();
 	}
 	else if(manufacture_type == "" || manufacture_type == null)
 	{
 		alert('Please Select the Manufacture Type');
-      	$('#manufacture_type').css("border", "1px solid red");
-      	$('#manufacture_type').focus();
+  	$('#manufacture_type').css("border", "1px solid red");
+  	$('#manufacture_type').focus();
 	}
 	else if(name == "" || name == null)
 	{
 		alert('Please Select the Name');
-      	$('#product_name').css("border", "1px solid red");
-      	$('#product_name').focus();
+  	$('#product_name').css("border", "1px solid red");
+  	$('#product_name').focus();
 	}
 	// else if(expiry_date == "" || expiry_date == null)
 	// {
@@ -854,6 +895,7 @@ $("#quantity").change(function(){
 		stockTypeArray.push(stock_type);
 		manufacturerArray.push(manufacture_type);
 		nameArray.push(name);
+    stockStatusArray.push(stock_status);
 		expiryDateArray.push(expiry_date);
 		originalPriceArray.push(original_price);
 		purchasePriceArray.push(purchase_price);
@@ -1114,19 +1156,21 @@ $('#insert').click(function(){
     	var total_amount 	= $('#tp').val();
     	var net_total 		= $('#nt').val();
     	var paid 			= $('#paid').val();
+      var payment_type = $('#payment_type').val();
       var remaining 		= $('#remaining').val();
       var cash_return = $('#cash_return').val();
     	var status 			= $('#status').val();
+      var orgProfit      = $('#orgProfit').val();
       barcodeArray;
      	stockTypeArray;
      	manufacturerArray;
      	nameArray;
+      stockStatusArray;
      	expiryDateArray;
      	originalPriceArray;
      	purchasePriceArray;
      	sellingPriceArray;
      	quantityArray;
-      //var payment_type = $('#payment-type').val();
       //var narration = $('#narration').val();
 
       //alert(vendorID +"-"+ branch_id +"-"+ bilty_no +"-"+ bill_no +"-"+ amountArray +"-"+ ItemTypeArray +"-"+ quantityArray +"-"+ total_amount +"-"+ net_total +"-"+ paid +"-"+ remaining +"-"+ status +"-"+ cash_return);
@@ -1176,7 +1220,8 @@ $('#insert').click(function(){
   					dispatch_date:dispatch_date, 	
   					receiving_date:receiving_date, 	
   					total_amount:total_amount, 	
-  					net_total:net_total,		
+  					net_total:net_total,
+            payment_type:payment_type,		
   					paid:paid, 			
   			    remaining:remaining,
             cash_return:cash_return,
@@ -1185,11 +1230,13 @@ $('#insert').click(function(){
   			 	  stockTypeArray:stockTypeArray,
   				 	manufacturerArray:manufacturerArray,
   				 	nameArray:nameArray,
+            stockStatusArray:stockStatusArray,
   				 	expiryDateArray:expiryDateArray,
   				 	originalPriceArray:originalPriceArray,
   				 	purchasePriceArray:purchasePriceArray,
   				 	sellingPriceArray:sellingPriceArray,
-  				 	quantityArray:quantityArray
+  				 	quantityArray:quantityArray,
+            orgProfit:orgProfit
           },
           url: "$url",
           success: function(result){ 
