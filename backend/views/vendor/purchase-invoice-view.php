@@ -443,7 +443,7 @@ body td{
               </div>
               <div class="form-group">
                 <label>Remaining</label>
-                <input type="text" class="form-control" readonly="" id="remaining"> 
+                <input type="text" class="form-control" readonly="" id="remaining" value="0"> 
               </div>
               <div class="form-group">
                 <label>Cash Return</label>
@@ -471,7 +471,6 @@ body td{
 </html>
 
 <script>
-
 	let barcodeArray   		 = new Array();
 	let stockTypeArray 		 = new Array();
 	let manufacturerArray  = new Array();
@@ -483,8 +482,8 @@ body td{
 	let sellingPriceArray  = new Array();
 	let quantityArray      = new Array();
 	let vendorID 			     = <?php echo $vendorID; ?>;
-  let branch_id   = <?php echo Yii::$app->user->identity->branch_id; ?>;
-	let user_id= <?php echo $id; ?>;
+  let branch_id = <?php echo Yii::$app->user->identity->branch_id; ?>;
+	let user_id = <?php echo $id; ?>;
 
   function abc(){
     $('#disc').val("");
@@ -690,12 +689,14 @@ $("#barcode").change(function(){
     $('#status').val('Unpaid');
   } else {
     var tp = parseInt(totalAmount)+parseInt(purchase_price);
+    var op = 0;
+    var remain = parseInt(tp)+parseInt(op);
 
     $('#tp').val(tp);
     $('#nt').val(tp);
     $('#disc').val("");
     $('#paid').val("0");
-    $('#remaining').val(tp);
+    $('#remaining').val(remain);
     $('#status').val('Unpaid');
   }
 
@@ -775,28 +776,28 @@ $("#barcode").change(function(){
 		$('#barcode').val("");
 		$('#barcode').focus();
 	}
-    table = document.getElementById("myTableData");
-    for(var i = 1; i < table.rows.length; i++) {
-      table.rows[i].onclick = function(){
-        $('#remove_value').show();
-        $('#remove').show();
-         
-        // get the seected row index
-        rIndex = this.rowIndex;
-        document.getElementById("remove_value1").value = rIndex;
-        document.getElementById("remove_value").value = this.cells[3].innerHTML;
-        document.getElementById("hide_quantity").value = this.cells[6].innerHTML;
-        document.getElementById("get_purchase_value").value = this.cells[4].innerHTML;
-        $('#check_no').val("");
-        $('#check_no').focus();
-        var q = Number(document.getElementById("hide_quantity").value);
-        if(q>1){
-          $('#quantity_no_div').show();
-        } else {
-          $('#quantity_no_div').hide();
-        }
-      };
-    }
+  table = document.getElementById("myTableData");
+  for(var i = 1; i < table.rows.length; i++) {
+    table.rows[i].onclick = function(){
+      $('#remove_value').show();
+      $('#remove').show();
+       
+      // get the seected row index
+      rIndex = this.rowIndex;
+      document.getElementById("remove_value1").value = rIndex;
+      document.getElementById("remove_value").value = this.cells[3].innerHTML;
+      document.getElementById("hide_quantity").value = this.cells[6].innerHTML;
+      document.getElementById("get_purchase_value").value = this.cells[4].innerHTML;
+      $('#check_no').val("");
+      $('#check_no').focus();
+      var q = Number(document.getElementById("hide_quantity").value);
+      if(q>1){
+        $('#quantity_no_div').show();
+      } else {
+        $('#quantity_no_div').hide();
+      }
+    };
+  }
 });
 
 $("#quantity").change(function(){
@@ -837,12 +838,14 @@ $("#quantity").change(function(){
   } else {
   	var pp = parseInt(purchase_price)*qty;
   	var tp = parseInt(totalAmount)+pp;
+    var op = 0;
+    var remain = parseInt(tp)+parseInt(op);
 
   	$('#tp').val(tp);
     $('#nt').val(tp);
     $('#disc').val("");
     $('#paid').val("0");
-    $('#remaining').val(tp);
+    $('#remaining').val(remain);
     $('#status').val('Unpaid');
   }
   discountFun();
