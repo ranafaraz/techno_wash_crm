@@ -39,7 +39,7 @@ return [
                         if (empty($model->customer_id) || empty($model->customer_id)) {
                             return;
                         }
-                        return Html::a($model->customer_name, [ './sale-invoice-view','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:white;', 'data' => ['pjax' => 0]] 
+                        return Html::a($model->customer_name, [ './customer-profile','customer_id' => $model->customer_id ], ['id' => $model->customer_id , 'target' => '_blank','style'=>'color:white;', 'data' => ['pjax' => 0]] 
                     );
                     },
         'contentOptions' => function ($model, $key, $index, $column) {

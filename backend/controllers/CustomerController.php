@@ -35,7 +35,7 @@ class CustomerController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-sale-invoice','collect-sale-invoice','update-sale-invoice','credit-sale-invoice','sale-invoice-transaction'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-sale-invoice','collect-sale-invoice','update-sale-invoice','credit-sale-invoice','sale-invoice-transaction','customer-profile'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,6 +58,9 @@ class CustomerController extends Controller
     public function beforeAction($action) {
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
+    }
+    public function actionCustomerProfile(){
+        return $this->render('customer-profile');
     }
     public function actionCollectSaleInvoice(){
         return $this->render('collect-sale-invoice');
@@ -250,7 +253,7 @@ class CustomerController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id,$regno)
+    public function actionUpdate($id)
     {
         $request = Yii::$app->request;
 
@@ -319,11 +322,10 @@ class CustomerController extends Controller
                 $model->created_by = $model->created_by;
                 $model->created_at = $model->created_at;
                 $model->update();
-                return $this->redirect(['./sale-invoice-view', 'customer_id' => $model->customer_id, 'regno' => $regno]);
+                return $this->redirect(['./customer-profile', 'customer_id' => $model->customer_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'regno' => $regno,
                 ]);
             }
         }

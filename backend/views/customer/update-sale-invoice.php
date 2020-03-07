@@ -1,8 +1,8 @@
 <?php 
-	if (isset($_GET['saleinvheadID']) && isset($_GET['customerid']) && isset($_GET['regno'])) {
+	if (isset($_GET['saleinvheadID']) && isset($_GET['customerid']))	 {
 	$saleinvHeadID = $_GET['saleinvheadID'];
 	$customerid = $_GET['customerid'];
-	$regNoID = $_GET['regno'];
+	//$regNoID = $_GET['regno'];
 
 	$updateinvoiceData = Yii::$app->db->createCommand("
 	    SELECT *
@@ -122,7 +122,7 @@
 							<div class="row">
 								<div class="col-md-6"></div>
 								<div class="col-md-3">
-									<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>&regno=<?=$regNoID?>" class="btn btn-danger btn-xs btn-block" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+									<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>" class="btn btn-danger btn-xs btn-block" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
 								</div>
 								<div class="col-md-3">
 									<button type="submit" name="update_invoice" id="update" class="btn btn-success btn-xs btn-block" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
@@ -193,7 +193,6 @@
 											<input type="hidden" name="custID" value="<?php echo $customerid; ?>">
 											<input type="hidden" name="invID" value="<?php echo $saleinvHeadID; ?>"
 											>
-											<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
 											<input type="hidden" name="update_discount" id="update_disc" value="<?php echo $updateinvoiceData[0]['discount'];?>">
 										</td>
 									</tr>
@@ -225,7 +224,7 @@
  {
    $customerID              = $_POST['custID'];
    $invID                   = $_POST['invID'];
-   $regNoID                 = $_POST['regno'];
+   //$regNoID                 = $_POST['regno'];
   // $net_total               = $_POST['net_total'];
    $updateDate              = $_POST['date'];
    $updateDiscount          = $_POST['update_discount'];
@@ -283,7 +282,7 @@
     }
      // transaction commit
      $transaction->commit();
-      \Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID&regno=$regNoID"]);
+      \Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID"]);
      
         
      } // closing of try block 

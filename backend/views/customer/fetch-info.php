@@ -81,7 +81,6 @@ if (isset($_POST["vehicle"])) {
 }
 
  	if( isset($_POST['invoice_date']) 
- 		&& isset($_POST['customer_id'])
 	 	&& isset($_POST['total_amount']) 
 	 	&& isset($_POST['net_total']) 
 	 	&& isset($_POST['paid']) 
@@ -91,13 +90,12 @@ if (isset($_POST["vehicle"])) {
 	 	&& isset($_POST['serviceArray'])
 	 	&& isset($_POST['amountArray'])
 	 	&& isset($_POST['ItemTypeArray']) ) {
- 		//$narration = $_POST['narration'];
-		$total_amount = $_POST["total_amount"];
+
+		$user_id = $_POST["user_id"];
+		$branch_id = $_POST['branch_id'];
 		$invoice_date= $_POST["invoice_date"];
-		$customer_id= $_POST['customer_id'];
-		$regno=$_POST['regno'];
+		$total_amount = $_POST["total_amount"];
 		$net_total = $_POST['net_total'];
-		//$payment_type = $_POST['payment_type'];
 		$paid = $_POST['paid'];
 		$remaining = $_POST['remaining'];
 		$cash_return = $_POST['cash_return'];
@@ -106,8 +104,6 @@ if (isset($_POST["vehicle"])) {
 		$serviceArray = $_POST["serviceArray"];
 		$amountArray = $_POST['amountArray'];
 		$ItemTypeArray = $_POST['ItemTypeArray'];
-		$user_id = $_POST["user_id"];
-		$branch_id = $_POST['branch_id'];
 		$quantityArray = $_POST["quantityArray"];
 
 		$disc_amount = $total_amount - $net_total;
@@ -115,6 +111,17 @@ if (isset($_POST["vehicle"])) {
 		
 		$transaction = \Yii::$app->db->beginTransaction();
 		try {
+
+			$custId = Yii::$app->db->createCommand("
+			    SELECT 	c.customer_id
+			    FROM customer as c 
+			    INNER JOIN customer_vehicles as cv 
+			    ON c.customer_id = cv.customer_id
+			    WHERE c.branch_id = '$branch_id'
+				AND cv.customer_vehicle_id	= '$vehicleArray[0]'
+			    ")->queryAll();
+			$customer_id = $custId[0]['customer_id'];
+
 			$insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
 				'branch_id' => $branch_id,
 				'customer_id'   	=> $customer_id,
@@ -166,10 +173,11 @@ if (isset($_POST["vehicle"])) {
 					$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
 
 					// id 3 is reserved for Sale Account
+					$account_head =3;
 					$transactions = Yii::$app->db->createCommand()->insert('transactions',
 					[
 						'branch_id' => $branch_id,
-						'account_head_id' => 3,
+						'account_head_id' => $account_head,
 						'total_amount' => $net_total,
 						'amount' => $paid,
 						'remaining' => $remaining,
@@ -240,15 +248,16 @@ if (isset($_POST["vehicle"])) {
 				        }
 			    	} // closing of quantity else
 			    } // end of for loop itemarray
-			    // transaction commit
+			    
 		    	$transaction->commit();
-			    echo Json::encode("[".$selectedInvHeadID."]");
+			    echo Json::encode("[".$selectedInvHeadID ."]");
 			} // end of if
 		} // closing of try block 
 		catch (Exception $e) {
-			// transaction rollback
+			echo $e;
 	 	 $transaction->rollback();
 		} // closing of catch block
+
 	} // closing of isset
 		
 ?>

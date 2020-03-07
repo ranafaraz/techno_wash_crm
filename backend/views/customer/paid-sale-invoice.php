@@ -1,7 +1,14 @@
 
 <?php 
-$sihID = $_GET['sihID'];
-$regNoID = $_GET['regno'];
+
+if(isset($_GET['sihID'])){
+	$sihID = $_GET['sihID'];
+}
+
+if(isset($_GET['SIH'])){
+	$sihID = $_GET['SIH'];	
+}
+// $regNoID = $_GET['regno'];
 	$paidinvoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM sale_invoice_head
@@ -78,15 +85,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 
 	</style>
 	<div class="container-fluid">
-		<!-- <div class="row">
-			<div class="col-md-2">
-				<a href="./sale-invoice-view?customer_id=<?php //echo $customerID; ?>&regno=<?=$regNoID?>" class="btn btn-danger btn-flat" style="width: 70%;"><i class="glyphicon glyphicon-remove"></i> Cancel</a>
-			</div>
-			<div class="col-md-8"></div>
-			<div class="col-md-2">
-				<button type="button" onclick="printContent('div1')" class="btn btn-warning btn-flat" id="print_button"><i class="glyphicon glyphicon-print"></i> Print Invoice</button>
-			</div>
-		</div> -->
+		
 		<div id="div1" style="font-size:20px;font-family:arial;">
 			<div class="row">
 				<div class="col-md-6  col-md-offset-3">
@@ -346,15 +345,25 @@ $customervehicleID = Yii::$app->db->createCommand("
 <!DOCTYPE html>
 <html>
 <head>
-<script>
-// function printContent(el){
-// 	var restorepage = document.body.innerHTML;
-// 	var printcontent = document.getElementById(el).innerHTML;
-// 	document.body.innerHTML = printcontent;
-// 	window.print();
-// 	document.body.innerHTML = restorepage;
-// }
-function returnBack() {
-  window.location='sale-invoice-view?customer_id=<?php echo $customerID;?>&regno=<?php echo $regNoID;?>';
+
+<?php 
+
+if(isset($_GET['sihID'])){
+?>
+	<script>
+		function returnBack() {
+		  window.location='./sale-invoice-view';
+		}
+	</script>
+<?php
 }
-</script>
+
+if(isset($_GET['SIH'])){
+?>
+	<script>
+		function returnBack() {
+		  window.location='customer-profile?customer_id=<?php echo $customerID;?>';
+		}
+	</script>
+<?php	
+}

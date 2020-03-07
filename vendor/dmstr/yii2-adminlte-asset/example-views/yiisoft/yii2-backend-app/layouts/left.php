@@ -73,7 +73,9 @@
                     // ['label' => 'Menus', 'options' => ['class' => 'header center']],
                      ['label' => 'Home', 'icon' => 'dashboard', 'url' => "./home"],
                      // ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
-                     ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
+                     // ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
+                     ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./sale-invoice-view"],
+                      ['label' => 'Customer', 'icon' => 'file-pdf-o', 'url' => "./customer"],
                      
                      // ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
                      // PayRoll Start
