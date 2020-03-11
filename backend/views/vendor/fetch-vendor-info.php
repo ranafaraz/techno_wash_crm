@@ -89,8 +89,11 @@ if( isset($_POST['user_id'])
 	$purchasePriceArray 	= $_POST['purchasePriceArray'];
 	$sellingPriceArray 		= $_POST['sellingPriceArray'];
 	$quantityArray 			= $_POST['quantityArray'];
-
-	$disc_amount = $total_amount - $net_total;
+	if($net_total <= $total_amount){
+		$disc_amount = $total_amount - $net_total;
+	} else {
+		$disc_amount = 0;
+	}
 	$countStockTypeArray = count($stockTypeArray);
 
 	$transaction = \Yii::$app->db->beginTransaction();
