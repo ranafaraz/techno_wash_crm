@@ -6,7 +6,6 @@ $vehicleTypeID = $_GET['VehTypeID'];
 $carManufactureData = Yii::$app->db->createCommand("
 	SELECT *
 	FROM car_manufacture
-  WHERE vehical_type_id = '$vehicleTypeID'
 	")->queryAll();
 $countcarManufacture = count($carManufactureData);
 

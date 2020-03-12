@@ -12,28 +12,28 @@ return [
     ],
         [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'vehicle_typ_sub_id',
+        'attribute'=>'sub_cat_head_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'sub_type_head_id',
+        'attribute'=>'vehicle_type_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'attribute'=>'manufacture',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_at',
-    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'created_by',
     ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'updated_at',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'updated_by',

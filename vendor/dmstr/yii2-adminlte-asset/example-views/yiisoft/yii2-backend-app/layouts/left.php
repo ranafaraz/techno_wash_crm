@@ -6,9 +6,10 @@
     $userPhoto = $user[0]['user_photo'];
 ?>
 <style type="text/css">
+    /*#fab61c*/
     .main-sidebar{
         font-family: georgia;
-        background-color: #fab61c !important;
+        background-color: #fbe6b9 !important;
 
     }
     .sidebar a{
@@ -76,7 +77,7 @@
                      // ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
                      ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./sale-invoice-view"],
                       ['label' => 'Customer', 'icon' => 'file-pdf-o', 'url' => "./customer"],
-                     
+                      ['label' => 'Purchase Invoice', 'icon' => 'male', 'url' => ["./vendor"],],
                      // ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
                      // PayRoll Start
                      [
@@ -159,7 +160,6 @@
                     //         ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
                     //     ],
                     // ],
-                     ['label' => 'Vendor', 'icon' => 'male', 'url' => ["./vendor"],],
                       ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./under-construction"],
 
                     //  [

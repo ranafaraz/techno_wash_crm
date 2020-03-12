@@ -40,6 +40,27 @@ use common\models\AccountHead;
     $countServices = count($services);
 
     $id =  Yii::$app->user->identity->id;
+    date_default_timezone_set("Asia/Karachi");
+    $date = date('Y-m-d');
+
+    $paidinvoiceData = Yii::$app->db->createCommand("
+    SELECT *
+    FROM sale_invoice_head
+    WHERE CAST(date as DATE) = '$date'
+    AND (status = 'paid' OR status = 'Paid')
+    ORDER BY sale_inv_head_id DESC
+    ")->queryAll();
+
+    $countpaidinvoiceData = count($paidinvoiceData);
+
+    $creditinvoiceData = Yii::$app->db->createCommand("
+    SELECT *
+    FROM sale_invoice_head
+    WHERE CAST(date as DATE) = '$date'
+    AND (status = 'Partially' OR status = 'Unpaid')
+    ORDER BY sale_inv_head_id DESC
+    ")->queryAll();
+    $countcreditinvoiceData = count($creditinvoiceData);
 
     //$branchId = $customerData[0]['branch_id'];
 
@@ -84,8 +105,124 @@ use common\models\AccountHead;
               <li class="active">
                 <a href="#invoice" data-toggle="tab">New Invoice</a>
               </li>
+               <li><a href="#paidd" data-toggle="tab">Paid Invoices <span class="badge"><?=$countpaidinvoiceData?></span></a></li>
+               <li><a href="#credit" data-toggle="tab">Credit <span class="badge"><?=$countcreditinvoiceData?></span></a></li>
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
+               <div class="tab-pane" id="credit" style="background-color:lightgray;padding:10px;">
+                <div class="row">
+                  <div class="col-md-8">
+                    <h3 class="text-info" style="vertical-align: middle;">Credit Invoices</h3>
+                  </div>
+                  <?php
+                    $totalcreditAmount=0;
+                    for ($i=0; $i <$countcreditinvoiceData ; $i++) {
+                      $totalcreditAmount += $creditinvoiceData[$i]['remaining_amount'];
+                    }        
+                  ?>
+                  <div class="col-md-4">
+                    <h3 style="vertical-align: middle; margin-bottom: 20px !important;background-color:#FAB61C;color:#3F0D12;padding: 6px;border-radius: 3px;text-align: center;">Total Credit: <?= $totalcreditAmount;?></h3>
+                  </div>
+                </div>    
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">                      
+                      <table class="table table-bordered">
+                        <thead style="background-color: #367FA9;color:white;">
+                          <tr>
+                            <!-- <th class="t-cen" style="vertical-align:middle;">Sr #</th> -->
+                            <!-- <th class="t-cen" style="vertical-align:middle;width: 100px;">Invoice #</th> -->
+                             <th style="vertical-align:middle;text-align: center;">Sr.#</th>
+                             <th style="vertical-align:middle;text-align: center;">Inv #</th>
+                            <th style="vertical-align:middle;text-align: center;">Customer</th>
+                            <th style="vertical-align:middle;text-align: center;">Total<br>Amount</th>
+                            <th style="vertical-align:middle;text-align: center;">Paid<br>Amount</th>
+                            <th style="vertical-align:middle;text-align: center;">Remaining<br>Amount</th>
+                            <th style="vertical-align:middle;text-align: center;">Status</th>
+                            <th style="vertical-align:middle;text-align: center;">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
+                          <?php for ($i=0; $i <$countcreditinvoiceData ; $i++) {  
+                            $custId = $creditinvoiceData[$i]['customer_id'];
+                            $customerName = Yii::$app->db->createCommand("
+                            SELECT customer_name
+                            FROM customer 
+                            WHERE customer_id = '$custId'
+                            ")->queryAll();
+
+                            ?>
+                            <tr>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $customerName[0]['customer_name'];?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
+                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
+                              <td class="text-center" style="vertical-align:middle;text-align: center;"><a href="./paid-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a>
+                              <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $creditinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                              <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $creditinvoiceData[$i]['customer_id'];?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
+                              </td>
+                            </tr>   
+                          <?php } ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="paidd" style="background-color:lightgray;padding:10px;">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="text-info" style="text-align: center;">
+                      Paid Invoices
+                    </h3>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">                      
+                      <table class="table table-bordered">
+                        <thead style="background-color: #367FA9;color:white;">
+                          <tr>
+                            <th class="text-center" style="vertical-align:middle;">Sr #</th>
+                            <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
+                            <th class="text-center" style="vertical-align:middle;">Inv #</th>
+                            <th class="text-center" style="vertical-align:middle;">Customer</th>
+                            <th class="text-center" style="vertical-align:middle;">Amount</th>
+                            <th class="text-center" style="vertical-align:middle;">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody style="background-color:#b0e0e6;font-family:arial;font-weight:bolder;">
+                          <?php for ($i=0; $i <$countpaidinvoiceData ; $i++) { 
+
+                            $custId = $paidinvoiceData[$i]['customer_id'];
+                            $customerName = Yii::$app->db->createCommand("
+                            SELECT customer_name
+                            FROM customer 
+                            WHERE customer_id = '$custId'
+                            ")->queryAll();
+                            ?>   
+                            <tr>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
+                              <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $customerName[0]['customer_name']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
+                              <td class="text-center" style="vertical-align:middle;text-align: center;">
+                                <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
+                                <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                <!--  <a href="sale-invoice-transaction?saleinvheadID=<?php //echo $paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php //echo $paidinvoiceData[$i]['customer_id'];?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a> -->
+                              </td>
+                            </tr>  
+                            <?php } ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="active tab-pane" id="invoice"  style="background-color:lightgray;padding:10px;">
                 <div class="form-group">
                   <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">          
@@ -97,6 +234,34 @@ use common\models\AccountHead;
                          'libName' => 'krajeeDialog',
                          'options' => [], // default options
                       ]); ?>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Customer Name</label>
+                            <?php 
+                              echo Select2::widget([
+                              'name' => '',
+                              'value' => '',
+                              'data' => ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),
+                              'options' => ['placeholder' => 'Select Vehicle','id' =>'customer_name']
+                              ]);
+                            ?>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Customer Contact</label>
+                            <?php 
+                              echo Select2::widget([
+                              'name' => '',
+                              'value' => '',
+                              'data' => ArrayHelper::map(Customer::find()->all(),'customer_id','customer_contact_no'),
+                              'options' => ['placeholder' => 'Select Vehicle','id' =>'customer_contact']
+                              ]);
+                            ?>
+                          </div>
+                        </div>
+                      </div>
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
@@ -465,6 +630,68 @@ $(document).ready(function(){
     success: function(result){
       var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
       $('#vehicle_name').val(jsonResult[0]['registration_no']);
+    }      
+  });
+});
+
+$("#customer_name").change(function(){
+  var customer_id = $('#customer_name').val();
+  
+  $.ajax({
+    type:'post',
+    data:{customer_id:customer_id},
+    url: "$url",
+    success: function(result){
+      var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+
+      $('#customer_contact').empty();
+      var options = '';
+      for(var i=0; i<jsonResult.length; i++) { 
+        options += '<option value="'+jsonResult[i]['customer_id']+'">'+jsonResult[i]['customer_contact_no']+'</option>';
+      }
+      // Append to the html
+      $('#customer_contact').append(options);
+
+      $('#vehicle').empty();
+      $('#vehicle').append("<option>"+""+"</option>");
+      var options = '';
+      for(var i=0; i<jsonResult.length; i++) { 
+        options += '<option value="'+jsonResult[i]['customer_vehicle_id']+'">'+jsonResult[i]['registration_no']+'</option>';
+      }
+      // Append to the html
+      $('#vehicle').append(options);
+
+    }      
+  });
+});
+
+$("#customer_contact").change(function(){
+  var customer_id = $('#customer_contact').val();
+  
+  $.ajax({
+    type:'post',
+    data:{customer_id:customer_id},
+    url: "$url",
+    success: function(result){
+      var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+
+      $('#customer_name').empty();
+      var options = '';
+      for(var i=0; i<jsonResult.length; i++) { 
+        options += '<option value="'+jsonResult[i]['customer_id']+'">'+jsonResult[i]['customer_name']+'</option>';
+      }
+      // Append to the html
+      $('#customer_name').append(options);
+
+      $('#vehicle').empty();
+      $('#vehicle').append("<option>"+""+"</option>");
+      var options = '';
+      for(var i=0; i<jsonResult.length; i++) { 
+        options += '<option value="'+jsonResult[i]['customer_vehicle_id']+'">'+jsonResult[i]['registration_no']+'</option>';
+      }
+      // Append to the html
+      $('#vehicle').append(options);
+
     }      
   });
 });

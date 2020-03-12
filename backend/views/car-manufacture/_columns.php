@@ -16,10 +16,6 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'vehical_type_id',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'manufacturer',
     ],
     [

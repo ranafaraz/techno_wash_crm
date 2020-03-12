@@ -18,7 +18,7 @@ class CarManufactureSearch extends CarManufacture
     public function rules()
     {
         return [
-            [['car_manufacture_id', 'vehical_type_id', 'created_by', 'updated_by'], 'integer'],
+            [['car_manufacture_id', 'created_by', 'updated_by'], 'integer'],
             [['manufacturer', 'description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -57,7 +57,6 @@ class CarManufactureSearch extends CarManufacture
 
         $query->andFilterWhere([
             'car_manufacture_id' => $this->car_manufacture_id,
-            'vehical_type_id' => $this->vehical_type_id,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,

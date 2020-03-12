@@ -10,17 +10,17 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
+    //     [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'unit_id',
+    // ],
+    [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'vehicle_typ_sub_id',
+        'attribute'=>'unit_name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'sub_type_head_id',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'attribute'=>'unit_description',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
@@ -30,14 +30,14 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'updated_at',
     // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'created_by',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'updated_by',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'created_by',
+    // ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'updated_by',
+    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

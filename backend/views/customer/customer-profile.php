@@ -51,7 +51,7 @@ $customerID = $_GET['customer_id'];
 
     $countpaidinvoiceData = count($paidinvoiceData);
 
-     $creditinvoiceData = Yii::$app->db->createCommand("
+    $creditinvoiceData = Yii::$app->db->createCommand("
     SELECT *
     FROM sale_invoice_head
     WHERE customer_id = '$customerID' AND (status = 'Partially' OR status = 'Unpaid')

@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\VehicleTypeSubCategory;
+use common\models\Units;
 
 /**
- * VehicleTypeSubCategorySearch represents the model behind the search form about `common\models\VehicleTypeSubCategory`.
+ * UnitsSearch represents the model behind the search form about `common\models\Units`.
  */
-class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
+class UnitsSearch extends Units
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
     public function rules()
     {
         return [
-            [['vehicle_typ_sub_id', 'sub_type_head_id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'created_at', 'updated_at'], 'safe'],
+            [['unit_id', 'created_by', 'updated_by'], 'integer'],
+            [['unit_name', 'unit_description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
      */
     public function search($params)
     {
-        $query = VehicleTypeSubCategory::find();
+        $query = Units::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,15 +56,15 @@ class VehicleTypeSubCategorySearch extends VehicleTypeSubCategory
         }
 
         $query->andFilterWhere([
-            'vehicle_typ_sub_id' => $this->vehicle_typ_sub_id,
-            'sub_type_head_id' => $this->sub_type_head_id,
+            'unit_id' => $this->unit_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'unit_name', $this->unit_name])
+            ->andFilterWhere(['like', 'unit_description', $this->unit_description]);
 
         return $dataProvider;
     }

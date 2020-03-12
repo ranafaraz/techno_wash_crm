@@ -16,18 +16,10 @@ use common\models\VehicleType;
 
     <div class="row">
         <div class="col-md-6">
-           <?= $form->field($model, 'vehical_type_id')->dropDownList(
-                ArrayHelper::map(VehicleType::find()->all(),'vehical_type_id','name')
-                )?>
-        </div>
-        <div class="col-md-6">
             <?= $form->field($model, 'manufacturer')->textInput(['maxlength' => true,'id' => 'manufacture_name']) ?>
         </div>
-    </div>
-    <!-- row 1 close -->
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'description')->textArea(['maxlength' => true,'rows' =>3,'id' => 'manufacture_description']) ?>
+        <div class="col-md-6">
+            <?= $form->field($model, 'description')->textInput(['maxlength' => true,'id' => 'manufacture_description']) ?>
         </div>
     </div>
     <!-- row 2 close -->

@@ -3,6 +3,19 @@ use common\models\Transactions;
 use common\models\AccountNature;
 use common\models\AccountHead;
 use yii\helpers\Json;
+if(isset($_POST['customer_id'])) {
+
+	$customer_id = $_POST['customer_id'];
+	$customerId = Yii::$app->db->createCommand("
+	SELECT c.customer_id, c.customer_name, c.customer_contact_no,cv.customer_vehicle_id, cv.registration_no
+	FROM customer as c
+	INNER JOIN customer_vehicles as cv 
+	ON c.customer_id = cv.customer_id
+	WHERE c.customer_id = '$customer_id'
+	")->queryAll();
+
+	echo json_encode($customerId);
+}
 if(isset($_POST['PRODUCTid'])) {
 	$PRODUCTid = $_POST['PRODUCTid'];
 	$availbleStock = Yii::$app->db->createCommand("

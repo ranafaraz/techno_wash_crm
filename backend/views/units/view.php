@@ -3,16 +3,16 @@
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\VehicleTypeSubCategory */
+/* @var $model common\models\Units */
 ?>
-<div class="vehicle-type-sub-category-view">
+<div class="units-view">
  
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'vehicle_typ_sub_id',
-            'sub_type_head_id',
-            'name',
+            'unit_id',
+            'unit_name',
+            'unit_description',
             'created_at',
             'updated_at',
             'created_by',

@@ -3,23 +3,23 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\VehicleTypeSubCategory */
+/* @var $model common\models\VehicleTypeSubCatHead */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="vehicle-type-sub-category-form">
+<div class="vehicle-type-sub-cat-head-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'sub_type_head_id')->textInput() ?>
+    <?= $form->field($model, 'vehicle_type_id')->textInput() ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'manufacture')->textInput() ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
     <?= $form->field($model, 'created_by')->textInput() ?>
+
+    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <?= $form->field($model, 'updated_by')->textInput() ?>
 
