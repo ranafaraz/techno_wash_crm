@@ -70,7 +70,7 @@
 						TECHNO WASH
 					</h3>
 					<p style="text-align: center;">
-						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
+						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>https://www.technowashbwp.pk
 					</p>
 					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Purchase Memo</h3>
 					<div class="row">
