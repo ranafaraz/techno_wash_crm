@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="vehicle-type-sub-cat-head-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'modelCar' => $modelCar,
     ]) ?>
 </div>

@@ -33,8 +33,8 @@ class CarManufacture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['manufacturer', 'description', 'created_by', 'updated_by'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['manufacturer'], 'required'],
+            [['created_at', 'updated_at', 'description', 'created_by', 'updated_by'], 'safe'],
             [['created_by', 'updated_by'], 'integer'],
             [['manufacturer'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 200],

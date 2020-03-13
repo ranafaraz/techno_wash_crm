@@ -26,10 +26,12 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"> Vehicle Type</i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-success']).
-                    Html::a('<i class="glyphicon glyphicon-plus"> Manufacture</i>', ['./car-manufacture/create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Manufacturer','class'=>'btn btn-info']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i> Vehicle Type', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-info']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i> Manufacture', ['./car-manufacture/create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Manufacturer','class'=>'btn btn-success']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i> Model', ['./vehicle-type-sub-cat-head/create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Model','class'=>'btn btn-primary']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
                     '{toggleData}'.

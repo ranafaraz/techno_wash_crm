@@ -93,7 +93,7 @@ $customervehicleID = Yii::$app->db->createCommand("
 						TECHNO WASH
 					</h3>
 					<p style="text-align: center;">
-						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>http://www.technowashbwp.pk
+						Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur<br>Contact #: +92 (300) 060 0106<br>https://www.technowashbwp.pk
 					</p>
 					<h3 style="text-align: center;background-color:#000000 !important;color:white !important;padding:10px;">Cash Memo</h3>
 					
@@ -131,24 +131,35 @@ $customervehicleID = Yii::$app->db->createCommand("
 						$totalAmount = 0;
 						for ($i=0; $i <$countcustomervehicleID ; $i++) {
 						$customerVehID = $customervehicleID[$i]['customer_vehicle_id'];
-						//echo $customerVehID;
-						// echo $sihID;
 						$customervehicleData = Yii::$app->db->createCommand("
-					    SELECT cm.manufacturer,cv.registration_no,cvst.name,vt.name as Name
+					    SELECT 
+					    cv.registration_no,
+					    cvst.name,
+					    vtsch.vehicle_type_id,vtsch.manufacture
 					    FROM ((customer_vehicles as cv
 					    INNER JOIN vehicle_type_sub_category as cvst
 					    ON cv.vehicle_typ_sub_id = cvst.vehicle_typ_sub_id)
-					    INNER JOIN car_manufacture as cm
-					    ON cm.car_manufacture_id = cvst.manufacture)
-					    INNER JOIN vehicle_type as vt
-					    ON vt.vehical_type_id = cm.vehical_type_id
+					    INNER JOIN vehicle_type_sub_cat_head as vtsch
+					    ON vtsch.sub_cat_head_id = cvst.sub_type_head_id)
 					    WHERE cv.customer_vehicle_id = '$customerVehID'
+					    ")->queryAll();
+					    $vTypeId = $customervehicleData[0]['vehicle_type_id'];
+					    $manId = $customervehicleData[0]['manufacture'];
+					    $vehicleType = Yii::$app->db->createCommand("
+					    SELECT *
+					    FROM vehicle_type
+					    WHERE vehical_type_id = '$vTypeId'
+					    ")->queryAll();
+					    $manufactureData = Yii::$app->db->createCommand("
+					    SELECT *
+					    FROM car_manufacture
+					    WHERE car_manufacture_id = '$manId'
 					    ")->queryAll();
 					 ?>
 					<table class="table table-bordered">
 						<thead style="background-color: #3C8DBC !important;color:white;">
 							<tr>
-								<th colspan="6" style="text-align: center;background-color:lightgray !important;"><?php echo "VEH #: "."( ".$customervehicleData[0]['Name']." - ".$customervehicleData[0]['manufacturer']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?></th>
+								<th colspan="6" style="text-align: center;background-color:lightgray !important;"><?php echo "VEH #: "."( ".$vehicleType[0]['name']." - ".$manufactureData[0]['manufacturer']." - ".$customervehicleData[0]['name']." ) ".$customervehicleData[0]['registration_no'] ;?></th>
 							</tr>
 							<tr>
 								<th style="background-color: #f1f1f1 !important;">Sr #</th>

@@ -34,10 +34,10 @@ class VehicleType extends \yii\db\ActiveRecord
     {
         return [
 
-            [['name', 'description'], 'required'],
+            [['name'], 'required'],
             [['description'], 'string'],
             [['created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by', 'description'], 'safe'],
             [['name'], 'string', 'max' => 100],
         ];
     }

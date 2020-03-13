@@ -34,7 +34,7 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sub_type_head_id', 'name', 'created_by', 'updated_by'], 'required'],
+            [['name'], 'required'],
             [['sub_type_head_id', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 100],

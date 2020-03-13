@@ -1,6 +1,6 @@
 <?php  
 $vehicleTypeSubId = $_GET['VehTypeSubId'];
-$carmanufacture_id = $_GET['manufacture_id'];
+// $carmanufacture_id = $_GET['manufacture_id'];
 $vehicleTypeID = $_GET['VehTypeID'];
 
 $carManufactureData = Yii::$app->db->createCommand("
@@ -33,21 +33,6 @@ $vehicleSubTypeData = Yii::$app->db->createCommand("
     <div class="row">
       <div class="col-md-8 col-md-offset-2" style="background-color:#efefef;border-top:3px solid #367FA9;">
         <div class="row" style="margin-top: 20px;">
-       		<div class="col-md-4">
-       			<div class="form-group">
-          		<label>Select Car Manufacturer</label>
-          		<select class="form-control" name="carManufacture">
-          			<option value="">Select car manufacturer</option>
-          			<?php 
-          			for ($i=0; $i <$countcarManufacture ; $i++) {
-          			?>
-          			<option <?php if ($carManufactureData[$i]['car_manufacture_id'] == $vehicleTypeID ) {
-          				echo "selected";
-          			} ?> value="<?php echo $carManufactureData[$i]['car_manufacture_id']; ?>"><?php echo $carManufactureData[$i]['manufacturer'];  ?></option>
-          			<?php } ?>
-          		</select>
-          	</div>
-       		</div>
        		<div class="col-md-4">
        			<div class="form-group">
           		<label>Model Name</label>
@@ -83,7 +68,6 @@ $vehicleSubTypeData = Yii::$app->db->createCommand("
 if(isset($_POST['update_vehicle']))
 {
    $vehicleTypeID  		= $_POST['vehicleTypeId'];
-   $carManufactureID    = $_POST['carManufacture'];
    $Model_Name    		= $_POST['Model_Name'];
    $vehicleSubID    	= $_POST['vehicleSubId'];
 
@@ -93,7 +77,6 @@ if(isset($_POST['update_vehicle']))
     $transaction = \Yii::$app->db->beginTransaction();
     try {
       $update_vehicle_sub_data = Yii::$app->db->createCommand()->update('vehicle_type_sub_category',[
-       'manufacture'   => $carManufactureID,
        'name' 		 => $Model_Name,
       ],
          ['vehicle_typ_sub_id' => $vehicleSubID]
@@ -104,6 +87,7 @@ if(isset($_POST['update_vehicle']))
         
     } // closing of try block 
     catch (Exception $e) {
+      echo $e;
       // transaction rollback
       $transaction->rollback();
     } // closing of catch block

@@ -35,9 +35,9 @@ class VehicleTypeSubCatHead extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vehicle_type_id', 'manufacture', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'required'],
+            [['vehicle_type_id', 'manufacture'], 'required'],
             [['vehicle_type_id', 'manufacture', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'updated_at', 'updated_by'], 'safe'],
             [['manufacture'], 'exist', 'skipOnError' => true, 'targetClass' => CarManufacture::className(), 'targetAttribute' => ['manufacture' => 'car_manufacture_id']],
             [['vehicle_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => VehicleType::className(), 'targetAttribute' => ['vehicle_type_id' => 'vehical_type_id']],
         ];
@@ -50,7 +50,7 @@ class VehicleTypeSubCatHead extends \yii\db\ActiveRecord
     {
         return [
             'sub_cat_head_id' => 'Sub Cat Head ID',
-            'vehicle_type_id' => 'Vehicle Type ID',
+            'vehicle_type_id' => 'Vehicle Type',
             'manufacture' => 'Manufacture',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
