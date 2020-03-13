@@ -8,8 +8,9 @@
 <style type="text/css">
     /*#fab61c*/
     .main-sidebar{
-        font-family: georgia;
-        background-color: #fbe6b9 !important;
+        font-family: arial;
+        background-color: #fab61c !important;
+        font-weight: bold;
 
     }
     .sidebar a{
