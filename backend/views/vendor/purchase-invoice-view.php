@@ -72,6 +72,12 @@ body td{
 <body>
 <div class="container-fluid">
   <div class="row">
+    <div class="col-md-12">
+      <a href="./vendor" class="btn btn-xs btn-danger">Back</a>
+      <!-- <button type="button" onclick="printContent('print-report')" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Print Invoice</button> -->
+    </div>
+  </div><br>
+  <div class="row">
     <div class="col-md-9">
       <div class="box box-primary">
         <div class="box-body">
@@ -94,8 +100,71 @@ body td{
               <li><a href="#paid_invoices" data-toggle="tab">Paid Invoices <span class="badge"><?=$count_piad_invoice?></span></a></li>
               <li><a href="#payable" data-toggle="tab">Payable <span class="badge"><?=$count_credit_invoice?></span></a></li>
               <li><a href="#profile" data-toggle="tab">Vendor Profile</a></li>
+               <li><a href="#report" data-toggle="tab">Report</a></li>
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
+              <div class="tab-pane" id="report"  style="background-color:lightgray;padding:10px;">
+                <br>
+                    <!-- Reports Button -->
+                    <button type="button" class="btn" id="partnership">Partnership</button>
+                    <button type="button" class="btn" id="items">Items</button>
+                    <!-- items report start -->
+                    <div class="row" style="display: none;" id="items_report">
+                      <div class="col-md-12">
+                        <h3 style="text-align: center;" class="text-info">Items Report</h3>
+                         <form method="POST" action="./purchase-reports">
+                            <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
+                            <input type="hidden" name="vendorID" class="form-control" value="<?php echo $vendorID; ?>">
+                             <input type="hidden" name="branchId" class="form-control" value="<?php echo $branchId; ?>">
+                             <div class="row" style="padding:10px;">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label>Select Item</label>
+                                  <select name="items_list" class="form-control">
+                                    <option value="All">All</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <button class="btn btn-success" name="items_report" style="margin-top: 24px;">Get Report</button>
+                              </div>
+                            </div> 
+                         </form>
+                        </a>
+                      </div>
+                    </div>
+                    <!-- items report close -->
+                    <!-- partnersip report start -->
+                    <div class="row" style="display: none;" id="partnership_report">
+                      <div class="col-md-12">
+                        <h3 style="text-align: center;" class="text-info">Partnership Sales Report</h3>
+                         <form method="POST" action="./purchase-reports">
+                            <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
+                            <input type="hidden" name="vendorID" class="form-control" value="<?php echo $vendorID; ?>">
+                             <input type="hidden" name="branchId" class="form-control" value="<?php echo $branchId; ?>">
+                            <div class="row" style="padding:10px;">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label>Start Date</label>
+                                  <input type="date" name="start_date" class="form-control">
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label>End Date</label>
+                                  <input type="date" name="end_date" class="form-control">
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <button class="btn btn-success" name="partnership_report" style="margin-top: 24px;">Get Report</button>
+                              </div>
+                            </div>  
+                         </form>
+                        </a>
+                      </div>
+                    </div>
+                    <!-- partnersip report close -->  
+              </div>
               <div class="active tab-pane" id="invoice"  style="background-color:lightgray;padding:10px;">
                 <div class="form-group">
                   <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">   
@@ -608,6 +677,18 @@ body td{
 <?php
 $url = \yii\helpers\Url::to("vendor/fetch-vendor-info");
 $script = <<< JS
+$("#partnership").click(function(){
+  //var partnership = $('#partnership').val();
+  $('#partnership_report').show();
+  $('#items_report').hide();
+});
+
+$("#items").click(function(){
+  //var items = $('#items').val();
+  $('#items_report').show();
+  $('#partnership_report').hide();
+});
+
 $("#stock_type").change(function(){
 	var stockType = $('#stock_type').val();
 	$.ajax({

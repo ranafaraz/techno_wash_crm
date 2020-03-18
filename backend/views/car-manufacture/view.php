@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'car_manufacture_id',
-            'vehical_type_id',
+            // 'vehical_type_id',
             'manufacturer',
             'description',
             'created_at',

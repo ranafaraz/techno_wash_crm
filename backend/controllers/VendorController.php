@@ -31,7 +31,7 @@ class VendorController extends Controller
                     ],
                     [
 
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete', 'purchase-invoice-view', 'fetch-vendor-info', 'paid-purchase-invoice', 'update-purchase-invoice', 'pay-purchase-invoice','purchase-invoice-transaction'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete', 'purchase-invoice-view', 'fetch-vendor-info', 'paid-purchase-invoice', 'update-purchase-invoice', 'pay-purchase-invoice','purchase-invoice-transaction','purchase-reports'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -51,6 +51,14 @@ class VendorController extends Controller
      * Lists all Vendor models.
      * @return mixed
      */
+     public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+    public function actionPurchaseReports()
+    {    
+        return $this->render('purchase-reports');
+    }
     public function actionFetchVendorInfo()
     {    
         return $this->render('fetch-vendor-info');

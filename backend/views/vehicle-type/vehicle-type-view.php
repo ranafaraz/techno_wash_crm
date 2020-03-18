@@ -9,6 +9,7 @@ if(isset($_POST['insert_model']))
 { 
  	$vechicalType = $_POST['vechicalType'];
 	$carmanufactureId  = $_POST['carmanufacture_id'];
+	$sub_type_head_id = $_POST['sub_type_head_id'];
 	$modelName  = $_POST['model_name'];
 	$user_id   =Yii::$app->user->identity->id;
 	$count = count($modelName);
@@ -23,7 +24,7 @@ if(isset($_POST['insert_model']))
 			$model = $modelName[$i];
 	
 	      	$insert_model = Yii::$app->db->createCommand()->insert('vehicle_type_sub_category',[
-			     'manufacture'      => $car_manufac,
+			     'sub_type_head_id'      => $sub_type_head_id[$i],
 			     'name'      		=> $model,
 			     'created_at' 		=> new \yii\db\Expression('NOW()'),
 			     'updated_at' 		=> '0',
@@ -44,6 +45,7 @@ if(isset($_POST['insert_model']))
         
     } // closing of try block 
     catch (Exception $e) {
+    	echo $e;
       // transaction rollback
         $transaction->rollback();
     } // closing of catch block
@@ -59,11 +61,11 @@ FROM  vehicle_type
 WHERE vehical_type_id = $vehicleTypeID
 ")->queryAll();
 
-// getting car manufactures data
+// // getting car manufactures data
 $carmanufactureData = Yii::$app->db->createCommand("
 SELECT *
-FROM  car_manufacture
-WHERE vehical_type_id = $vehicleTypeID
+FROM  vehicle_type_sub_cat_head
+WHERE vehicle_type_id = $vehicleTypeID
 ")->queryAll();
 $countcarmanufactureData = count($carmanufactureData);
 
@@ -93,19 +95,25 @@ $countcarmanufactureData = count($carmanufactureData);
 			            <ul class="nav nav-tabs">
 			            	<?php 
 								for ($i=0; $i <$countcarmanufactureData ; $i++) { 
-								$carmanufactureName = $carmanufactureData[$i]['manufacturer'];
-								$carmanufactureID = $carmanufactureData[$i]['car_manufacture_id'];
+								$carmanufactureId = $carmanufactureData[$i]['manufacture'];
+								$subCatHeadId = $carmanufactureData[$i]['sub_cat_head_id'];
+								$manufactureName = Yii::$app->db->createCommand("
+								SELECT *
+								FROM  car_manufacture
+								WHERE car_manufacture_id = $carmanufactureId
+								")->queryAll();
+								
 								$vehicleSubData = Yii::$app->db->createCommand("
 								SELECT *
 								FROM  vehicle_type_sub_category
-								WHERE manufacture = $carmanufactureID
+								WHERE sub_type_head_id = $subCatHeadId
 								")->queryAll();
 
 								$countvehicleSub = count($vehicleSubData);
 							?>
 				            <li class="">
-				              	<a href="#<?php echo $carmanufactureID; ?>" data-toggle="tab">
-				              		<?php echo $carmanufactureName; ?>&nbsp;<span class="badge"><?=$countvehicleSub;?></span>
+				              	<a href="#<?php echo $carmanufactureId; ?>" data-toggle="tab">
+				              		<?php echo $manufactureName[0]['manufacturer']; ?>&nbsp;<span class="badge"><?php echo $countvehicleSub;?></span>
 				              	</a>
 				            </li>
 			            	<?php } ?>
@@ -113,30 +121,39 @@ $countcarmanufactureData = count($carmanufactureData);
 			            <div class="tab-content" style="background-color:#EFEFEF;">
 			            	<?php 
 								for ($i=0; $i <$countcarmanufactureData; $i++) { 
+									//$modelName = $vehicleSubData[$i]['name'];
+									$carmanufactureId = $carmanufactureData[$i]['manufacture'];	
+									$subCatHeadId = $carmanufactureData[$i]['sub_cat_head_id'];
+									$manufactureName = Yii::$app->db->createCommand("
+									SELECT *
+									FROM  car_manufacture
+									WHERE car_manufacture_id = $carmanufactureId
+									")->queryAll();
+									
+									$vehicleSubData = Yii::$app->db->createCommand("
+									SELECT *
+									FROM  vehicle_type_sub_category
+									WHERE sub_type_head_id = $subCatHeadId
+									")->queryAll();
 
-								$carmanufactureID = $carmanufactureData[$i]['car_manufacture_id'];
-								$carmanufactureName = $carmanufactureData[$i]['manufacturer'];
-								
-								//getting vehicle type sub category
-								$vehicleSubData = Yii::$app->db->createCommand("
-								SELECT *
-								FROM  vehicle_type_sub_category
-								WHERE manufacture = $carmanufactureID
-								")->queryAll();
-
-								$countvehicleSub = count($vehicleSubData);
+									$countvehicleSub = count($vehicleSubData);
 
 							?>
-					        <div class="tab-pane" id="<?php echo $carmanufactureID;?>">
+					        <div class="tab-pane" id="<?php echo $carmanufactureId;?>">
 					            <div class="row">
 					               	<div class="col-md-4">
-					               		<p style="color:#3C8DBC;font-size:20px;">		<?php echo $carmanufactureName; ?>
+					               		<a href="./car-manufacture-update?id=<?php echo $carmanufactureId;?>&vechicalType=<?php echo $vehicleTypeID; ?>">
+					               			<p style="color:#3C8DBC;font-size:20px;">
+					               				<span class="glyphicon glyphicon-edit"></span>
+					               			<?php echo $manufactureName[0]['manufacturer']; ?>
 					               		</p>
+					               		</a>
 					               	</div>
 				               		<div class="col-md-2">
 				               			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>"> 
 				               			<input type="hidden" name="vechicalType" id="vechicalType" class="form-control" value="<?php echo $vehicleTypeID; ?>">
-				               			<input type="hidden" name="carmanufacture_id[]" id="carmanufacture_id" class="form-control" value="<?php echo $carmanufactureID; ?>">
+				               			<input type="hidden" name="carmanufacture_id[]" id="carmanufacture_id" class="form-control" value="<?php echo $carmanufactureId; ?>">
+				               			<input type="hidden" name="sub_type_head_id[]" id="subCatHeadId" class="form-control" value="<?php echo $subCatHeadId; ?>">
 
 				               			<label class="pull-right" style="margin-top: 6px;">Model Name:</label>
 				               		</div>
@@ -164,10 +181,10 @@ $countcarmanufactureData = count($carmanufactureData);
 											?>
 					               			<tbody>
 					               				<tr>
-					               					<td><?=$j+1;?></td>
-					               					<td style="background-color: #fff;"><?=$vehicleSubData[$j]['name'];?></td>
-					               					<td><a href="./update-vehicle-type?VehTypeSubId=<?php echo $vehicleSubData[$j]['vehicle_typ_sub_id'];?>&manufacture_id=<?php echo $vehicleSubData[$j]['manufacture'];?>&VehTypeID=<?php echo $vehicleTypeID;?>" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> Update</a>
-													 <!-- <button type="submit" title="Delete" class="btn btn-danger btn-xs" name="VehicleTypeSubId" value="<?php echo $vehicleSubData[$j]['vehicle_typ_sub_id'];?>"><i class="fa fa-trash"></i> Delete</button> -->
+					               					<td><?php echo$j+1;?></td>
+					               					<td style="background-color: #fff;"><?php echo $vehicleSubData[$j]['name'];?></td>
+					               					<td><a href="./update-vehicle-type?VehTypeSubId=<?php echo $vehicleSubData[$j]['vehicle_typ_sub_id'];?>&VehTypeID=<?php echo $vehicleTypeID; ?>" title="Edit" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> Update</a>
+													 <!-- <button type="submit" title="Delete" class="btn btn-danger btn-xs" name="VehicleTypeSubId" value="<?php //echo $vehicleSubData[$j]['vehicle_typ_sub_id'];?>"><i class="fa fa-trash"></i> Delete</button> -->
 					               					</td>
 					               				</tr>
 					               			</tbody>

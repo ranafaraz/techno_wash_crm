@@ -10,7 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-
+use backend\models\Model;
+use common\models\VehicleTypeSubCategory;
 /**
  * VehicleTypeSubCatHeadController implements the CRUD actions for VehicleTypeSubCatHead model.
  */
@@ -83,7 +84,7 @@ class VehicleTypeSubCatHeadController extends Controller
     {
         $request = Yii::$app->request;
         $model = new VehicleTypeSubCatHead();  
-
+        $modelCar = [new VehicleTypeSubCategory];
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -94,12 +95,52 @@ class VehicleTypeSubCatHeadController extends Controller
                     'title'=> "Create new VehicleTypeSubCatHead",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'modelCar' => (empty($modelCar)) ? [new VehicleTypeSubCategory] : $modelCar,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post())){
+                $modelCar = Model::createMultiple(VehicleTypeSubCategory::classname());
+                Model::loadMultiple($modelCar, Yii::$app->request->post());
+
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0';
+
+                // validate all models
+                $valid = $model->validate();
+                $valid = Model::validateMultiple($modelCar) && $valid;
+
+                if ($valid) {
+                    $transaction = \Yii::$app->db->beginTransaction();
+                    try {
+                        if ($flag = $model->save(false)) {
+                            foreach ($modelCar as $carModel) {
+                                $carModel->sub_type_head_id = $model->sub_cat_head_id;
+                                $carModel->created_at = new \yii\db\Expression('NOW()');
+                                $carModel->created_by = Yii::$app->user->identity->id; 
+                                $carModel->updated_by = '0';
+                                $carModel->updated_at = '0';    
+
+                                if (! ($flag = $carModel->save(false))) {
+                                    $transaction->rollBack();
+                                    break;
+                                }
+                            } // modelRouteVoucherEmployee foreach end
+                        }
+                        if ($flag) {
+                            $transaction->commit();
+                            //return $this->redirect(['index']);
+                        }
+                    } catch (Exception $e) {
+                        $transaction->rollBack();
+                        echo $e;
+                    }
+              
+                } // closing of validate if 
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new VehicleTypeSubCatHead",

@@ -10,8 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-use backend\models\Model;
-use common\models\VehicleTypeSubCategory;
+//use backend\models\Model;
 
 /**
  * CarManufactureController implements the CRUD actions for CarManufacture model.
@@ -85,7 +84,7 @@ class CarManufactureController extends Controller
     {
         $request = Yii::$app->request;
         $model = new CarManufacture();
-        $modelCar = [new VehicleTypeSubCategory];
+        //$modelCar = [new VehicleTypeSubCategory];
 
         if($request->isAjax){
             /*
@@ -97,7 +96,7 @@ class CarManufactureController extends Controller
                     'title'=> "Create new CarManufacture",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'modelCar'=>(empty($modelCar)) ? [new VehicleTypeSubCategory] : $modelCar,
+                        // 'modelCar'=>(empty($modelCar)) ? [new VehicleTypeSubCategory] : $modelCar,
 
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -105,48 +104,51 @@ class CarManufactureController extends Controller
         
                 ];         
             }else if($model->load($request->post())){
-                $modelCar = Model::createMultiple(VehicleTypeSubCategory::classname());
 
-                Model::loadMultiple($modelCar, Yii::$app->request->post());
+                //var_dump($model->manufacturer);
+                // $modelCar = Model::createMultiple(VehicleTypeSubCategory::classname());
+
+                // Model::loadMultiple($modelCar, Yii::$app->request->post());
 
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0';
+                $model->save();
 
 
                 // validate all models
-                $valid = $model->validate();
-                $valid = Model::validateMultiple($modelCar) && $valid;
+                // $valid = $model->validate();
+                //$valid = Model::validateMultiple($modelCar) && $valid;
 
-                if ($valid) {
-                        $transaction = \Yii::$app->db->beginTransaction();
-                        try {
-                            if ($flag = $model->save(false)) {
+                // if ($valid) {
+                //         $transaction = \Yii::$app->db->beginTransaction();
+                //         try {
+                //             if ($flag = $model->save(false)) {
 
-                                foreach ($modelCar as $product) {
-                                    $product->manufacture = $model->car_manufacture_id;
-                                    $product->created_at = new \yii\db\Expression('NOW()');
-                                    $product->created_by = Yii::$app->user->identity->id; 
-                                    $product->updated_by = '0';
-                                    $product->updated_at = '0';    
+                //                 foreach ($modelCar as $product) {
+                //                     $product->manufacture = $model->car_manufacture_id;
+                //                     $product->created_at = new \yii\db\Expression('NOW()');
+                //                     $product->created_by = Yii::$app->user->identity->id; 
+                //                     $product->updated_by = '0';
+                //                     $product->updated_at = '0';    
 
-                                    if (! ($flag = $product->save(false))) {
-                                        $transaction->rollBack();
-                                        break;
-                                    }
-                                } // modelRouteVoucherEmployee foreach end
-                            }
-                            if ($flag) {
-                                $transaction->commit();
-                                //return $this->redirect(['index']);
-                            }
-                        } catch (Exception $e) {
-                            $transaction->rollBack();
-                            echo $e;
-                        }
+                //                     if (! ($flag = $product->save(false))) {
+                //                         $transaction->rollBack();
+                //                         break;
+                //                     }
+                //                 } // modelRouteVoucherEmployee foreach end
+                //             }
+                //             if ($flag) {
+                //                 $transaction->commit();
+                //                 //return $this->redirect(['index']);
+                //             }
+                //         } catch (Exception $e) {
+                //             $transaction->rollBack();
+                //             echo $e;
+                //         }
                   
-                    } // closing of validate if   
+                //     } // closing of validate if   
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new CarManufacture",
@@ -188,7 +190,7 @@ class CarManufactureController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id,$vechicalType)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
@@ -232,7 +234,7 @@ class CarManufactureController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->car_manufacture_id]);
+                return $this->redirect(['./vehicle-type-view', 'id' => $vechicalType]);
             } else {
                 return $this->render('update', [
                     'model' => $model,

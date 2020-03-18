@@ -791,7 +791,7 @@ $("#barcode").focusin(function(){
 $("#services").on('click',function(){
 	var serviceID = $("#services").val();
   $('#product_quantity').val("");
-  var customerVehicle = $("#vehicle").val()
+  var customerVehicle = $("#vehicle").val();
 	
 	$.ajax({
     type:'post',
