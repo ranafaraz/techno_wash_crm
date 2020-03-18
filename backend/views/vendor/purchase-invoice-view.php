@@ -392,7 +392,7 @@ body td{
         </div>
       </div>
     </div>
-    <div class="col-md-3" id="bill_form">
+    <div class="col-md-3" id="bill_form" style="display: none;">
       <div class="box box-success">
         <div class="box-body">
         	<div class="container-fluid" style="margin-bottom:8px;">

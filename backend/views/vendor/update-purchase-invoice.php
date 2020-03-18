@@ -105,17 +105,17 @@
   			            		<div class="form-group">
   				            		<label>Product Name</label>
   				            		<select class="form-control" id="product_name">
-                            <option value="">First Select Manufacturer</option>
-                          </select>
+                            			<option value="">First Select Manufacturer</option>
+                          			</select>
   			            		</div>
   			            	</div>
   			            	<div class="col-md-3">
   			            		<div class="form-group">
   				            		<label>Stock Status</label>
-                          <select id="stock_status" class="form-control">
-                            <option value="Purchased">Purchased</option>
-                            <option value="Partnership">Partnership</option>
-                          </select>
+                          			<select id="stock_status" class="form-control">
+			                            <option value="Purchased">Purchased</option>
+			                            <option value="Partnership">Partnership</option>
+                          			</select>
   			            		</div>
   			            	</div>
   			            </div>
@@ -123,13 +123,13 @@
   			            	<div class="col-md-3">
   			            		<div class="form-group">
   				            		<label>Purchase Price</label>
-                          <input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="purchase_price" class="form-control">
+                          			<input type="text"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="purchase_price" class="form-control">
   			            		</div>
   			            	</div>
   			            	<div class="col-md-3">
   			            		<div class="form-group">
   				            		<label>Selling Price</label>
-                          <input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="selling_price" class="form-control" >
+                          			<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="selling_price" class="form-control" >
   			            		</div>
   			            	</div>
   			            	<div class="col-md-3">
@@ -138,16 +138,15 @@
   				            		<input type="text" class="form-control" id="barcode">
   			            		</div>
   			            	</div>
-	                      <div class="col-md-3">
-	                        <div class="fomr-group">
-	                          <label>Quantity</label>
-	                          <input type="text" name="" class="form-control" id="quantity" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
-	                        </div>
-	                      </div>
+	                      	<div class="col-md-3">
+		                        <div class="fomr-group">
+		                          <label>Quantity</label>
+		                          <input type="text" name="" class="form-control" id="quantity" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
+		                        </div>
+	                      	</div>
   			            	<input type="hidden" id="stockTypeName">
   			            	<input type="hidden" id="manufactreName">
                       		<input type="hidden" id="productName">
-                      		<input type="hidden" id="orgProfit" value="0">
   			            </div>
   			            <div class="row">
 			                <div class="col-md-12" >
@@ -212,8 +211,18 @@
 									<td>
 										<div class="form-group">
 											<input type="hidden" name="status" id="status" class="form-control" readonly="" value="<?=$updateinvoiceData[0]['status']; ?>">
-											<input type="number" name="total_amount" id="tp" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['total_amount'];?>">
+											<input type="number" name="total_amount" id="total_p" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['total_amount'];?>">
 										</div>
+									</td>
+								</tr>
+								<tr id="profit_div" style="display:none;">
+									<td>
+						                <label>Profit</label>
+									</td>
+									<td>
+										<div class="form-group">
+						                	<input type="text" name="orgProfit" class="form-control" readonly="" id="orgProfit" value="0">
+						            	</div>
 									</td>
 								</tr>
 								<tr>
@@ -222,7 +231,7 @@
 									</td>
 									<td>
 										<div class="form-group">
-											 <input type="radio" name="discountType" id="amount"   checked  onclick="discEmpty()">Amount
+											<input type="radio" name="discountType" id="amount"   checked  onclick="discEmpty()">Amount
 												&emsp;
 											  <input type="radio" name="discountType" id="percentage" onclick="discEmpty()">Percentage
 											<input type="text" name="discount" oninput="discountFun()" class="form-control" id="disc" value="<?php echo $updateinvoiceData[0]['discount'];?>">
@@ -235,7 +244,7 @@
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="net_total" id="nt" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
+											<input type="text" name="net_total" id="net_t" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
 										</div>
 									</td>
 								</tr>
@@ -450,7 +459,7 @@ if(isset($_POST['update_invoice']))
 	}
 	function discountFun(){
         // Getting the value from the original price
-        originalPrice = parseInt(document.getElementById("tp").value);
+        originalPrice = parseInt(document.getElementById("total_p").value);
         // alert(originalPrice);
         //discountType  = parseInt(document.getElementById("discountType").value);
         
@@ -458,7 +467,7 @@ if(isset($_POST['update_invoice']))
             discount = parseInt(document.getElementById("disc").value);
             discountReceived = parseInt((originalPrice*discount)/100);
             purchasePrice = originalPrice-discountReceived;
-            $('#nt').val(purchasePrice);
+            $('#net_t').val(purchasePrice);
             $('#update_disc').val(discountReceived);
             //alert(purchasePrice);
         } else if(document.getElementById('amount').checked) {
@@ -466,11 +475,8 @@ if(isset($_POST['update_invoice']))
             purchasePrice = originalPrice - discount;
             //alert(purchasePrice);
             //discountReceived = discount;
-            $('#nt').val(purchasePrice);
-            $('#update_disc').val(discount);
-
-            //alert(originalPrice);
-              
+            $('#net_t').val(purchasePrice);
+            $('#update_disc').val(discount); 
         } 
         cal_remaining();
     }
@@ -484,7 +490,7 @@ if(isset($_POST['update_invoice']))
     }    
  	function cal_remaining(){
       	var paid = $('#paid').val();
-      	var nt = $('#nt').val();
+      	var nt = $('#net_t').val();
       	var remaining = nt - paid;
       	$('#remaining').val(remaining); 
       	if (remaining == 0) {
@@ -563,6 +569,145 @@ $("#manufacture_type").change(function(){
   });
 });
 
+$("#barcode").change(function(){
+	var barcode 			= $("#barcode").val();
+	var stock_type 			= $("#stock_type").val();
+	var manufacture_type 	= $("#manufacture_type").val();
+	var name 				= $("#product_name").val();
+  	var stock_status        = $("#stock_status").val();
+	var expiry_date 		= $("#expiry_date").val();
+	var original_price 		= $("#original_price").val();
+	var purchase_price 		= $("#purchase_price").val();
+	var selling_price 		= $("#selling_price").val();
+	var qty					= 1;
+	var stockTypeName 		= $('#stockTypeName').val();
+	var manufactreName 		= $('#manufactreName').val();
+  	var product_name    	= $('#productName').val();
+	var totalAmount         = parseInt($('#total_p').val());
+ 	 var profitOrg          = parseInt($('#orgProfit').val());
+  
+  if(stock_status == 'Partnership'){
+    $('#profit_div').show();
+    var totalProfit = parseInt(selling_price)-parseInt(purchase_price);
+    var divideProfit = totalProfit/2;
+    var op = parseInt(profitOrg)+divideProfit;
+    var tp = parseInt(totalAmount)+parseInt(purchase_price);
+    var remain = parseInt(tp)+parseInt(op);
+
+    $('#total_p').val(tp);
+    $('#orgProfit').val(op);
+    $('#net_t').val(remain);
+    $('#disc').val("");
+    $('#paid').val("0");
+    $('#remaining').val(remain);
+    $('#status').val('Unpaid');
+  } else {
+    var tp = parseInt(totalAmount)+parseInt(purchase_price);
+    var op = 0;
+    var remain = parseInt(tp)+parseInt(op);
+
+    $('#total_p').val(tp);
+    $('#orgProfit').val(op);
+    $('#net_t').val(remain);
+    $('#disc').val("");
+    $('#paid').val("0");
+    $('#remaining').val(remain);
+    $('#status').val('Unpaid');
+  }
+
+	if(stock_type == "" || stock_type == null)
+	{
+		alert('Please Select the Stock Type');
+	    $('#stock_type').css("border", "1px solid red");
+	    $('#stock_type').focus();
+	}
+	else if(manufacture_type == "" || manufacture_type == null)
+	{
+		alert('Please Select the Manufacture Type');
+	    $('#manufacture_type').css("border", "1px solid red");
+	    $('#manufacture_type').focus();
+	}
+	else if(name == "" || name == null)
+	{
+		alert('Please Select the Name');
+	    $('#product_name').css("border", "1px solid red");
+	    $('#product_name').focus();
+	}
+	else if(purchase_price == "" || purchase_price == null)
+	{
+		alert('Please fill the Purchase Price');
+	    $('#purchase_price').css("border", "1px solid red");
+	    $('#purchase_price').focus();
+	}
+	else if(selling_price == "" || selling_price == null)
+	{
+		alert('Please fill the Selling Price');
+	    $('#selling_price').css("border", "1px solid red");
+	    $('#selling_price').focus();
+	}
+  else{
+    	discountFun();
+		barcodeArray.push(barcode);
+		stockTypeArray.push(stock_type);
+		manufacturerArray.push(manufacture_type);
+		nameArray.push(name);
+    	stockStatusArray.push(stock_status);
+		expiryDateArray.push(expiry_date);
+		originalPriceArray.push(original_price);
+		purchasePriceArray.push(purchase_price);
+		sellingPriceArray.push(selling_price);
+		quantityArray.push(qty);
+
+		$("#mydata").show();
+		$('#bill_form').show();
+		//document.getElementById('insertdata').disabled=false;
+		$('#insertdata').attr("disabled", false);
+
+		let table = document.getElementById("myTableData");
+
+		//count the table row
+		let rowCount = table.rows.length;
+
+		//insert the new row
+		let row = table.insertRow(1);
+		  
+		//insert the coulmn against the row
+		row.insertCell(0).innerHTML= rowCount;
+		row.insertCell(1).innerHTML= stockTypeName;
+		row.insertCell(2).innerHTML= manufactreName;
+		row.insertCell(3).innerHTML= product_name;
+		//row.insertCell(4).innerHTML= expiry_date;
+		//row.insertCell(5).innerHTML= original_price;
+		row.insertCell(4).innerHTML= purchase_price;
+		row.insertCell(5).innerHTML= selling_price;
+    	row.insertCell(6).innerHTML= qty;
+
+		$('#barcode').val("");
+		$('#barcode').focus();
+	}
+  	table = document.getElementById("myTableData");
+  	for(var i = 1; i < table.rows.length; i++) {
+	    table.rows[i].onclick = function(){
+	      $('#remove_value').show();
+	      $('#remove').show();
+	       
+	      // get the seected row index
+	      rIndex = this.rowIndex;
+	      document.getElementById("remove_value1").value = rIndex;
+	      document.getElementById("remove_value").value = this.cells[3].innerHTML;
+	      document.getElementById("hide_quantity").value = this.cells[6].innerHTML;
+	      document.getElementById("get_purchase_value").value = this.cells[4].innerHTML;
+	      $('#check_no').val("");
+	      $('#check_no').focus();
+	      var q = Number(document.getElementById("hide_quantity").value);
+	      if(q>1){
+	        $('#quantity_no_div').show();
+	      } else {
+	        $('#quantity_no_div').hide();
+	      }
+	    };
+	}
+});
 
 $("#quantity").change(function(){
 	var qty 				= parseInt($('#quantity').val());
@@ -575,26 +720,48 @@ $("#quantity").change(function(){
 	var purchase_price 		= $("#purchase_price").val();
 	var selling_price 		= $("#selling_price").val();
 	var stockTypeName 		= $('#stockTypeName').val();
-	var manufactreName 		= $('#manufactreName').val();
-  	var product_name    	= $('#productName').val();
-  	var barcode				= ''; 
-  	var totalAmount       = parseInt($('#tp').val());
+	var manufactreName 	  = $('#manufactreName').val();
+  	var product_name      = $('#productName').val();
+  	var barcode			  = ''; 
+  	var totalAmount       = parseInt($('#total_p').val());
   	var paid       		  = parseInt($('#paid').val());
   	var profitOrg         = parseInt($('#orgProfit').val());
+  	
+  if(stock_status == 'Partnership'){
+    $('#profit_div').show();
+    var pp = parseInt(purchase_price)*qty;
+    var sp = parseInt(selling_price)*qty;
+    var totalProfit = parseInt(sp)-parseInt(pp);
+    var divideProfit = totalProfit/2;
+    var op = parseInt(profitOrg)+divideProfit;
+    var tp = parseInt(totalAmount)+pp;
+    var nt = parseInt(tp)+parseInt(op);
 
+    alert(nt);
+
+    $('#total_p').val(tp);
+    $('#orgProfit').val(op);
+    $('#net_t').val(nt);
+    $('#disc').val("");
+    //$('#paid').val("0");
+    //$('#remaining').val(nt);
+    //$('#status').val('Unpaid');
+  } else {
   	var pp = parseInt(purchase_price)*qty;
   	var tp = parseInt(totalAmount)+pp;
     var op = 0;
-    var remain = tp-paid;
+    var nt = parseInt(tp)+parseInt(op);
 
-    alert(pp+" "+tp+" "+remain);
+    alert(nt);
 
-  	$('#tp').val("1234");
-    $('#nt').val(tp);
+  	$('#total_p').val(tp);
+    $('#orgProfit').val(op);
+    $('#net_t').val(nt);
     $('#disc').val("");
     //$('#paid').val("0");
-    $('#remaining').val(parseInt(remain));
+    //$('#remaining').val(nt);
     //$('#status').val('Unpaid');
+  }
   
     discountFun();
 
@@ -697,7 +864,7 @@ $("#quantity").change(function(){
 $("#cash_return").on('input', function(){
   var cashReturn  = $('#cash_return').val();
   var paid        = $('#paid').val();
-  var nt          = $('#nt').val();
+  var nt          = $('#net_t').val();
   var previous_value = paid-nt;
   var temp = cashReturn-previous_value;
   $('#remaining').val(temp);
@@ -795,8 +962,8 @@ $('#remove').click(function(){
       var nt = Number(document.getElementById("tp").value);
       var remain_amount = nt - check_no*remove_amount;
       //alert(remain_amount);
-      $('#tp').val(remain_amount);$("#tp").val(remain_amount);
-      $("#nt").val(remain_amount);
+      $('#total_p').val(remain_amount);$("#total_p").val(remain_amount);
+      $("#net_t").val(remain_amount);
       $("#remaining").val(remain_amount);
       // $("#disc").val("");
       // $("#paid").val("0");
@@ -808,7 +975,7 @@ $('#remove').click(function(){
       $('#remove_value1').val("");
     }
     else if(check_no == hide_quantity){
-      var nt=$('#tp').val(); 
+      var nt=$('#total_p').val(); 
       var a =barcodeArray.length- remove_value; 
 
       var remove_amount = Number(document.getElementById("get_purchase_value").value);
@@ -816,8 +983,8 @@ $('#remove').click(function(){
       var remove_amount = Number(document.getElementById("get_purchase_value").value);
       net_of_remove_amount = remove_amount*hide_quantity;
       nt=nt - net_of_remove_amount;
-      $('#tp').val(nt); 
-      $('#nt').val(nt); 
+      $('#total_p').val(nt); 
+      $('#net_t').val(nt); 
       $('#remaining').val(nt); 
       barcodeArray.splice(a,1);
       stockTypeArray.splice(a,1);
@@ -834,7 +1001,7 @@ $('#remove').click(function(){
       var a =barcodeArray.length- remove_value;
       // alert(sellingPriceArray[a]);
       //alert(sellingPriceArray);
-      var nt=$('#tp').val();
+      var nt=$('#total_p').val();
       var nta = nt-purchasePriceArray[a];
       //alert(barcodeArray.length);
       barcodeArray.splice(a,1);
@@ -847,9 +1014,9 @@ $('#remove').click(function(){
       purchasePriceArray.splice(a,1);
       sellingPriceArray.splice(a,1);
       //alert(barcodeArray.length);
-      $('#tp').val(nta);
+      $('#total_p').val(nta);
       $('#remaining').val(nta);
-      $('#nt').val(nta);
+      $('#net_t').val(nta);
       $('#remove_value1').val("");
       $('#remove_value').val("");
       // alert(sellingPriceArray);
