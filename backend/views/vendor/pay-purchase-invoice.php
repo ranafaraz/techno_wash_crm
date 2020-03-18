@@ -163,8 +163,9 @@ if(isset($_POST['insert_pay']))
     $narration   = $_POST['narration'];
     $transaction_date = $_POST['transaction_date'];
     $id   =Yii::$app->user->identity->id;
+    echo $piID;
 
-    // starting of transaction handling
+    //starting of transaction handling
     $transaction = \Yii::$app->db->beginTransaction();
     try {
      	$insert_purchase_invoice = Yii::$app->db->createCommand()->update('purchase_invoice',[
@@ -201,11 +202,12 @@ if(isset($_POST['insert_pay']))
 		    $transactions = Yii::$app->db->createCommand()->insert('transactions',
 		    [
 		      'branch_id' => Yii::$app->user->identity->branch_id,
-		      'type' => 'Cash Payment',
+		      'type' => 'Cash',
 		      'narration' => $narration,
 		      // 'credit_account' => $head->id,
 		      'account_head_id' => 6,
 		      'amount' => $pay,
+		      'head_id' => $piID,
 		      'ref_no' => $invoice_amount,
 			  'ref_name' => "Purchase",
 		      'transactions_date' => $transaction_date,
