@@ -59,17 +59,15 @@ if(isset($_POST['serviceID'])) {
 	$customerVehicle = $_POST['customerVehicle'];
 
 	$vehcID = Yii::$app->db->createCommand("
-	SELECT vt.vehical_type_id
+	SELECT vtsh.vehicle_type_id
 	FROM ((customer_vehicles as cv
 	INNER JOIN vehicle_type_sub_category as vtsc
 	ON cv.vehicle_typ_sub_id = vtsc.vehicle_typ_sub_id)
-	INNER JOIN car_manufacture as cm
-	ON cm.car_manufacture_id = vtsc.manufacture)
-	INNER JOIN vehicle_type as vt
-	ON vt.vehical_type_id = cm.vehical_type_id
+	INNER JOIN vehicle_type_sub_cat_head as vtsh
+	ON vtsh.sub_cat_head_id = vtsc.sub_type_head_id)
 	WHERE cv.customer_vehicle_id = '$customerVehicle'
 	")->queryAll();
-		$vehicleTypID = $vehcID[0]['vehical_type_id'];
+		$vehicleTypID = $vehcID[0]['vehicle_type_id'];
 
 		$serviceDetails = Yii::$app->db->createCommand("
 	SELECT sd.*,s.service_name
