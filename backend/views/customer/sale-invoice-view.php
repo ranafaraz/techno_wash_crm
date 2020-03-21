@@ -384,6 +384,7 @@ use common\models\AccountHead;
                               <th style="background-color: skyblue">Type</th>
                               <th style="background-color: skyblue">Quantity</th>
                               <th style="background-color: skyblue">Amount</th>
+                              <!-- <th style="background-color: skyblue">Action</th> -->
                             </thead>
                             <tbody>
                             </tbody>
@@ -614,6 +615,12 @@ use common\models\AccountHead;
         
         window.location = './paid-sale-invoice?sihID='+saleId;
       }
+//       function remove(index){
+//        var a=index.parentNode.parentNode.rowIndex;
+// alert(a);
+//        //document.getElementById("myTableData").deleteRow(a);
+       
+//       }
 </script>
 <?php
 $url = \yii\helpers\Url::to("customer/fetch-info");
@@ -770,6 +777,7 @@ $("#item_type").change(function(){
 	} else{
 	 	$('#stock').hide();
 	 	$('#servic').hide();
+    $('#pname').hide();
 	}
 });
 
@@ -852,6 +860,7 @@ $("#services").on('click',function(){
 						row.insertCell(3).innerHTML= type;
             row.insertCell(4).innerHTML= quantity;
 						row.insertCell(5).innerHTML= price;
+            //row.insertCell(6).innerHTML= "<button class='btn btn-danger' onclick='remove(this)'>Remove</button>";
 						
             $('#services').val("");
 						$('#remove_index').show();

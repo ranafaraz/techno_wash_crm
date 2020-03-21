@@ -189,9 +189,9 @@ if (isset($_POST["vehicle"])) {
 					[
 						'branch_id' => $branch_id,
 						'account_head_id' => $account_head,
-						'total_amount' => $net_total,
+						//'total_amount' => $net_total,
 						'amount' => $paid,
-						'remaining' => $remaining,
+						//'remaining' => $remaining,
 						'head_id' => $selectedInvHeadID,
 						'ref_no' => $invoice_amount,
 						'ref_name' => "Sale",

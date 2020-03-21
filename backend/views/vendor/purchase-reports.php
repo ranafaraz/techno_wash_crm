@@ -181,6 +181,7 @@
 			WHERE DATE(sih.date) >= '$start_date' AND DATE(sih.date) <= '$end_date'
 			AND sid.item_type = 'Stock'
 			AND pi.vendor_id = '$vendor_id'
+			AND s.stock_status = 'Partnership'
 		    ")->queryAll();
 		    if (!empty($saleDates)) {
 		    $countSalesDate = count($saleDates);
@@ -301,6 +302,7 @@
 					AND s.stock_status = 'Partnership'
 					AND s.status = 'Sold'
 				    ")->queryAll();
+				    if (!empty($soldItems)) {
 				    $countsoldItems = count($soldItems);
 	          	?>
 	          	<tr>
@@ -337,6 +339,7 @@
 	          		</td>
 	          	</tr>
 	        	<?php 
+	        				} // item if close
 	        			} // item loop closed 
 	        		} // date loop closed ?>
 	        		<tr>
