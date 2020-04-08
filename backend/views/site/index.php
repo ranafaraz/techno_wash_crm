@@ -386,7 +386,7 @@ use yii\helpers\Url;
           </div>
           <div class="row">
               <div class="col-md-3">
-                <a href="./customer-vehicles?sort=-customer_id">
+                <a href="./sale-invoice-view">
                     <div class="panel panel-default" style="border:1px solid #FAB61C;">
                       <div class="panel-body" style="text-align: center;padding:30px">
                         <i class="glyphicon glyphicon-usd"></i><br>
