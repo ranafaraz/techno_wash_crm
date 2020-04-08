@@ -32,7 +32,7 @@ use common\models\Products;
 		                              'options' => ['placeholder' => 'Select Product','id' => 'product']
 		                            ]); ?>
 								</div>
-								<div class="form-group">
+								<div class="form-group" style="display: none;" id="pp">
 									<label>Cost Price</label>
 									<select id="purchase_price" class="form-control">
 										
@@ -103,12 +103,6 @@ use common\models\Products;
 								<input type="hidden" id="original_price">
 								<div class="row">
 									<div class="col-md-4">
-										<div class="form-group" style="display: none;" id="qty_box">
-											<label>Qty</label>
-											<input type="number" id="qty" class="form-control" value="1">
-										</div>
-									</div>
-									<div class="col-md-4">
 										<div class="form-group">
 											<label>Select Status</label>
 											<select id="status" class="form-control">
@@ -128,6 +122,12 @@ use common\models\Products;
 											</select>
 										</div>
 									</div>
+									<div class="col-md-4">
+										<div class="form-group" style="display: none;" id="qty_box">
+											<label>Qty</label>
+											<input type="number" id="qty" class="form-control" value="1">
+										</div>
+									</div> 
 								</div>
 								<div class="row">
 									<div class="col-md-2">
@@ -162,6 +162,7 @@ $("#product").change(function(){
 	$("#product_name").prop("disabled", true);
 	$("#avst").show();
 	$("#cp").show();
+	$("#pp").show();
 	$.ajax({
         type:'post',
         data:{
