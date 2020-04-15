@@ -84,7 +84,7 @@ if(isset($_POST['serviceID'])) {
 if (isset($_POST["vehicle_id"])) {
 	$vehicle=$_POST["vehicle_id"];
 	$register = Yii::$app->db->createCommand("
-	SELECT vehicle_typ_sub_id
+	SELECT 	registration_no,vehicle_typ_sub_id
 	FROM customer_vehicles
 	WHERE 	customer_vehicle_id = $vehicle
 	")->queryAll();
@@ -112,6 +112,8 @@ if (isset($_POST["vehicle_id"])) {
 	OR cm.manufacturer = 'Unknown')
 	")->queryAll();
 
+
+	
 	echo json_encode($unknownModel); 
 }
 

@@ -629,16 +629,16 @@ $script = <<< JS
 
 $(document).ready(function(){
   $('#types').show();
-  // var vehicle = $("#vehicle").val();
-  // $.ajax({
-  //   type:'post',
-  //   data:{vehicle:vehicle},
-  //   url: "$url",
-  //   success: function(result){
-  //     var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-  //     $('#vehicle_name').val(jsonResult[0]['registration_no']);
-  //   }      
-  // });
+  var vehicle = $("#vehicle").val();
+  $.ajax({
+    type:'post',
+    data:{vehicle:vehicle},
+    url: "$url",
+    success: function(result){
+      var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+      $('#vehicle_name').val(jsonResult[0]['registration_no']);
+    }      
+  });
 });
 
 $("#customer_name").change(function(){
@@ -912,35 +912,36 @@ $("#vehicle").on("change",function(){
     url: "$url",
     success: function(result){
     	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-
     	$('#vehicle_name').val(jsonResult[0]['registration_no']);
   	}      
   }); 
 
-  // $.ajax({
-  //   type:'post',
-  //   data:{vehicle_id:vehicle},
-  //   url: "$url",
-  //   success: function(result){
-  //     var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-  //     console.log(jsonResult);
-  //     var vdetail = jsonResult[0]['vehicle_typ_sub_id'];
-  //     var carmanu = jsonResult[0]['car_manufacture_id'];
-  //     var vehtyp = jsonResult[0]['vehical_type_id'];
-  //     var custVehid = jsonResult[0]['customer_vehicle_id'];
-  //     $("#message").show();
-  //     //
+  $.ajax({
+    type:'post',
+    data:{vehicle_id:vehicle},
+    url: "$url",
+    success: function(result){
+      var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+      console.log(jsonResult);
+      var vdetail = jsonResult[0]['vehicle_typ_sub_id'];
+      var carmanu = jsonResult[0]['car_manufacture_id'];
+      var vehtyp = jsonResult[0]['vehical_type_id'];
+      var custVehid = jsonResult[0]['customer_vehicle_id'];
+      $("#message").show();
+      //
       
-  //     $("#message").html("<a href='./update-vehicle-type?vdetail="+vdetail+"&carmanu="+carmanu+"&vehtyp="+vehtyp+"&custVehid="+custVehid+"' style='color:white;'>Car Data is Incorrect,Please Click to Update</a>");
-  //     $("#message").css(
-  //       {
-  //           //"color":"#008D4C",
-  //           "border":"1px solid",
-  //           "background-color":"#008D4C",
-  //         }
-  //     );
-  //   }      
-  // }); 
+      $("#message").html("<a href='./update-vehicle-type?vdetail="+vdetail+"&carmanu="+carmanu+"&vehtyp="+vehtyp+"&custVehid="+custVehid+"' style='color:white;'>Car Data Incorrect,Please Click on Update</a>");
+      $("#message").css(
+        {
+            //"color":"#008D4C",
+            "border":"1px solid",
+            "background-color":"#008D4C",
+          }
+      );
+      
+      //$('#vehicle_name').val(jsonResult[0]['registration_no']);
+    }      
+  }); 
 });
   
 $("#barcode").on('change',function(){
