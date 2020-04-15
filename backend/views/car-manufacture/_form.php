@@ -9,11 +9,14 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\CarManufacture */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="text-align: center;font-family:georgia;color:#367FA9;margin-top:0px;">Create New Car Manufacture</h2>
+    </div>
+</div>
 <div class="car-manufacture-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'manufacturer')->textInput(['maxlength' => true,'id' => 'manufacture_name']) ?>
@@ -22,13 +25,34 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'description')->textInput(['maxlength' => true,'id' => 'manufacture_description']) ?>
         </div>
     </div>
-    <!-- row 1 close -->
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
-
+    <div class="row invisible">
+        <?php 
+        if(isset($_GET['vdetail'])){
+          $vdetail = $_GET['vdetail'];
+          $vehtyp = $_GET['vehtyp'];
+          $custVehid = $_GET['custVehid']; 
+        ?>
+            <div class="col-md-1" style="text-align: right;">
+                <?= $form->field($model, 'vehtyp')->textInput(['value' => $vehtyp]) ?>
+            </div>
+            <div class="col-md-1" style="text-align: right;">
+                <?= $form->field($model, 'vdetail')->textInput(['value' => $vdetail])?>
+            </div>
+            <div class="col-md-1" style="text-align: right;">
+                <?= $form->field($model, 'custVehid')->textInput(['value' => $custVehid])?>
+            </div>
+        <?php } ?>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="text-align: right; margin-top: -90px">
+            <?php if (!Yii::$app->request->isAjax){ ?>
+            <div class="form-group">
+                <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            </div>
+        <?php } ?>
+        </div>
+    </div>
+        
     <?php ActiveForm::end(); ?>
     
 </div>

@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\VehicleType */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 <div class="row">
         <div class="col-md-12">
@@ -14,17 +15,41 @@ use yii\widgets\ActiveForm;
 <div class="vehicle-type-form" style="background-color:#efefef;padding:20px;border-top:3px solid #367FA9;">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true,'id' => 'name']) ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6,'id' => 'description']) ?>
-
-  
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+  <div class="row">
+    <div class="col-md-6">
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true,'id' => 'name']) ?>
+    </div>
+    <div class="col-md-6">
+        <?= $form->field($model, 'description')->textInput(['id' => 'description']) ?>
+    </div>
+  </div>
+  <div class="row invisible">
+        <?php 
+        if(isset($_GET['vdetail'])){
+          $vdetail = $_GET['vdetail'];
+          $carmanu = $_GET['carmanu'];
+          $custVehid = $_GET['custVehid']; 
+        ?>
+            <div class="col-md-1" style="text-align: right;">
+                <?= $form->field($model, 'carmanu')->textInput(['value' => $carmanu]) ?>
+            </div>
+            <div class="col-md-1" style="text-align: right;">
+                <?= $form->field($model, 'vdetail')->textInput(['value' => $vdetail])?>
+            </div>
+            <div class="col-md-1" style="text-align: right;">
+                <?= $form->field($model, 'custVehid')->textInput(['value' => $custVehid])?>
+            </div>
+        <?php } ?>
+    </div>
+  <div class="row">
+    <div class="col-md-12" style="text-align: right; margin-top: -90px">
+    	<?php if (!Yii::$app->request->isAjax){ ?>
+    	  	<div class="form-group">
+    	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    	    </div>
+    	<?php } ?>
+    </div>
+  </div>
 
     <?php ActiveForm::end(); ?>
     

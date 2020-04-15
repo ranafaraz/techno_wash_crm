@@ -1,5 +1,5 @@
 <?php  
-
+use yii\helpers\Html;
 if(isset($_GET['VehTypeSubId'])){
 
   $vehicleTypeSubId = $_GET['VehTypeSubId'];
@@ -163,11 +163,11 @@ if(isset($_POST['update_vehicle']))
 <div class="container-fluid">
   <form method="post" action="">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 col-md-offset-4">
         <h2 style="border-bottom:2px solid;text-align: center;padding-bottom:10px;">Update Vehical Data</h2>
         <div class="form-group">
           <label>Vehicle Type</label>
-          <select class="form-control" name="vehicalTypeId">
+          <select class="form-control" name="vehicalTypeId" style="width: 85%;">
             <option value="<?php echo $selectedvehType[0]['vehical_type_id'];?>">
               <?php echo $selectedvehType[0]['name']; ?>
             </option>
@@ -179,12 +179,14 @@ if(isset($_POST['update_vehicle']))
             </option>
             <?php } ?>
           </select>
-          <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['vehical-type-create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-info']) ?>
+        </div>
+        <div class="form-group" style="text-align: right;margin-top:-50px; ">
+        <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['./vehicle-type/create','carmanu'=>$carmanu, 'vdetail'=>$vdetail, 'custVehid'=>$custVehid],
+                  ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-success']) ?>
         </div>
         <div class="form-group">
           <label>Manufacture</label>
-          <select class="form-control" name="manufactureID">
+          <select class="form-control" name="manufactureID" style="width: 85%;">
             <option value="<?php echo $selectedCarManu[0]['car_manufacture_id'];?>">
               <?php echo $selectedCarManu[0]['manufacturer']; ?>
             </option>
@@ -197,9 +199,13 @@ if(isset($_POST['update_vehicle']))
             <?php } ?>
           </select>
         </div>
+        <div class="form-group" style="text-align: right;margin-top:-50px; ">
+        <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['./car-manufacture/create','vehtyp'=>$vehtyp, 'vdetail'=>$vdetail, 'custVehid'=>$custVehid],
+                  ['role'=>'modal-remote','title'=> 'Create new Car Manufacture','class'=>'btn btn-success']) ?>
+        </div>
         <div class="form-group">
           <label>Model</label>
-          <select class="form-control" name="modelId">
+          <select class="form-control" name="modelId" style="width: 85%;">
              <option value="<?php echo $selectedVehDetail[0]['vehicle_typ_sub_id'];?>">
               <?php echo $selectedVehDetail[0]['name']; ?>
             </option>
@@ -211,6 +217,10 @@ if(isset($_POST['update_vehicle']))
             </option>
             <?php } ?>
           </select>
+        </div>
+        <div class="form-group" style="text-align: right;margin-top:-50px; ">
+        <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['./vehicle-type-sub-category/create','vehtyp'=>$vehtyp, 'carmanu'=>$carmanu, 'custVehid'=>$custVehid],
+                  ['role'=>'modal-remote','title'=> 'Create new Model','class'=>'btn btn-success']) ?>
         </div>
         <button class="btn btn-xs btn-info" name="carUpdate">Update Car</button>
         <a href="./sale-invoice-view" class="btn btn-xs btn-danger">Back</a>

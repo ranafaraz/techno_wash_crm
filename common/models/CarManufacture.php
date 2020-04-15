@@ -26,7 +26,9 @@ class CarManufacture extends \yii\db\ActiveRecord
     {
         return 'car_manufacture';
     }
-
+    public $vehtyp;
+    public $vdetail;
+    public $custVehid;
     /**
      * {@inheritdoc}
      */
@@ -34,7 +36,7 @@ class CarManufacture extends \yii\db\ActiveRecord
     {
         return [
             [['manufacturer'], 'required'],
-            [['created_at', 'updated_at', 'description', 'created_by', 'updated_by'], 'safe'],
+            [['created_at', 'updated_at', 'description', 'created_by', 'updated_by','vehtyp', 'vdetail', 'custVehid'], 'safe'],
             [['created_by', 'updated_by'], 'integer'],
             [['manufacturer'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 200],

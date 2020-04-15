@@ -10,5 +10,6 @@ use yii\helpers\Html;
 <div class="vehicle-type-sub-category-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'modelVTSCH' => $modelVTSCH,
     ]) ?>
 </div>

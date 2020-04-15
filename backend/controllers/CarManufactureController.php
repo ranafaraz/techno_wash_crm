@@ -103,52 +103,13 @@ class CarManufactureController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post())){
-
-                //var_dump($model->manufacturer);
-                // $modelCar = Model::createMultiple(VehicleTypeSubCategory::classname());
-
-                // Model::loadMultiple($modelCar, Yii::$app->request->post());
+            }else if($model->load($request->post()) && $model->validate()){
 
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0';
-                $model->save();
-
-
-                // validate all models
-                // $valid = $model->validate();
-                //$valid = Model::validateMultiple($modelCar) && $valid;
-
-                // if ($valid) {
-                //         $transaction = \Yii::$app->db->beginTransaction();
-                //         try {
-                //             if ($flag = $model->save(false)) {
-
-                //                 foreach ($modelCar as $product) {
-                //                     $product->manufacture = $model->car_manufacture_id;
-                //                     $product->created_at = new \yii\db\Expression('NOW()');
-                //                     $product->created_by = Yii::$app->user->identity->id; 
-                //                     $product->updated_by = '0';
-                //                     $product->updated_at = '0';    
-
-                //                     if (! ($flag = $product->save(false))) {
-                //                         $transaction->rollBack();
-                //                         break;
-                //                     }
-                //                 } // modelRouteVoucherEmployee foreach end
-                //             }
-                //             if ($flag) {
-                //                 $transaction->commit();
-                //                 //return $this->redirect(['index']);
-                //             }
-                //         } catch (Exception $e) {
-                //             $transaction->rollBack();
-                //             echo $e;
-                //         }
-                  
-                //     } // closing of validate if   
+                $model->save(); 
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new CarManufacture",
@@ -172,8 +133,13 @@ class CarManufactureController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->car_manufacture_id]);
+            if ($model->load($request->post()) && $model->validate()) {
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0';
+                $model->save(); 
+                return $this->redirect(['./update-vehicle-type', 'carmanu' => $model->car_manufacture_id, 'vehtyp' => $model->vehtyp, 'vdetail' => $model->vdetail, 'custVehid' => $model->custVehid]);
             } else {
                 return $this->render('create', [
                     'model' => $model,

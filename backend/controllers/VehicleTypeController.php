@@ -109,7 +109,7 @@ class VehicleTypeController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($carmanu)
     {
         $request = Yii::$app->request;
         $model = new VehicleType();  
@@ -158,13 +158,13 @@ class VehicleTypeController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post())  && $model->validate()){
+            if ($model->load($request->post())){
                 $model->created_by = Yii::$app->user->identity->id; 
                 $model->created_at = new \yii\db\Expression('NOW()');
                 $model->updated_by = '0';
                 $model->updated_at = '0'; 
                 $model->save();
-                return $this->redirect(['view', 'id' => $model->vehical_type_id]);
+                return $this->redirect(['update-vehicle-type', 'vehtyp' => $model->vehical_type_id, 'vdetail' => $model->vdetail, 'carmanu' => $model->carmanu, 'custVehid' => $model->custVehid]);
             } else {
                 return $this->render('create', [
                     'model' => $model,

@@ -27,7 +27,7 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
     {
         return 'vehicle_type_sub_category';
     }
-
+    public $custVehid;
     /**
      * {@inheritdoc}
      */
@@ -36,7 +36,7 @@ class VehicleTypeSubCategory extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['sub_type_head_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'custVehid'], 'safe'],
             [['name'], 'string', 'max' => 100],
             [['sub_type_head_id'], 'exist', 'skipOnError' => true, 'targetClass' => VehicleTypeSubCatHead::className(), 'targetAttribute' => ['sub_type_head_id' => 'sub_cat_head_id']],
         ];

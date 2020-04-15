@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\VehicleTypeSubCategory;
+use common\models\VehicleTypeSubCatHead;
 use common\models\VehicleTypeSubCategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -83,7 +84,7 @@ class VehicleTypeSubCategoryController extends Controller
     {
         $request = Yii::$app->request;
         $model = new VehicleTypeSubCategory();  
-
+        $modelVTSCH = new VehicleTypeSubCatHead();
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -123,11 +124,44 @@ class VehicleTypeSubCategoryController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->vehicle_typ_sub_id]);
+            if ($model->load($request->post()) && $model->validate() && $modelVTSCH->load($request->post()) && $modelVTSCH->validate()) {
+                $vehicle_type_id = $modelVTSCH->vehicle_type_id;
+                $manufacture = $modelVTSCH->manufacture;
+
+                $head = Yii::$app->db->createCommand("
+                    SELECT *
+                    FROM vehicle_type_sub_cat_head
+                    WHERE vehicle_type_id = '$vehicle_type_id' 
+                    AND manufacture = '$manufacture'
+                    ")->queryAll();
+                if(empty($head)){
+                    $modelVTSCH->created_by = Yii::$app->user->identity->id; 
+                    $modelVTSCH->created_at = new \yii\db\Expression('NOW()');
+                    $modelVTSCH->updated_by = '0';
+                    $modelVTSCH->updated_at = '0';
+                    $modelVTSCH->save();
+
+                    $model->sub_type_head_id =$modelVTSCH->sub_cat_head_id;
+                    $model->created_by = Yii::$app->user->identity->id; 
+                    $model->created_at = new \yii\db\Expression('NOW()');
+                    $model->updated_by = '0';
+                    $model->updated_at = '0';
+                    $model->save(); 
+                } else {
+                    $head_id = $head[0]['sub_cat_head_id'];
+                    $model->sub_type_head_id =$head_id;
+                    $model->created_by = Yii::$app->user->identity->id; 
+                    $model->created_at = new \yii\db\Expression('NOW()');
+                    $model->updated_by = '0';
+                    $model->updated_at = '0';
+                    $model->save(); 
+                
+                }
+                return $this->redirect(['./update-vehicle-type', 'vdetail' => $model->vehicle_typ_sub_id, 'carmanu' => $modelVTSCH->manufacture, 'vehtyp' => $modelVTSCH->vehicle_type_id,  'custVehid' => $model->custVehid]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'modelVTSCH' => $modelVTSCH,
                 ]);
             }
         }

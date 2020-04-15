@@ -26,7 +26,9 @@ class VehicleType extends \yii\db\ActiveRecord
     {
         return 'vehicle_type';
     }
-
+    public $carmanu;
+    public $vdetail;
+    public $custVehid;
     /**
      * {@inheritdoc}
      */
@@ -37,7 +39,7 @@ class VehicleType extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['description'], 'string'],
             [['created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by', 'description'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by', 'description','carmanu', 'vdetail', 'custVehid'], 'safe'],
             [['name'], 'string', 'max' => 100],
         ];
     }
