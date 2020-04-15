@@ -349,7 +349,7 @@ $countcustomervehicleID = count($customervehicleID);
 								<td style="text-align: center;">
 									<?php 
 
-										secho Yii::$app->user->identity->username;
+										echo Yii::$app->user->identity->username;
 									?>
 								</td>
 							</tr>
