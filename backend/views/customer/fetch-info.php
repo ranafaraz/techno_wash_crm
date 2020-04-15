@@ -134,13 +134,11 @@ if(isset($_POST['vehID'])) {
 	$vehData = Yii::$app->db->createCommand("
 	SELECT c.customer_id,
 	c.customer_name,
-	c.customer_contact_no,
-	cv.customer_vehicle_id,
-	cv.registration_no
+	c.customer_contact_no
 	FROM customer as c
 	INNER JOIN customer_vehicles as cv 
 	ON c.customer_id = cv.customer_id
-	WHERE cv.registration_no = '$vehID'
+	WHERE cv.customer_vehicle_id = '$vehID'
 	")->queryAll();
 
 	echo json_encode($vehData);
