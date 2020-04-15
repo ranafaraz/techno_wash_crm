@@ -4,9 +4,7 @@ use common\models\AccountNature;
 use common\models\AccountHead;
 	$customerID = $_GET['customerID'];
 	$sihID 		= $_GET['sihID'];
-	$regNoID = $_GET['regno'];
-  	
-
+	
   	// getting customer name
   	$customerData = Yii::$app->db->createCommand("
     SELECT *
@@ -95,7 +93,7 @@ use common\models\AccountHead;
 								</div>
 								<input type="hidden" name="custID" value="<?php echo $customerID; ?>">
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">	
-								<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
+								<!-- <input type="hidden" name="regno" value="<?php //echo $regNoID; ?>"> -->	
 							</div>	
 						</div>
 						<div class="row">
@@ -119,7 +117,7 @@ use common\models\AccountHead;
 						
 						<div class="row">
 							<div class="col-md-6">
-								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>&regno=<?=$regNoID?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
+								<a href="./sale-invoice-view" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
 							</div>
 							<div class="col-md-6">
 								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
@@ -138,7 +136,6 @@ use common\models\AccountHead;
 {
   $customerID  = $_POST['custID'];
   $invID       = $_POST['invID'];
-  $regNoID     = $_POST['regno'];
   $netTotal    = $_POST['net_total'];
   $paid_amount = $_POST['paid_amount'];
   $remaining   = $_POST['remaining'];
@@ -163,9 +160,9 @@ use common\models\AccountHead;
 
     $insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
         'sale_inv_head_id' => $invID,
-        'transaction_date'      => new \yii\db\Expression('NOW()'),
-        'paid_amount'       => $collect,
-        'created_by'      => $id,
+        'transaction_date' => new \yii\db\Expression('NOW()'),
+        'paid_amount' => $collect,
+        'created_by' => $id,
 
       ])->execute();
     if ($insert_invoice_amount) {
@@ -176,28 +173,27 @@ use common\models\AccountHead;
 		    ORDER BY s_inv_amount_detail DESC
 		    ")->queryAll();
 		$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
-	    // getting current asset from Account Nature and cash debit account from account head;
-	    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
-	    $head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
-	    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Account Recievable'])->One();
-
+	    
+	    $acc_head_id = 5;
 	    $transactions = Yii::$app->db->createCommand()->insert('transactions',
 		    [
 		      'branch_id' => Yii::$app->user->identity->branch_id,
-		      'type' => 'Cash Payment',
+		      'type' => 'Cash',
 		      'narration' => $narration,
-		      'credit_account' => $head->id,
-		      'debit_account' => $cred->id,
-		      'amount' => $collect,
+		      'account_head_id' => $acc_head_id,
+		      'total_amount' => $netTotal,
+		      'amount' => $paid_amount,
+		      'remaining' => $remaining,
+		      'transactions_date' => date('Y-m-d'),
+		      'head_id' => $invID,
 		      'ref_no' => $invoice_amount,
 			  'ref_name' => "Sale",
-		      'transactions_date' => date('Y-m-d'),
 		      'created_by' => \Yii::$app->user->identity->id,
 		    ])->execute();
 	}
      // transaction commit
      $transaction->commit();
-     \Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID&regno=$regNoID"]);
+     \Yii::$app->response->redirect(["./sale-invoice-view"]);
         
      } // closing of try block 
      catch (Exception $e) {

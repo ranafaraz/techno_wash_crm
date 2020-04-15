@@ -150,6 +150,32 @@
   			            </div>
   			            <div class="row">
 			                <div class="col-md-12" >
+			                  <div class="row">
+			                    <div class="col-md-1"></div>      						
+			                    <div class="col-md-12">
+			                      <br>
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th style="background-color: #3C8DBC;color:white;">Sr #</th>
+												<th style="background-color: #3C8DBC;color:white;">ST.</th>
+												<th style="background-color: #3C8DBC;color:white;">Mnu.</th>
+												<th style="background-color: #3C8DBC;color:white;">Name</th>
+												<th style="background-color: #3C8DBC;color:white;">Purch Price</th>
+												<th style="background-color: #3C8DBC;color:white;">Sale Price</th>
+			            						<th style="background-color: #3C8DBC;color:white;">Qty</th>
+											</tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table>
+									</div>
+								</div>
+			                </div>
+			            </div>
+  			            <div class="row">
+			                <div class="col-md-12" >
 			                  <div class="row" id="mydata" style="display:none;">
 			                    <div class="col-md-1"></div>
 			                    <div class="col-md-4">

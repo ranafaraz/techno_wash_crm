@@ -2,23 +2,22 @@
 
 if(isset($_GET['VehTypeSubId'])){
 
+  $vehicleTypeSubId = $_GET['VehTypeSubId'];
+  // $carmanufacture_id = $_GET['manufacture_id'];
+  $vehicleTypeID = $_GET['VehTypeID'];
 
-$vehicleTypeSubId = $_GET['VehTypeSubId'];
-// $carmanufacture_id = $_GET['manufacture_id'];
-$vehicleTypeID = $_GET['VehTypeID'];
+  $carManufactureData = Yii::$app->db->createCommand("
+  	SELECT *
+  	FROM car_manufacture
+  	")->queryAll();
+  $countcarManufacture = count($carManufactureData);
 
-$carManufactureData = Yii::$app->db->createCommand("
-	SELECT *
-	FROM car_manufacture
-	")->queryAll();
-$countcarManufacture = count($carManufactureData);
-
-$vehicleSubTypeData = Yii::$app->db->createCommand("
-	SELECT *
-	FROM vehicle_type_sub_category
-	WHERE vehicle_typ_sub_id = '$vehicleTypeSubId'
-	")->queryAll();
- ?>
+  $vehicleSubTypeData = Yii::$app->db->createCommand("
+  	SELECT *
+  	FROM vehicle_type_sub_category
+  	WHERE vehicle_typ_sub_id = '$vehicleTypeSubId'
+  	")->queryAll();
+   ?>
 
  <!DOCTYPE html>
  <html>
@@ -57,13 +56,11 @@ $vehicleSubTypeData = Yii::$app->db->createCommand("
      	  </div>
       </div>
     </div>
-  </form>
-</div>
- </body>
- </html>
+     </body>
+     </html>
 
 <?php
-}
+  }
 if(isset($_POST['update_vehicle']))
 {
    $vehicleTypeID  		= $_POST['vehicleTypeId'];
@@ -174,6 +171,8 @@ if(isset($_POST['update_vehicle']))
             </option>
             <?php } ?>
           </select>
+          <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['vehical-type-create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-info']) ?>
         </div>
         <div class="form-group">
           <label>Manufacture</label>
