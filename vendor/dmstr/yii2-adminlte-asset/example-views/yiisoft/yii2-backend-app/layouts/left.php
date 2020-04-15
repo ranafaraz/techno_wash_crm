@@ -81,40 +81,40 @@
                       ['label' => 'Purchase Invoice', 'icon' => 'male', 'url' => ["./vendor"],],
                      // ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
                      // PayRoll Start
-                     [
-                        'label' => 'Employee',
-                        'icon' => 'users',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Add', 'icon' => 'plus', 'url' => ["./employee"],],
-                            [
-                                'label' => 'Attendance',
-                                'icon' => 'users',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Attendance', 'icon' => '', 'url' => ["./emp-atten"],],
+                    //  [
+                    //     'label' => 'Employee',
+                    //     'icon' => 'users',
+                    //     'url' => '#',
+                    //     'items' => [
+                    //         ['label' => 'Add', 'icon' => 'plus', 'url' => ["./employee"],],
+                    //         [
+                    //             'label' => 'Attendance',
+                    //             'icon' => 'users',
+                    //             'url' => '#',
+                    //             'items' => [
+                    //                 ['label' => 'Attendance', 'icon' => '', 'url' => ["./emp-atten"],],
 
-                                    ['label' => 'Absentees', 'icon' => '', 'url' => "./final-attendance"],
+                    //                 ['label' => 'Absentees', 'icon' => '', 'url' => "./final-attendance"],
                                    
-                                    ['label' => 'Leave', 'icon' => '', 'url' => "./emp-leave"],
+                    //                 ['label' => 'Leave', 'icon' => '', 'url' => "./emp-leave"],
                                     
-                                    [
-                                        'label' => 'Reports',
-                                        'icon' => 'bar-chart',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Single Employee', 'icon' => '', 'url' => ["./emp-att-report"],],
+                    //                 [
+                    //                     'label' => 'Reports',
+                    //                     'icon' => 'bar-chart',
+                    //                     'url' => '#',
+                    //                     'items' => [
+                    //                         ['label' => 'Single Employee', 'icon' => '', 'url' => ["./emp-att-report"],],
                                            
-                                            ['label' => 'Monthly Report', 'icon' => '', 'url' => "./employess-att-report"],   
-                                        ],
-                                    ],
-                                ],
-                            ],
-                            ['label' => 'PayRoll', 'icon' => 'money', 'url' => './under-construction', ],
-                            ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
-                            ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./under-construction"],],
-                        ],
-                    ],
+                    //                         ['label' => 'Monthly Report', 'icon' => '', 'url' => "./employess-att-report"],   
+                    //                     ],
+                    //                 ],
+                    //             ],
+                    //         ],
+                    //         ['label' => 'PayRoll', 'icon' => 'money', 'url' => './under-construction', ],
+                    //         ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
+                    //         ['label' => 'Report', 'icon' => 'bar-chart', 'url' => ["./under-construction"],],
+                    //     ],
+                    // ],
                     // System Settings close...
                     // ------------------------------------------------
 
@@ -161,7 +161,7 @@
                     //         ['label' => 'Stock Issues', 'icon' => 'exclamation-triangle', 'url' => './stock-issue',],
                     //     ],
                     // ],
-                      ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./under-construction"],
+                     // ['label' => 'Membership', 'icon' => 'handshake-o', 'url' => "./under-construction"],
 
                     //  [
                     //     'label' => 'Stock',
@@ -174,8 +174,8 @@
                     // ],
                     // ['label' => 'Sale Invoice', 'icon' => 'file-text-o', 'url' => "./sale-invoice-head"],
                     // ['label' => 'Users', 'icon' => 'user', 'url' => "./home"],
-                    ['label' => 'Accounts', 'icon' => 'server', 'url' => ["./under-construction"]],
-                    ['label' => 'Reports', 'icon' => 'book', 'url' => ["./under-construction"]],
+                   // ['label' => 'Accounts', 'icon' => 'server', 'url' => ["./under-construction"]],
+                   // ['label' => 'Reports', 'icon' => 'book', 'url' => ["./under-construction"]],
                     //['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     //['label' => 'Login', 'url' => ["../login"], 'visible' => Yii::$app->user->isGuest],
 
@@ -210,19 +210,19 @@
                                 'url' => './stock-type',
                                 
                             ],
-                             ['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./under-construction"],],
+                            // ['label' => 'Card Type', 'icon' => 'credit-card', 'url' => ["./under-construction"],],
                             // ['label' => 'User Types', 'icon' => 'user-circle-o', 'url' => ["./user-type"],],
                             // ['label' => 'Employee Types', 'icon' => 'user-secret', 'url' => ["./employee-types"],],
-                            [
-                                'label' => 'Employee',
-                                'icon' => 'users',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Employee Type', 'icon' => 'user-secret', 'url' => './employee-types',],
-                                    ['label' => 'Wage Type', 'icon' => 'won', 'url' => './wage-type',],
-                                    ['label' => 'Allowance Type', 'icon' => 'credit-card-alt', 'url' => './under-construction',],
-                                ],
-                            ],
+                            // [
+                            //     'label' => 'Employee',
+                            //     'icon' => 'users',
+                            //     'url' => '#',
+                            //     'items' => [
+                            //         ['label' => 'Employee Type', 'icon' => 'user-secret', 'url' => './employee-types',],
+                            //         ['label' => 'Wage Type', 'icon' => 'won', 'url' => './wage-type',],
+                            //         ['label' => 'Allowance Type', 'icon' => 'credit-card-alt', 'url' => './under-construction',],
+                            //     ],
+                            // ],
                             
                             // [
                             //     'label' => 'Subjects',

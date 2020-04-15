@@ -384,6 +384,7 @@ use common\models\AccountHead;
                               <th style="background-color: skyblue">Type</th>
                               <th style="background-color: skyblue">Quantity</th>
                               <th style="background-color: skyblue">Amount</th>
+                              <!-- <th style="background-color: skyblue">Action</th> -->
                             </thead>
                             <tbody>
                             </tbody>
@@ -614,6 +615,12 @@ use common\models\AccountHead;
         
         window.location = './paid-sale-invoice?sihID='+saleId;
       }
+//       function remove(index){
+//        var a=index.parentNode.parentNode.rowIndex;
+// alert(a);
+//        //document.getElementById("myTableData").deleteRow(a);
+       
+//       }
 </script>
 <?php
 $url = \yii\helpers\Url::to("customer/fetch-info");
@@ -770,6 +777,7 @@ $("#item_type").change(function(){
 	} else{
 	 	$('#stock').hide();
 	 	$('#servic').hide();
+    $('#pname').hide();
 	}
 });
 
@@ -852,6 +860,7 @@ $("#services").on('click',function(){
 						row.insertCell(3).innerHTML= type;
             row.insertCell(4).innerHTML= quantity;
 						row.insertCell(5).innerHTML= price;
+            //row.insertCell(6).innerHTML= "<button class='btn btn-danger' onclick='remove(this)'>Remove</button>";
 						
             $('#services').val("");
 						$('#remove_index').show();
@@ -905,6 +914,33 @@ $("#vehicle").on("change",function(){
     	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
     	$('#vehicle_name').val(jsonResult[0]['registration_no']);
   	}      
+  }); 
+
+  $.ajax({
+    type:'post',
+    data:{vehicle_id:vehicle},
+    url: "$url",
+    success: function(result){
+      var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+      console.log(jsonResult);
+      var vdetail = jsonResult[0]['vehicle_typ_sub_id'];
+      var carmanu = jsonResult[0]['car_manufacture_id'];
+      var vehtyp = jsonResult[0]['vehical_type_id'];
+      var custVehid = jsonResult[0]['customer_vehicle_id'];
+      $("#message").show();
+      //
+      
+      $("#message").html("<a href='./update-vehicle-type?vdetail="+vdetail+"&carmanu="+carmanu+"&vehtyp="+vehtyp+"&custVehid="+custVehid+"' style='color:white;'>Car Data Incorrect,Please Click on Update</a>");
+      $("#message").css(
+        {
+            //"color":"#008D4C",
+            "border":"1px solid",
+            "background-color":"#008D4C",
+          }
+      );
+      
+      //$('#vehicle_name').val(jsonResult[0]['registration_no']);
+    }      
   }); 
 });
   
