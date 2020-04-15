@@ -93,6 +93,8 @@ if(isset($_POST['update_vehicle']))
 ?>
 <?php
 
+use yii\helpers\Html;
+
   if(isset($_GET['vdetail'])){
 
     $vdetail    = $_GET['vdetail'];
@@ -159,6 +161,8 @@ if(isset($_POST['update_vehicle']))
         <h2 style="border-bottom:2px solid;text-align: center;padding-bottom:10px;">Update Vehical Data</h2>
         <div class="form-group">
           <label>Vehicle Type</label>
+          <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['vehical-type-create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-success btn-xs']) ?>
           <select class="form-control" name="vehicalTypeId">
             <option value="<?php echo $selectedvehType[0]['vehical_type_id'];?>">
               <?php echo $selectedvehType[0]['name']; ?>
@@ -171,8 +175,6 @@ if(isset($_POST['update_vehicle']))
             </option>
             <?php } ?>
           </select>
-          <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['vehical-type-create'],
-                    ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-info']) ?>
         </div>
         <div class="form-group">
           <label>Manufacture</label>
