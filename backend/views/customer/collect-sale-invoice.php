@@ -160,9 +160,9 @@ use common\models\AccountHead;
 
     $insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
         'sale_inv_head_id' => $invID,
-        'transaction_date'      => new \yii\db\Expression('NOW()'),
-        'paid_amount'       => $collect,
-        'created_by'      => $id,
+        'transaction_date' => new \yii\db\Expression('NOW()'),
+        'paid_amount' => $collect,
+        'created_by' => $id,
 
       ])->execute();
     if ($insert_invoice_amount) {
@@ -173,22 +173,21 @@ use common\models\AccountHead;
 		    ORDER BY s_inv_amount_detail DESC
 		    ")->queryAll();
 		$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
-	    // getting current asset from Account Nature and cash debit account from account head;
-	    $nature = AccountNature::find()->where(['name' => 'Asset'])->One();
-	    $head = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Cash'])->One();
-	    $cred = AccountHead::find()->where(['nature_id' => $nature->id])->andwhere(['account_name' => 'Account Recievable'])->One();
-
+	    
+	    $acc_head_id = 5;
 	    $transactions = Yii::$app->db->createCommand()->insert('transactions',
 		    [
 		      'branch_id' => Yii::$app->user->identity->branch_id,
-		      'type' => 'Cash Payment',
+		      'type' => 'Cash',
 		      'narration' => $narration,
-		      'credit_account' => $head->id,
-		      'debit_account' => $cred->id,
-		      'amount' => $collect,
+		      'account_head_id' => $acc_head_id,
+		      'total_amount' => $netTotal,
+		      'amount' => $paid_amount,
+		      'remaining' => $remaining,
+		      'transactions_date' => date('Y-m-d'),
+		      'head_id' => $invID,
 		      'ref_no' => $invoice_amount,
 			  'ref_name' => "Sale",
-		      'transactions_date' => date('Y-m-d'),
 		      'created_by' => \Yii::$app->user->identity->id,
 		    ])->execute();
 	}
