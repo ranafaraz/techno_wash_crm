@@ -158,7 +158,12 @@ class VehicleTypeController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
+            if ($model->load($request->post())  && $model->validate()){
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0'; 
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->vehical_type_id]);
             } else {
                 return $this->render('create', [
