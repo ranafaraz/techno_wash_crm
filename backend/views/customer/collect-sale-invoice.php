@@ -5,8 +5,6 @@ use common\models\AccountHead;
 	$customerID = $_GET['customerID'];
 	$sihID 		= $_GET['sihID'];
 	
-  	
-
   	// getting customer name
   	$customerData = Yii::$app->db->createCommand("
     SELECT *
@@ -80,7 +78,7 @@ use common\models\AccountHead;
 								<div class="form-group">
 									<label>Collect</label>
 									<!-- <input type="number" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()"> -->
-									<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()">
+									<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 ||  event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" name="collect" id="collect_amount" class="form-control" oninput="cal_remaining()" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
 
 								</div>
 								<div class="form-group">
