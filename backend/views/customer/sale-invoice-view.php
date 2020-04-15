@@ -905,6 +905,8 @@ $("#vehicle").on("change",function(){
     $('#types').val("");
     $('#types').show();
   }
+
+ 
 	
 	$.ajax({
     type:'post',
@@ -940,6 +942,31 @@ $("#vehicle").on("change",function(){
       );
       
       //$('#vehicle_name').val(jsonResult[0]['registration_no']);
+    }      
+  }); 
+   $.ajax({
+    type:'post',
+    data:{vehID:vehicle},
+    url: "$url",
+    success: function(result){
+      var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+      console.log(jsonResult);
+
+      $('#customer_contact').empty();
+      var options = '';
+      for(var i=0; i<jsonResult.length; i++) { 
+        options += '<option value="'+jsonResult[i]['customer_id']+'">'+jsonResult[i]['customer_contact_no']+'</option>';
+      }
+      // Append to the html
+      $('#customer_contact').append(options);
+
+      $('#customer_name').empty();
+      var options = '';
+      for(var i=0; i<jsonResult.length; i++) { 
+        options += '<option value="'+jsonResult[i]['customer_id']+'">'+jsonResult[i]['customer_name']+'</option>';
+      }
+      // Append to the html
+      $('#customer_name').append(options);
     }      
   }); 
 });

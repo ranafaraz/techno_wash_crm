@@ -79,7 +79,7 @@ tr td{
 								<input type="date" name="transaction_date" class="form-control" value="<?PHP echo $transaction_date;?>">
 							</div>
 						</div>
-						<div class="row" style="background-color: pink;">
+						<div class="row" style="background-color:;">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Net Total</label>

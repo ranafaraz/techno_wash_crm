@@ -128,6 +128,22 @@ if (isset($_POST["vehicle"])) {
 	echo json_encode($register); 
 }
 
+if(isset($_POST['vehID'])) {
+
+	$vehID = $_POST['vehID'];
+	$vehData = Yii::$app->db->createCommand("
+	SELECT c.customer_id,
+	c.customer_name,
+	c.customer_contact_no
+	FROM customer as c
+	INNER JOIN customer_vehicles as cv 
+	ON c.customer_id = cv.customer_id
+	WHERE cv.customer_vehicle_id = '$vehID'
+	")->queryAll();
+
+	echo json_encode($vehData);
+}
+
  	if( isset($_POST['invoice_date']) 
 	 	&& isset($_POST['total_amount']) 
 	 	&& isset($_POST['net_total']) 

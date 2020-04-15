@@ -19,50 +19,42 @@ if(isset($_GET['VehTypeSubId'])){
   	")->queryAll();
    ?>
 
-     <!DOCTYPE html>
-     <html>
-     <head>
-     	<title>Update VehicleType</title>
-     </head>
-     <body>
-     
-    <div class="container">
-     	<div class="row">
-     		<div class="col-md-8 col-md-offset-2" style="text-align: center;font-family:georgia;color: #367FA9; font-size: 32px;">
-     			<span>Update Vehicle (<b><?=$vehicleSubTypeData[0]['name']?></b>)</span>
-     		</div>	
-     	</div>
-     	<form method="POST" action="">
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2" style="background-color:#efefef;border-top:3px solid #367FA9;">
-            <div class="row" style="margin-top: 20px;">
-           		<div class="col-md-4">
-           			<div class="form-group">
-              		<label>Model Name</label>
-              		<input type="text" class="form-control" name="Model_Name" value="<?=$vehicleSubTypeData[0]['name']?>">
-              	</div>
-            		<div class="col-md-4">
-            			<input type="hidden" name="vehicleTypeId" class="form-control" value="<?=$vehicleTypeID?>"> 
-            			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
-            			<input type="hidden" name="vehicleSubId" class="form-control" value="<?=$vehicleTypeSubId?>">
-            		</div>
-           		</div>	
-            </div>
-           	<div class="row">
-          		<div class="col-md-2" style="margin-left: 20px;">
-          			<div class="form-group">
-            		 	<a href="./vehicle-type-view?id=<?=$vehicleTypeID?>" class="form-control btn btn-danger">
-            		      	<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
-            			</a>
-          			</div>		
-          		</div> 
-          		<div class="col-md-4">
-          			<button type="submit" name="update_vehicle" id="update" class="btn btn-success"><i class="glyphicon glyphicon-open"></i> Update Vehicle</button>		
-          		</div>		
-         	  </div>
-          </div>
+ <!DOCTYPE html>
+ <html>
+ <head>
+ 	<title>Update VehicleType</title>
+ </head>
+ <body>
+ 
+<div class="container">
+ 	<form method="POST" action="">
+    <div class="row">
+      <div class="col-md-6">
+        <span style="border-bottom:3px solid #367FA9;padding:4px;text-align: center;font-family:georgia;color: #367FA9; font-size:25px;">Update Vehicle (<b><?=$vehicleSubTypeData[0]['name']?></b>)</span>
+        <div class="row" style="margin-top: 20px;">
+       		<div class="col-md-6">
+       			<div class="form-group">
+          		<label>Model Name</label>
+          		<input type="text" class="form-control" name="Model_Name" value="<?=$vehicleSubTypeData[0]['name']?>">
+          	</div>
+            <a href="./vehicle-type-view?id=<?=$vehicleTypeID?>" class="btn btn-danger btn-xs">
+                    <i class="glyphicon glyphicon-backward"> <b>Back</b></i>
+              </a>
+            <button type="submit" name="update_vehicle" id="update" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-open"></i> Update Vehicle</button>
+        		<div class="col-md-4">
+        			<input type="hidden" name="vehicleTypeId" class="form-control" value="<?=$vehicleTypeID?>"> 
+        			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
+        			<input type="hidden" name="vehicleSubId" class="form-control" value="<?=$vehicleTypeSubId?>">
+        		</div>
+       		</div>	
         </div>
-      </form>
+       	<div class="row">
+      		<div class="col-md-4" style="">
+
+              
+      		</div>		
+     	  </div>
+      </div>
     </div>
      </body>
      </html>
@@ -168,6 +160,8 @@ if(isset($_POST['update_vehicle']))
         <div class="form-group">
           <label>Vehicle Type</label>
           <select class="form-control" name="vehicalTypeId" style="width: 85%;">
+          <?= Html::a('<i class="glyphicon glyphicon-plus"></i>', ['vehical-type-create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Vehicle Types','class'=>'btn btn-success btn-xs']) ?>
             <option value="<?php echo $selectedvehType[0]['vehical_type_id'];?>">
               <?php echo $selectedvehType[0]['name']; ?>
             </option>
