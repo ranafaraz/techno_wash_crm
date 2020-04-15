@@ -178,9 +178,6 @@ $countcustomervehicleID = count($customervehicleID);
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td colspan="2" style="text-align: center;background-color: #f1f1f1 !important;">Stock</td>
-								</tr>
 								<?php 
 								$stockDetails = Yii::$app->db->createCommand("
 							    SELECT DISTINCT(s.name)
@@ -245,9 +242,7 @@ $countcustomervehicleID = count($customervehicleID);
 										</th>
 									</tr>
 								<?php } // stock loop close ?>
-								<tr>
-									<td colspan="2" style="text-align: center;background-color: #f1f1f1 !important;">Services</td>
-								</tr>
+								
 								<?php
 								$serviceDetails = Yii::$app->db->createCommand("
 								    SELECT DISTINCT(item_id)
