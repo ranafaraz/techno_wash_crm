@@ -4,7 +4,7 @@ use common\models\AccountNature;
 use common\models\AccountHead;
 	$customerID = $_GET['customerID'];
 	$sihID 		= $_GET['sihID'];
-	$regNoID = $_GET['regno'];
+	
   	
 
   	// getting customer name
@@ -95,7 +95,7 @@ use common\models\AccountHead;
 								</div>
 								<input type="hidden" name="custID" value="<?php echo $customerID; ?>">
 								<input type="hidden" name="invID" value="<?php echo $sihID; ?>">	
-								<input type="hidden" name="regno" value="<?php echo $regNoID; ?>">	
+								<!-- <input type="hidden" name="regno" value="<?php //echo $regNoID; ?>"> -->	
 							</div>	
 						</div>
 						<div class="row">
@@ -119,7 +119,7 @@ use common\models\AccountHead;
 						
 						<div class="row">
 							<div class="col-md-6">
-								<a href="./sale-invoice-view?customer_id=<?php echo $customerID; ?>&regno=<?=$regNoID?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
+								<a href="./sale-invoice-view" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
 							</div>
 							<div class="col-md-6">
 								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
@@ -138,7 +138,6 @@ use common\models\AccountHead;
 {
   $customerID  = $_POST['custID'];
   $invID       = $_POST['invID'];
-  $regNoID     = $_POST['regno'];
   $netTotal    = $_POST['net_total'];
   $paid_amount = $_POST['paid_amount'];
   $remaining   = $_POST['remaining'];
@@ -197,7 +196,7 @@ use common\models\AccountHead;
 	}
      // transaction commit
      $transaction->commit();
-     \Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID&regno=$regNoID"]);
+     \Yii::$app->response->redirect(["./sale-invoice-view"]);
         
      } // closing of try block 
      catch (Exception $e) {
