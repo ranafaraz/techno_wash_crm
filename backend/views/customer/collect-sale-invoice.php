@@ -2,8 +2,13 @@
  use common\models\Transactions;
 use common\models\AccountNature;
 use common\models\AccountHead;
+if(isset($_GET['saleinvheadID'])){
+	$customerID = $_GET['customerID'];
+	$sihID 		= $_GET['saleinvheadID'];
+}else {
 	$customerID = $_GET['customerID'];
 	$sihID 		= $_GET['sihID'];
+}
 	
   	// getting customer name
   	$customerData = Yii::$app->db->createCommand("
@@ -116,9 +121,16 @@ use common\models\AccountHead;
 						</div>
 						
 						<div class="row">
-							<div class="col-md-6">
-								<a href="./sale-invoice-view" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
-							</div>
+							<?php if(isset($_GET['saleinvheadID'])){ ?>
+									<div class="col-md-6">
+										<a href="./sale-invoice-view" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
+									</div>
+								<?php } else { ?>
+									<div class="col-md-6">
+										<a href="./customer-profile?customer_id=<?php echo $customerID; ?>" class="btn btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-backward"></i>&nbsp;Back</a>
+									</div>
+								<?php } ?>
+							
 							<div class="col-md-6">
 								<button type="submit" name="insert_collect" id="insert" class="btn btn-success" disabled style="width: 100%;"><i class="fa fa-money" aria-hidden="true"></i>&ensp;Collect Invoice</button>
 							</div>
@@ -191,7 +203,7 @@ use common\models\AccountHead;
 	}
      // transaction commit
      $transaction->commit();
-     \Yii::$app->response->redirect(["./sale-invoice-view"]);
+     //\Yii::$app->response->redirect(["./sale-invoice-view"]);
         
      } // closing of try block 
      catch (Exception $e) {

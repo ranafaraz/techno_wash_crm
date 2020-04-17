@@ -15,7 +15,17 @@
 	    WHERE purchase_invoice_id = '$purchaseInvID' 
 	    AND vendor_id = '$vendorID'
 	    ")->queryAll();
-    $countupdateinvoiceData = count($updateinvoiceData);
+
+    $updateStockData = Yii::$app->db->createCommand("
+	    SELECT DISTINCT(s.name)
+	    FROM stock as s 
+	    INNER JOIN purchase_invoice as pi 
+	    ON s.purchase_invoice_id = pi.purchase_invoice_id
+	    WHERE pi.purchase_invoice_id = '$purchaseInvID' 
+	    AND pi.vendor_id = '$vendorID'
+	    ")->queryAll();
+    $countupdateStockData = count($updateStockData);
+
     $statusCheck = $updateinvoiceData[0]['status'];
 
     $purchaseInvAmount = Yii::$app->db->createCommand("
@@ -150,33 +160,7 @@
   			            </div>
   			            <div class="row">
 			                <div class="col-md-12" >
-			                  <div class="row">
-			                    <div class="col-md-1"></div>      						
-			                    <div class="col-md-12">
-			                      <br>
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th style="background-color: #3C8DBC;color:white;">Sr #</th>
-												<th style="background-color: #3C8DBC;color:white;">ST.</th>
-												<th style="background-color: #3C8DBC;color:white;">Mnu.</th>
-												<th style="background-color: #3C8DBC;color:white;">Name</th>
-												<th style="background-color: #3C8DBC;color:white;">Purch Price</th>
-												<th style="background-color: #3C8DBC;color:white;">Sale Price</th>
-			            						<th style="background-color: #3C8DBC;color:white;">Qty</th>
-											</tr>
-										</thead>
-										<tbody>
-											
-										</tbody>
-									</table>
-									</div>
-								</div>
-			                </div>
-			            </div>
-  			            <div class="row">
-			                <div class="col-md-12" >
-			                  <div class="row" id="mydata" style="display:none;">
+			                  <div class="row" id="mydata">
 			                    <div class="col-md-1"></div>
 			                    <div class="col-md-4">
 			                       <input type="text" class="form-control" id="remove_value" style="display: none;" readonly="">
@@ -207,6 +191,53 @@
 											</tr>
 										</thead>
 										<tbody>
+											<?php for ($p=0; $p <$countupdateStockData ; $p++) { 
+
+												$prod_id = $updateStockData[$p]['name'];
+
+												$prod_name = Yii::$app->db->createCommand("
+												    SELECT product_name
+												    FROM products
+												    WHERE product_id = $prod_id
+												    ")->queryAll();
+
+												$prodData = Yii::$app->db->createCommand("
+											    SELECT s.*
+											    FROM stock as s 
+											    INNER JOIN purchase_invoice as pi 
+											    ON s.purchase_invoice_id = pi.purchase_invoice_id
+											    WHERE pi.purchase_invoice_id = '$purchaseInvID' 
+											    AND pi.vendor_id = '$vendorID'
+											    AND s.name = '$prod_id'
+											    ")->queryAll();
+											    $countProducts= count($prodData);
+
+												$stock_type_id = $prodData[0]['stock_type_id'];
+												$st_name = Yii::$app->db->createCommand("
+												    SELECT name
+												    FROM stock_type
+												    WHERE stock_type_id = $stock_type_id
+												    ")->queryAll();
+
+												$manufacture_id = $prodData[0]['manufacture_id'];
+
+												$manu_name = Yii::$app->db->createCommand("
+												    SELECT name
+												    FROM manufacture
+												    WHERE manufacture_id = $manufacture_id
+												    ")->queryAll();
+												
+												?>
+												<tr>
+													<td><?php echo $p+1; ?></td>
+													<td><?php echo $st_name[0]['name']; ?></td>
+													<td><?php echo $manu_name[0]['name']; ?></td>
+													<td><?php echo $prod_name[0]['product_name']; ?></td>
+													<td><?php echo $prodData[0]['purchase_price']; ?></td>
+													<td><?php echo $prodData[0]['selling_price']; ?></td>
+													<td><?php echo $countProducts; ?></td>
+												</tr>
+											<?php } ?>
 										</tbody>
 									</table>
 									</div>
@@ -241,13 +272,13 @@
 										</div>
 									</td>
 								</tr>
-								<tr id="profit_div" style="display:none;">
+								<tr id="profit_div">
 									<td>
 						                <label>Profit</label>
 									</td>
 									<td>
 										<div class="form-group">
-						                	<input type="text" name="orgProfit" class="form-control" readonly="" id="orgProfit" value="0">
+						                	<input type="text" name="orgProfit" class="form-control" readonly="" id="orgProfit" value="<?php echo $updateinvoiceData[0]['profit'];?>">
 						            	</div>
 									</td>
 								</tr>
@@ -270,7 +301,7 @@
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="net_total" id="net_t" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
+											<input type="text" name="net_total" id="net_t" class="form-control" readonly="" value="<?php //echo $updateinvoiceData[0]['net_total'];?>">
 										</div>
 									</td>
 								</tr>
@@ -746,47 +777,45 @@ $("#quantity").change(function(){
 	var purchase_price 		= $("#purchase_price").val();
 	var selling_price 		= $("#selling_price").val();
 	var stockTypeName 		= $('#stockTypeName').val();
-	var manufactreName 	  = $('#manufactreName').val();
-  	var product_name      = $('#productName').val();
-  	var barcode			  = ''; 
-  	var totalAmount       = parseInt($('#total_p').val());
-  	var paid       		  = parseInt($('#paid').val());
-  	var profitOrg         = parseInt($('#orgProfit').val());
+	var manufactreName 	  	= $('#manufactreName').val();
+  	var product_name      	= $('#productName').val();
+  	var barcode			  	= ''; 
+  	var totalAmount       	= parseInt($('#total_p').val());
+  	var paid       		  	= parseInt($('#paid').val());
+  	var profitOrg         	= parseInt($('#orgProfit').val());
   	
   if(stock_status == 'Partnership'){
-    $('#profit_div').show();
+    
     var pp = parseInt(purchase_price)*qty;
     var sp = parseInt(selling_price)*qty;
     var totalProfit = parseInt(sp)-parseInt(pp);
     var divideProfit = totalProfit/2;
     var op = parseInt(profitOrg)+divideProfit;
     var tp = parseInt(totalAmount)+pp;
-    var nt = parseInt(tp)+parseInt(op);
+    var	netT = tp+op;
 
-    alert(nt);
+    alert("Partnership" + netT);
 
     $('#total_p').val(tp);
     $('#orgProfit').val(op);
-    $('#net_t').val(nt);
+    $('#net_t').val(tp);
     $('#disc').val("");
     //$('#paid').val("0");
-    //$('#remaining').val(nt);
+    //$('#remaining').val(netT);
     //$('#status').val('Unpaid');
   } else {
   	var pp = parseInt(purchase_price)*qty;
   	var tp = parseInt(totalAmount)+pp;
-    var op = 0;
-    var nt = parseInt(tp)+parseInt(op);
-
-    alert(nt);
+    var	netT = parseInt(profitOrg)+tp;
+    
+    alert("purchase " + netT);
 
   	$('#total_p').val(tp);
-    $('#orgProfit').val(op);
-    $('#net_t').val(nt);
+    $('#net_t').val("0");
     $('#disc').val("");
-    //$('#paid').val("0");
-    //$('#remaining').val(nt);
-    //$('#status').val('Unpaid');
+    $('#paid').val("0");
+    $('#remaining').val(netT);
+    $('#status').val('Unpaid');
   }
   
     discountFun();
