@@ -3,7 +3,10 @@
 	$saleinvHeadID = $_GET['saleinvheadID'];
 	$customerid = $_GET['customerid'];
 	//$regNoID = $_GET['regno'];
-
+	} else {
+		$saleinvHeadID = $_GET['sihID'];
+		$customerid = $_GET['customerid'];
+	}
 	$updateinvoiceData = Yii::$app->db->createCommand("
 	    SELECT *
 	    FROM sale_invoice_head
@@ -121,9 +124,16 @@
 							</div><br>
 							<div class="row">
 								<div class="col-md-6"></div>
-								<div class="col-md-3">
-									<a href="./sale-invoice-view?customer_id=<?php echo $customerid; ?>" class="btn btn-danger btn-xs btn-block" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
-								</div>
+								<?php if(isset($_GET['saleinvheadID'])){ ?>
+										<div class="col-md-3">
+											<a href="./sale-invoice-view" class="btn btn-danger btn-xs btn-block" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+										</div>
+								<?php } else { ?>
+										<div class="col-md-3">
+											<a href="./customer-profile?customer_id=<?php echo $customerid; ?>" class="btn btn-danger btn-xs btn-block" style="width: 100%;"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
+										</div>
+								<?php } ?>
+								
 								<div class="col-md-3">
 									<button type="submit" name="update_invoice" id="update" class="btn btn-success btn-xs btn-block" disabled style="width: 100%;"><i class="glyphicon glyphicon-open"></i> Update Invoice</button>								
 								</div>
@@ -217,7 +227,7 @@
 	</div>
 </body>
 </html>
-<?php } ?>
+
 <?php 
 
  if(isset($_POST['update_invoice']))

@@ -39,7 +39,7 @@ $customerId = $_GET['id'];
              <div class="col-md-12">
                <?php if (!Yii::$app->request->isAjax){ ?>
                   <div class="form-group" style="float: right;">
-                        <a href="./sale-invoice-view?customer_id=<?php echo $customerId;?>&regno=<?=$regno?>" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+                        <a href="./customer-profile?customer_id=<?php echo $customerId;?>" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-arrow-left"></i> Back</a>
                         <?= Html::submitButton($model->isNewRecord ? '<i class="glyphicon glyphicon-save"></i> Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success btn-xs' : 'btn btn-primary']) ?>
                   </div>
                 <?php } ?>

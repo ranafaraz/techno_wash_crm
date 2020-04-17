@@ -148,7 +148,7 @@ $customerID = $_GET['customer_id'];
                               <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                               <td class="text-center" style="vertical-align:middle;text-align: center;">
                                 <a href="paid-sale-invoice?SIH=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
-                                <a href="update-sale-invoice?saleinvheadID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
+                                <a href="update-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?=$paidinvoiceData[$i]['customer_id'];?>" title="Edit" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Update</a>
                                 <!--  <a href="sale-invoice-transaction?saleinvheadID=<?php //echo $paidinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php //echo $paidinvoiceData[$i]['customer_id'];?>" title="Transaction" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-transfer"></i> Transactions</a> -->
                               </td>
                             </tr>  
@@ -203,7 +203,7 @@ $customerID = $_GET['customer_id'];
                                <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['status']; ?></td>
                               <td class="text-center" style="vertical-align:middle;text-align: center;"><a href="./paid-sale-invoice?SIH=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>" title="View" class="btn btn-warning btn-xs"><i class="fa fa-eye"></i> Bill</a>
-                              <a href="./update-sale-invoice?saleinvheadID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
+                              <a href="./update-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerid=<?php echo $customerID;?>" title="Edit" class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Update</a>
                               <a href="./collect-sale-invoice?sihID=<?php echo $creditinvoiceData[$i]['sale_inv_head_id'];?>&customerID=<?php echo $customerID;?>" title="Collect" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-check"></i> Collect</a>
                               </td>
                             </tr>   
