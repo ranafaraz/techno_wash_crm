@@ -31,7 +31,7 @@ class StockTypeController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','stock-type-view','update-stock','fetch-stock-info'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','stock-type-view','update-stock','fetch-stock-info','update-stock-data'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -73,6 +73,10 @@ class StockTypeController extends Controller
      * @param integer $id
      * @return mixed
      */
+    public function actionUpdateStockData()
+    {   
+        return $this->render('update-stock-data');
+    }
     public function actionView($id)
     {   
         return $this->render('stock-type-view');

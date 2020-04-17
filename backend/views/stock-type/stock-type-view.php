@@ -4,6 +4,14 @@ use common\models\Branches;
 use yii\helpers\Html;
 
 $stockTypeID = $_GET['id'];
+
+// getting stock Type name
+$stockTypeName = Yii::$app->db->createCommand("
+SELECT name
+FROM  stock_type
+WHERE stock_type_id = $stockTypeID
+")->queryAll();
+
 if(isset($_POST['insert_product']))
  {
 	$manufactureId  = $_POST['manufacture_id'];
@@ -70,17 +78,20 @@ $countManufactureData = count($manufactureData);
 <body>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-9" style="margin-top: -20px">
+    <div class="col-md-9" style="margin-top:0px">
 
-      <h2 style="color:#3C8DBC;">
-      	<a href="./stock-type" class="btn btn-success">
+      <h3 style="color:;">
+      	<a href="./stock-type" class="btn btn-danger btn-xs" style="padding-bottom:4px;">
       		<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
 		</a>
-				&ensp;<?php //echo "Stock Type: ".$stockTypeName[0]['name']; ?>
+				<?php echo "Stock Type: ".$stockTypeName[0]['name']; ?>
+		<a href="./update-stock-data?stockTypeID=<?php echo $stockTypeID;?>"  style="padding-bottom:4px;">
+      		<i class="glyphicon glyphicon-edit"style="color:#00c0ef;font-size:25px;"></i>
+		</a>
       	<!-- <a href="./update-stock" class="btn btn-info btn-xs" style="">
 				<i class="glyphicon glyphicon-edit"></i>  Update Stock
 			</a> -->
-      </h2>
+      </h3>
     </div>
   </div>
   <div class="row">
@@ -121,7 +132,11 @@ $countManufactureData = count($manufactureData);
 					            <div class="tab-pane" id="<?php echo $manufactureID; ?>">
 					               <div class="row">
 					               	<div class="col-md-2">
-					               		 <p style="color:#3C8DBC;font-size:20px;"><?php echo $manufactureName; ?>
+					               		 <p style="color:#3C8DBC;font-size:20px;">
+					               		 	<?php echo $manufactureName; ?>
+					               		 	<a href="./update-stock-data?stkTypId=<?php echo $stockTypeID;?>&manufactureID=<?php echo $manufactureID;?>">
+					               		 		<i class="glyphicon glyphicon-edit"style="color:#00c0ef;font-size:25px;"></i>
+					               		 	</a>
 					               		 </p>
 					               	</div>
 					               	<form action="" method="POST" accept-charset="utf-8">
@@ -235,7 +250,13 @@ $countManufactureData = count($manufactureData);
 					               				?>
 					               				<tr style="text-align: center;">
 					               					<td><?php echo $j+1; ?></td>
-					               					<td><?php echo $prodName; ?></td>
+					               					<td>
+					               						<?php echo $prodName; ?>
+					               						<br>
+						               						<a href="./update-stock-data?stID=<?php echo $stockTypeID;?>&mID=<?php echo $manufactureID;?>&productID=<?php echo $productID;?>">
+								               		 		<i class="glyphicon glyphicon-edit"style="color:#00c0ef;font-size:15px;"></i>
+						               		 				</a>
+					               					</td>
 					               					<?php 
 					               					$totalInstock = $inStockData[0]['COUNT(name)'];
 					               					$instockSum += $totalInstock;
