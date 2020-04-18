@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Url;
-
+use yii\helpers\Html;
 return [
     [
         'class' => 'kartik\grid\CheckboxColumn',
@@ -14,9 +14,30 @@ return [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'service_id',
     // ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'service_name',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'service_name',
+        'width' => '170px',
+        'headerOptions' => [
+            // this should be on a CSS file as class instead of a inline style attribute...
+            'style' => 'text-align: center !important;vertical-align: middle !important'
+        ],
+        'format' => 'raw',
+        'value' => function($model, $key, $index, $column) {
+                        if (empty($model->service_id) || empty($model->service_id)) {
+                            return;
+                        }
+                        return Html::a($model->service_name, [ './service-detail-view','id' => $model->service_id ], ['id' => $model->service_id , 'target' => '_self','style'=>'color:white;', 'data' => ['pjax' => 0]] );
+                    },
+        'contentOptions' => function ($model, $key, $index, $column) {
+        return ['class' => 'text-center','style' => 'background-color:' 
+            . (!empty($model->service_id) && $model->service_id / $model->service_id < 2
+                ? '#72B6DE' : 'black')];
+        },
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
