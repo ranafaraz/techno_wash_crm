@@ -322,3 +322,81 @@ if(isset($_POST['update_vehicle']))
 }
 
 ?>
+
+<?php 
+
+  // isset for vehicle type update
+
+  if(isset($_GET['vehicleTypeID'])){
+
+  $vehicleTypeID = $_GET['vehicleTypeID'];
+
+  // getting vehicle Type data
+  $vehicleTypeData = Yii::$app->db->createCommand("
+  SELECT *
+  FROM  vehicle_type
+  WHERE vehical_type_id = $vehicleTypeID
+  ")->queryAll();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container-fluid">
+    <form method="post">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="box box-default" style="padding:10px;">
+          <p style="font-weight:bolder;background-color:#d2d6de;padding:5px;text-align: center;color:#000000;font-size:15px;">Update Vehicle Type<br>( <?php echo $vehicleTypeData[0]['name'];?> )
+          </p>
+          <div class="form-group">
+            <label>Vehicle Type</label>
+            <input type="text" name="vehicleType" class="form-control" value="<?php echo $vehicleTypeData[0]['name'];?>">
+            <label>Description</label>
+            <input type="text" name="description" class="form-control" value="<?php echo $vehicleTypeData[0]['description'];?>">
+            <input type="hidden" name="vtypid" value="<?php echo $vehicleTypeData[0]['vehical_type_id'];?>">
+          </div>
+          <button name="update_vehicleType" class="btn btn-info btn-xs">
+            <i class="glyphicon glyphicon-edit"></i><b> &nbsp;Update</b>
+          </button>
+          <a href="./vehicle-type-view?id=<?php echo $vehicleTypeID;?>" class="btn btn-danger btn-xs">
+                <i class="glyphicon glyphicon-backward"></i><b> &nbsp;Back</b>
+          </a>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</body>
+</html>
+<?php } 
+
+  if(isset($_POST['update_vehicleType'])){
+    $vehicleType   = $_POST['vehicleType'];
+    $description = $_POST['description'];
+    $vtypid     = $_POST['vtypid'];
+
+    // starting of transaction handling
+    $transaction = \Yii::$app->db->beginTransaction();
+    try {
+      $updateStockType = Yii::$app->db->createCommand()->update('vehicle_type',[
+         'name'         => $vehicleType,
+         'description'     => $description,
+         'updated_at'         => new \yii\db\Expression('NOW()'),
+         'updated_by'           => Yii::$app->user->identity->id,
+      ],['vehical_type_id' => $vtypid])->execute();
+        // transaction commit
+        $transaction->commit();
+        \Yii::$app->response->redirect(['./vehicle-type-view','id' => $vtypid]);
+    } // closing of try block 
+    catch (Exception $e) {
+      // transaction rollback
+            $transaction->rollback();
+    } // closing of catch block
+    // closing of transaction handling
+  }
+
+?>
