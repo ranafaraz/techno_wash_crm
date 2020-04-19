@@ -25,37 +25,32 @@ if(isset($_GET['VehTypeSubId'])){
  	<title>Update VehicleType</title>
  </head>
  <body>
- 
-<div class="container">
- 	<form method="POST" action="">
-    <div class="row">
-      <div class="col-md-6">
-        <span style="border-bottom:3px solid #367FA9;padding:4px;text-align: center;font-family:georgia;color: #367FA9; font-size:25px;">Update Vehicle (<b><?=$vehicleSubTypeData[0]['name']?></b>)</span>
-        <div class="row" style="margin-top: 20px;">
-       		<div class="col-md-6">
-       			<div class="form-group">
-          		<label>Model Name</label>
-          		<input type="text" class="form-control" name="Model_Name" value="<?=$vehicleSubTypeData[0]['name']?>">
-          	</div>
-            <a href="./vehicle-type-view?id=<?=$vehicleTypeID?>" class="btn btn-danger btn-xs">
-                    <i class="glyphicon glyphicon-backward"> <b>Back</b></i>
-              </a>
-            <button type="submit" name="update_vehicle" id="update" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-open"></i> Update Vehicle</button>
-        		<div class="col-md-4">
-        			<input type="hidden" name="vehicleTypeId" class="form-control" value="<?=$vehicleTypeID?>"> 
-        			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
-        			<input type="hidden" name="vehicleSubId" class="form-control" value="<?=$vehicleTypeSubId?>">
-        		</div>
-       		</div>	
+  <div class="container-fluid">
+    <form method="post">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="box box-default" style="padding:10px;">
+            <p style="font-weight:bolder;background-color:#d2d6de;padding:5px;text-align: center;color:#000000;font-size:15px;">Update Vehicle Model<br>( <?php echo $vehicleSubTypeData[0]['name'];?> )
+            </p>
+            <div class="form-group">
+                <label>Model Name</label>
+                <input type="text" class="form-control" name="Model_Name" value="<?=$vehicleSubTypeData[0]['name']?>">
+            </div>
+            <button type="submit" name="update_vehicle" id="update" class="btn btn-info btn-xs">
+              <i class="glyphicon glyphicon-edit"></i>
+              <b> &nbsp;Update</b>
+            </button>
+           <a href="./vehicle-type-view?id=<?=$vehicleTypeID?>" class="btn btn-danger btn-xs">
+            <i class="glyphicon glyphicon-backward"></i><b> &nbsp;Back</b>
+            </a>
+            <input type="hidden" name="vehicleTypeId" class="form-control" value="<?=$vehicleTypeID?>"> 
+            <input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
+            <input type="hidden" name="vehicleSubId" class="form-control" value="<?=$vehicleTypeSubId?>">
+          </div>
         </div>
-       	<div class="row">
-      		<div class="col-md-4" style="">
-
-              
-      		</div>		
-     	  </div>
       </div>
-    </div>
+    </form>
+  </div>
      </body>
      </html>
 
