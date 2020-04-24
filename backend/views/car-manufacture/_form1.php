@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\CarManufacture */
 /* @var $form yii\widgets\ActiveForm */
-
+$vtypid = $_GET['vechicalType'];
 ?>
 <div class="car-manufacture-form">
 
@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
             <?php if (!Yii::$app->request->isAjax){ ?>
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-info btn-xs']) ?>
-                <a href="./?id=<?php echo $vechicalType;?>" class="btn btn-danger btn-xs">
+                <a href="./vehicle-type-view?id=<?php echo $vtypid;?>" class="btn btn-danger btn-xs">
                 <i class="glyphicon glyphicon-backward"></i><b> &nbsp;Back</b>
             </a>
             </div>
