@@ -107,10 +107,17 @@ if(isset($_POST['update_service']))
 		WHERE vehicle_type_id = $updatevehicleType
 		AND service_id = $service_ID
 		")->queryAll();
-		//$vtID = $checkServiceDetailId[0]['vehicle_type_id'];
 		if ($checkServiceDetailId) {
-			Yii::$app->session->setFlash('danger', "Vehicle Type already exists");
-			//echo "no yeh wrong hhhhhhhh";
+			$serDetailId = $checkServiceDetailId[0]['service_detail_id'];
+			$updateServiceDetails = Yii::$app->db->createCommand()->update('service_details',[
+				    'price'   			=> $updateprice,
+				    'description'  		=> $updatedescription,
+				    'updated_at' 		=> new \yii\db\Expression('NOW()'),
+					'updated_by' 		=> $user_id,
+		    ],[	'service_detail_id' 	=> $serDetailId]
+			)->execute();
+			$transaction->commit();
+	     	\Yii::$app->response->redirect(['./service-detail-view', 'id' => $service_ID]);
 		}else{
 			$checkServiceDetailId2 = Yii::$app->db->createCommand("
 			SELECT *
@@ -132,26 +139,14 @@ if(isset($_POST['update_service']))
 	     $transaction->commit();
 	     \Yii::$app->response->redirect(['./service-detail-view', 'id' => $service_ID]);
 		}
-		// else{
-		// 	 $insert_serviceDetail = Yii::$app->db->createCommand()->insert('service_details',[
-
-		// 	    'branch_id' 		=> Yii::$app->user->identity->branch_id,
-		// 	    'vehicle_type_id' 	=> $updatevehicleType,
-		// 	    'service_id' 		=> $updateserviceName,
-		// 	    'price' 			=> $updateprice,
-		// 	    'description' 		=> $updatedescription,
-		// 	    'created_at' 		=> new \yii\db\Expression('NOW()'),
-		// 		'created_by' 		=> $user_id ,
-		// 	  ]
-		// 	)->execute();
-		// }
-	     } // closing of try block 
-	     catch (Exception $e) {
-	     	Yii::$app->session->setFlash('danger', (string)$e);
-	      // transaction rollback
-	         $transaction->rollback();
-	     } // closing of catch block
-	     //closing of transaction handling
+    } // closing of try block 
+     catch (Exception $e) {
+     	echo $e;
+     	Yii::$app->session->setFlash('danger', (string)$e);
+      // transaction rollback
+         $transaction->rollback();
+    } // closing of catch block
+     //closing of transaction handling
 }
 
  ?>

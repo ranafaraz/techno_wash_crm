@@ -40,6 +40,7 @@
 							<th style="background-color: #367FA9;color: #fff;">Sr.#</th>
 							<th style="background-color: #367FA9;color: #fff;">Vehicle Type</th>
 							<th style="background-color: #367FA9;color: #fff;">Price</th>
+							<th style="background-color: #367FA9;color: #fff;">Description</th>
 							<th style="background-color: #367FA9;color: #fff;">Action</th>
 							
 						</tr>
@@ -52,12 +53,12 @@
 										SELECT name	
 										FROM vehicle_type 
 										WHERE vehical_type_id = '$vehicle_type_id'")->queryAll();
-
 								?>
 								<tr>
 									<td><?php echo $i+1;?></td>
 									<td><?php echo $vehicle_type_name[0]['name'];?></td>
 									<td><?php echo $services[$i]['price'];?></td>
+									<td><?php echo $services[$i]['description'];?></td>
 									<td><a href="./update-service?service_id=<?=$services[$i]['service_id']?>&vehicleType_id=<?=$vehicle_type_id?>" class="label label-info" title="Edit"><i class="fa fa-edit"></i> Update</a></td>
 
 								</tr>

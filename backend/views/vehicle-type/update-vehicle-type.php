@@ -37,7 +37,7 @@ if(isset($_GET['VehTypeSubId'])){
                 <input type="text" class="form-control" name="Model_Name" value="<?=$vehicleSubTypeData[0]['name']?>">
             </div>
             <button type="submit" name="update_vehicle" id="update" class="btn btn-info btn-xs">
-              <i class="glyphicon glyphicon-edit"></i>
+              
               <b> &nbsp;Update</b>
             </button>
            <a href="./vehicle-type-view?id=<?=$vehicleTypeID?>" class="btn btn-danger btn-xs">
