@@ -257,7 +257,7 @@ class SaleInvoiceHeadController extends Controller
     //     return json_encode($net_total);
 
     // }
-
+    
     public function actionCreateSaleInvoice(){
         return $this->render('create-sale-invoice');
     }

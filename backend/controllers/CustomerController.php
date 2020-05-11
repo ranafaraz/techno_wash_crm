@@ -35,7 +35,7 @@ class CustomerController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-sale-invoice','collect-sale-invoice','update-sale-invoice','credit-sale-invoice','sale-invoice-transaction','customer-profile'],
+                        'actions' => ['logout', 'index', 'create', 'view', 'update', 'delete', 'bulk-delete','sale-invoice-view','fetch-info','branch-details','customer-detail-view','paid-sale-invoice','collect-sale-invoice','update-sale-invoice','credit-sale-invoice','sale-invoice-transaction','customer-profile','update-sih-add-items'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,6 +58,9 @@ class CustomerController extends Controller
     public function beforeAction($action) {
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
+    }
+    public function actionUpdateSihAddItems(){
+        return $this->render('update-sih-add-items');
     }
     public function actionCustomerProfile(){
         return $this->render('customer-profile');

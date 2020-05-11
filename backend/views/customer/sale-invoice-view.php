@@ -10,27 +10,11 @@ use common\models\CustomerVehicles;
 use common\models\Transactions;
 use common\models\AccountNature;
 use common\models\AccountHead;
-
-//$customerID = $_GET['customer_id'];
-//$regNoID = $_GET['regno'];
-
- ?>
+?>
 
  
   <?php
 
-  // getting customer name
-  // $customerData = Yii::$app->db->createCommand("
-  //   SELECT *
-  //   FROM customer
-  //   WHERE customer_id = $customerID
-  //   ")->queryAll();
-
-  // getting vehicle
-  $customerVehicles = Yii::$app->db->createCommand("
-    SELECT *
-    FROM customer_vehicles
-    ")->queryAll();
 
  // getting services
   $services = Yii::$app->db->createCommand("
@@ -109,7 +93,7 @@ use common\models\AccountHead;
                <li><a href="#credit" data-toggle="tab">Credit <span class="badge"><?=$countcreditinvoiceData?></span></a></li>
             </ul>
             <div class="tab-content" style="background-color: #efefef;">
-               <div class="tab-pane" id="credit" style="background-color:lightgray;padding:10px;">
+              <div class="tab-pane" id="credit" style="background-color:lightgray;padding:10px;">
                 <div class="row">
                   <div class="col-md-8">
                     <h3 class="text-info" style="vertical-align: middle;">Credit Invoices</h3>
