@@ -8,26 +8,28 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\CarManufacture */
 /* @var $form yii\widgets\ActiveForm */
+$vtypid = $_GET['vechicalType'];
 ?>
-
 <div class="car-manufacture-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="row">
-        <div class="col-md-6">
+    <div class="container-fluid">
+        <div class="col-md-4">
             <?= $form->field($model, 'manufacturer')->textInput(['maxlength' => true,'id' => 'manufacture_name']) ?>
-        </div>
-        <div class="col-md-6">
             <?= $form->field($model, 'description')->textInput(['maxlength' => true,'id' => 'manufacture_description']) ?>
+            <?php if (!Yii::$app->request->isAjax){ ?>
+            <div class="form-group">
+                <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-info btn-xs']) ?>
+                <a href="./vehicle-type-view?id=<?php echo $vtypid;?>" class="btn btn-danger btn-xs">
+                <i class="glyphicon glyphicon-backward"></i><b> &nbsp;Back</b>
+            </a>
+            </div>
+    <?php } ?>
         </div>
     </div>
     <!-- row 1 close -->
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+	
 
     <?php ActiveForm::end(); ?>
     

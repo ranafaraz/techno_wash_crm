@@ -1,31 +1,37 @@
 <?php 
 
-$serviceID = $_GET['service_id'];
-$vehicleTypeID = $_GET['vehicleType_id'];
+if(isset($_GET['service_id']))
+{
 
-$services = Yii::$app->db->createCommand("
-		SELECT *
-		FROM services
-		WHERE service_id = '$serviceID'")->queryAll();
+	$serviceID = $_GET['service_id'];
+	$vehicleTypeID = $_GET['vehicleType_id'];
+
+	$serviceName = Yii::$app->db->createCommand("
+	SELECT *
+	FROM services
+	WHERE service_id = $serviceID")->queryAll();
+
+	$services = Yii::$app->db->createCommand("
+	SELECT *
+	FROM services")->queryAll();
 	$count_setrvices =  count($services);
 
-$services_details = Yii::$app->db->createCommand("
-		SELECT *
-		FROM service_details
-		WHERE service_id = '$serviceID'
-		AND vehicle_type_id = '$vehicleTypeID '")->queryAll();
+	$services_details = Yii::$app->db->createCommand("
+	SELECT *
+	FROM service_details
+	WHERE service_id = '$serviceID'
+	AND vehicle_type_id = '$vehicleTypeID '")->queryAll();
 	$countservices_details =  count($services_details);
 
 	$servicesDetailID = $services_details[0]['service_detail_id'];
 
-$vehicleTypeData = Yii::$app->db->createCommand("
+	$vehicleTypeData = Yii::$app->db->createCommand("
 	SELECT *
 	FROM vehicle_type
 	")->queryAll();
-$countvehicleType = count($vehicleTypeData);
+	$countvehicleType = count($vehicleTypeData);
 
  ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -33,114 +39,189 @@ $countvehicleType = count($vehicleTypeData);
 	<title>Update Service</title>
 </head>
 <body>
-
-	<div class="container">
+	<div class="container-fluid">
+		<form method="post">
 		<div class="row">
- 		<div class="col-md-8 col-md-offset-2" style="text-align: center;font-family:georgia;color: #367FA9; font-size: 32px;">
- 			<span>Update Service (<b><?=$services[0]['service_name']?></b>)</span>
- 		</div>	
- 	</div>
-	
-	<form action="" method="POST">
-		<div class="row">
-		   <div class="col-md-8 col-md-offset-2" style="background-color:#efefef;border-top:3px solid #367FA9;">
-				<div class="row" style="margin-top: 20px;">
-					<div class="col-md-4">
-			 			<div class="form-group">
-			        		<label>Service Name</label>
-			        		<input type="text" class="form-control" name="Service_Name" value="<?=$services[0]['service_name']?>">
-			    		</div>
-			 		</div>
-					<div class="col-md-4">
-			 			<div class="form-group">
-			 				<label>Select Vehicle Type</label>
-			        		<select class="form-control" name="vehicleType">
-			        			<option value="">Select vehicle type</option>
-			        			<?php 
-			        			for ($i=0; $i <$countvehicleType ; $i++) {
-			        			?>
-			        			<option <?php if ($vehicleTypeData[$i]['vehical_type_id'] == $vehicleTypeID ) {
-			        				echo "selected";
-			        			} ?> value="<?php echo $vehicleTypeData[$i]['vehical_type_id']; ?>"><?php echo $vehicleTypeData[$i]['name']; ?></option>
-			        			<?php } ?>
-			        		</select>
-			    		</div>
-			    	</div>
-			    	<div class="col-md-4">
-			    		<div class="form-group">
-			    			<label>Price</label>
-			    			<input type="text" name="price" class="form-control" value="<?=$services_details[0]['price']?>">
-			    		</div>
-			    	</div>
-			    	<input type="hidden" name="vehicleTypeId" class="form-control" value="<?=$vehicleTypeID?>"> 
-          			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
-          			<input type="hidden" name="serviceid" class="form-control" value="<?=$serviceID?>">
-          			<input type="hidden" name="serviceDetailid" class="form-control" value="<?=$servicesDetailID?>">
-		    </div>
-		    <div class="row">
-		    	<div class="col-md-2" style="margin-left: 20px;">
-				<div class="form-group">
-			 	<a href="./service-detail-view?id=<?=$serviceID?>" class="form-control btn btn-danger">
-			      	<i class="glyphicon glyphicon-backward"> <b>Back</b></i>
-				</a>
-				</div>		
-			</div> 
 			<div class="col-md-4">
-				<button type="submit" name="update_service" id="update" class="btn btn-success"><i class="glyphicon glyphicon-open"></i> Update Service</button>		
+				<div class="box box-default" style="padding:10px;">
+					<p style="font-weight:bolder;background-color:#d2d6de;padding:5px;text-align: center;color:#000000;font-size:15px;">Update Service Details<br>( <?php echo $serviceName[0]['service_name'];?> )
+					</p>
+					<div class="form-group">
+		 				<label>Vehicle Type</label>
+		        		<select class="form-control" name="vehicleType">
+		        			<?php 
+		        			for ($i=0; $i <$countvehicleType ; $i++) {
+		        			?>
+		        			<option <?php if ($vehicleTypeData[$i]['vehical_type_id'] == $vehicleTypeID ) {
+		        				echo "selected";
+		        			} ?> value="<?php echo $vehicleTypeData[$i]['vehical_type_id']; ?>"><?php echo $vehicleTypeData[$i]['name']; ?>
+		        			</option>
+		        			<?php } ?>
+		        		</select>
+			    	</div>
+			    	<div class="form-group">
+		    			<label>Price</label>
+		    			<input type="text" name="price" class="form-control" value="<?php echo $services_details[0]['price']?>">
+			    	</div>
+			    	<div class="form-group">
+		    			<label>Description</label>
+		    			<input type="text" name="description" class="form-control" value="<?php echo $services_details[0]['description'];?>">
+			    	</div>
+          			<input type="hidden" name="service_ID" class="form-control" value="<?php echo $serviceID; ?>">
+          			<input type="hidden" name="vehicle_ID" class="form-control" value="<?php echo $vehicleTypeID; ?>">
+          			<input type="hidden" name="_csrf" class="form-control" value="<?=Yii::$app->request->getCsrfToken()?>">
+					<button name="update_service" class="btn btn-info btn-xs">
+						<i class="glyphicon glyphicon-edit"></i><b> &nbsp;Update</b>
+					</button>
+					<a href="./service-detail-view?id=<?php echo $serviceID;?>" class="btn btn-danger btn-xs">
+			      		<i class="glyphicon glyphicon-backward"></i><b> &nbsp;Back</b>
+					</a>
+				</div>
 			</div>
-		    </div>
-		  </div>
 		</div>
-	</form>
-
+		</form>
 	</div>
 </body>
 </html>
 
 <?php 
-
+}
 if(isset($_POST['update_service']))
  { 
-	$vehicleTypeId  	= $_POST['vehicleTypeId'];
-	$serviceid  		= $_POST['serviceid'];
-	$serviceDetailid  	= $_POST['serviceDetailid'];
-	$updateserviceName  = $_POST['Service_Name'];
+	
+	
 	$updatevehicleType  = $_POST['vehicleType'];
+	//$updateserviceName  = $_POST['Service_Name'];
 	$updateprice 		= $_POST['price'];
+	$updatedescription	= $_POST['description'];
+	$service_ID			= $_POST['service_ID'];
+	$vehicle_ID			= $_POST['vehicle_ID'];
 	$user_id   			= Yii::$app->user->identity->id;
 
-     $transaction 		= \Yii::$app->db->beginTransaction();
+    $transaction 		= \Yii::$app->db->beginTransaction();
      try {
-      $update_service = Yii::$app->db->createCommand()->update('service_details',[
-     'vehicle_type_id'   => $updatevehicleType,
-     'price'        	 => $updateprice,
-     'updated_at' 		 => new \yii\db\Expression('NOW()'),
-	 'updated_by' 		 => $user_id ,
-    ], 
-		['service_detail_id' => $serviceDetailid]
-	)->execute();
-
-    $update_service_name = Yii::$app->db->createCommand()->update('services',[
-
-    'service_name' 		=> $updateserviceName,
-    'updated_at' 		 => new \yii\db\Expression('NOW()'),
-	'updated_by' 		 => $user_id ,
-
-  ], 
-		['service_id' => $serviceid]
-	)->execute();
-
-     // transaction commit
-     $transaction->commit();
-     \Yii::$app->response->redirect(['./service-detail-view', 'id' => $serviceid]);
-    
-        
-     } // closing of try block 
+     	// Checking the service detail id
+		$checkServiceDetailId = Yii::$app->db->createCommand("
+		SELECT *
+		FROM  service_details
+		WHERE vehicle_type_id = $updatevehicleType
+		AND service_id = $service_ID
+		")->queryAll();
+		if ($checkServiceDetailId) {
+			$serDetailId = $checkServiceDetailId[0]['service_detail_id'];
+			$updateServiceDetails = Yii::$app->db->createCommand()->update('service_details',[
+				    'price'   			=> $updateprice,
+				    'description'  		=> $updatedescription,
+				    'updated_at' 		=> new \yii\db\Expression('NOW()'),
+					'updated_by' 		=> $user_id,
+		    ],[	'service_detail_id' 	=> $serDetailId]
+			)->execute();
+			$transaction->commit();
+	     	\Yii::$app->response->redirect(['./service-detail-view', 'id' => $service_ID]);
+		}else{
+			$checkServiceDetailId2 = Yii::$app->db->createCommand("
+			SELECT *
+			FROM  service_details
+			WHERE vehicle_type_id = $vehicle_ID
+			AND service_id = $service_ID
+			")->queryAll();
+			$serDetailId = $checkServiceDetailId2[0]['service_detail_id'];
+			$updateServiceDetails = Yii::$app->db->createCommand()->update('service_details',[
+					'vehicle_type_id' 	=> $updatevehicleType,
+				    //'service_id' 		=> $updateserviceName,
+				    'price'   			=> $updateprice,
+				    'description'  		=> $updatedescription,
+				    'updated_at' 		=> new \yii\db\Expression('NOW()'),
+					'updated_by' 		=> $user_id,
+		    ],[	'service_detail_id' 	=> $serDetailId]
+			)->execute();
+			// transaction commit
+	     $transaction->commit();
+	     \Yii::$app->response->redirect(['./service-detail-view', 'id' => $service_ID]);
+		}
+    } // closing of try block 
      catch (Exception $e) {
+     	echo $e;
      	Yii::$app->session->setFlash('danger', (string)$e);
       // transaction rollback
          $transaction->rollback();
-     } // closing of catch block
-     // closing of transaction handling
-		}
+    } // closing of catch block
+     //closing of transaction handling
+}
+
  ?>
+
+ <?php 
+ if(isset($_GET['serviceID']))
+{
+	$servID = $_GET['serviceID'];
+	$services = Yii::$app->db->createCommand("
+	SELECT *
+	FROM services
+	WHERE service_id = '$servID'")->queryAll();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="container-fluid">
+		<form method="post">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="box box-default" style="padding:10px;">
+					<p style="font-weight:bolder;background-color:#d2d6de;padding:5px;text-align: center;color:#000000;font-size:15px;">Update Service<br>( <?php echo $services[0]['service_name'];?> )
+					</p>
+					<div class="form-group">
+						<label>Service</label>
+						<input type="text" name="serviceName" class="form-control" value="<?php echo $services[0]['service_name'];?>">
+						<label>Description</label>
+						<input type="text" name="description" class="form-control" value="<?php echo $services[0]['description'];?>">
+						<input type="hidden" name="serviceId" value="<?php echo $services[0]['service_id'];?>">
+					</div>
+					<button name="serviceUpdate" class="btn btn-info btn-xs">
+						<i class="glyphicon glyphicon-edit"></i><b> &nbsp;Update</b>
+					</button>
+					<a href="./service-detail-view?id=<?php echo $servID;?>" class="btn btn-danger btn-xs">
+			      		<i class="glyphicon glyphicon-backward"></i><b> &nbsp;Back</b>
+					</a>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+</body>
+</html>
+<?php } 
+
+	if(isset($_POST['serviceUpdate'])){
+		$serviceName = $_POST['serviceName'];
+		$description = $_POST['description'];
+		$serviceId 	 = $_POST['serviceId'];
+		$user_id   			= Yii::$app->user->identity->id;
+
+		// starting of transaction handling
+		$transaction = \Yii::$app->db->beginTransaction();
+		try {
+			$update_service_name = Yii::$app->db->createCommand()->update('services',[
+
+			    'service_name' 		=> $serviceName,
+			    'description' 		=> $description,
+			    'updated_at' 		 => new \yii\db\Expression('NOW()'),
+				'updated_by' 		 => $user_id ,
+
+			  ],['service_id' => $serviceId]
+			)->execute();
+        // transaction commit
+        $transaction->commit();
+        \Yii::$app->response->redirect(['./service-detail-view','id' => $serviceId]);
+		} // closing of try block 
+		catch (Exception $e) {
+			// transaction rollback
+            $transaction->rollback();
+		} // closing of catch block
+		// closing of transaction handling
+	}
+?>
