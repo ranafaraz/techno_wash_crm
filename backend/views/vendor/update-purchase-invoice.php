@@ -301,7 +301,7 @@
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="text" name="net_total" id="net_t" class="form-control" readonly="" value="<?php //echo $updateinvoiceData[0]['net_total'];?>">
+											<input type="text" name="net_total" id="net_t" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['net_total'];?>">
 										</div>
 									</td>
 								</tr>
@@ -322,7 +322,7 @@
 									</td>
 									<td>
 										<div class="form-group">
-											<input type="number" name="remaining_amount" id="remaining" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['remaining_amount'];?>">
+											<input type="number" name="remaining_amount" id="remain_amt" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['remaining_amount'];?>">
 										</div>
 									</td>
 								</tr>
@@ -398,7 +398,7 @@
 								<a href="./purchase-invoice-view?vendor_id=<?php echo $vendorID; ?>" class="btn btn-danger btn-xs btn-block" style=""><i class="glyphicon glyphicon-arrow-left"></i> Back</a>						
 							</div>
 							<div class="col-md-6">
-								<button type="submit" name="update_invoice" id="update" class="btn btn-success btn-xs  btn-block"  style=""><i class="glyphicon glyphicon-open"></i> Update</button>
+								<button type="submit" name="update" id="update" class="btn btn-success btn-xs  btn-block"  style=""><i class="glyphicon glyphicon-open"></i> Update</button>
 							</div>
 						</div>
 					</div>
@@ -549,7 +549,7 @@ if(isset($_POST['update_invoice']))
       	var paid = $('#paid').val();
       	var nt = $('#net_t').val();
       	var remaining = nt - paid;
-      	$('#remaining').val(remaining); 
+      	$('#remain_amt').val(remaining); 
       	if (remaining == 0) {
       		$('#status').val('Paid');
       	}
@@ -569,7 +569,7 @@ if(isset($_POST['update_invoice']))
       		$('#alert').css("display","block");
             $('#alert').html("&ensp;Please Enter A Valid Amount");
       	}
-      	var eremaining = $('#remaining').val();
+      	var eremaining = $('#remain_amt').val();
       	if(eremaining == '' || empty(eremaining)){
       		//$('#update').hide();
       		$("#update").attr("disabled", true);
@@ -656,7 +656,7 @@ $("#barcode").change(function(){
     $('#net_t').val(remain);
     $('#disc').val("");
     $('#paid').val("0");
-    $('#remaining').val(remain);
+    $('#remain_amt').val(remain);
     $('#status').val('Unpaid');
   } else {
     var tp = parseInt(totalAmount)+parseInt(purchase_price);
@@ -668,7 +668,7 @@ $("#barcode").change(function(){
     $('#net_t').val(remain);
     $('#disc').val("");
     $('#paid').val("0");
-    $('#remaining').val(remain);
+    $('#remain_amt').val(remain);
     $('#status').val('Unpaid');
   }
 
@@ -801,7 +801,7 @@ $("#quantity").change(function(){
     $('#net_t').val(tp);
     $('#disc').val("");
     //$('#paid').val("0");
-    //$('#remaining').val(netT);
+    //$('#remain_amt').val(netT);
     //$('#status').val('Unpaid');
   } else {
   	var pp = parseInt(purchase_price)*qty;
@@ -811,11 +811,11 @@ $("#quantity").change(function(){
     alert("purchase " + netT);
 
   	$('#total_p').val(tp);
-    $('#net_t').val("0");
-    $('#disc').val("");
-    $('#paid').val("0");
-    $('#remaining').val(netT);
-    $('#status').val('Unpaid');
+    $('#net_t').val(netT);
+    //$('#disc').val("");
+    $('#paid').val(0);
+    $('#remain_amt').val(parseInt(netT));
+    //$('#status').val('Unpaid');
   }
   
     discountFun();
@@ -922,7 +922,7 @@ $("#cash_return").on('input', function(){
   var nt          = $('#net_t').val();
   var previous_value = paid-nt;
   var temp = cashReturn-previous_value;
-  $('#remaining').val(temp);
+  $('#remain_amt').val(temp);
 
   if(cashReturn == previous_value)
   {
@@ -1019,7 +1019,7 @@ $('#remove').click(function(){
       //alert(remain_amount);
       $('#total_p').val(remain_amount);$("#total_p").val(remain_amount);
       $("#net_t").val(remain_amount);
-      $("#remaining").val(remain_amount);
+      $("#remain_amt").val(remain_amount);
       // $("#disc").val("");
       // $("#paid").val("0");
       var a =quantityArray.length - remove_value;
@@ -1040,7 +1040,7 @@ $('#remove').click(function(){
       nt=nt - net_of_remove_amount;
       $('#total_p').val(nt); 
       $('#net_t').val(nt); 
-      $('#remaining').val(nt); 
+      $('#remain_amt').val(nt); 
       barcodeArray.splice(a,1);
       stockTypeArray.splice(a,1);
       manufacturerArray.splice(a,1);
@@ -1070,7 +1070,7 @@ $('#remove').click(function(){
       sellingPriceArray.splice(a,1);
       //alert(barcodeArray.length);
       $('#total_p').val(nta);
-      $('#remaining').val(nta);
+      $('#remain_amt').val(nta);
       $('#net_t').val(nta);
       $('#remove_value1').val("");
       $('#remove_value').val("");

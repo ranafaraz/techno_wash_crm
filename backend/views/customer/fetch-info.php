@@ -112,8 +112,6 @@ if (isset($_POST["vehicle_id"])) {
 	OR cm.manufacturer = 'Unknown')
 	")->queryAll();
 
-
-	
 	echo json_encode($unknownModel); 
 }
 
@@ -144,31 +142,214 @@ if(isset($_POST['vehID'])) {
 	echo json_encode($vehData);
 }
 
- 	if( isset($_POST['invoice_date']) 
-	 	&& isset($_POST['total_amount']) 
-	 	&& isset($_POST['net_total']) 
-	 	&& isset($_POST['paid']) 
-	 	&& isset($_POST['remaining'])
-	 	&& isset($_POST['status']) 
-	 	&& isset($_POST['vehicleArray'])
-	 	&& isset($_POST['serviceArray'])
-	 	&& isset($_POST['amountArray'])
-	 	&& isset($_POST['ItemTypeArray']) ) {
+if( isset($_POST['invoice_date']) 
+	&& isset($_POST['total_amount']) 
+	&& isset($_POST['net_total']) 
+	&& isset($_POST['paid']) 
+	&& isset($_POST['remaining'])
+	&& isset($_POST['status']) 
+	&& isset($_POST['vehicleArray'])
+	&& isset($_POST['serviceArray'])
+	&& isset($_POST['amountArray'])
+	&& isset($_POST['ItemTypeArray']) ) {
 
-		$user_id = $_POST["user_id"];
-		$branch_id = $_POST['branch_id'];
-		$invoice_date= $_POST["invoice_date"];
-		$total_amount = $_POST["total_amount"];
-		$net_total = $_POST['net_total'];
-		$paid = $_POST['paid'];
-		$remaining = $_POST['remaining'];
-		$cash_return = $_POST['cash_return'];
-		$status = $_POST["status"];
-		$vehicleArray = $_POST['vehicleArray']; 
-		$serviceArray = $_POST["serviceArray"];
-		$amountArray = $_POST['amountArray'];
-		$ItemTypeArray = $_POST['ItemTypeArray'];
-		$quantityArray = $_POST["quantityArray"];
+	$user_id = $_POST["user_id"];
+	$branch_id = $_POST['branch_id'];
+	$invoice_date= $_POST["invoice_date"];
+	$total_amount = $_POST["total_amount"];
+	$net_total = $_POST['net_total'];
+	$paid = $_POST['paid'];
+	$remaining = $_POST['remaining'];
+	$cash_return = $_POST['cash_return'];
+	$status = $_POST["status"];
+	$vehicleArray = $_POST['vehicleArray']; 
+	$serviceArray = $_POST["serviceArray"];
+	$amountArray = $_POST['amountArray'];
+	$ItemTypeArray = $_POST['ItemTypeArray'];
+	$quantityArray = $_POST["quantityArray"];
+
+	$disc_amount = $total_amount - $net_total;
+	$countItemArray = count($vehicleArray);
+
+	$transaction = \Yii::$app->db->beginTransaction();
+	try {
+
+		$custId = Yii::$app->db->createCommand("
+		    SELECT 	c.customer_id
+		    FROM customer as c 
+		    INNER JOIN customer_vehicles as cv 
+		    ON c.customer_id = cv.customer_id
+		    WHERE c.branch_id = '$branch_id'
+			AND cv.customer_vehicle_id	= '$vehicleArray[0]'
+		    ")->queryAll();
+		$customer_id = $custId[0]['customer_id'];
+
+		$insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
+			'branch_id' => $branch_id,
+			'customer_id'   	=> $customer_id,
+			'date'    			=> $invoice_date,
+			'total_amount'    	=> $total_amount,
+			'discount'    		=> $disc_amount,
+			'net_total'    		=> $net_total,
+			'paid_amount'    	=> $paid,
+			'remaining_amount'  => $remaining,
+			'cash_return'		=> $cash_return,
+			'status'    		=> $status,
+			'created_by'		=> $user_id,
+		])->execute();
+
+		if ($insert_invoice_head) {
+			$select_invoice = Yii::$app->db->createCommand("
+			    SELECT 	sale_inv_head_id
+			    FROM sale_invoice_head
+			    WHERE customer_id		= '$customer_id'
+			    AND branch_id = '$branch_id'
+				AND CAST(date as DATE) 	= '$invoice_date'
+				AND	total_amount		= '$total_amount'
+				AND	discount			= '$disc_amount'
+				AND	net_total			= '$net_total'
+				AND	paid_amount			= '$paid'
+				AND remaining_amount	= '$remaining'
+				AND	status				= '$status'
+				ORDER BY sale_inv_head_id DESC
+			    ")->queryAll();
+			
+			$selectedInvHeadID = $select_invoice[0]['sale_inv_head_id'];
+
+			$insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
+
+				'sale_inv_head_id' => $selectedInvHeadID,
+				'transaction_date'    	=> new \yii\db\Expression('NOW()'),
+				'paid_amount'    		=> $paid,
+				//'transaction_id'	  => $transactionId,
+				'created_by'			=> $user_id,
+				])->execute();
+
+			if ($insert_invoice_amount) {
+				$invoice_amount = Yii::$app->db->createCommand("
+			    SELECT 	*
+			    FROM sale_invoice_amount_detail
+			    WHERE sale_inv_head_id	= '$selectedInvHeadID'
+			    ORDER BY s_inv_amount_detail DESC
+			    ")->queryAll();
+				$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
+
+				// id 3 is reserved for Sale Account
+				$account_head =3;
+				$transactions = Yii::$app->db->createCommand()->insert('transactions',
+				[
+					'branch_id' => $branch_id,
+					'account_head_id' => $account_head,
+					//'total_amount' => $net_total,
+					'amount' => $paid,
+					//'remaining' => $remaining,
+					'head_id' => $selectedInvHeadID,
+					'ref_no' => $invoice_amount,
+					'ref_name' => "Sale",
+					'transactions_date' => $invoice_date,
+					'created_by' => \Yii::$app->user->identity->id,
+				 	
+				])->execute();			
+			}
+			for ($j=0; $j <$countItemArray ; $j++) {
+				$itemType = $ItemTypeArray[$j];
+				$quantity = $quantityArray[$j];
+
+		    	if($itemType == "Product"){
+		     		$product_id = $serviceArray[$j];
+
+		    		$selectProduct = Yii::$app->db->createCommand("
+					    SELECT *
+					    FROM stock
+					    WHERE name = '$product_id'
+					    AND status = 'In-stock'
+					    LIMIT $quantity
+					    ")->queryAll();
+		    		$count = count($selectProduct);
+
+		    		for ($i=0; $i<$count; $i++) { 
+		    			$stock_id = $selectProduct[$i]['stock_id'];
+
+		    			$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
+
+						'sale_inv_head_id'  	=> $selectedInvHeadID,
+						'customer_vehicle_id'   => $vehicleArray[$j],
+						'item_id'    			=> $stock_id,
+						'item_type'    			=> "Stock",
+						'discount_per_service'  => $amountArray[$j],
+						'created_by'			=> $user_id,
+						])->execute();
+
+			    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+							'status'		=> "Sold",	
+							'updated_by'	=> $user_id
+	                        ],
+	                        ['stock_id' => $stock_id]
+			            )->execute();
+		    		}
+		    	} //closing of quantity if 
+		    	else {
+			    	$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
+
+						'sale_inv_head_id'  	=> $selectedInvHeadID,
+						'customer_vehicle_id'   => $vehicleArray[$j],
+						'item_id'    			=> $serviceArray[$j],
+						'item_type'    			=> $ItemTypeArray[$j],
+						'discount_per_service'  => $amountArray[$j],
+						'created_by'			=> $user_id,
+						])->execute();
+
+			    	if ($ItemTypeArray[$j] == "Stock") {
+
+			    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+								'status'		=> "Sold",	
+								'updated_by'	=> $user_id
+		                        ],
+		                    ['stock_id' => $serviceArray[$j]]
+			            )->execute();
+			        }
+		    	} // closing of quantity else
+		    } // end of for loop itemarray
+		    
+	    	$transaction->commit();
+		    echo Json::encode("[".$selectedInvHeadID ."]");
+		} // end of if
+	} // closing of try block 
+	catch (Exception $e) {
+		echo $e;
+		 $transaction->rollback();
+	} // closing of catch block
+
+} // closing of isset
+	
+	if( isset($_POST['u_invoice_date']) 
+	 	&& isset($_POST['u_total_amount']) 
+	 	&& isset($_POST['u_net_total']) 
+	 	&& isset($_POST['u_paid']) 
+	 	&& isset($_POST['u_remaining'])
+	 	&& isset($_POST['u_status']) 
+	 	&& isset($_POST['u_vehicleArray'])
+	 	&& isset($_POST['u_serviceArray'])
+	 	&& isset($_POST['u_amountArray'])
+	 	&& isset($_POST['u_ItemTypeArray']) ) {
+
+		$user_id = $_POST["u_user_id"];
+		$branch_id = $_POST['u_branch_id'];
+		$invoice_date= $_POST["u_invoice_date"];
+		$total_amount = $_POST["u_total_amount"];
+		$net_total = $_POST['u_net_total'];
+		$paid = $_POST['u_paid'];
+		$remaining = $_POST['u_remaining'];
+		$cash_return = $_POST['u_cash_return'];
+		$status = $_POST["u_status"];
+		$vehicleArray = $_POST['u_vehicleArray']; 
+		$serviceArray = $_POST["u_serviceArray"];
+		$amountArray = $_POST['u_amountArray'];
+		$ItemTypeArray = $_POST['u_ItemTypeArray'];
+		$quantityArray = $_POST["u_quantityArray"];
+
+		$invoice_id = $_POST["u_invoice_id"];
+		$customer_id = $_POST["u_customer_id"];
 
 		$disc_amount = $total_amount - $net_total;
 		$countItemArray = count($vehicleArray);
@@ -176,149 +357,86 @@ if(isset($_POST['vehID'])) {
 		$transaction = \Yii::$app->db->beginTransaction();
 		try {
 
-			$custId = Yii::$app->db->createCommand("
-			    SELECT 	c.customer_id
-			    FROM customer as c 
-			    INNER JOIN customer_vehicles as cv 
-			    ON c.customer_id = cv.customer_id
-			    WHERE c.branch_id = '$branch_id'
-				AND cv.customer_vehicle_id	= '$vehicleArray[0]'
-			    ")->queryAll();
-			$customer_id = $custId[0]['customer_id'];
+			$insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
 
-			$insert_invoice_head = Yii::$app->db->createCommand()->insert('sale_invoice_head',[
-				'branch_id' => $branch_id,
-				'customer_id'   	=> $customer_id,
-				'date'    			=> $invoice_date,
-				'total_amount'    	=> $total_amount,
-				'discount'    		=> $disc_amount,
-				'net_total'    		=> $net_total,
-				'paid_amount'    	=> $paid,
-				'remaining_amount'  => $remaining,
-				'cash_return'		=> $cash_return,
-				'status'    		=> $status,
-				'created_by'		=> $user_id,
-			])->execute();
+			     'date' => $invoice_date,
+			     'total_amount' => $total_amount,
+			     'discount' => $disc_amount,
+			     'net_total' => $net_total,
+			     'paid_amount' => $paid,
+			     'remaining_amount' => $remaining,
+			     'cash_return' => $cash_return,
+			     'status' => $status,
+			    ],
+			       ['customer_id' => $customer_id,'sale_inv_head_id' => $invoice_id ]
 
-			if ($insert_invoice_head) {
-				$select_invoice = Yii::$app->db->createCommand("
-				    SELECT 	sale_inv_head_id
-				    FROM sale_invoice_head
-				    WHERE customer_id		= '$customer_id'
-				    AND branch_id = '$branch_id'
-					AND CAST(date as DATE) 	= '$invoice_date'
-					AND	total_amount		= '$total_amount'
-					AND	discount			= '$disc_amount'
-					AND	net_total			= '$net_total'
-					AND	paid_amount			= '$paid'
-					AND remaining_amount	= '$remaining'
-					AND	status				= '$status'
-					ORDER BY sale_inv_head_id DESC
-				    ")->queryAll();
-				
-				$selectedInvHeadID = $select_invoice[0]['sale_inv_head_id'];
+			    )->execute();
 
-				$insert_invoice_amount = Yii::$app->db->createCommand()->insert('sale_invoice_amount_detail',[
+			for ($j=0; $j <$countItemArray ; $j++) {
+				$itemType = $ItemTypeArray[$j];
+				$quantity = $quantityArray[$j];
 
-					'sale_inv_head_id' => $selectedInvHeadID,
-					'transaction_date'    	=> new \yii\db\Expression('NOW()'),
-					'paid_amount'    		=> $paid,
-					//'transaction_id'	  => $transactionId,
-					'created_by'			=> $user_id,
-					])->execute();
+		    	if($itemType == "Product"){
+		     		$product_id = $serviceArray[$j];
 
-				if ($insert_invoice_amount) {
-					$invoice_amount = Yii::$app->db->createCommand("
-				    SELECT 	*
-				    FROM sale_invoice_amount_detail
-				    WHERE sale_inv_head_id	= '$selectedInvHeadID'
-				    ORDER BY s_inv_amount_detail DESC
-				    ")->queryAll();
-					$invoice_amount = $invoice_amount[0]['s_inv_amount_detail'];
+		    		$selectProduct = Yii::$app->db->createCommand("
+					    SELECT *
+					    FROM stock
+					    WHERE name = '$product_id'
+					    AND status = 'In-stock'
+					    LIMIT $quantity
+					    ")->queryAll();
+		    		$count = count($selectProduct);
 
-					// id 3 is reserved for Sale Account
-					$account_head =3;
-					$transactions = Yii::$app->db->createCommand()->insert('transactions',
-					[
-						'branch_id' => $branch_id,
-						'account_head_id' => $account_head,
-						//'total_amount' => $net_total,
-						'amount' => $paid,
-						//'remaining' => $remaining,
-						'head_id' => $selectedInvHeadID,
-						'ref_no' => $invoice_amount,
-						'ref_name' => "Sale",
-						'transactions_date' => $invoice_date,
-						'created_by' => \Yii::$app->user->identity->id,
-					 	
-					])->execute();			
-				}
-				for ($j=0; $j <$countItemArray ; $j++) {
-					$itemType = $ItemTypeArray[$j];
-					$quantity = $quantityArray[$j];
+		    		for ($i=0; $i<$count; $i++) { 
+		    			$stock_id = $selectProduct[$i]['stock_id'];
 
-			    	if($itemType == "Product"){
-			     		$product_id = $serviceArray[$j];
+		    			$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
 
-			    		$selectProduct = Yii::$app->db->createCommand("
-						    SELECT *
-						    FROM stock
-						    WHERE name = '$product_id'
-						    AND status = 'In-stock'
-						    LIMIT $quantity
-						    ")->queryAll();
-			    		$count = count($selectProduct);
+						'sale_inv_head_id'  	=> $invoice_id,
+						'customer_vehicle_id'   => $vehicleArray[$j],
+						'item_id'    			=> $stock_id,
+						'item_type'    			=> "Stock",
+						'discount_per_service'  => $amountArray[$j],
+						'created_by'			=> $user_id,
+						])->execute();
 
-			    		for ($i=0; $i<$count; $i++) { 
-			    			$stock_id = $selectProduct[$i]['stock_id'];
+			    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+							'status'		=> "Sold",	
+							'updated_by'	=> $user_id
+	                        ],
+	                        ['stock_id' => $stock_id]
+			            )->execute();
+		    		}
+		    	} //closing of quantity if 
+		    	else {
+			    	$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
 
-			    			$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
+						'sale_inv_head_id'  	=> $invoice_id,
+						'customer_vehicle_id'   => $vehicleArray[$j],
+						'item_id'    			=> $serviceArray[$j],
+						'item_type'    			=> $ItemTypeArray[$j],
+						'discount_per_service'  => $amountArray[$j],
+						'created_by'			=> $user_id,
+						])->execute();
 
-							'sale_inv_head_id'  	=> $selectedInvHeadID,
-							'customer_vehicle_id'   => $vehicleArray[$j],
-							'item_id'    			=> $stock_id,
-							'item_type'    			=> "Stock",
-							'discount_per_service'  => $amountArray[$j],
-							'created_by'			=> $user_id,
-							])->execute();
+			    	if ($ItemTypeArray[$j] == "Stock") {
 
-				    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+			    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
 								'status'		=> "Sold",	
 								'updated_by'	=> $user_id
 		                        ],
-		                        ['stock_id' => $stock_id]
-				            )->execute();
-			    		}
-			    	} //closing of quantity if 
-			    	else {
-				    	$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
-
-							'sale_inv_head_id'  	=> $selectedInvHeadID,
-							'customer_vehicle_id'   => $vehicleArray[$j],
-							'item_id'    			=> $serviceArray[$j],
-							'item_type'    			=> $ItemTypeArray[$j],
-							'discount_per_service'  => $amountArray[$j],
-							'created_by'			=> $user_id,
-							])->execute();
-
-				    	if ($ItemTypeArray[$j] == "Stock") {
-
-				    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
-									'status'		=> "Sold",	
-									'updated_by'	=> $user_id
-			                        ],
-			                    ['stock_id' => $serviceArray[$j]]
-				            )->execute();
-				        }
-			    	} // closing of quantity else
-			    } // end of for loop itemarray
-			    
-		    	$transaction->commit();
-			    echo Json::encode("[".$selectedInvHeadID ."]");
-			} // end of if
+		                    ['stock_id' => $serviceArray[$j]]
+			            )->execute();
+			        }
+		    	} // closing of quantity else
+		    } // end of for loop itemarray
+		    
+	    	$transaction->commit();
+		    echo Json::encode("[".$invoice_id."]");
 		} // closing of try block 
 		catch (Exception $e) {
-			echo $e;
+			echo Json::encode("[".$e."]");
 	 	 $transaction->rollback();
 		} // closing of catch block
 
