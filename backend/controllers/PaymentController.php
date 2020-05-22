@@ -239,7 +239,7 @@ public function actionGetPayment($debit_account,$title_id)
 
                     $transaction->commit();
            
-                    return $this->redirect(['index']);
+                    //return $this->redirect(['index']);
                 } 
                 catch (Exception $e) {
                     echo $e;
