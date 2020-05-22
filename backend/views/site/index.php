@@ -344,11 +344,11 @@ use yii\helpers\Url;
       <div class="col-md-9">
           <div class="row">
               <div class="col-md-3">
-                <a href="./under-construction">
+                <a href="./car-wash-details?customer">
                 <div class="panel panel-default" style="border:1px solid #FAB61C;">
                   <div class="panel-body" style="text-align: center;padding:30px">
-                    <p><i class="glyphicon glyphicon-user"></i> Today Visitor</p><br>
-                    <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">25</b>
+                    <p><i class="glyphicon glyphicon-user"></i> Customers</p><br>
+                    <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;"><?php echo $countcustomer ?></b>
                   </div>
                 </div>
                 </a>

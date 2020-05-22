@@ -26,7 +26,8 @@
 				<a href="./home" class="btn btn-success">
 					<i class="glyphicon glyphicon-home"> HOME</i>
 				</a>
-			Customers</h3> 
+			Customers (<?php echo $currentDate;?>)
+			</h3> 
 		</div>
 	</div>
 	<div class="row">
