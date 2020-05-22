@@ -83,7 +83,7 @@ use dosamigos\datepicker\DatePicker;
                            <?php if (!Yii::$app->request->isAjax){ ?>
                                 <div class="form-group" style="float: right;">
                                     <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success glyphicon glyphicon-plus' : 'btn btn-primary']) ?>
-                                    <a href="./payment" class="btn btn-danger" style="color:white !important" title=""> <i class="glyphicon glyphicon-arrow-left"></i> Back</a>
+                                    <!-- <a href="./payment" class="btn btn-danger" style="color:white !important" title=""> <i class="glyphicon glyphicon-arrow-left"></i> Back</a> -->
                                 </div>
                             <?php } ?> 
                         </div>
