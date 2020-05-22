@@ -82,7 +82,7 @@ use common\models\AccountHead;
 							</div>
 						</div>
 						<div class="box-header">
-							<h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#367FA9;">Update (<b><?php echo $customerData[0]['customer_name']; ?></b>) <?php if ($statusCheck == "Paid"){
+							<h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#367FA9;">Add Item (<b><?php echo $customerData[0]['customer_name']; ?></b>) <?php if ($statusCheck == "Paid"){
 						    	echo 'Paid';
 							    }else {
 							    	echo "Credit";
