@@ -18,7 +18,7 @@ $id = null;
 	<div class="col-md-5">
 		
 			<div class="row">
-				<form action="index.php?r=payment/daily-report" method="POST">
+				<form action="./payment-daily-report" method="POST">
 					<div class="col-md-10">
 						<label>Select Date</label>
 	                	<input type="date" id="fetch_date" name="date" class="form form-control">

@@ -10,14 +10,14 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
+    //     [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'transaction_id',
     // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'transaction_id',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'branch_id',
+    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'type',
@@ -28,40 +28,39 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'debit_account',
-        'value' => 'debitAccount.account_name',
+        'attribute'=>'account_head_id',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'debit_amount',
+        // 'attribute'=>'total_amount',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'credit_account',
+        // 'attribute'=>'amount',
     // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'amount',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'transactions_date',
-    ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'remaining',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'transactions_date',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'head_id',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'ref_no',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
+        // 'attribute'=>'ref_name',
+    // ],
+    // [
+        // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_by',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_by',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_at',
     // ],
     [
         'class' => 'kartik\grid\ActionColumn',

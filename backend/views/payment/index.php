@@ -7,11 +7,10 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\PaymentSearch */
+/* @var $searchModel common\models\PaymentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Payments';?>
-<?php
+$this->title = 'Payments';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -19,7 +18,6 @@ CrudAsset::register($this);
 ?>
 <div class="payment-index">
     <div id="ajaxCrudDatatable">
-
         <?=GridView::widget([
             'id'=>'crud-datatable',
             'dataProvider' => $dataProvider,
@@ -27,12 +25,11 @@ CrudAsset::register($this);
             'pjax'=>true,
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
-
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['./create-payment'],
-                    ['role'=>'','title'=> 'Create Payment','class'=>'btn btn-success']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    ['role'=>'','title'=> 'Create new Payments','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
                     '{export}'
                 ],
@@ -41,23 +38,28 @@ CrudAsset::register($this);
             'condensed' => true,
             'responsive' => true,          
             'panel' => [
-                'type' => 'default', 
+                'type' => 'primary', 
                 'heading' => '<i class="glyphicon glyphicon-list"></i> Payments listing',
                 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                // 'after'=>BulkButtonWidget::widget([
-                //             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
-                //                 ["bulk-delete"] ,
-                //                 [
-                //                     "class"=>"btn btn-danger btn-xs",
-                //                     'role'=>'modal-remote-bulk',
-                //                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                //                     'data-request-method'=>'post',
-                //                     'data-confirm-title'=>'Are you sure?',
-                //                     'data-confirm-message'=>'Are you sure want to delete this item'
-                //                 ]),
-                //         ]).                        
+                'after'=>BulkButtonWidget::widget([
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                                ["bulk-delete"] ,
+                                [
+                                    "class"=>"btn btn-danger btn-xs",
+                                    'role'=>'modal-remote-bulk',
+                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                    'data-request-method'=>'post',
+                                    'data-confirm-title'=>'Are you sure?',
+                                    'data-confirm-message'=>'Are you sure want to delete this item'
+                                ]),
+                        ]).                        
                         '<div class="clearfix"></div>',
             ]
         ])?>
     </div>
 </div>
+<?php Modal::begin([
+    "id"=>"ajaxCrudModal",
+    "footer"=>"",// always need it for jquery plugin
+])?>
+<?php Modal::end(); ?>

@@ -393,6 +393,7 @@ use common\models\AccountHead;
 </html>
 
 <?php 
+use common\models\SaleInvoiceDetail;
 
 if(isset($_POST['update_invoice'])){
 	//sale_Inv_Head
@@ -423,49 +424,49 @@ if(isset($_POST['update_invoice'])){
      // starting of transaction handling
    	$transaction = \Yii::$app->db->beginTransaction();
     try {
-      // 	$insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
-		    //  'date' => $updateDate,
-		    //  'total_amount' => $updatetotalamount,
-		    //  'discount' => $updateDiscount,
-		    //  'net_total' => $updatenetTotal,
-		    //  'paid_amount' => $updatedpaidAmount,
-		    //  'remaining_amount' => $updateremainingAmount,
-		    //  'status' => $updatestatus,
-		    // ],
-		    //    ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
-		    // )->execute();
+      	$insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+		     'date' => $updateDate,
+		     'total_amount' => $updatetotalamount,
+		     'discount' => $updateDiscount,
+		     'net_total' => $updatenetTotal,
+		     'paid_amount' => $updatedpaidAmount,
+		     'remaining_amount' => $updateremainingAmount,
+		     'status' => $updatestatus,
+		    ],
+		       ['customer_id' => $customerID,'sale_inv_head_id' => $invID ]
+		    )->execute();
 
       	if(!empty($serviceDetailIdArray)){
-      		foreach ($serviceDetailIdArray as $key => $value) {
-      			echo $value;
-      			\Yii::$app->db->createCommand()->delete('sale_invoice_detail', ['sale_inv_ser_detail_id' => $value])->execute();
+      		var_dump($serviceDetailIdArray);
+      		foreach ($serviceDetailIdArray as $key => $detailId) {
+      			Yii::$app->db->createCommand("DELETE FROM sale_invoice_detail WHERE sale_inv_ser_detail_id = '$detailId'")->execute();
       		}
       	}
 
-    	// $countpaidAmountArray = count($paidAmountArray);
+    	$countpaidAmountArray = count($paidAmountArray);
 
-    	// $counttransid = count($transaction_update_id);
+    	$counttransid = count($transaction_update_id);
 
-	    // for($i=0; $i<$countpaidAmountArray; $i++){
-	    //   $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
-	    //   //'transaction_date' => $transactionDateArray[$i],
-	    //   'paid_amount' => $paidAmountArray[$i],
-	    //   ],
-	    //      ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $saleInvAmountIDArray[$i]]
+	    for($i=0; $i<$countpaidAmountArray; $i++){
+	      $s_inv_amount_detail = Yii::$app->db->createCommand()->update('sale_invoice_amount_detail',[
+	      //'transaction_date' => $transactionDateArray[$i],
+	      'paid_amount' => $paidAmountArray[$i],
+	      ],
+	         ['sale_inv_head_id' => $invID , 's_inv_amount_detail' => $saleInvAmountIDArray[$i]]
 
-	    //   )->execute();
+	      )->execute();
 
-	    //   $tran = Yii::$app->db->createCommand()->update('transactions',
-	    //     [
-	    //       //'transactions_date' => $transactionDateArray[$i],
-	    //       'amount' => $paidAmountArray[$i],
-	    //       'narration' => 'After Updation paid '.$paidAmountArray[$i].' out of total ' .$updatetotalamount,
-	    //     ],['ref_no' => $saleInvAmountIDArray[$i], 'ref_name' => "Sale"]
-	    //   )->execute();
+	      $tran = Yii::$app->db->createCommand()->update('transactions',
+	        [
+	          //'transactions_date' => $transactionDateArray[$i],
+	          'amount' => $paidAmountArray[$i],
+	          'narration' => 'After Updation paid '.$paidAmountArray[$i].' out of total ' .$updatetotalamount,
+	        ],['ref_no' => $saleInvAmountIDArray[$i], 'ref_name' => "Sale"]
+	      )->execute();
 
-	    // }
-     	//$transaction->commit();
-      	//\Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID"]);  
+	    }
+     	$transaction->commit();
+      	\Yii::$app->response->redirect(["./sale-invoice-view?customer_id=$customerID"]);  
     } catch (Exception $e) {
      	echo $e;
         $transaction->rollback();
@@ -566,14 +567,14 @@ if(isset($_POST['update_invoice'])){
 
       	if(remaining < 0){
       		//$('#update').hide();
-      		$("#update").attr("disabled", true);
+      		//$("#update").attr("disabled", true);
       		$('#alert').css("display","block");
             $('#alert').html("&ensp;Please Enter A Valid Amount");
       	}
       	var eremaining = $('#remaining').val();
       	if(eremaining == '' || eremaining == null){
       		//$('#update').hide();
-      		$("#update").attr("disabled", true);
+      		//$("#update").attr("disabled", true);
       	}
     }
 
@@ -629,9 +630,7 @@ if(isset($_POST['update_invoice'])){
 
  <?php
 $url = \yii\helpers\Url::to("customer/fetch-info");
-
 $script = <<< JS
-
 
 $('#remove_btn').click(function(){
 	var remove_value1= $('#remove_value').val();
@@ -681,71 +680,6 @@ $('#remove_btn').click(function(){
   $('#check_quantity').hide();
   $('#check_no').val("");
 });
-
-// $('#insert').click(function(){   
-// 		var invoice_date = $('#invoice_date').val();
-// 		var total_amount = $('#tp').val();
-// 		var net_total = $('#nt').val();
-// 		var paid = $('#paid_amount').val();
-//     	var remaining = $('#remaining').val();
-//     	var status = $('#status').val();
-//     	var cash_return = $('#cash_return').val();
-
-// 		itemArray;
-// 		quantityArray; 
-// 		amountArray;
-// 		saleInvDetailArray;
-    
-// 		if(invoice_date=="" || invoice_date==null){
-// 			alert('Please Select the date ');
-// 			$('#invoice_date').css("border", "1px solid red");
-// 			$('#invoice_date').focus();
-// 		}
-// 		else if(net_total=="" || net_total==null){
-// 			alert('Please Enter the value Net Total');
-// 			$('#nt').css("border", "1px solid red");
-// 			$('#invoice_date').css("border", "1px solid ");
-// 			$('#nt').focus();
-// 		}
-// 	    else if(paid=="" || paid==null){
-// 	      alert('Please Enter the Paid Amount');
-// 	      $('#paid').css("border", "1px solid red");
-// 	      $('#nt').css("border", "1px solid white");
-// 	      $('#paid').focus();
-// 	    }
-// 		else{
-// 			$.ajax({
-// 	      type:'post',
-// 	      data:{
-//         	user_id:user_id,
-//           branch_id:branch_id,
-//     			invoice_date:invoice_date,
-//           vehicleArray:vehicleArray,
-// 					serviceArray:serviceArray,
-// 					amountArray:amountArray,
-// 					ItemTypeArray:ItemTypeArray,
-//           quantityArray:quantityArray,
-// 					total_amount:total_amount,
-// 					net_total:net_total,
-//           paid:paid,
-//           remaining:remaining,
-//           cash_return:cash_return,
-//           status:status
-//       	},
-//         url: "$url",
-//         success: function(result){
-//           if(result){
-//             //console.log(result);
-//             var sIHId = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
-//             $('#saleInvId').val(sIHId[0]);
-//             bill();
-//           }
-//         }      
-//   	  }); // ajax 
-// 		} // else
-// }); // insert button
-
-
 
 JS;
 $this->registerJs($script);

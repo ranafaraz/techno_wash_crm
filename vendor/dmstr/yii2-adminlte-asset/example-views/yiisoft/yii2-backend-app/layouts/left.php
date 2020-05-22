@@ -76,8 +76,8 @@
                      ['label' => 'Home', 'icon' => 'dashboard', 'url' => "./home"],
                      // ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
                      // ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
-                     ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./sale-invoice-view"],
-                      ['label' => 'Customer', 'icon' => 'file-pdf-o', 'url' => "./customer"],
+                     ['label' => 'Sale Invoice', 'icon' => 'male', 'url' => "./sale-invoice-view"],
+                      ['label' => 'Customer', 'icon' => 'male', 'url' => "./customer"],
                       ['label' => 'Purchase Invoice', 'icon' => 'male', 'url' => ["./vendor"],],
                      // ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
                      // PayRoll Start
@@ -185,7 +185,26 @@
                    
                      // ------------------------------------------------
                     
-                    
+                    // System Settings start...
+                    [
+                        'label' => 'Payments',
+                        'icon' => 'male',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Create Payment', 'icon' => 'male', 'url' => ["./create-payment"],],
+                            //['label' => '', 'icon' => 'university', 'url' => [""],],
+                            // [
+                            // 'label' => 'Vehicle',
+                            //     'icon' => 'car',
+                            //     'url' => './vehicle-type',
+                            //     // 'items' => [
+                            //     //     ['label' => 'Vehicle Type', 'icon' => 'taxi', 'url' => '',],
+                            //     //     ['label' => 'Sub Category', 'icon' => 'bars', 'url' => './vehicle-type-sub-category',],
+                            //     // ],
+                            // ],
+                            
+                        ],
+                    ],
                     // System Settings start...
                     [
                         'label' => 'System Settings',

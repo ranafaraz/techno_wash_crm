@@ -7,25 +7,30 @@ use Yii;
 /**
  * This is the model class for table "transactions".
  *
- * @property int $id
  * @property int $transaction_id
+ * @property int $branch_id
  * @property string $type
  * @property string $narration
- * @property int $account_title_id
- * @property int $debit_account
- * @property double $debit_amount
- * @property int $credit_account
- * @property double $credit_amount
+ * @property int $account_head_id
+ * @property double $amount
  * @property string $transactions_date
+ * @property int $head_id
  * @property string $ref_no
+ * @property string $ref_name
  * @property string $created_by
  *
- * @property AccountTitle $accountTitle
- * @property AccountHead $debitAccount
- * @property AccountHead $creditAccount
+ * @property Branches $branch
  */
 class Payment extends \yii\db\ActiveRecord
 {
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'transactions';
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -36,26 +41,18 @@ class Payment extends \yii\db\ActiveRecord
     public $debit_amount;
     public $credit_amount;
     public $transactions_date;
-    public static function tableName()
-    {
-        return 'transactions';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
+    
     public function rules()
     {
         return [
-            [['transaction_id', 'type', 'debit_account', 'debit_amount', 'credit_account', 'credit_amount', 'transactions_date', 'created_by'], 'required'],
-            [['transaction_id', 'debit_account', 'credit_account'], 'integer'],
+            [['type', 'account_head_id', 'amount', 'credit_amount', 'debit_amount', 'prev_remaning'], 'required'],
+            [['branch_id', 'account_head_id', 'head_id'], 'integer'],
             [['type', 'narration'], 'string'],
-            [['transactions_date','prev_remaning','payable_narration','updateid','checkstate','debit_amount','credit_amount','transactions_date'], 'safe'],
-            [['ref_no'], 'string', 'max' => 50],
+            [['amount'], 'number'],
+            [['transactions_date', 'payable_narration', 'updateid'], 'safe'],
+            [['ref_no', 'ref_name'], 'string', 'max' => 50],
             [['created_by'], 'string', 'max' => 150],
-
-            [['debit_account'], 'exist', 'skipOnError' => true, 'targetClass' => AccountHead::className(), 'targetAttribute' => ['debit_account' => 'id']],
-            [['credit_account'], 'exist', 'skipOnError' => true, 'targetClass' => AccountHead::className(), 'targetAttribute' => ['credit_account' => 'id']],
+            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],
         ];
     }
 
@@ -65,16 +62,16 @@ class Payment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            //'id' => 'ID',
             'transaction_id' => 'Transaction ID',
+            'branch_id' => 'Branch ID',
             'type' => 'Type',
             'narration' => 'Narration',
-            'account_title_id' => 'Account Title ID',
-            'debit_account' => 'Debit Account',
-            'credit_account' => 'Credit Account',
+            'account_head_id' => 'Account Head ID',
             'amount' => 'Amount',
             'transactions_date' => 'Transactions Date',
+            'head_id' => 'Head ID',
             'ref_no' => 'Ref No',
+            'ref_name' => 'Ref Name',
             'created_by' => 'Created By',
         ];
     }
@@ -82,20 +79,8 @@ class Payment extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDebitAccount()
+    public function getBranch()
     {
-        return $this->hasOne(AccountHead::className(), ['id' => 'debit_account']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCreditAccount()
-    {
-        return $this->hasOne(AccountHead::className(), ['id' => 'credit_account']);
+        return $this->hasOne(Branches::className(), ['branch_id' => 'branch_id']);
     }
 }

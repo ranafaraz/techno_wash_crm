@@ -10,7 +10,7 @@ use common\models\SaleInvoiceServicesDetail;
 /**
  * SaleInvoiceServicesDetailSearch represents the model behind the search form about `common\models\SaleInvoiceServicesDetail`.
  */
-class SaleInvoiceServicesDetailSearch extends SaleInvoiceServicesDetail
+class SaleInvoiceDetailSearch extends SaleInvoiceServicesDetail
 {
     /**
      * @inheritdoc

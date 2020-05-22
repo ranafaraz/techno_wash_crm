@@ -19,7 +19,7 @@ use Yii;
  * @property SaleInvoiceHead $saleInvHead
  * @property Services $services
  */
-class SaleInvoiceServicesDetail extends \yii\db\ActiveRecord
+class SaleInvoiceDetail extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}

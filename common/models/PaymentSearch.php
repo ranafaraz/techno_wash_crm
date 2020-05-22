@@ -18,8 +18,9 @@ class PaymentSearch extends Payment
     public function rules()
     {
         return [
-            [['transaction_id', 'credit_account'], 'integer'],
-            [['type', 'narration', 'transactions_date', 'ref_no', 'created_by', 'debit_account','amount','account_title_id'], 'safe'],
+            [['transaction_id', 'branch_id', 'account_head_id', 'head_id'], 'integer'],
+            [['type', 'narration', 'transactions_date', 'ref_no', 'ref_name', 'created_by'], 'safe'],
+            [['amount'], 'number'],
         ];
     }
 
@@ -48,26 +49,27 @@ class PaymentSearch extends Payment
         ]);
 
         $this->load($params);
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
-
-        $query->joinWith('debitAccount');
         $query->andFilterWhere([
-            //'id' => $this->id,
+            'transaction_id' => $this->transaction_id,
+            'branch_id' => $this->branch_id,
+            'account_head_id' => $this->account_head_id,
             'amount' => $this->amount,
-            'credit_account' => $this->credit_account,
             'transactions_date' => $this->transactions_date,
+            'head_id' => $this->head_id,
         ]);
 
         $query->andFilterWhere(['like', 'type', $this->type])
             ->andFilterWhere(['like', 'narration', $this->narration])
             ->andFilterWhere(['like', 'ref_no', $this->ref_no])
-            ->andFilterWhere(['like', 'created_by', $this->created_by])
-            ->andFilterWhere(['like', 'account_head.account_name', $this->debit_account]);
+            ->andFilterWhere(['like', 'ref_name', $this->ref_name])
+            ->andFilterWhere(['like', 'created_by', $this->created_by]);
 
         return $dataProvider;
     }

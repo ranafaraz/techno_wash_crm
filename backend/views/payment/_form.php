@@ -22,7 +22,7 @@ use dosamigos\datepicker\DatePicker;
             <div class="box box-primary">
                 <div class="box-header">
                     <h3 style="text-align: center;font-family:georgia;color:#ffffff;padding:5px;margin-top:0px;margin-bottom:0px;background-color:#367FA9;">
-                                Payments
+                        Payments
                     </h3>
                     <div class="row" style="padding:16px;">
                         <div class="col-md-4" style="border-top:2px solid #D2D6DE;padding:10px;">
@@ -30,57 +30,37 @@ use dosamigos\datepicker\DatePicker;
                                 $model->transactions_date = date('Y-m-d');?>
                                 <?= $form->field($model,'transactions_date')->widget(
                                     DatePicker::className(), [
-                                    // inline too, not bad
                                      'inline' => false, 
-                                     // modify template for custom rendering
-                                    // 'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
                                     'clientOptions' => [
                                         'autoclose' => true,
                                         'format' => 'yyyy-mm-dd'
                                     ]
                                 ]);
                             ?>
-                            <?= $form->field($model, 'type')->dropDownList([ 'Cash Payment' => 'Cash Payment', 'Bank Payment' => 'Bank Payment', ], ['prompt' => 'Select payment Type']) ?>
+                            <?= $form->field($model, 'type')->dropDownList([ 'Cash' => 'Cash', 'Bank' => 'Bank', ]) ?>
                             <?php
-                                $natureca=AccountNature::findOne(['name'=>'Asset']);
+                                $natureca=AccountNature::findOne(['name'=>'Expense']);
                                 $nature_idca=$natureca->id;
                             ?>
-                            <?= $form->field($model, 'credit_account')->widget(Select2::classname(), [
-                                'data' =>ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idca])->andwhere(['!=' , 'account_name','Account Recievable'])->andwhere(['!=' , 'account_name','Services And Stock'])->all(),'id', 'account_name'),
+                            <?= $form->field($model, 'account_head_id')->widget(Select2::classname(), [
+                                'data' =>ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idca])->andwhere(['!=' , 'account_name' , 'Salaries'])->all(),'id', 'account_name'),
                                 'language' => 'en',
-                                'options' => ['placeholder' => 'Select a state ...'],
-
-                                'pluginOptions' => [
-                                'allowClear' => true
-                            ],
-                            ])->label('Paying From');
-                            ?>
-                        </div>
-                        <div class="col-md-4" style="border-top:2px solid #D2D6DE;border-right:2px solid #D2D6DE;padding:10px;">
-                            <?php
-                                $natureex=AccountNature::findOne(['name'=>'Expense']);
-                                $nature_idex=$natureex->id;
-                                $data1=ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idex])->andwhere(['!=' , 'account_name' , 'Salaries'])->all(),'id', 'account_name');
-                            ?>
-                            <?= $form->field($model, 'debit_account',['options'=>['id'=>'debit_id']])->widget(Select2::classname(), [
-                                'data' =>$data1,
-                                'language' => 'en',
-                                'options' => ['placeholder' => 'Select a state ...'],
+                                'options' => ['placeholder' => 'Select...'],
 
                                 'pluginOptions' => [
                                     'allowClear' => true
                                 ],
-                                ])->label('Paying To');
+                            ])->label('Paying For');
                             ?>
+                        </div>
+                        <div class="col-md-4" style="border-top:2px solid #D2D6DE;border-right:2px solid #D2D6DE;padding:10px;">
+                            
                             <?= $form->field($model, 'prev_remaning')->textInput(['readonly' => true]) ?>
-                            <?PHP
+                            <?php
                             $accountpayable->due_date = date('Y-m-d');?>
                             <?= $form->field($accountpayable,'due_date')->widget(
                                     DatePicker::className(), [
-                                    // inline too, not bad
                                      'inline' => false, 
-                                     // modify template for custom rendering
-                                    // 'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
                                     'clientOptions' => [
                                         'autoclose' => true,
                                         'format' => 'yyyy-mm-dd'
@@ -119,8 +99,8 @@ use dosamigos\datepicker\DatePicker;
                     </h3><br>
                     <?= $form->field($model, 'narration')->textarea(['rows' => 2])->label('Transaction Narration'); ?>
                     <?= $form->field($model, 'payable_narration')->textarea(['rows' => 2])->label('Account Payable Narration') ?>
-                    <span style="display: none">
-                        <?= $form->field($model, 'transaction_id')->textInput(['readonly'=> true]) ?>
+                    <span style="display: none;">
+                        
                         <?= $form->field($model, 'updateid')->textInput(['readOnly' => true]) ?>
                     </span>
                 </div>
@@ -134,52 +114,52 @@ use dosamigos\datepicker\DatePicker;
 $script=<<<JS
 var rec_id;
 var deb_id;
-$('#payment-receiver_payer_id').change(function(){
-    $('#payment-debit_account').change(function(){
-        rec_id=$('#payment-receiver_payer_id').val();
-        deb_id= $('#payment-debit_account').val();
-        $.get('index.php?r=account-payable/get-receiver-id',{rec_id:rec_id,deb_id:deb_id},function(heads){
-                var heads = $.parseJSON(heads);
-                if(heads.value=="empty"){
-                    $("#debitnoamaountmsg").html("Do not have any <b>PAYABLE</b> record againt this account , Make new transaction");
-                    $('#payment-updateid').attr('value',"0");
+// $('#payment-receiver_payer_id').change(function(){
+//     $('#payment-debit_account').change(function(){
+//         rec_id=$('#payment-receiver_payer_id').val();
+//         deb_id= $('#payment-debit_account').val();
+//         $.get('./account-payable/get-receiver-id',{rec_id:rec_id,deb_id:deb_id},function(heads){
+//                 var heads = $.parseJSON(heads);
+//                 if(heads.value=="empty"){
+//                     $("#debitnoamaountmsg").html("Do not have any <b>PAYABLE</b> record againt this account , Make new transaction");
+//                     $('#payment-updateid').attr('value',"0");
                     
-                }else{
-                $("#payment-debit_amount").attr('value',heads.amount);
-                $('#payment-updateid').attr('value',heads.id);
-                }
-        });
-    });
-});
-$('#payment-debit_account').change(function(){
-    $('#payment-receiver_payer_id').change(function(){
-    rec_id=$('#payment-receiver_payer_id').val();
-    deb_id= $('#payment-debit_account').val();
-    $.get('index.php?r=account-payable/get-receiver-id',{rec_id:rec_id,deb_id:deb_id},function(heads){
-    var heads = $.parseJSON(heads);
-    if(heads.value=="empty"){
-        $("#debitnoamaountmsg").html("Do not have any <b>PAYABLE</b> record againt this account , Make new transaction");
-        $('#payment-updateid').attr('value',"0"); 
-    }else{ 
-        $("#payment-debit_amount").attr('value',heads.amount);
-        $('#payment-updateid').attr('value',heads.id);
-    }
-   });
- });
-});
-$('#checkamount'). click(function(){
-    if($(this). prop("checked") == true){
-       var debit_value=$("#payment-debit_amount").val();
-       $("#payment-credit_amount").attr("value",debit_value);
-        $('#payable_info').css("display","block");
-        $('#payment-checkstate').attr('value',"1");
-    }else if($(this). prop("checked") == false){
-        $('#payable_info').css("display","block");
-        $('#payment-checkstate').attr('value',"0");
-    }
-});
+//                 }else{
+//                 $("#payment-debit_amount").attr('value',heads.amount);
+//                 $('#payment-updateid').attr('value',heads.id);
+//                 }
+//         });
+//     });
+// });
+// $('#payment-debit_account').change(function(){
+//     $('#payment-receiver_payer_id').change(function(){
+//     rec_id=$('#payment-receiver_payer_id').val();
+//     deb_id= $('#payment-debit_account').val();
+//     $.get('./account-payable/get-receiver-id',{rec_id:rec_id,deb_id:deb_id},function(heads){
+//     var heads = $.parseJSON(heads);
+//     if(heads.value=="empty"){
+//         $("#debitnoamaountmsg").html("Do not have any <b>PAYABLE</b> record againt this account , Make new transaction");
+//         $('#payment-updateid').attr('value',"0"); 
+//     }else{ 
+//         $("#payment-debit_amount").attr('value',heads.amount);
+//         $('#payment-updateid').attr('value',heads.id);
+//     }
+//    });
+//  });
+// });
+// $('#checkamount'). click(function(){
+//     if($(this). prop("checked") == true){
+//        var debit_value=$("#payment-debit_amount").val();
+//        $("#payment-credit_amount").attr("value",debit_value);
+//         $('#payable_info').css("display","block");
+//         $('#payment-checkstate').attr('value',"1");
+//     }else if($(this). prop("checked") == false){
+//         $('#payable_info').css("display","block");
+//         $('#payment-checkstate').attr('value',"0");
+//     }
+// });
 
-$('#payment-debit_account').on('change',function()
+$('#payment-account_head_id').on('change',function()
 { 
     var id = $(this).val();
     $.get("./account-payable/get-previous",{id:id},function(data)
@@ -204,20 +184,20 @@ $('#payment-debit_account').on('change',function()
 //     $('#payment-credit_amount').val(sum);
 //     })
 
- $('#payment-account_title_id').on('change',function()
-    {
-        $('#payment-debit_account').on('change',function()
-        {
-            var title_id = $('#payment-account_title_id').val();
-            var debit = $('#payment-debit_account').val();
-            $.get('./payment/get-payment',{title_id:title_id,debit_account:debit},function(data)
-            {
-                var data = JSON.parse(data);
-                $('#payment-prev_remaning').val(data.amount);
-            })
+ // $('#payment-account_title_id').on('change',function()
+ //    {
+ //        $('#payment-account_head_id').on('change',function()
+ //        {
+ //            var title_id = $('#payment-account_title_id').val();
+ //            var debit = $('#payment-account_head_id').val();
+ //            $.get('./payment/get-payment',{title_id:title_id,debit_account:debit},function(data)
+ //            {
+ //                var data = JSON.parse(data);
+ //                $('#payment-prev_remaning').val(data.amount);
+ //            })
 
-        })
-    })
+ //        })
+ //    })
 JS;
 $this->registerJs($script);
 ?>

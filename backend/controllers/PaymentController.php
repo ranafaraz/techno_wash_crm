@@ -109,22 +109,22 @@ public function actionGetPayment($debit_account,$title_id)
 
         ///////////////////////////////////////////////////////////
 
-       $model->created_by = \Yii::$app->user->identity->username;
-        // $model->updated_by = \Yii::$app->user->identity->username;
-        // $model->updated_at = date('Y-m-d h:m:s');
+      //  $model->created_by = \Yii::$app->user->identity->username;
+      //   // $model->updated_by = \Yii::$app->user->identity->username;
+      //   // $model->updated_at = date('Y-m-d h:m:s');
 
-        $model->transactions_date = date('Y-m-d h:m:s');
-      //  $model->transaction_type='payment';
-        $model1 = Payment::find('transaction_id')->orderBy(['transaction_id' => SORT_DESC])->One();
-        if($model1 == "")
-        {
-            $model->transaction_id = '1';
-        }
-        else
-        {
-            (int)$trans = (int)$model1->transaction_id;
-            $model->transaction_id = (int)$trans + 1;
-        }
+      //   $model->transactions_date = date('Y-m-d h:m:s');
+      // //  $model->transaction_type='payment';
+      //   $model1 = Payment::find('transaction_id')->orderBy(['transaction_id' => SORT_DESC])->One();
+      //   if($model1 == "")
+      //   {
+      //       $model->transaction_id = '1';
+      //   }
+      //   else
+      //   {
+      //       (int)$trans = (int)$model1->transaction_id;
+      //       $model->transaction_id = (int)$trans + 1;
+      //   }
         // $model->organization_id = \Yii::$app->user->identity->organization_id;
         ////////////////////////////////////////////////////////////
             /*
@@ -133,64 +133,63 @@ public function actionGetPayment($debit_account,$title_id)
 
             if ($model->load($request->post()) && $accountpayable->load($request->post())) 
             {
-                $connection=yii::$app->db;
-                $amount=0;
-                $model_head = AccountHead::find()->where(['account_name' => 'Account Payable'])->One();
+                
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    
+                    $connection=yii::$app->db;
+                    $amount=0;
+                    $model_head = AccountHead::find()->where(['account_name' => 'Account Payable'])->One();
 
-                if($model->prev_remaning == 0 )
-                {
-                    if($model->debit_amount == $model->credit_amount){
-                        $connection->createCommand()->insert('transactions',
-                        [
-                            'branch_id' => Yii::$app->user->identity->branch_id,
-                            'type' => $model->type,
-                            'narration' => $model->narration,
-                            'debit_account' => $model->debit_account,
-                            'amount' => $model->debit_amount,
-                            'credit_account' => $model->credit_account,
-                            'ref_name' => 'Payments',
-                            'transactions_date' => $model->transactions_date,
-                            'created_by' => \Yii::$app->user->identity->id,
-                        ])->execute();
-                    } else if($model->debit_amount > $model->credit_amount)
-                        {
-                            $remaning = $model->debit_amount - $model->credit_amount;
-
-                            $connection->createCommand()->Insert('account_payable',
-                            [   
-                                'branch_id' => Yii::$app->user->identity->branch_id,
-                                'amount'=>$remaning,
-                                'account_payable'=>$model->debit_account,
-                                'due_date'=>$accountpayable->due_date,
-                                'narration' => $model->payable_narration,
-                                'updated_at'=>date('Y-m-d'),
-                                'created_at' => date('Y-m-d'),
-                                'updated_by'=>\Yii::$app->user->identity->username,
-                                'status' => 'Active',
-                            ])->execute(); 
-                       
+                    if($model->prev_remaning == 0 )
+                    {
+                        if($model->debit_amount == $model->credit_amount){
                             $connection->createCommand()->insert('transactions',
                             [
-                                'transaction_id' => $transaction_model->transaction_id,
                                 'branch_id' => Yii::$app->user->identity->branch_id,
-                                'type' => 'Cash Payment',
+                                'type' => $model->type,
                                 'narration' => $model->narration,
-                                'debit_account' => $model->debit_account,
+                                'account_head_id' => $model->account_head_id,
                                 'amount' => $model->credit_amount,
-                                'credit_account' => $model_head->id,
                                 'ref_name' => 'Payments',
                                 'transactions_date' => $model->transactions_date,
                                 'created_by' => \Yii::$app->user->identity->id,
                             ])->execute();
-                        } else if($model->credit_amount == 0 )
-                        {
+                        } else if($model->debit_amount > $model->credit_amount){
+                                $remaning = $model->debit_amount - $model->credit_amount;
+
+                                $connection->createCommand()->Insert('account_payable',
+                                [   
+                                    'branch_id' => Yii::$app->user->identity->branch_id,
+                                    'amount'=>$remaning,
+                                    'account_payable'=>$model->account_head_id,
+                                    'due_date'=>$accountpayable->due_date,
+                                    'narration' => $model->payable_narration,
+                                    'updated_at'=>date('Y-m-d'),
+                                    'created_at' => date('Y-m-d'),
+                                    'updated_by'=>\Yii::$app->user->identity->id,
+                                    'status' => 'Active',
+                                ])->execute(); 
+                           
+                                $connection->createCommand()->insert('transactions',
+                                [
+                                    'branch_id' => Yii::$app->user->identity->branch_id,
+                                    'type' =>  $model->type,
+                                    'narration' => $model->narration,
+                                    'account_head_id' => $model->account_head_id,
+                                    'amount' => $model->credit_amount,
+                                    'ref_name' => 'Payments',
+                                    'transactions_date' => $model->transactions_date,
+                                    'created_by' => \Yii::$app->user->identity->id,
+                                ])->execute();
+                        } else if($model->credit_amount == 0 ){
                             $remaning = $model->debit_amount - $model->credit_amount;
 
                             $connection->createCommand()->Insert('account_payable',
                             [   
                                 'branch_id' => Yii::$app->user->identity->branch_id,
                                 'amount'=>$remaning,
-                                'account_payable'=>$model->debit_account,
+                                'account_payable'=>$model->account_head_id,
                                 'due_date'=>$accountpayable->due_date,
                                 'narration' => $model->payable_narration,
                                 'updated_at'=>date('Y-m-d'),
@@ -201,63 +200,52 @@ public function actionGetPayment($debit_account,$title_id)
                        
                             $connection->createCommand()->insert('transactions',
                             [
-                                'transaction_id' => $transaction_model->transaction_id,
                                 'branch_id' => Yii::$app->user->identity->branch_id,
                                 'type' => 'Cash Payment',
                                 'narration' => $model->narration,
-                                'debit_account' => $model->debit_account,
+                                'account_head_id' => $model->account_head_id,
                                 'amount' => $model->credit_amount,
-                                'credit_account' => $model_head->id,
                                 'ref_name' => 'Payments',
                                 'transactions_date' => $model->transactions_date,
                                 'created_by' => \Yii::$app->user->identity->id,
                             ])->execute();
                         }      
-                }else{
-                    $remaning = $model->debit_amount + $model->prev_remaning;
-                    $amount = $remaning - $model->credit_amount;
-                            
-                    $connection->createCommand()->update('account_payable',
-                    [
-                        'branch_id' => Yii::$app->user->identity->branch_id,
-                        'amount'=>$amount,
-                        'narration' => $model->payable_narration,
-                        'updated_at'=>date('Y-m-d h:m:s'),
-                        'updated_by'=>\Yii::$app->user->identity->username,
-                    ],
-                    ['account_payable'=>$model->debit_account])->execute();
+                    }else{
+                        $remaning = $model->debit_amount + $model->prev_remaning;
+                        $amount = $remaning - $model->credit_amount;
+                                
+                        $connection->createCommand()->update('account_payable',
+                        [
+                            'branch_id' => Yii::$app->user->identity->branch_id,
+                            'amount'=>$amount,
+                            'narration' => $model->payable_narration,
+                            'updated_at'=>date('Y-m-d h:m:s'),
+                            'updated_by'=>\Yii::$app->user->identity->username,
+                        ],
+                        ['account_payable'=>$model->account_head_id])->execute();
 
-                    if($model->credit_amount == 0 )
-                        {
-                            $connection->createCommand()->insert('transactions',
-                            [
-                                'branch_id' => Yii::$app->user->identity->branch_id,
-                                'type' => $model->type,
-                                'narration' => $model->narration,
-                                'debit_account' => $model->debit_account,
-                                'amount' => $model->credit_amount,
-                                'credit_account' => $model_head->id,
-                                'ref_name' => 'Payments',
-                                'transactions_date' => $model->transactions_date,
-                                'created_by' => \Yii::$app->user->identity->id,
-                            ])->execute();
-                        }else{
-                            $connection->createCommand()->insert('transactions',
-                            [
-                                'branch_id' => Yii::$app->user->identity->branch_id,
-                                'type' => $model->type,
-                                'narration' => $model->narration,
-                                'debit_account' => $model->debit_account,
-                                'amount' => $model->credit_amount,
-                                'credit_account' => $model->credit_account,
-                                'ref_name' => 'Payments',
-                                'transactions_date' => $model->transactions_date,
-                                'created_by' => \Yii::$app->user->identity->id,
-                            ])->execute(); 
-                        }          
+                        $connection->createCommand()->insert('transactions',
+                        [
+                            'branch_id' => Yii::$app->user->identity->branch_id,
+                            'type' => $model->type,
+                            'narration' => $model->narration,
+                            'account_head_id' => $model->account_head_id,
+                            'amount' => $model->credit_amount,
+                            'ref_name' => 'Payments',
+                            'transactions_date' => $model->transactions_date,
+                            'created_by' => \Yii::$app->user->identity->id,
+                        ])->execute();         
+                    } 
+
+                    $transaction->commit();
+           
+                    return $this->redirect(['index']);
                 } 
-
-                return $this->redirect(['index']);
+                catch (Exception $e) {
+                    echo $e;
+                    // transaction rollback
+                    $transaction->rollback();
+                }
             } else {
                 return $this->render('create', [
                     'model' => $model,

@@ -37,9 +37,9 @@ class SaleInvoiceDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sale_inv_head_id', 'customer_vehicle_id', 'item_id', 'item_type', 'discount_per_service', 'created_by', 'updated_by'], 'required'],
+            [['sale_inv_head_id', 'customer_vehicle_id', 'item_id', 'item_type', 'discount_per_service'], 'required'],
             [['sale_inv_head_id', 'customer_vehicle_id', 'item_id', 'discount_per_service', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'safe'],
             [['item_type'], 'string', 'max' => 20],
             [['sale_inv_head_id'], 'exist', 'skipOnError' => true, 'targetClass' => SaleInvoiceHead::className(), 'targetAttribute' => ['sale_inv_head_id' => 'sale_inv_head_id']],
             [['customer_vehicle_id'], 'exist', 'skipOnError' => true, 'targetClass' => CustomerVehicles::className(), 'targetAttribute' => ['customer_vehicle_id' => 'customer_vehicle_id']],
