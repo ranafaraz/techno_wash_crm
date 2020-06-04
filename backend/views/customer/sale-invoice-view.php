@@ -246,7 +246,7 @@ use common\models\AccountHead;
                          'options' => [], // default options
                       ]); ?>
                       <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                           <div class="form-group">
                             <label>Customer Name</label>
                             <?php 
@@ -259,7 +259,7 @@ use common\models\AccountHead;
                             ?>
                           </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                           <div class="form-group">
                             <label>Customer Contact</label>
                             <?php 
@@ -272,8 +272,6 @@ use common\models\AccountHead;
                             ?>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
                             <label>Select Vehicle</label>
@@ -288,6 +286,14 @@ use common\models\AccountHead;
                             ?>
                           </div>
                         </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Vehicle Model</label>
+                            <input type="text" class="form-control" id="vehicle_model_name" readonly="">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
                         <div class="col-md-3">
                           <div class="form-group" id="types">
                             <label>Select Type</label>
@@ -406,7 +412,6 @@ use common\models\AccountHead;
                       <input type="hidden" id="service_name">
                       <input type="hidden" id="stock_name">
                       <input type="hidden" id="vehicle_name">
-                      <input type="hidden" id="vehicle_model_name">
                       <input type="hidden" id="serviceDetailId">
                       <input type="hidden" id="productSellingPrice">
                       <input type="hidden" id="productName">

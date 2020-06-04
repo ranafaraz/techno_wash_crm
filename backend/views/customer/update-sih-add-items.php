@@ -485,8 +485,8 @@ use common\models\AccountHead;
         //   $('#alert').css("display","block");
         //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
         // }
+    }
 
-      }
  	// function cal_remaining(){ 		
   //     	var paid = $('#paid_amount').val();
   //     	//alert(paid);
