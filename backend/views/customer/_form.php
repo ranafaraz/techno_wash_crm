@@ -26,15 +26,17 @@ use common\models\VehicleTypeSubCategory;
     ); ?>
 
 <!-- row 1 start -->
+<div class="alert-danger glyphicon glyphicon-ban-circle" style="display: none; padding: 10px;" id="alert">
+    </div>
 <div class="row">
+    <div class="col-md-4">
+        <?= $form->field($model, 'customer_contact_no')->textInput(['id' => 'contact_no','maxlength' => 15,'minlength' => 15 ]) ?>
+    </div>
     <div class="col-md-4">
         <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true,'id' => 'customerName']) ?>
     </div>
     <div class="col-md-4">
-        <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ]) ?>
-    </div>
-    <div class="col-md-4">
-        <?= $form->field($model, 'customer_contact_no')->textInput(['id' => 'contact_no','maxlength' => 15,'minlength' => 15 ]) ?>
+        <?= $form->field($model, 'customer_gender')->dropDownList([ 'Male' => 'Male', 'Female' => 'Female', ],['id'=>'gender']) ?>
     </div>
     </div>  
     <!-- row 1 close -->
@@ -110,11 +112,10 @@ use common\models\VehicleTypeSubCategory;
         </div>  
     </div>
     <!-- fuel consumption dynamic form close -->
-
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary' ]) ?>
 	    </div>
 	<?php } ?>
 
@@ -215,10 +216,13 @@ $("#customer_occupation").bind('keyup', function (e) {
 </script>
 
 <?php 
+$url = \yii\helpers\Url::to("customer/fetch-info");
+
 $script = <<< JS
 $(document).ready(function(){
   $("#contact_no").val("+92");
 });
+
 $("#contact_no").on("keypress", function(e){
   var input = $(this).val();
   if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) {return false;}
@@ -236,6 +240,32 @@ $("#contact_no").on("keypress", function(e){
     }
   }
 });
+
+$("#contact_no").change(function(){
+  var contact_no = $('#contact_no').val();
+
+    $.ajax({
+        type:'post',
+        data:{contact_no:contact_no},
+        url: "$url",
+        success: function(result){
+            var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
+            console.log(jsonResult);
+            if(jsonResult){
+                $('#customerName').val(jsonResult[0]['customer_name']);
+                $('#gender').val(jsonResult[0]['customer_gender']);
+                $('#customer_occupation').val(jsonResult[0]['customer_occupation']);
+
+                $("#create_cust_btn").attr("disabled", true);
+                $('#alert').css("display","block");
+                $('#alert').html("&ensp;Customer already exist..!");    
+            } else {
+                $("#create_cust_btn").removeAttr("disabled");
+            }
+        }      
+    });
+});
+
 $(function () {
     $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
          $( ".regnoclass" ).each(function() {

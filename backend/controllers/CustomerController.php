@@ -149,7 +149,7 @@ class CustomerController extends Controller
                          'modelCustomerVehicles'=>(empty($modelCustomerVehicles)) ? [new CustomerVehicles] : $modelCustomerVehicles,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit", 'id'=>'create_cust_btn'])
         
                 ];         
             }else if($model->load($request->post())){
@@ -218,8 +218,9 @@ class CustomerController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create New Customer",
                     'content'=>'<span class="text-success">Create Customer success</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+                    // .
+                    //         Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             } // closing of else if

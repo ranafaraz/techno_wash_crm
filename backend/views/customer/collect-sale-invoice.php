@@ -203,7 +203,7 @@ if(isset($_GET['saleinvheadID'])){
 	}
      // transaction commit
      $transaction->commit();
-     //\Yii::$app->response->redirect(["./sale-invoice-view"]);
+     \Yii::$app->response->redirect(["./sale-invoice-view"]);
         
      } // closing of try block 
      catch (Exception $e) {

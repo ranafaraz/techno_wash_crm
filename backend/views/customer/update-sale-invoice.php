@@ -167,40 +167,40 @@ use common\models\AccountHead;
 						                            		
 						                            		$amount = $value['discount_per_service'];
 						                            		?>
-<tr id="tr_<?php echo $key; ?>" onclick="removeItem(<?php echo $key; ?>)">
-	<td>
-		<?php echo $key+1; ?>	
-	</td>
-	<td>
-		<?php echo $regNo[0]['registration_no']; ?>
-		<input type="hidden" id="sid_id_<?php echo $key; ?>" value="<?php echo $value['sale_inv_ser_detail_id']; ?>">
-	</td>
-	<td>
-		<input type="hidden" id="item_id_<?php echo $key; ?>" value="<?php echo $value['item_id']; ?>">
-		<input type="hidden" id="item_name_<?php echo $key; ?>" value="<?php echo $itemName[0]['item']; ?>">
-		<?php echo $itemName[0]['item']; ?>
-	</td>
-	<td>
-		<?php echo $itemType; ?></td>
-	<td>
-		<?php 
-	if($itemType == 'Service'){ ?>
-		<input type="hidden" id="item_qty_<?php echo $key; ?>" value="1">
-		<?php
-		echo 1;
-	} else { ?>
-		<input type="hidden" id="item_qty_<?php echo $key; ?>" value="<?php echo $quantity[0]['COUNT(sale_inv_head_id)']; ?>">
-		<?php
-		echo $quantity[0]['COUNT(sale_inv_head_id)'];
-	}
-	?>
-		
-	</td>
-	<td>
-		<input type="hidden" id="item_amount_<?php echo $key; ?>" value="<?php echo $amount; ?>">
-		<?php echo $amount; ?>
-	</td>
-</tr>
+															<tr id="tr_<?php echo $key; ?>" onclick="removeItem(<?php echo $key; ?>)">
+																<td>
+																	<?php echo $key+1; ?>	
+																</td>
+																<td>
+																	<?php echo $regNo[0]['registration_no']; ?>
+																	<input type="hidden" id="sid_id_<?php echo $key; ?>" value="<?php echo $value['sale_inv_ser_detail_id']; ?>">
+																</td>
+																<td>
+																	<input type="hidden" id="item_id_<?php echo $key; ?>" value="<?php echo $value['item_id']; ?>">
+																	<input type="hidden" id="item_name_<?php echo $key; ?>" value="<?php echo $itemName[0]['item']; ?>">
+																	<?php echo $itemName[0]['item']; ?>
+																</td>
+																<td>
+																	<?php echo $itemType; ?></td>
+																<td>
+																	<?php 
+																if($itemType == 'Service'){ ?>
+																	<input type="hidden" id="item_qty_<?php echo $key; ?>" value="1">
+																	<?php
+																	echo 1;
+																} else { ?>
+																	<input type="hidden" id="item_qty_<?php echo $key; ?>" value="<?php echo $quantity[0]['COUNT(sale_inv_head_id)']; ?>">
+																	<?php
+																	echo $quantity[0]['COUNT(sale_inv_head_id)'];
+																}
+																?>
+																	
+																</td>
+																<td>
+																	<input type="hidden" id="item_amount_<?php echo $key; ?>" value="<?php echo $amount; ?>">
+																	<?php echo $amount; ?>
+																</td>
+															</tr>
 						                            	<?php } ?>
 						                            </tbody>
 				                          		</table>
@@ -292,7 +292,7 @@ use common\models\AccountHead;
 										</td>
 										<td>
 											<div class="form-group">
-												<input type="number" name="cash_return" id="cash_return" class="form-control" readonly="" value="<?php echo $updateinvoiceData[0]['cash_return'];?>">
+												<input type="number" name="cash_return" id="cash_return" class="form-control" value="<?php echo $updateinvoiceData[0]['cash_return'];?>" readonly="">
 											</div>
 										</td>
 									</tr>
@@ -546,37 +546,79 @@ if(isset($_POST['update_invoice'])){
       	cal_remaining();
     }
 
- 	function cal_remaining(){ 		
+    function cal_remaining(){
       	var paid = $('#paid_amount').val();
-      	//alert(paid);
-      	 var nt = $('#nt').val();
-      	 var remaining = nt - paid;
-      	$('#remaining').val(remaining); 
+      	var nt = $('#nt').val();
+      	var remaining = nt - paid;
+      	 
       	if (remaining == 0) {
       		$('#status').val('Paid');
       	}
-      	else if (remaining == nt && paid <= 0) {
+
+      	 if (remaining == nt && paid == 0) {
       		$('#status').val('Unpaid');
       	}        
-        else if (paid > 0) {
-          	$('#status').val('Partially');
+         if (paid > 0 && remaining > 0) {
+          $('#status').val('Partially');
         }
-      	//$('#update').show();
-      	$('#alert').css("display","none");
-      	$("#update").removeAttr("disabled");
-
-      	if(remaining < 0){
-      		//$('#update').hide();
-      		//$("#update").attr("disabled", true);
-      		$('#alert').css("display","block");
-            $('#alert').html("&ensp;Please Enter A Valid Amount");
-      	}
-      	var eremaining = $('#remaining').val();
-      	if(eremaining == '' || eremaining == null){
-      		//$('#update').hide();
-      		//$("#update").attr("disabled", true);
-      	}
+        
+      	//$('#insert').show();
+        //$("#insert").removeAttr("disabled");
+        if (remaining < 0) {
+          //$('#insert').hide();
+          $("#cash_return").attr("readonly", false);
+         // $("#cash_return").removeAttr("readonly");
+          // $('#alert').css("display","block");
+          // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          var cash_return = paid - nt;
+           $('#cash_return').val(cash_return);
+           $('#remaining').val(0);
+           $('#status').val('Paid');
+        }else{
+          $('#remaining').val(remaining);
+          $('#cash_return').val(0);
+          // $('#alert').css("display","none");
+          // $("#insert").removeAttr("disabled");
+        }
+        $("#update").removeAttr("disabled");
+        // if(remaining < 0){
+        //   $("#insert").attr("disabled", true);
+        //   $('#alert').css("display","block");
+        //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        // }
     }
+
+ 	// function cal_remaining(){ 		
+  //     	var paid = $('#paid_amount').val();
+  //     	//alert(paid);
+  //     	 var nt = $('#nt').val();
+  //     	 var remaining = nt - paid;
+  //     	$('#remaining').val(remaining); 
+  //     	if (remaining == 0) {
+  //     		$('#status').val('Paid');
+  //     	}
+  //     	else if (remaining == nt && paid <= 0) {
+  //     		$('#status').val('Unpaid');
+  //     	}        
+  //       else if (paid > 0) {
+  //         	$('#status').val('Partially');
+  //       }
+  //     	//$('#update').show();
+  //     	$('#alert').css("display","none");
+  //     	$("#update").removeAttr("disabled");
+
+  //     	if(remaining < 0){
+  //     		//$('#update').hide();
+  //     		//$("#update").attr("disabled", true);
+  //     		$('#alert').css("display","block");
+  //           $('#alert').html("&ensp;Please Enter A Valid Amount");
+  //     	}
+  //     	var eremaining = $('#remaining').val();
+  //     	if(eremaining == '' || eremaining == null){
+  //     		//$('#update').hide();
+  //     		//$("#update").attr("disabled", true);
+  //     	}
+  //   }
 
     function removeItem(i){
     	var item_id = $('#item_id_'+i).val();
@@ -667,6 +709,9 @@ $('#remove_btn').click(function(){
     	}
 
       	$('#tp').val(total);
+
+        //$("#paid_amount").removeAttr("readonly");
+        //$("#cash_return").removeAttr("readonly");
       	discountFun();
 
 

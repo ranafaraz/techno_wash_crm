@@ -286,7 +286,7 @@ use common\models\AccountHead;
 										</td>
 										<td>
 											<div class="form-group">
-												<input type="number" name="paid_amount" id="paid_amount" class="form-control" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" readonly="">
+												<input type="number" name="paid_amount" id="paid_amount" class="form-control" oninput="cal_remaining()" value="<?php echo $updateinvoiceData[0]['paid_amount'];?>" readonly="">
 											</div>
 										</td>
 									</tr>
@@ -445,37 +445,79 @@ use common\models\AccountHead;
       	cal_remaining();
     }
 
- 	function cal_remaining(){ 		
+    function cal_remaining(){
       	var paid = $('#paid_amount').val();
-      	//alert(paid);
-      	 var nt = $('#nt').val();
-      	 var remaining = nt - paid;
-      	$('#remaining').val(remaining); 
+      	var nt = $('#nt').val();
+      	var remaining = nt - paid;
+      	 
       	if (remaining == 0) {
       		$('#status').val('Paid');
       	}
-      	else if (remaining == nt && paid <= 0) {
+
+      	 if (remaining == nt && paid == 0) {
       		$('#status').val('Unpaid');
       	}        
-        else if (paid > 0) {
-          	$('#status').val('Partially');
+         if (paid > 0 && remaining > 0) {
+          $('#status').val('Partially');
         }
-      	//$('#update').show();
-      	$('#alert').css("display","none");
-      	$("#update").removeAttr("disabled");
+        
+      	//$('#insert').show();
+        //$("#insert").removeAttr("disabled");
+        if (remaining < 0) {
+          //$('#insert').hide();
+          $("#cash_return").attr("readonly", false);
+         // $("#cash_return").removeAttr("readonly");
+          // $('#alert').css("display","block");
+          // $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+          var cash_return = paid - nt;
+           $('#cash_return').val(cash_return);
+           $('#remaining').val(0);
+           $('#status').val('Paid');
+        }else{
+          $('#remaining').val(remaining);
+          $('#cash_return').val(0);
+          // $('#alert').css("display","none");
+          // $("#insert").removeAttr("disabled");
+        }
+        $("#update").removeAttr("disabled");
+        // if(remaining < 0){
+        //   $("#insert").attr("disabled", true);
+        //   $('#alert').css("display","block");
+        //   $('#alert').html("&ensp;Paid Amount Cannot Be Greater Than Net Total");
+        // }
 
-      	if(remaining < 0){
-      		//$('#update').hide();
-      		$("#update").attr("disabled", true);
-      		$('#alert').css("display","block");
-            $('#alert').html("&ensp;Please Enter A Valid Amount");
-      	}
-      	var eremaining = $('#remaining').val();
-      	if(eremaining == '' || eremaining == null){
-      		//$('#update').hide();
-      		$("#update").attr("disabled", true);
-      	}
-    }
+      }
+ 	// function cal_remaining(){ 		
+  //     	var paid = $('#paid_amount').val();
+  //     	//alert(paid);
+  //     	 var nt = $('#nt').val();
+  //     	 var remaining = nt - paid;
+  //     	$('#remaining').val(remaining); 
+  //     	if (remaining == 0) {
+  //     		$('#status').val('Paid');
+  //     	}
+  //     	else if (remaining == nt && paid <= 0) {
+  //     		$('#status').val('Unpaid');
+  //     	}        
+  //       else if (paid > 0) {
+  //         	$('#status').val('Partially');
+  //       }
+  //     	//$('#update').show();
+  //     	$('#alert').css("display","none");
+  //     	$("#update").removeAttr("disabled");
+
+  //     	if(remaining < 0){
+  //     		//$('#update').hide();
+  //     		$("#update").attr("disabled", true);
+  //     		$('#alert').css("display","block");
+  //           $('#alert').html("&ensp;Please Enter A Valid Amount");
+  //     	}
+  //     	var eremaining = $('#remaining').val();
+  //     	if(eremaining == '' || eremaining == null){
+  //     		//$('#update').hide();
+  //     		$("#update").attr("disabled", true);
+  //     	}
+  //   }
  </script>
 
  <?php
@@ -594,6 +636,7 @@ $("#services").on('change',function(){
 			var tp = parseInt(totalAmount)+parseInt(tprice);
           	$('#tp').val(tp);
           	$('#disc').val("");
+          	$("#paid_amount").removeAttr("readonly");
           	discountFun();
 
 			var vehicle = $('#custVehicle').val();
@@ -736,6 +779,7 @@ $('#product_quantity').on("change",function(){
 		        $('#nt').val(totalprices);
 		        $('#remaining').val(totalprices);
 		        $('#disc').val("");
+          		$("#paid_amount").removeAttr("readonly");
 		        discountFun();
 
 		        var vehicle             = $('#custVehicle').val();
@@ -840,6 +884,7 @@ $("#barcode").on('change',function(){
 				    //$('#remaining').val(tp);
             	//$('#status').val('Unpaid');
             	$('#disc').val("");
+          		$("#paid_amount").removeAttr("readonly");
             	discountFun();
 
 				var vehicle = $('#custVehicle').val();

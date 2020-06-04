@@ -80,20 +80,20 @@ class PaymentController extends Controller
     }
 
     public function beforeAction($action) 
-{ 
-    $this->enableCsrfValidation = false; 
-    return parent::beforeAction($action); 
-}
-
-public function actionGetPayment($debit_account,$title_id)
-{
-
-    $title = AccountPayable::find()->where(['account_payable' => $title_id])->andwhere(['title_id' => $debit_account])->One();
-    if(isset($title))
-    {
-        echo Json::encode($title);
+    { 
+        $this->enableCsrfValidation = false; 
+        return parent::beforeAction($action); 
     }
-}
+
+    public function actionGetPayment($debit_account,$title_id)
+    {
+
+        $title = AccountPayable::find()->where(['account_payable' => $title_id])->andwhere(['title_id' => $debit_account])->One();
+        if(isset($title))
+        {
+            echo Json::encode($title);
+        }
+    }
     /**
      * Creates a new Payment model.
      * For ajax request will return json object
@@ -253,7 +253,6 @@ public function actionGetPayment($debit_account,$title_id)
                 ]);
         }
     }
-
 
     public function actionDailyReport()
     {

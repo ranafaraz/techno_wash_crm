@@ -28,28 +28,28 @@ use common\models\AccountHead;
     $date = date('Y-m-d');
 
     $paidinvoiceData = Yii::$app->db->createCommand("
-    SELECT *
-    FROM sale_invoice_head
-    WHERE CAST(date as DATE) = '$date'
-    AND (status = 'paid' OR status = 'Paid')
-    ORDER BY sale_inv_head_id DESC
+    SELECT sih.*
+    FROM sale_invoice_head as sih 
+    WHERE CAST(sih.date as DATE) = '$date'
+    AND (sih.status = 'paid' OR sih.status = 'Paid')
+    ORDER BY sih.sale_inv_head_id DESC
     ")->queryAll();
 
     $countpaidinvoiceData = count($paidinvoiceData);
 
     $creditinvoiceData = Yii::$app->db->createCommand("
-    SELECT *
-    FROM sale_invoice_head
-    WHERE CAST(date as DATE) = '$date'
-    AND (status = 'Partially' OR status = 'Unpaid')
-    ORDER BY sale_inv_head_id DESC
+    SELECT sih.*
+    FROM sale_invoice_head as sih
+    WHERE CAST(sih.date as DATE) = '$date'
+    AND (sih.status = 'Partially' OR sih.status = 'Unpaid')
+    ORDER BY sih.sale_inv_head_id DESC
     ")->queryAll();
+
     $countcreditinvoiceData = count($creditinvoiceData);
 
     //$branchId = $customerData[0]['branch_id'];
 
    // $branchData = Branches::find()->where(['branch_id' => $branchId])->one();
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -119,6 +119,7 @@ use common\models\AccountHead;
                              <th style="vertical-align:middle;text-align: center;">Sr.#</th>
                              <th style="vertical-align:middle;text-align: center;">Inv #</th>
                             <th style="vertical-align:middle;text-align: center;">Customer</th>
+                            <th style="vertical-align:middle;text-align: center;">Vehicle</th>
                             <th style="vertical-align:middle;text-align: center;">Total<br>Amount</th>
                             <th style="vertical-align:middle;text-align: center;">Paid<br>Amount</th>
                             <th style="vertical-align:middle;text-align: center;">Remaining<br>Amount</th>
@@ -135,11 +136,24 @@ use common\models\AccountHead;
                             WHERE customer_id = '$custId'
                             ")->queryAll();
 
+                            $sale_inv_head_id = $creditinvoiceData[$i]['sale_inv_head_id'];
+
+                            $creditinv = Yii::$app->db->createCommand("
+                                SELECT cv.registration_no, vst.name
+                                FROM  sale_invoice_detail as sid 
+                                INNER JOIN customer_vehicles as cv 
+                                ON cv.customer_vehicle_id = sid.customer_vehicle_id 
+                                INNER JOIN vehicle_type_sub_category as vst 
+                                ON cv.vehicle_typ_sub_id  = vst.vehicle_typ_sub_id 
+                                WHERE sid.sale_inv_head_id = '$sale_inv_head_id'
+                                ")->queryAll();
+
                             ?>
                             <tr>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $customerName[0]['customer_name'];?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinv[0]['name']." - ".$creditinv[0]['registration_no'];?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
                                <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>
@@ -174,6 +188,7 @@ use common\models\AccountHead;
                             <!-- <th class="t-cen" style="vertical-align:middle; width: 100px;">Invoice #</th> -->
                             <th class="text-center" style="vertical-align:middle;">Inv #</th>
                             <th class="text-center" style="vertical-align:middle;">Customer</th>
+                            <th class="text-center" style="vertical-align:middle;">Vehicle</th>
                             <th class="text-center" style="vertical-align:middle;">Amount</th>
                             <th class="text-center" style="vertical-align:middle;">Action</th>
                           </tr>
@@ -187,12 +202,24 @@ use common\models\AccountHead;
                             FROM customer 
                             WHERE customer_id = '$custId'
                             ")->queryAll();
+
+                            $sale_inv_head_id = $paidinvoiceData[$i]['sale_inv_head_id'];
+                            $paidinv = Yii::$app->db->createCommand("
+                                SELECT cv.registration_no, vst.name
+                                FROM  sale_invoice_detail as sid 
+                                INNER JOIN customer_vehicles as cv 
+                                ON cv.customer_vehicle_id = sid.customer_vehicle_id 
+                                INNER JOIN vehicle_type_sub_category as vst 
+                                ON cv.vehicle_typ_sub_id  = vst.vehicle_typ_sub_id  
+                                WHERE sid.sale_inv_head_id = '$sale_inv_head_id'
+                                ")->queryAll();
                             ?>   
                             <tr>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
                               <!-- <td style="vertical-align:middle;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td> -->
                               <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['sale_inv_head_id']; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $customerName[0]['customer_name']; ?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php echo $paidinv[0]['name']." - ".$paidinv[0]['registration_no'];?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $paidinvoiceData[$i]['paid_amount']; ?></td>
                               <td class="text-center" style="vertical-align:middle;text-align: center;">
                                 <a href="paid-sale-invoice?sihID=<?=$paidinvoiceData[$i]['sale_inv_head_id']?>" title="View" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Bill</a>
@@ -254,7 +281,8 @@ use common\models\AccountHead;
                               echo Select2::widget([
                               'name' => '',
                               'value' => '',
-                              'data' => ArrayHelper::map(CustomerVehicles::find()->all(),'customer_vehicle_id','registration_no'),
+                              'data' => ArrayHelper::map(CustomerVehicles::find()
+                                          ->innerJoinWith('vehicleTypSub')->all(),'customer_vehicle_id','registration_no'),
                               'options' => ['placeholder' => 'Select Vehicle','id' => 'vehicle']
                               ]);
                             ?>
@@ -378,6 +406,7 @@ use common\models\AccountHead;
                       <input type="hidden" id="service_name">
                       <input type="hidden" id="stock_name">
                       <input type="hidden" id="vehicle_name">
+                      <input type="hidden" id="vehicle_model_name">
                       <input type="hidden" id="serviceDetailId">
                       <input type="hidden" id="productSellingPrice">
                       <input type="hidden" id="productName">
@@ -416,7 +445,6 @@ use common\models\AccountHead;
                   <input type="radio" name="discountType" id="percentage" onclick="abc()"> Percent
   					      <input type="text" name="discount" class="form-control" id="disc" value="0" oninput="discountFun()" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57">
   					     <input type="hidden" id="name" >
-  					     <input type="hidden" id="vehicle_name" >
 				      </div>
               <div class="form-group">
                 <label>Net Total</label>
@@ -812,6 +840,7 @@ $("#services").on('click',function(){
 					var price 							= $('#price').val();
 					var servicesName				= $('#service_name').val();
 					var reg_name 						= $('#vehicle_name').val();
+          var reg_model_name      = $('#vehicle_model_name').val();
 					var type                = $('#item_type').val();
           var quantity            = 1;
 					
@@ -839,7 +868,7 @@ $("#services").on('click',function(){
 						
 						//insert the coulmn against the row
 						row.insertCell(0).innerHTML=rowCount;
-            row.insertCell(1).innerHTML=reg_name;
+            row.insertCell(1).innerHTML=reg_model_name+' - '+reg_name;
 						row.insertCell(2).innerHTML= servicesName;
 						row.insertCell(3).innerHTML= type;
             row.insertCell(4).innerHTML= quantity;
@@ -889,8 +918,6 @@ $("#vehicle").on("change",function(){
     $('#types').val("");
     $('#types').show();
   }
-
- 
 	
 	$.ajax({
     type:'post',
@@ -899,6 +926,7 @@ $("#vehicle").on("change",function(){
     success: function(result){
     	var jsonResult = JSON.parse(result.substring(result.indexOf('['), result.indexOf(']')+1));
     	$('#vehicle_name').val(jsonResult[0]['registration_no']);
+      $('#vehicle_model_name').val(jsonResult[0]['name']);
   	}      
   }); 
 
@@ -984,6 +1012,7 @@ $("#barcode").on('change',function(){
 						var stock_price 				= $('#selling_price').val();
 						var servicesName				= $('#stock_name').val();
 						var reg_name 						= $('#vehicle_name').val();
+            var reg_model_name      = $('#vehicle_model_name').val();
 						var type                = $('#item_type').val();
             var quantity            = 1;
 
@@ -1012,7 +1041,7 @@ $("#barcode").on('change',function(){
   						  
   						//insert the coulmn against the row
   						row.insertCell(0).innerHTML= rowCount;
-  						row.insertCell(1).innerHTML= reg_name;
+  						row.insertCell(1).innerHTML= reg_model_name+' - '+reg_name;
   						row.insertCell(2).innerHTML= servicesName;
   						row.insertCell(3).innerHTML= type;
               row.insertCell(4).innerHTML= quantity;
@@ -1121,6 +1150,7 @@ $('#product_quantity').on("change",function(){
         var stock_price         = $("#productSellingPrice").val();
         var servicesName        = $('#productName').val();
         var reg_name            = $('#vehicle_name').val();
+        var reg_model_name      = $('#vehicle_model_name').val();
         var type                = "Product";
         var quantity            = pro_quantity;
 
@@ -1149,7 +1179,7 @@ $('#product_quantity').on("change",function(){
             
           //insert the coulmn against the row
           row.insertCell(0).innerHTML= rowCount;
-          row.insertCell(1).innerHTML= reg_name;
+          row.insertCell(1).innerHTML= reg_model_name+' - '+reg_name;
           row.insertCell(2).innerHTML= servicesName;
           row.insertCell(3).innerHTML= type;
           row.insertCell(4).innerHTML= pro_quantity;

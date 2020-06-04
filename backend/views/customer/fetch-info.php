@@ -16,6 +16,7 @@ if(isset($_POST['customer_id'])) {
 
 	echo json_encode($customerId);
 }
+
 if(isset($_POST['PRODUCTid'])) {
 	$PRODUCTid = $_POST['PRODUCTid'];
 	$availbleStock = Yii::$app->db->createCommand("
@@ -118,9 +119,11 @@ if (isset($_POST["vehicle_id"])) {
 if (isset($_POST["vehicle"])) {
 	$vehicle=$_POST["vehicle"];
 	$register = Yii::$app->db->createCommand("
-	SELECT 	registration_no
-	FROM customer_vehicles
-	WHERE 	customer_vehicle_id = $vehicle
+	SELECT 	cv.registration_no, vtsc.name
+	FROM customer_vehicles as cv
+	INNER JOIN vehicle_type_sub_category as vtsc
+	ON cv.vehicle_typ_sub_id = vtsc.vehicle_typ_sub_id
+	WHERE cv.customer_vehicle_id = $vehicle
 	")->queryAll();
 	
 	echo json_encode($register); 
@@ -140,6 +143,18 @@ if(isset($_POST['vehID'])) {
 	")->queryAll();
 
 	echo json_encode($vehData);
+}
+
+if(isset($_POST['contact_no'])) {
+
+	$contact_no = $_POST['contact_no'];
+	$cust_contact = Yii::$app->db->createCommand("
+	SELECT c.*
+	FROM customer as c
+	WHERE c.customer_contact_no = '$contact_no'
+	")->queryAll();
+
+	echo json_encode($cust_contact);
 }
 
 if( isset($_POST['invoice_date']) 
@@ -319,127 +334,125 @@ if( isset($_POST['invoice_date'])
 		echo $e;
 		 $transaction->rollback();
 	} // closing of catch block
-
 } // closing of isset
 	
-	if( isset($_POST['u_invoice_date']) 
-	 	&& isset($_POST['u_total_amount']) 
-	 	&& isset($_POST['u_net_total']) 
-	 	&& isset($_POST['u_paid']) 
-	 	&& isset($_POST['u_remaining'])
-	 	&& isset($_POST['u_status']) 
-	 	&& isset($_POST['u_vehicleArray'])
-	 	&& isset($_POST['u_serviceArray'])
-	 	&& isset($_POST['u_amountArray'])
-	 	&& isset($_POST['u_ItemTypeArray']) ) {
+if( isset($_POST['u_invoice_date']) 
+ 	&& isset($_POST['u_total_amount']) 
+ 	&& isset($_POST['u_net_total']) 
+ 	&& isset($_POST['u_paid']) 
+ 	&& isset($_POST['u_remaining'])
+ 	&& isset($_POST['u_status']) 
+ 	&& isset($_POST['u_vehicleArray'])
+ 	&& isset($_POST['u_serviceArray'])
+ 	&& isset($_POST['u_amountArray'])
+ 	&& isset($_POST['u_ItemTypeArray']) ) {
 
-		$user_id = $_POST["u_user_id"];
-		$branch_id = $_POST['u_branch_id'];
-		$invoice_date= $_POST["u_invoice_date"];
-		$total_amount = $_POST["u_total_amount"];
-		$net_total = $_POST['u_net_total'];
-		$paid = $_POST['u_paid'];
-		$remaining = $_POST['u_remaining'];
-		$cash_return = $_POST['u_cash_return'];
-		$status = $_POST["u_status"];
-		$vehicleArray = $_POST['u_vehicleArray']; 
-		$serviceArray = $_POST["u_serviceArray"];
-		$amountArray = $_POST['u_amountArray'];
-		$ItemTypeArray = $_POST['u_ItemTypeArray'];
-		$quantityArray = $_POST["u_quantityArray"];
+	$user_id = $_POST["u_user_id"];
+	$branch_id = $_POST['u_branch_id'];
+	$invoice_date= $_POST["u_invoice_date"];
+	$total_amount = $_POST["u_total_amount"];
+	$net_total = $_POST['u_net_total'];
+	$paid = $_POST['u_paid'];
+	$remaining = $_POST['u_remaining'];
+	$cash_return = $_POST['u_cash_return'];
+	$status = $_POST["u_status"];
+	$vehicleArray = $_POST['u_vehicleArray']; 
+	$serviceArray = $_POST["u_serviceArray"];
+	$amountArray = $_POST['u_amountArray'];
+	$ItemTypeArray = $_POST['u_ItemTypeArray'];
+	$quantityArray = $_POST["u_quantityArray"];
 
-		$invoice_id = $_POST["u_invoice_id"];
-		$customer_id = $_POST["u_customer_id"];
+	$invoice_id = $_POST["u_invoice_id"];
+	$customer_id = $_POST["u_customer_id"];
 
-		$disc_amount = $total_amount - $net_total;
-		$countItemArray = count($vehicleArray);
-		
-		$transaction = \Yii::$app->db->beginTransaction();
-		try {
+	$disc_amount = $total_amount - $net_total;
+	$countItemArray = count($vehicleArray);
+	
+	$transaction = \Yii::$app->db->beginTransaction();
+	try {
 
-			$insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
+		$insert_invoice_head = Yii::$app->db->createCommand()->update('sale_invoice_head',[
 
-			     'date' => $invoice_date,
-			     'total_amount' => $total_amount,
-			     'discount' => $disc_amount,
-			     'net_total' => $net_total,
-			     'paid_amount' => $paid,
-			     'remaining_amount' => $remaining,
-			     'cash_return' => $cash_return,
-			     'status' => $status,
-			    ],
-			       ['customer_id' => $customer_id,'sale_inv_head_id' => $invoice_id ]
+		     'date' => $invoice_date,
+		     'total_amount' => $total_amount,
+		     'discount' => $disc_amount,
+		     'net_total' => $net_total,
+		     'paid_amount' => $paid,
+		     'remaining_amount' => $remaining,
+		     'cash_return' => $cash_return,
+		     'status' => $status,
+		    ],
+		       ['customer_id' => $customer_id,'sale_inv_head_id' => $invoice_id ]
 
-			    )->execute();
+		    )->execute();
 
-			for ($j=0; $j <$countItemArray ; $j++) {
-				$itemType = $ItemTypeArray[$j];
-				$quantity = $quantityArray[$j];
+		for ($j=0; $j <$countItemArray ; $j++) {
+			$itemType = $ItemTypeArray[$j];
+			$quantity = $quantityArray[$j];
 
-		    	if($itemType == "Product"){
-		     		$product_id = $serviceArray[$j];
+	    	if($itemType == "Product"){
+	     		$product_id = $serviceArray[$j];
 
-		    		$selectProduct = Yii::$app->db->createCommand("
-					    SELECT *
-					    FROM stock
-					    WHERE name = '$product_id'
-					    AND status = 'In-stock'
-					    LIMIT $quantity
-					    ")->queryAll();
-		    		$count = count($selectProduct);
+	    		$selectProduct = Yii::$app->db->createCommand("
+				    SELECT *
+				    FROM stock
+				    WHERE name = '$product_id'
+				    AND status = 'In-stock'
+				    LIMIT $quantity
+				    ")->queryAll();
+	    		$count = count($selectProduct);
 
-		    		for ($i=0; $i<$count; $i++) { 
-		    			$stock_id = $selectProduct[$i]['stock_id'];
+	    		for ($i=0; $i<$count; $i++) { 
+	    			$stock_id = $selectProduct[$i]['stock_id'];
 
-		    			$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
+	    			$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
 
-						'sale_inv_head_id'  	=> $invoice_id,
-						'customer_vehicle_id'   => $vehicleArray[$j],
-						'item_id'    			=> $stock_id,
-						'item_type'    			=> "Stock",
-						'discount_per_service'  => $amountArray[$j],
-						'created_by'			=> $user_id,
-						])->execute();
+					'sale_inv_head_id'  	=> $invoice_id,
+					'customer_vehicle_id'   => $vehicleArray[$j],
+					'item_id'    			=> $stock_id,
+					'item_type'    			=> "Stock",
+					'discount_per_service'  => $amountArray[$j],
+					'created_by'			=> $user_id,
+					])->execute();
 
-			    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+		    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
+						'status'		=> "Sold",	
+						'updated_by'	=> $user_id
+                        ],
+                        ['stock_id' => $stock_id]
+		            )->execute();
+	    		}
+	    	} //closing of quantity if 
+	    	else {
+		    	$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
+
+					'sale_inv_head_id'  	=> $invoice_id,
+					'customer_vehicle_id'   => $vehicleArray[$j],
+					'item_id'    			=> $serviceArray[$j],
+					'item_type'    			=> $ItemTypeArray[$j],
+					'discount_per_service'  => $amountArray[$j],
+					'created_by'			=> $user_id,
+					])->execute();
+
+		    	if ($ItemTypeArray[$j] == "Stock") {
+
+		    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
 							'status'		=> "Sold",	
 							'updated_by'	=> $user_id
 	                        ],
-	                        ['stock_id' => $stock_id]
-			            )->execute();
-		    		}
-		    	} //closing of quantity if 
-		    	else {
-			    	$insert_invoice_detail = Yii::$app->db->createCommand()->insert('sale_invoice_detail',[
-
-						'sale_inv_head_id'  	=> $invoice_id,
-						'customer_vehicle_id'   => $vehicleArray[$j],
-						'item_id'    			=> $serviceArray[$j],
-						'item_type'    			=> $ItemTypeArray[$j],
-						'discount_per_service'  => $amountArray[$j],
-						'created_by'			=> $user_id,
-						])->execute();
-
-			    	if ($ItemTypeArray[$j] == "Stock") {
-
-			    		$examScheduleUpdate = Yii::$app->db->createCommand()->update('stock',[
-								'status'		=> "Sold",	
-								'updated_by'	=> $user_id
-		                        ],
-		                    ['stock_id' => $serviceArray[$j]]
-			            )->execute();
-			        }
-		    	} // closing of quantity else
-		    } // end of for loop itemarray
-		    
-	    	$transaction->commit();
-		    echo Json::encode("[".$invoice_id."]");
-		} // closing of try block 
-		catch (Exception $e) {
-			echo Json::encode("[".$e."]");
-	 	 $transaction->rollback();
-		} // closing of catch block
-
-	} // closing of isset
+	                    ['stock_id' => $serviceArray[$j]]
+		            )->execute();
+		        }
+	    	} // closing of quantity else
+	    } // end of for loop itemarray
+	    
+    	$transaction->commit();
+	    echo Json::encode("[".$invoice_id."]");
+	} // closing of try block 
+	catch (Exception $e) {
+		echo Json::encode("[".$e."]");
+ 	 $transaction->rollback();
+	} // closing of catch block
+} // closing of isset
 		
 ?>

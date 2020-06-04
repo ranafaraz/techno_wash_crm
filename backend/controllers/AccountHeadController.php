@@ -140,6 +140,65 @@ class AccountHeadController extends Controller
        
     }
 
+    public function actionExpCreate()
+    {
+        $request = Yii::$app->request;
+        $model = new AccountHead();  
+        $model->created_at = date('Y-m-d');
+        $model->created_by = Yii::$app->user->identity->username;
+        $model->updated_by = Yii::$app->user->identity->username;
+        $model->updated_at = date('Y-m-d');
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Create new AccountHead",
+                    'content'=>$this->renderAjax('exp-create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Create new AccountHead",
+                    'content'=>'<span class="text-success">Create AccountHead success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['exp-create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        
+                ];         
+            }else{           
+                return [
+                    'title'=> "Create new AccountHead",
+                    'content'=>$this->renderAjax('exp-create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('exp-create', [
+                    'model' => $model,
+                ]);
+            }
+        }
+       
+    }
+
     public function actionGetHeadId($headid) {
         $heads = AccountHead::find()->where(['nature_id'=>$headid])->orderBy(['id'=>SORT_DESC])->One();
         if (!empty($heads)) {
