@@ -239,7 +239,7 @@ class PaymentController extends Controller
 
                     $transaction->commit();
            
-                    //return $this->redirect(['index']);
+                    return $this->redirect(['./create-payment']);
                 } 
                 catch (Exception $e) {
                     echo $e;

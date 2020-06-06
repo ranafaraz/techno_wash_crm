@@ -252,14 +252,15 @@ use yii\helpers\Url;
               <!-- </div>
             </div> -->
           </a>
-          <a href="./credit-sale-invoices?creditInvoice">
+          <a href="./credit-sale-invoices?creditInvoiceDaily">
             <!-- <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px"> -->
-                <?php 
+                <?php $currentDate = date('Y-m-d');
                     $creditInvoicesDetails  = Yii::$app->db->createCommand("
                     SELECT sih.remaining_amount
                     FROM sale_invoice_head as sih
                     WHERE sih.status != 'Paid'
+                    AND CAST(date AS DATE) = '$currentDate'
                     ")->queryAll();
                     $count = count($creditInvoicesDetails);
                     $creditSum = 0;
@@ -358,7 +359,7 @@ use yii\helpers\Url;
                     <div class="panel panel-default" style="border:1px solid #FAB61C;">
                       <div class="panel-body" style="text-align: center;padding:30px">
                         <p><i class="glyphicon glyphicon-user"></i> Today Expense</p><br>
-                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">5000</b>
+                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">0</b>
                       </div>
                     </div>
                 </a>
@@ -368,7 +369,7 @@ use yii\helpers\Url;
                     <div class="panel panel-default" style="border:1px solid #FAB61C;">
                       <div class="panel-body" style="text-align: center;padding:30px">
                         <p><i class="glyphicon glyphicon-user"></i> Today Income</p><br>
-                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">15000</b>
+                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">0</b>
                       </div>
                     </div>
                 </a>
@@ -378,7 +379,7 @@ use yii\helpers\Url;
                     <div class="panel panel-default" style="border:1px solid #FAB61C;">
                       <div class="panel-body" style="text-align: center;padding:30px">
                         <p><i class="fa fa-money"></i> Today Profit</p><br>
-                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">10000</b>
+                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">0</b>
                       </div>
                     </div>
                 </a>

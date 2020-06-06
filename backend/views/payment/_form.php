@@ -176,13 +176,19 @@ $('#payment-account_head_id').on('change',function()
         }
     })
 })
-// $('#payment-debit_amount').on('input',function()
-// {
-//     var remaning = $('#payment-remaning').val();
-//     var paid = $('#payment-debit_amount').val();
-//     var sum = parseInt(remaning) + parseInt(paid);
-//     $('#payment-credit_amount').val(sum);
-//     })
+
+$('#payment-debit_amount').on('focus',function()
+{
+    $('#payment-debit_amount').val("");   
+})
+
+$('#payment-debit_amount').on('input',function()
+{
+    var remaning = $('#payment-prev_remaning').val();
+    var paid = $('#payment-debit_amount').val();
+    var sum = parseInt(remaning)+parseInt(paid);
+    $('#payment-credit_amount').val(sum);
+    })
 
  // $('#payment-account_title_id').on('change',function()
  //    {
