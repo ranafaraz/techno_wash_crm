@@ -73,16 +73,20 @@ use common\models\AccountHead;
       <div class="box box-primary">
         <div class="box-body">
           <div class="row">
-            <div class="col-md-6" style="margin-top:0px">
+            <div class="col-md-3" style="margin-top:0px">
               <p style="color:#3C8DBC;font-size:1.3em;"><label style="color: #000000;">Sale Invoice&ensp;</label><b><i><?php //echo $customerData[0]['customer_name']; ?></i></b></p>
             </div>
             <div class="col-md-2" style="margin-top: 10px">
-              <label style="float: right;">Date:</label>
+              <label style="margin-left: 50px">Date:</label>
             </div>  
             <div class="col-md-4" style="margin-top: 10px">
               <?php $date = date("m/d/Y"); ?>
               <input type="date" name="invoice_date"  class="form-control" id="invoice_date" value="<?php echo date('Y-m-d'); ?>" style="margin-top: -6px;">      
             </div>
+            <div class="col-md-3" style="margin-top: 4px;">
+              <?= Html::a('Add Customer', ['./customer-create'],
+                    ['role'=>'', 'target'=>'_blank','title'=> 'Create new Customers','class'=>'btn btn-success']); ?>
+            </div> 
           </div>
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">

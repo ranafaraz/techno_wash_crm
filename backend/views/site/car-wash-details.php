@@ -3,10 +3,11 @@ if(isset($_GET['customer'])){
 	$currentDate = date('Y-m-d');
 
 	$countCustomer  = Yii::$app->db->createCommand("
-	  SELECT *
-	  FROM sale_invoice_head
-	  WHERE CAST(date as DATE) = '$currentDate'
+	  SELECT sih.*
+	  FROM sale_invoice_head as sih
+	  WHERE CAST(sih.date as DATE) = '$currentDate'
 	")->queryAll();
+	
 	$countcustomer = count($countCustomer);
 ?>
 <!DOCTYPE html>
@@ -27,36 +28,106 @@ if(isset($_GET['customer'])){
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<table class="table table-bordered">
 						<thead style="background-color:#3C8DBC;color:white;">
 							<tr>
 								<th>Sr.#</th>
 								<th>Customer Name</th>
+								<th>Reg.#</th>
+								<th>Total</th>
+								<th>Paid</th>
+								<th>Remaining</th>
+								<th>Status</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php 
-				               
+				               $netTotal=$paidamt=$remainAmt=0;
 				              for ($c=0; $c <$countcustomer ; $c++) {
-				              	$customerID = $countCustomer[$c]['customer_id'];
-				              	$customerInfo  = Yii::$app->db->createCommand("
-								SELECT *
-								FROM customer
-								WHERE customer_id = '$customerID'
+				              	$sale_inv_head_id = $countCustomer[$c]['sale_inv_head_id'];
+
+				              	$saledetails  = Yii::$app->db->createCommand("
+								  SELECT sid.*
+								  FROM sale_invoice_detail as sid
+								  WHERE sid.sale_inv_head_id = '$sale_inv_head_id'
 								")->queryAll();
+
+				              	$customerID = $countCustomer[$c]['customer_id'];
+
+								$custVehicleID = $saledetails[0]['customer_vehicle_id'];
+					              $customerInfo  = Yii::$app->db->createCommand("
+						          SELECT customer.customer_name,customer_vehicles.registration_no, vtsc.name
+						          FROM customer
+						          INNER JOIN customer_vehicles
+						          ON customer.customer_id = customer_vehicles.customer_id 
+						      		INNER JOIN vehicle_type_sub_category as vtsc
+						     		ON customer_vehicles.vehicle_typ_sub_id = vtsc.vehicle_typ_sub_id
+						          WHERE customer.customer_id = '$customerID'
+						          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
+						          ")->queryAll();
+						          $status = $countCustomer[$c]['status'];
+						          if($status == 'Paid'){
+						          	$trClass = 'success';
+						          } else if($status == 'Partially'){
+						          	$trClass = 'warning';
+						          } else if ($status == 'Unpaid'){
+						          	$trClass = 'danger';
+						          }
 				              ?>          
-							<tr>
+							<tr class="<?php echo $trClass; ?>">
 								<td><?php echo $c+1; ?></td>
 								<td>
 									<?php
 									 echo $customerInfo[0]['customer_name'];
 									 ?>
 								</td>
+								<td>
+									<?php
+									 echo $customerInfo[0]['name']." - ".$customerInfo[0]['registration_no'];
+									 ?>
+								</td>
+								<td>
+									<?php
+									 echo $countCustomer[$c]['net_total'];
+									 ?>
+								</td>
+								<td>
+									<?php
+									 echo $countCustomer[$c]['paid_amount'];
+									 ?>
+								</td>
+								<td>
+									<?php
+									 echo $countCustomer[$c]['remaining_amount'];
+									 ?>
+								</td>
+								<td>
+									<?php
+									 echo $status;
+									 ?>
+								</td>
 							</tr>
-							<?php
+							<?php $netTotal += $countCustomer[$c]['net_total'];
+								$paidamt += $countCustomer[$c]['paid_amount'];
+								$remainAmt += $countCustomer[$c]['remaining_amount'];
 								}
 							 ?>
+							 <tr>
+								<td colspan="3" style="text-align: center;background-color:#3C8DBC;color:white;font-weight: bolder;">Total</td>
+								<td style="background-color: lightgray;font-weight: bolder;">
+									<?php echo $netTotal; ?>
+								</td>
+								<td style="background-color: lightgray;font-weight: bolder;">
+									<?php echo $paidamt; ?>
+								</td>
+								<td style="background-color: lightgray;font-weight: bolder;">
+									<?php echo $remainAmt; ?>
+								</td>
+								<td style="background-color: lightgray;font-weight: bolder;">
+									<?php //echo $creditSum; ?>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -81,9 +152,10 @@ if(isset($_GET['serviceID'])){
 	  ON sih.sale_inv_head_id = sid.sale_inv_head_id
 	  WHERE s.service_id = '$serviceID'
 	  AND sid.item_type = 'Service'
-	  AND CAST(date as DATE) = '$currentDate'
+	  AND CAST(sih.date as DATE) = '$currentDate'
 	  ")->queryAll();
   	$countwash = count($countWash);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -118,7 +190,7 @@ if(isset($_GET['serviceID'])){
 						</thead>
 						<tbody>
 							<?php 
-				               
+				               $creditSum=0;
 				              for ($m=0; $m <$countwash ; $m++) { 
 				              $custID = $countWash[$m]['customer_id'];
 				              $custVehicleID = $countWash[$m]['customer_vehicle_id'];
@@ -141,9 +213,16 @@ if(isset($_GET['serviceID'])){
 								<td><?php echo $washDetails[0]['name']." - ".$washDetails[0]['registration_no']; ?></td>
 								<td><?php echo $countWash[$m]['discount_per_service']; ?></td>
 							</tr>
-							<?php }
+							<?php $creditSum += $countWash[$m]['discount_per_service'];
+								  }
 								}
 							 ?>
+							<tr>
+								<td colspan="3" style="text-align: center;background-color:#3C8DBC;color:white;font-weight: bolder;">Total</td>
+								<td style="background-color: lightgray;font-weight: bolder;">
+									<?php echo $creditSum; ?>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -295,7 +374,7 @@ if(isset($_GET['polish'])) {
 						</tr>
 					</thead>
 					<tbody>
-						<?php
+						<?php $creditSum=0;
 						// loop for WAX   
 			            for ($w=0; $w <$countwax ; $w++) { 
 				              $custID = $countWax[$w]['customer_id'];
@@ -318,7 +397,8 @@ if(isset($_GET['polish'])) {
 									<td><?php echo $countWax[$w]['service_name']; ?></td>
 									<td><?php echo $countWax[$w]['discount_per_service']; ?></td>
 								</tr>
-						<?php }
+						<?php $creditSum += $countWax[$w]['discount_per_service'];
+							}
 						} 
 						// loop for Interior Protection   
 			            for ($p=0; $p <$countinteriorprot ; $p++) { 
@@ -341,7 +421,8 @@ if(isset($_GET['polish'])) {
 									<td><?php echo $countInteriorProt[$p]['service_name']; ?></td>
 									<td><?php echo $countInteriorProt[$p]['discount_per_service']; ?></td>
 								</tr>
-						<?php }
+						<?php $creditSum += $countInteriorProt[$p]['discount_per_service'];
+							}
 						} 
 						// loop for Engine Dressing   
 			            for ($e=0; $e <$countenginedressing ; $e++) { 
@@ -365,7 +446,8 @@ if(isset($_GET['polish'])) {
 									<td><?php echo $countEngineDressing[$e]['service_name']; ?></td>
 									<td><?php echo $countEngineDressing[$e]['discount_per_service']; ?></td>
 								</tr>
-						<?php } 
+						<?php $creditSum += $countEngineDressing[$e]['discount_per_service'];
+							} 
 						}
 						// loop for Under Carriage   
 			            for ($u=0; $u <$countundercarriage ; $u++) { 
@@ -388,8 +470,16 @@ if(isset($_GET['polish'])) {
 									<td><?php echo $countUnderCarriage[$u]['service_name']; ?></td>
 									<td><?php echo $countUnderCarriage[$u]['discount_per_service']; ?></td>
 								</tr>
-						<?php }
+						<?php $creditSum += $countUnderCarriage[$u]['discount_per_service'];
+							}
 						} ?>
+
+						<tr>
+							<td colspan="3" style="text-align: center;background-color:#3C8DBC;color:white;font-weight: bolder;">Total</td>
+							<td style="background-color: lightgray;font-weight: bolder;">
+								<?php echo $creditSum; ?>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

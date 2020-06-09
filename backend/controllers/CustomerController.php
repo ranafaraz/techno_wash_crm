@@ -231,7 +231,7 @@ class CustomerController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit", 'id'=>'create_cust_btn'])
         
                 ];         
             }
@@ -239,11 +239,71 @@ class CustomerController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->customer_id]);
+            if ($model->load($request->post())) {
+                $model->customer_image = UploadedFile::getInstance($model,'customer_image');
+
+                // checking the field 
+                if(!empty($model->customer_image)){
+                    // making the name of the image file
+                    $imageName = $model->customer_name.'_photo';
+                    // getting extension of the image file
+                    $imageExtension = $model->customer_image->extension;
+                    // save the path of the image in backend/web/uploads 
+                    $model->customer_image->saveAs('uploads/'.$imageName.'.'.$model->customer_image->extension);
+                    //save the path in the db column
+                    $model->customer_image = 'uploads/'.$imageName.'.'.$model->customer_image->extension;
+                }
+                else if (($model->customer_gender) == "Female"){
+                    $model->customer_image = 'uploads/default-image-female.png'; 
+                }
+                else {
+                    $model->customer_image = 'uploads/default-image-name.png'; 
+                }
+                $model->customer_registration_date   = new \yii\db\Expression('NOW()');
+                $model->branch_id = Yii::$app->user->identity->branch_id; 
+                $model->created_by = Yii::$app->user->identity->id; 
+                $model->created_at = new \yii\db\Expression('NOW()');
+                $model->updated_by = '0';
+                $model->updated_at = '0';
+
+                $modelCustomerVehicles = Model::createMultiple(CustomerVehicles::classname()); 
+                Model::loadMultiple($modelCustomerVehicles, Yii::$app->request->post());                    
+
+                // validate all models
+                $valid = $model->validate();
+                $valid = Model::validateMultiple($modelCustomerVehicles) && $valid;
+                
+                if ($valid) {
+                    $transaction = \Yii::$app->db->beginTransaction();
+                    try {
+                        if ($flag = $model->save(false)) {
+                            foreach ($modelCustomerVehicles as $value) {
+                                $value->image = 'uploads/default-car-image.png';
+                                $value->customer_id = $model->customer_id;
+                                $value->created_at = new \yii\db\Expression('NOW()');
+                                $value->created_by = Yii::$app->user->identity->id; 
+                                $value->updated_by = '0';
+                                $value->updated_at = '0';    
+                                if (! ($flag = $value->save(false))) {
+                                    $transaction->rollBack();
+                                    break;
+                                }
+                            } // modelCustomerVehicles foreach end
+                        } // closing of if model
+                        if ($flag) {
+                            $transaction->commit();
+                            return $this->redirect(['./sale-invoice-view']);
+                        }
+                    } catch (Exception $e) {
+                        $transaction->rollBack();
+                        echo $e;
+                    }
+                }
+                //return $this->redirect(['view', 'id' => $model->customer_id]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'modelCustomerVehicles'=>(empty($modelCustomerVehicles)) ? [new CustomerVehicles] : $modelCustomerVehicles,
                 ]);
             }
         }
