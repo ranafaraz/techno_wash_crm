@@ -157,7 +157,7 @@ use common\models\AccountHead;
                               <td style="vertical-align:middle;text-align: center;"><?php echo $i+1; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['sale_inv_head_id']; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $customerName[0]['customer_name'];?></td>
-                              <td style="vertical-align:middle;text-align: center;"><?php echo $creditinv[0]['name']." - ".$creditinv[0]['registration_no'];?></td>
+                              <td style="vertical-align:middle;text-align: center;"><?php //echo $creditinv[0]['name']." - ".$creditinv[0]['registration_no'];?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['total_amount']; ?></td>
                               <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['paid_amount']; ?></td>
                                <td style="vertical-align:middle;text-align: center;"><?php echo $creditinvoiceData[$i]['remaining_amount']; ?></td>

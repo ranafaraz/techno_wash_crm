@@ -101,7 +101,7 @@ tr td{
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Pay</label>
-									<input type="text" name="pay" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" name="pay" id="pay_amount" class="form-control" oninput="cal_remaining()">
+									<input type="text" name="pay" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.charCode == 65 || event.charCode == 46) ? null : event.charCode >= 48 && event.charCode <= 57" id="pay_amount" class="form-control" oninput="cal_remaining()" value="<?php echo $creditInvoiceData[0]['remaining_amount'];?>">
 								</div>
 								<div class="form-group">
 									<label>Status</label>
