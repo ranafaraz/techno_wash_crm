@@ -1212,8 +1212,8 @@ $('#remove').click(function(){
 });
 
 $('#insert').click(function(){
-  krajeeDialog.confirm('Are you sure to add bill', function(out){
-    if(out) {
+  //krajeeDialog.confirm('Are you sure to add bill', function(out){
+    //if(out) {
     	user_id;
     	vendorID;
       branch_id;
@@ -1298,8 +1298,8 @@ $('#insert').click(function(){
         	}      
       	}); 	
    		}
-    }
-  });
+    //}
+  //});
 });
 
 JS;
