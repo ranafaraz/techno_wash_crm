@@ -174,6 +174,8 @@ $countManufactureData = count($manufactureData);
 					               					</th>
 					               					<th rowspan="2" style="vertical-align:middle;text-align: center;color:white;">Products
 					               					</th>
+					               					<th rowspan="2" style="vertical-align:middle;text-align: center;color:white;">Description
+					               					</th>
 					               					<th colspan="6" style="text-align: center;color:white;">
 					               					Status
 					               					</th>
@@ -198,6 +200,7 @@ $countManufactureData = count($manufactureData);
 					               				for ($j=0; $j <$countProducts ; $j++) { 
 					               				$productID = $productData[$j]['product_id'];
 					               				$prodName = $productData[$j]['product_name'];
+					               				$prodDescription = $productData[$j]['description'];
 
 					               				// getting in-stock details
 														$inStockData = Yii::$app->db->createCommand("
@@ -257,6 +260,9 @@ $countManufactureData = count($manufactureData);
 								               		 		<i class="glyphicon glyphicon-edit"style="color:#00c0ef;font-size:15px;"></i>
 						               		 				</a>
 					               					</td>
+					               					<td>
+					               					    <?php echo $prodDescription; ?> 
+					               					</td>  
 					               					<?php 
 					               					$totalInstock = $inStockData[0]['COUNT(name)'];
 					               					$instockSum += $totalInstock;
