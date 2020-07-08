@@ -25,15 +25,16 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'manufacture_id',
+        'attribute'=>'manufacture.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'barcode',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'name',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'name',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'expiry_date',

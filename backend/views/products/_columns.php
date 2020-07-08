@@ -17,6 +17,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'manufacture_id',
+        'attribute'=>'manufacture.name',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
