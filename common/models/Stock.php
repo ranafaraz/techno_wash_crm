@@ -45,9 +45,9 @@ class Stock extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'barcode', 'name', 'expiry_date', 'original_price', 'purchase_price', 'selling_price', 'status', 'created_by', 'updated_by'], 'required'],
+            [['stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'barcode', 'name', 'purchase_price', 'selling_price', 'status', 'created_by', 'updated_by'], 'required'],
             [['stock_type_id', 'purchase_invoice_id', 'manufacture_id', 'original_price', 'purchase_price', 'selling_price', 'created_by', 'updated_by'], 'integer'],
-            [['expiry_date', 'created_at', 'updated_at'], 'safe'],
+            [['expiry_date', 'created_at', 'updated_at', 'original_price'], 'safe'],
             [['status'], 'string'],
             [['barcode', 'name'], 'string', 'max' => 200],
             [['stock_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => StockType::className(), 'targetAttribute' => ['stock_type_id' => 'stock_type_id']],
