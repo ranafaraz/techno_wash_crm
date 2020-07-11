@@ -330,9 +330,9 @@ if( isset($_POST['invoice_date'])
 		    echo Json::encode("[".$selectedInvHeadID ."]");
 		} // end of if
 	} // closing of try block 
-	catch (Exception $e) {
+	catch (Throwable $e) {
+		$transaction->rollback();
 		echo $e;
-		 $transaction->rollback();
 	} // closing of catch block
 } // closing of isset
 	
@@ -449,9 +449,9 @@ if( isset($_POST['u_invoice_date'])
     	$transaction->commit();
 	    echo Json::encode("[".$invoice_id."]");
 	} // closing of try block 
-	catch (Exception $e) {
+	catch (Throwable $e) {
+ 	 	$transaction->rollback();
 		echo Json::encode("[".$e."]");
- 	 $transaction->rollback();
 	} // closing of catch block
 } // closing of isset
 		

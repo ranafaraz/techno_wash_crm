@@ -209,10 +209,10 @@ if( isset($_POST['user_id'])
 			} //if ($purchase_invoice_amount)
 		} // end of if
 	} // closing of try block 
-	catch (Exception $e) {
-		echo json_encode($e);
+	catch (Throwable $e) {
 		// transaction rollback
         $transaction->rollback();
+		echo json_encode($e);
 	} // closing of catch block
 // 	 echo json_encode($vendorID);
 // 	 echo json_encode($bill_no);
