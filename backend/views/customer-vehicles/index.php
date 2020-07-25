@@ -10,7 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel common\models\CustomerVehiclesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Sale Invoice';
+$this->title = 'Customer Vehicles';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -39,7 +39,7 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'default', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Sale Invoice listing',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Customer Vehicles listing',
                 'before'=>'<em><b  style="color:red;font-size:16px;font-family:georgia;">* Click On Customer Name To Initiate Sale Invoice.</b></em>',
                 // 'after'=>BulkButtonWidget::widget([
                 //             'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
@@ -76,7 +76,7 @@ CrudAsset::register($this);
             'hover' => true,
             'panel' => [
                 'type' => 'default', 
-                'heading' => '<i class="glyphicon glyphicon-stats"></i> Sales Invoice', 
+                'heading' => '<i class="glyphicon glyphicon-stats"></i> Customer Vehicles', 
                 'before'=>'<em><b  style="color:red;font-size:16px;font-family:georgia;">* Click On Registration No. To Initiate Sale Invoice.</b></em>',
             ],
             'toggleDataContainer' => ['class' => 'btn-group mr-2'],
@@ -142,46 +142,77 @@ CrudAsset::register($this);
                 'hover' => true,
                 'panel' => [
                             'type' => 'default', 
-                            'heading' => '<i class="glyphicon glyphicon-stats"></i> Sales Invoice', 
-                            'before'=>'<em><b  style="color:red;font-size:16px;font-family:georgia;">* Click On Registration No. To Initiate Sale Invoice.</b></em>',
+                            'heading' => '<i class="glyphicon glyphicon-stats"></i> Customer Vehicles Listing', 
+                            'before'=>'<em><b  style="color:red;font-size:14px;font-family:georgia;">* Click On Registration No. To Initiate Sale Invoice | Click on Customer Name to View Customer Profile</b></em>',
                         ],
                 'toggleDataContainer' => ['class' => 'btn-group mr-2'],
                 'columns' => [
                     ['class' => 'kartik\grid\SerialColumn'],
+                    // [
+                    //     'attribute' => 'Customer Name', 
+                    //             'value' => 'customer.customer_name',
+                    //             'width' => '50px',
+                    //             'headerOptions' => [
+                    //                 // this should be on a CSS file as class instead of a inline style attribute...
+                    //                 'style' => 'text-align: center !important;vertical-align: middle !important; color: #337AB7'
+                    //             ],
+                    //     // 'value' => function ($model, $key, $index, $widget) { 
+                    //     //     return $model->supplier->company_name;
+                    //     // },
+                    //     // 'filterType' => GridView::FILTER_SELECT2,
+                    //     // 'filter' => ArrayHelper::map(Suppliers::find()->orderBy('company_name')->asArray()->all(), 'id', 'company_name'), 
+                    //     // 'filterWidgetOptions' => [
+                    //     //     'pluginOptions' => ['allowClear' => true],
+                    //     // ],
+                    //     //'filterInputOptions' => ['placeholder' => 'Any supplier'],
+                    //     'group' => true,  // enable grouping
+                    // ],
+
+                    // [
+                    //     'attribute' => 'Customer Contact No.', 
+                    //     'value' => 'customer.customer_contact_no', 
+                    //     'width' => '250px',
+                    //     // 'value' => function ($model, $key, $index, $widget) { 
+                    //     //     return $model->category->category_name;
+                    //     // },
+                    //     // 'filterType' => GridView::FILTER_SELECT2,
+                    //     // 'filter' => ArrayHelper::map(Categories::find()->orderBy('category_name')->asArray()->all(), 'id', 'category_name'), 
+                    //     // 'filterWidgetOptions' => [
+                    //     //     'pluginOptions' => ['allowClear' => true],
+                    //     // ],
+                    //     // 'filterInputOptions' => ['placeholder' => 'Any category'],
+                    //     'group' => true,  // enable grouping
+                    //     'subGroupOf' => 1 // supplier column index is the parent group
+                    // ],
                     [
-                        'attribute' => 'Customer Name', 
-                                'value' => 'customer.customer_name',
-                                'width' => '50px',
-                                'headerOptions' => [
-                                    // this should be on a CSS file as class instead of a inline style attribute...
-                                    'style' => 'text-align: center !important;vertical-align: middle !important; color: #337AB7'
-                                ],
-                        // 'value' => function ($model, $key, $index, $widget) { 
-                        //     return $model->supplier->company_name;
-                        // },
-                        // 'filterType' => GridView::FILTER_SELECT2,
-                        // 'filter' => ArrayHelper::map(Suppliers::find()->orderBy('company_name')->asArray()->all(), 'id', 'company_name'), 
-                        // 'filterWidgetOptions' => [
-                        //     'pluginOptions' => ['allowClear' => true],
-                        // ],
-                        //'filterInputOptions' => ['placeholder' => 'Any supplier'],
-                        'group' => true,  // enable grouping
-                    ],
-                    [
-                        'attribute' => 'customer_id', 
-                        'value' => 'customer.customer_contact_no', 
-                        'width' => '250px',
-                        // 'value' => function ($model, $key, $index, $widget) { 
-                        //     return $model->category->category_name;
-                        // },
-                        // 'filterType' => GridView::FILTER_SELECT2,
-                        // 'filter' => ArrayHelper::map(Categories::find()->orderBy('category_name')->asArray()->all(), 'id', 'category_name'), 
-                        // 'filterWidgetOptions' => [
-                        //     'pluginOptions' => ['allowClear' => true],
-                        // ],
-                        // 'filterInputOptions' => ['placeholder' => 'Any category'],
-                        'group' => true,  // enable grouping
-                        'subGroupOf' => 1 // supplier column index is the parent group
+                        'class'=>'\kartik\grid\DataColumn',
+                        'label' => 'Customer Name',
+                        'attribute'=>'customer_id',
+                        'width' => '170px',
+                        'headerOptions' => [
+                            // this should be on a CSS file as class instead of a inline style attribute...
+                            'style' => 'text-align: center !important;vertical-align: middle !important; color: #337AB7'
+                        ],
+                        'format' => 'raw',
+                        'value' => function($model, $key, $index, $column) {
+                            $CustmName  = Yii::$app->db->createCommand("
+                            SELECT customer_name
+                            FROM customer
+                            WHERE customer_id = '$model->customer_id'
+                            ")->queryAll();
+
+                                        if (empty($model->customer_id) || empty($model->customer_id)) {
+                                            return;
+                                        }
+                                        return Html::a($CustmName[0]['customer_name'], [ './customer-profile','customer_id' => $model->customer_id ], ['id' => $model->customer_id, 'target' => '_blank','style'=>'color:black;', 'data' => ['pjax' => 0]] 
+                                    );
+                        },
+                        'contentOptions' => function ($model, $key, $index, $column) {
+                        return ['class' => '','style' => 'background-color:' 
+                            . (!empty($model->customer_id) && $model->customer_id / $model->customer_id < 2
+                                ? '#3C8DBC' : 'black')];
+                        },
+                        'group' => true,
                     ],
                     [
                         'attribute' => 'registration_no',

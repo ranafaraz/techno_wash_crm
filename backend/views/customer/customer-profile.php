@@ -84,7 +84,7 @@ $customerID = $_GET['customer_id'];
 <div class="container-fluid">
 <div class="row">
 	<div class="col-md-12">
-	    <a href="./customer" class="btn btn-xs btn-danger">Back</a>
+	    <a href="./customer-vehicles" class="btn btn-xs btn-danger">Back</a>
 	    <!-- <button type="button" onclick="printContent('print-report')" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-print"></i> Print Invoice</button> -->
 	</div>
 </div><br>

@@ -12,10 +12,10 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'customer_id',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'attribute'=>'customer_id',
+    // ],
     // [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'branch_id',
@@ -52,11 +52,11 @@ return [
     //     'class'=>'\kartik\grid\DataColumn',
     //     'attribute'=>'customer_gender',
     // ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'label' => 'CNIC',
-        'attribute'=>'customer_cnic',
-    ],
+    // [
+    //     'class'=>'\kartik\grid\DataColumn',
+    //     'label' => 'CNIC',
+    //     'attribute'=>'customer_cnic',
+    // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'customer_address',
