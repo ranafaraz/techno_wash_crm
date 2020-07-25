@@ -77,7 +77,7 @@
                      // ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
                      // ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
 
-                    ['label' => 'Customer', 'icon' => 'male', 'url' => "./customer"],
+                    ['label' => 'Customer', 'icon' => 'male', 'url' => "./customer-vehicles"],
                     ['label' => 'Sale Invoice', 'icon' => 'male', 'url' => "./sale-invoice-view"],
                     ['label' => 'Purchase Invoice', 'icon' => 'male', 'url' => ["./vendor"],],
                      // ['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
