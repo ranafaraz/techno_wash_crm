@@ -168,22 +168,6 @@ CrudAsset::register($this);
                     //     'group' => true,  // enable grouping
                     // ],
 
-                    // [
-                    //     'attribute' => 'Customer Contact No.', 
-                    //     'value' => 'customer.customer_contact_no', 
-                    //     'width' => '250px',
-                    //     // 'value' => function ($model, $key, $index, $widget) { 
-                    //     //     return $model->category->category_name;
-                    //     // },
-                    //     // 'filterType' => GridView::FILTER_SELECT2,
-                    //     // 'filter' => ArrayHelper::map(Categories::find()->orderBy('category_name')->asArray()->all(), 'id', 'category_name'), 
-                    //     // 'filterWidgetOptions' => [
-                    //     //     'pluginOptions' => ['allowClear' => true],
-                    //     // ],
-                    //     // 'filterInputOptions' => ['placeholder' => 'Any category'],
-                    //     'group' => true,  // enable grouping
-                    //     'subGroupOf' => 1 // supplier column index is the parent group
-                    // ],
                     [
                         'class'=>'\kartik\grid\DataColumn',
                         'label' => 'Customer Name',
@@ -213,6 +197,22 @@ CrudAsset::register($this);
                                 ? '#3C8DBC' : 'black')];
                         },
                         'group' => true,
+                    ],
+                    [
+                        'attribute' => 'Customer Contact No.', 
+                        'value' => 'customer.customer_contact_no', 
+                        'width' => '250px',
+                        // 'value' => function ($model, $key, $index, $widget) { 
+                        //     return $model->category->category_name;
+                        // },
+                        // 'filterType' => GridView::FILTER_SELECT2,
+                        // 'filter' => ArrayHelper::map(Categories::find()->orderBy('category_name')->asArray()->all(), 'id', 'category_name'), 
+                        // 'filterWidgetOptions' => [
+                        //     'pluginOptions' => ['allowClear' => true],
+                        // ],
+                        // 'filterInputOptions' => ['placeholder' => 'Any category'],
+                        'group' => true,  // enable grouping
+                        'subGroupOf' => 1 // supplier column index is the parent group
                     ],
                     [
                         'attribute' => 'registration_no',
