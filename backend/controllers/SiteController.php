@@ -30,7 +30,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','premium-version','user-profile', 'request-password-reset','car-wash-details','credit-sale-invoices','under-construction','payroll-month-report'],
+                        'actions' => ['logout', 'index','premium-version','user-profile', 'request-password-reset','car-wash-details','credit-sale-invoices','under-construction','payroll-month-report', 'expense-report', 'income-report'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -74,6 +74,14 @@ class SiteController extends Controller
     public function actionCarWashDetails()
     {
         return $this->render('car-wash-details');
+    }
+    public function actionExpenseReport()
+    {
+        return $this->render('expense-report');
+    }
+    public function actionIncomeReport()
+    {
+        return $this->render('income-report');
     }
     public function actionUnderConstruction()
     {

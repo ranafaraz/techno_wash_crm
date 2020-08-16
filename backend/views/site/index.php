@@ -130,32 +130,106 @@ use yii\helpers\Url;
         </div>
       </div>
     <!-- Message of the day close -->
+    <!-- First Row Start -->
+    <div class="row">
+      <!-- Today's Customer -->
+      <a href="./car-wash-details?customer" style="color: black;">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box bg-">
+            <span class="info-box-icon bg-black"><i class="fa fa-users"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Today's</span>
+              <span class="info-box-number"><?php echo number_format($countcustomer); ?></span>
+              <div class="progress">
+                <div class="progress-br" style="width: 100%; color: black !important;"></div>
+              </div>
+              <span class="info-box-text">Customers</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      </a>
+      <!-- /.col -->
+      <!-- Today's Income -->
+      <a href="./income-report" style="color: black;">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box bg-">
+            <span class="info-box-icon bg-black"><i class="fa fa-money"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Today's</span>
+              <?php  
+                $todayTotal = Yii::$app->db->createCommand("SELECT SUM(net_total) FROM sale_invoice_head WHERE CAST(date as DATE) = '$currentDate'")->queryAll();
+                $todayNetTotal = $todayTotal[0]["SUM(net_total)"];
+                if($todayNetTotal == null){
+                  $todayNetTotal = 0;
+                }
+              ?>
+              <span class="info-box-number"><?php echo number_format($todayNetTotal); ?></span>
+              <div class="progress">
+                <div class="progress-br" style="width: 100%; color: black !important;"></div>
+              </div>
+              <span class="info-box-text">Income</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      </a>
+      <!-- /.col -->
+      <!-- Today's Expense -->
+      <a href="./expense-report" style="color: black;">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box bg-">
+            <span class="info-box-icon bg-black"><i class="fa fa-calculator"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Today's</span>
+              <?php  
+                $todayExpense = Yii::$app->db->createCommand("SELECT SUM(amount) FROM transactions WHERE CAST(transactions_date as DATE) = '$currentDate' AND account_head_id = 2")->queryAll();
+                $todayNetExpense = $todayExpense[0]["SUM(amount)"];
+                if($todayNetExpense == null){
+                  $todayNetExpense = 0;
+                }
+              ?>
+              <span class="info-box-number"><?php echo number_format($todayNetExpense); ?></span>
+              <div class="progress">
+                <div class="progress-br" style="width: 100%; color: black !important;"></div>
+              </div>
+              <span class="info-box-text">Expense</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      </a>
+      <!-- Today's Profit -->
+      <a href="" style="color: black;">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box bg-">
+            <span class="info-box-icon bg-black"><i class="fa fa-bar-chart"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Today's</span>
+              <?php  
+                //$todayNetTotal = Yii::$app->db->createCommand("SELECT SUM(net_total) FROM sale_invoice_head WHERE CAST(date as DATE) = '$currentDate'")->queryAll();
+              ?>
+              <span class="info-box-number"><?php echo number_format($todayNetTotal - $todayNetExpense); ?></span>
+              <div class="progress">
+                <div class="progress-br" style="width: 100%; color: black !important;"></div>
+              </div>
+              <span class="info-box-text">Profit</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      </a>
+    </div>
+    <!-- First Row Close -->
+    <!--  -->
+    <!--  -->
     <div class="row">
         <div class="col-md-3" style="background-color:white;padding:10px;border-top:3px solid #FAB61C;">
           <p style="text-align: center;font-weight: bolder;color:#000000;">Today's</p>
-        <a href="./car-wash-details?customer">
-          <!--   <div class="panel panel-default" style="border:1px solid #FAB61C;"> -->
-              <!-- <div class="panel-body" style="text-align: center;padding:30px" -->
-                <div class="row">
-                  <div class="col-md-12">
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                        <th colspan="2" style="text-align: left;background-color:#FAB61C;color:white;"><span style="color:#000000;"></span>CUSTOMERS <b>(<?php echo $countcustomer ?>)</b></th>
-                        </tr>
-                      <!-- <tr>
-                        <th>Count</th>
-                        <td>
-                          <b style="border-radius: 20px;"></b>
-                        </td>
-                      </tr> -->
-                      </thead>
-                    </table>
-                  </div>
-                </div>
-              <!-- </div> -->
-            <!-- </div> -->
-          </a>
           <a href="./car-wash-details?polish">
             <!-- <div class="panel panel-default" style="border:1px solid #FAB61C;">
               <div class="panel-body" style="text-align: center;padding:30px"> -->
@@ -343,48 +417,6 @@ use yii\helpers\Url;
           </a>
       </div>
       <div class="col-md-9">
-          <div class="row">
-              <div class="col-md-3">
-                <a href="./car-wash-details?customer">
-                <div class="panel panel-default" style="border:1px solid #FAB61C;">
-                  <div class="panel-body" style="text-align: center;padding:30px">
-                    <p><i class="glyphicon glyphicon-user"></i> Customers</p><br>
-                    <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;"><?php echo $countcustomer ?></b>
-                  </div>
-                </div>
-                </a>
-              </div>
-              <div class="col-md-3">
-                <a href="./under-construction">
-                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
-                      <div class="panel-body" style="text-align: center;padding:30px">
-                        <p><i class="glyphicon glyphicon-user"></i> Today Expense</p><br>
-                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">0</b>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="col-md-3">
-                <a href="./under-construction">
-                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
-                      <div class="panel-body" style="text-align: center;padding:30px">
-                        <p><i class="glyphicon glyphicon-user"></i> Today Income</p><br>
-                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">0</b>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="col-md-3">
-                <a href="./under-construction">
-                    <div class="panel panel-default" style="border:1px solid #FAB61C;">
-                      <div class="panel-body" style="text-align: center;padding:30px">
-                        <p><i class="fa fa-money"></i> Today Profit</p><br>
-                        <b style="background-color:#FAB61C;color:white;padding:10px;border-radius: 20px;">0</b>
-                      </div>
-                    </div>
-                </a>
-              </div>
-          </div>
           <div class="row">
               <div class="col-md-3">
                 <a href="./sale-invoice-view">

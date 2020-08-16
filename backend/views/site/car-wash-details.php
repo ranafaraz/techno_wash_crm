@@ -1,139 +1,140 @@
 <?php 
 if(isset($_GET['customer'])){
 	$currentDate = date('Y-m-d');
-
 	$countCustomer  = Yii::$app->db->createCommand("
 	  SELECT sih.*
 	  FROM sale_invoice_head as sih
 	  WHERE CAST(sih.date as DATE) = '$currentDate'
 	")->queryAll();
-	
 	$countcustomer = count($countCustomer);
+$this->title = "Today's Customers";
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <!DOCTYPE html>
 <html>
-	<head>
-		<title></title>
-	</head>
-	<body>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12">
-					<h3 style="color:#3C8DBC;">
-						<a href="./home" class="btn btn-success">
-							<i class="glyphicon glyphicon-home"> HOME</i>
-						</a>
-					Customers (<?php echo $currentDate;?>)
-					</h3> 
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<table class="table table-bordered">
-						<thead style="background-color:#3C8DBC;color:white;">
-							<tr>
-								<th>Sr.#</th>
-								<th>Customer Name</th>
-								<th>Reg.#</th>
-								<th>Total</th>
-								<th>Paid</th>
-								<th>Remaining</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-				               $netTotal=$paidamt=$remainAmt=0;
-				              for ($c=0; $c <$countcustomer ; $c++) {
-				              	$sale_inv_head_id = $countCustomer[$c]['sale_inv_head_id'];
-
-				              	$saledetails  = Yii::$app->db->createCommand("
-								  SELECT sid.*
-								  FROM sale_invoice_detail as sid
-								  WHERE sid.sale_inv_head_id = '$sale_inv_head_id'
-								")->queryAll();
-
-				              	$customerID = $countCustomer[$c]['customer_id'];
-
-								$custVehicleID = $saledetails[0]['customer_vehicle_id'];
-					              $customerInfo  = Yii::$app->db->createCommand("
-						          SELECT customer.customer_name,customer_vehicles.registration_no, vtsc.name
-						          FROM customer
-						          INNER JOIN customer_vehicles
-						          ON customer.customer_id = customer_vehicles.customer_id 
-						      		INNER JOIN vehicle_type_sub_category as vtsc
-						     		ON customer_vehicles.vehicle_typ_sub_id = vtsc.vehicle_typ_sub_id
-						          WHERE customer.customer_id = '$customerID'
-						          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
-						          ")->queryAll();
-						          $status = $countCustomer[$c]['status'];
-						          if($status == 'Paid'){
-						          	$trClass = 'success';
-						          } else if($status == 'Partially'){
-						          	$trClass = 'warning';
-						          } else if ($status == 'Unpaid'){
-						          	$trClass = 'danger';
-						          }
-				              ?>          
-							<tr class="<?php echo $trClass; ?>">
-								<td><?php echo $c+1; ?></td>
-								<td>
-									<?php
-									 echo $customerInfo[0]['customer_name'];
-									 ?>
-								</td>
-								<td>
-									<?php
-									 echo $customerInfo[0]['name']." - ".$customerInfo[0]['registration_no'];
-									 ?>
-								</td>
-								<td>
-									<?php
-									 echo $countCustomer[$c]['net_total'];
-									 ?>
-								</td>
-								<td>
-									<?php
-									 echo $countCustomer[$c]['paid_amount'];
-									 ?>
-								</td>
-								<td>
-									<?php
-									 echo $countCustomer[$c]['remaining_amount'];
-									 ?>
-								</td>
-								<td>
-									<?php
-									 echo $status;
-									 ?>
-								</td>
-							</tr>
-							<?php $netTotal += $countCustomer[$c]['net_total'];
-								$paidamt += $countCustomer[$c]['paid_amount'];
-								$remainAmt += $countCustomer[$c]['remaining_amount'];
-								}
-							 ?>
-							 <tr>
-								<td colspan="3" style="text-align: center;background-color:#3C8DBC;color:white;font-weight: bolder;">Total</td>
-								<td style="background-color: lightgray;font-weight: bolder;">
-									<?php echo $netTotal; ?>
-								</td>
-								<td style="background-color: lightgray;font-weight: bolder;">
-									<?php echo $paidamt; ?>
-								</td>
-								<td style="background-color: lightgray;font-weight: bolder;">
-									<?php echo $remainAmt; ?>
-								</td>
-								<td style="background-color: lightgray;font-weight: bolder;">
-									<?php //echo $creditSum; ?>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
+<head>
+	<title></title>
+</head>
+<body>
+<div style="float: right;">
+	<button onclick="printContent('print-report')" class="btn btn-warning btn-block btn-flat btn-sm"><i class="glyphicon glyphicon-print"></i> Print Report
+	</button>
+</div><br><br>
+<div class="container-fluid" id="print-report">
+	<div class="row container-fluid" style="border: 2px solid; border-radius: 10px;">
+		<div class="col-md-12">
+			<img src="images/technowash_logo.png" width="" style="margin-left: 34%;">
 		</div>
-	</body>
+		<div class="col-md-12">
+			<p style="text-align: center;">
+				Opearted By: Bahawal Vehicle Services<br>9- Railway link road, Bahawalpur <br>	
+				Contact #: +92 (300) 0600106<br>https://www.technowashbwp.pk
+			</p>
+		</div>
+	</div>
+	<br>	
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th colspan="7" style="background-color: black !important;">
+							<h4 style="font-family: georgia;">
+								<span><b style="color: white !important;">Today's Customers</b></span> <span class="pull-right" style="color: white !important;">Date: <b style="color: white !important;"><?php echo date('d-M-Y',strtotime($currentDate)); ?></b>
+								</span>
+							</h4>
+						</th>
+					</tr>
+					<tr>
+						<th>Sr.#</th>
+						<th>Customer Name</th>
+						<th>Vehicle Registration No.</th>
+						<th class="text-center">Status</th>
+						<th class="text-center">Total</th>
+						<th class="text-center" width="50px;">Remaining</th>
+						<th class="text-center">Paid</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php 
+		               $netTotal=$paidamt=$remainAmt=0;
+		              for ($c=0; $c <$countcustomer ; $c++) {
+		              	$sale_inv_head_id = $countCustomer[$c]['sale_inv_head_id'];
+
+		              	$saledetails  = Yii::$app->db->createCommand("
+						  SELECT sid.*
+						  FROM sale_invoice_detail as sid
+						  WHERE sid.sale_inv_head_id = '$sale_inv_head_id'
+						")->queryAll();
+
+		              	$customerID = $countCustomer[$c]['customer_id'];
+
+						$custVehicleID = $saledetails[0]['customer_vehicle_id'];
+			              $customerInfo  = Yii::$app->db->createCommand("
+				          SELECT customer.customer_name,customer_vehicles.registration_no, vtsc.name
+				          FROM customer
+				          INNER JOIN customer_vehicles
+				          ON customer.customer_id = customer_vehicles.customer_id 
+				      		INNER JOIN vehicle_type_sub_category as vtsc
+				     		ON customer_vehicles.vehicle_typ_sub_id = vtsc.vehicle_typ_sub_id
+				          WHERE customer.customer_id = '$customerID'
+				          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
+				          ")->queryAll();
+				          $status = $countCustomer[$c]['status'];
+				          if($status == 'Paid'){
+				          	$trClass = 'success';
+				          } else if($status == 'Partially'){
+				          	$trClass = 'warning';
+				          } else if ($status == 'Unpaid'){
+				          	$trClass = 'danger';
+				          }
+		              ?>          
+					<tr class="<?php echo $trClass; ?>">
+						<td><?php echo $c+1; ?></td>
+						<td>
+							<?php echo $customerInfo[0]['customer_name']; ?>
+						</td>
+						<td>
+							<?php 
+								echo $customerInfo[0]['name']." - ".$customerInfo[0]['registration_no'];
+							 ?>
+						</td>
+						<td class="text-center">
+							<?php echo $status; ?>
+						</td>
+						<td class="text-center">
+							<?php echo $countCustomer[$c]['net_total']; ?>
+						</td>
+						<td class="text-center">
+							<?php echo $countCustomer[$c]['remaining_amount']; ?>
+						</td>
+						<td class="text-center">
+							<?php echo $countCustomer[$c]['paid_amount']; ?>
+						</td>
+					</tr>
+					<?php $netTotal += $countCustomer[$c]['net_total'];
+						$paidamt += $countCustomer[$c]['paid_amount'];
+						$remainAmt += $countCustomer[$c]['remaining_amount'];
+						}
+					 ?>
+					 <tr>
+						<td colspan="4" style="text-align: center;background-color: black !important; color: white !important;font-weight: bolder;">Total</td>
+						<td class="text-center" style="background-color: black !important; color: white !important; font-weight: bolder;">
+							<?php echo $netTotal; ?>
+						</td>
+						<td class="text-center" style="background-color: black !important; color: white !important; font-weight: bolder;">
+							<?php echo $remainAmt; ?>
+						</td>
+						<td class="text-center" style="background-color: black !important; color: white !important; font-weight: bolder;">
+							<?php echo $paidamt; ?>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
 </html>
 <?php } ?>
 <?php 
@@ -487,3 +488,12 @@ if(isset($_GET['polish'])) {
 	</body>
 </html>
 <?php } ?>
+<script>
+function printContent(el){
+  var restorepage = document.body.innerHTML;
+  var printcontent = document.getElementById(el).innerHTML;
+  document.body.innerHTML = printcontent;
+  window.print();
+  document.body.innerHTML = restorepage;
+}
+</script>
