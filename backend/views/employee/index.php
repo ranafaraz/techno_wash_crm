@@ -26,8 +26,10 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'','title'=> 'Create new Employees','class'=>'btn btn-success']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>Add Employee Type', ['./employee-types'],
+                    ['role'=>'','title'=> 'Add new Employee Type','class'=>'btn btn-primary']).
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>Add Employee', ['create'],
+                    ['role'=>'','title'=> 'Add new Employees','class'=>'btn btn-success']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-warning', 'title'=>'Reset Grid']).
                     '{toggleData}'.
