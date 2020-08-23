@@ -31,13 +31,6 @@ use yii\helpers\Url;
   $countwash = count($countWash);
 
 // // // Body wax count queries
-// $serviceBodyWaxID  = Yii::$app->db->createCommand("
-//             SELECT services_id
-//             FROM services
-//             WHERE name = 'Wax'
-//             ")->queryAll();
-// $bodyWaxId = $serviceBodyWaxID[0]['services_id'];
-
 
   // counter for WAX
   $WAX = 2;
@@ -225,9 +218,126 @@ use yii\helpers\Url;
       </a>
     </div>
     <!-- First Row Close -->
-    <!--  -->
-    <!--  -->
+    <!-- Second Row Start -->
     <div class="row">
+      <div class="col-md-16 col-sm-6 col-xs-12">
+        <!-- Widget: user widget style 1 -->
+        <div class="box box-widget widget-user-2">
+          <!-- Add the bg color to the header using any of the bg-* classes -->
+          <div class="widget-user-headr bg-black">
+            <!-- /.widget-user-image -->
+            <h3 style="font-family: georgia; text-align: center; padding: 10px;">
+              <i class="fa fa-recycle"></i> Today's Services</h3>
+          </div>
+          <div class="box-footer no-padding">
+            <ul class="nav nav-stacked">
+              <?php  
+                $services  = Yii::$app->db->createCommand("SELECT service_id, service_name FROM services")->queryAll();
+                $countServices = count($services);
+                $srNo = 0;
+                $totalAmount = 0;
+                for ($i=0; $i < $countServices; $i++) { 
+                  $serviceID = $services[$i]['service_id'];
+                  //var_dump($serviceID);
+                  $Services  = Yii::$app->db->createCommand("
+                  SELECT s.service_name,sd.vehicle_type_id,sid.discount_per_service
+                  FROM services as s
+                  INNER JOIN service_details as sd
+                  ON s.service_id = sd.service_id
+                  INNER JOIN sale_invoice_detail as sid
+                  ON sid.item_id = sd.service_detail_id
+                  INNER JOIN sale_invoice_head as sih
+                  ON sih.sale_inv_head_id = sid.sale_inv_head_id
+                  WHERE s.service_id = '$serviceID'
+                  AND sid.item_type = 'Service'
+                  AND CAST(date as DATE) = '$currentDate'
+                  ")->queryAll();
+                  // sum of services...
+                  $sumServices  = Yii::$app->db->createCommand("
+                  SELECT SUM(sid.discount_per_service)
+                  FROM services as s
+                  INNER JOIN service_details as sd
+                  ON s.service_id = sd.service_id
+                  INNER JOIN sale_invoice_detail as sid
+                  ON sid.item_id = sd.service_detail_id
+                  INNER JOIN sale_invoice_head as sih
+                  ON sih.sale_inv_head_id = sid.sale_inv_head_id
+                  WHERE s.service_id = '$serviceID'
+                  AND sid.item_type = 'Service'
+                  AND CAST(date as DATE) = '$currentDate'
+                  ")->queryAll();
+                if ($Services != null) {
+                    $countService = count($Services);
+                    $serviceName = $Services[0]['service_name'];
+                ?>
+              <li class="table-hover">
+                <?php $srNo += 1; ?>
+                <a href="#"><?php echo "<b>".$srNo.") </b>".$serviceName; ?> 
+                  <span class="badge bg-yellow"><?php echo $countService ?></span> 
+                  <span class="pull-right badge bg-yellow"><?php echo $sumServices[0]["SUM(sid.discount_per_service)"]; ?></span>
+                </a>
+              </li>
+              <?php } // ending of if...
+                } // ending of for loop...
+              ?>
+            </ul>
+          </div>
+        </div>
+        <!-- /.widget-user -->
+      </div>
+      <a href="credit-sale-invoices?creditInvoice" style="color: black;">
+        <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top: 20px;">
+          <div class="info-box bg-">
+            <span class="info-box-icon bg-black"><i class="fa fa-bar-chart"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Credit</span>
+              <?php  
+                //$todayNetTotal = Yii::$app->db->createCommand("SELECT SUM(net_total) FROM sale_invoice_head WHERE CAST(date as DATE) = '$currentDate'")->queryAll();
+                $creditInvoicesDetails  = Yii::$app->db->createCommand("
+                  SELECT SUM(remaining_amount) FROM sale_invoice_head as sih 
+                  WHERE sih.status != 'Paid'")->queryAll();
+                $creditInvoices = $creditInvoicesDetails[0]["SUM(remaining_amount)"];
+              ?>
+              <span class="info-box-number"><?php echo number_format($creditInvoices); ?></span>
+              <div class="progress">
+                <div class="progress-br" style="width: 100%; color: black !important;"></div>
+              </div>
+              <span class="info-box-text">Invoices</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      </a>
+      <a href="credit-sale-invoices?debitInvoice" style="color: black;">
+        <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top: 20px;">
+          <div class="info-box bg-">
+            <span class="info-box-icon bg-black"><i class="fa fa-bar-chart"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Debit</span>
+              <?php  
+                //$todayNetTotal = Yii::$app->db->createCommand("SELECT SUM(net_total) FROM sale_invoice_head WHERE CAST(date as DATE) = '$currentDate'")->queryAll();
+                $creditInvoicesDetails  = Yii::$app->db->createCommand("
+                  SELECT SUM(remaining_amount) FROM purchase_invoice as pi 
+                  WHERE pi.status != 'Paid'")->queryAll();
+                $creditInvoices = $creditInvoicesDetails[0]["SUM(remaining_amount)"];
+              ?>
+              <span class="info-box-number"><?php echo number_format($creditInvoices); ?></span>
+              <div class="progress">
+                <div class="progress-br" style="width: 100%; color: black !important;"></div>
+              </div>
+              <span class="info-box-text">Invoices</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+      </a>
+    </div>
+    <!-- Secong Row Close -->
+    <!--  -->
+    <!--  -->
+    <div class="row invisible">
         <div class="col-md-3" style="background-color:white;padding:10px;border-top:3px solid #FAB61C;">
           <p style="text-align: center;font-weight: bolder;color:#000000;">Today's</p>
           <a href="./car-wash-details?polish">

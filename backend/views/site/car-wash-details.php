@@ -7,8 +7,8 @@ if(isset($_GET['customer'])){
 	  WHERE CAST(sih.date as DATE) = '$currentDate'
 	")->queryAll();
 	$countcustomer = count($countCustomer);
-$this->title = "Today's Customers";
-$this->params['breadcrumbs'][] = $this->title;
+	$this->title = "Today's Customers";
+	$this->params['breadcrumbs'][] = $this->title;
 ?>
 <!DOCTYPE html>
 <html>
@@ -237,7 +237,29 @@ if(isset($_GET['serviceID'])){
 if(isset($_GET['polish'])) {
 	$currentDate = date('Y-m-d');
   	// counter for WAX
+  	// $services  = Yii::$app->db->createCommand("SELECT * FROM services")->queryAll();
+  	// $countServices = count($services);
+
   	$WAX = 2;
+  	// for ($i=0; $i < $countServices ; $i++) { 
+  	// 	$serviceID = $services[$i]['service_id'];
+  	// 	$serviceDetails  = Yii::$app->db->createCommand("
+	  // 	SELECT s.service_name,sd.vehicle_type_id,sih.customer_id,sid.discount_per_service,sid.customer_vehicle_id
+	  // 	FROM services as s
+	  // 	INNER JOIN service_details as sd
+	  // 	ON s.service_id = sd.service_id
+	  // 	INNER JOIN sale_invoice_detail as sid
+	  // 	ON sid.item_id = sd.service_detail_id
+	  // 	INNER JOIN sale_invoice_head as sih
+	  // 	ON sih.sale_inv_head_id = sid.sale_inv_head_id
+	  // 	WHERE s.service_id = '$serviceID'
+	  // 	AND sid.item_type = 'Service'
+	  // 	AND CAST(date as DATE) = '$currentDate'
+	  // 	")->queryAll();
+	  // 	$countwax = count($serviceDetails);
+  	// }
+  	// var_dump($serviceDetails);
+  	// die();
   	$countWax  = Yii::$app->db->createCommand("
   	SELECT s.service_name,sd.vehicle_type_id,sih.customer_id,sid.discount_per_service,sid.customer_vehicle_id
   	FROM services as s

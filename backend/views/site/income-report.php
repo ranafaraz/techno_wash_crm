@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 if(isset($_POST['submit'])){
 	$start_date = $_POST['start_date'];
 	$end_date = $_POST['end_date'];
-	$saleInvoiceHead = Yii::$app->db->createCommand("SELECT * FROM sale_invoice_head WHERE CAST(date as DATE) >= '$start_date' AND CAST(date as DATE) <= '$end_date' ORDER BY date DESC
+	$saleInvoiceHead = Yii::$app->db->createCommand("SELECT * FROM sale_invoice_head WHERE CAST(date as DATE) >= '$start_date' AND CAST(date as DATE) <= '$end_date' AND net_total !=0 ORDER BY date DESC
 	")->queryAll();
 
 	// var_dump($saleInvoiceHead);
@@ -68,7 +68,7 @@ if(isset($_POST['submit'])){
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th colspan="7" style="background-color: black !important;">
+						<th colspan="8" style="background-color: black !important;">
 							<h4 style="font-family: georgia;">
 								<span><b style="color: white !important;">Income Report</b></span> <span class="pull-right" style="color: white !important;">From <b style="color: white !important;"><?php echo date('d-M-Y',strtotime($start_date))." To ".date('d-M-Y',strtotime($end_date)); ?></b>
 								</span>
@@ -83,11 +83,12 @@ if(isset($_POST['submit'])){
 						<th class="text-center">Status</th>
 						<th class="text-center">Total</th>
 						<th class="text-center" width="50px;">Remaining</th>
+						<th class="text-center">Paid</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 
-		               $netTotal=$paidamt=$remainAmt=0;
+		               $netTotal = $paidAmount = $remainingAmount = 0;
 		              for ($c=0; $c <$countHead ; $c++) {
 		              	$sale_inv_head_id = $saleInvoiceHead[$c]['sale_inv_head_id'];
 
@@ -96,10 +97,11 @@ if(isset($_POST['submit'])){
 						  FROM sale_invoice_detail as sid
 						  WHERE sid.sale_inv_head_id = '$sale_inv_head_id'
 						")->queryAll();
+		              	//var_dump($saledetails);
 
 		              	$customerID = $saleInvoiceHead[$c]['customer_id'];
 
-						$custVehicleID = $saledetails[0]['customer_vehicle_id'];
+						//$custVehicleID = $saledetails[0]['customer_vehicle_id'];
 			              $customerInfo  = Yii::$app->db->createCommand("
 				          SELECT customer.customer_name,customer_vehicles.registration_no, vtsc.name
 				          FROM customer
@@ -108,7 +110,6 @@ if(isset($_POST['submit'])){
 				      		INNER JOIN vehicle_type_sub_category as vtsc
 				     		ON customer_vehicles.vehicle_typ_sub_id = vtsc.vehicle_typ_sub_id
 				          WHERE customer.customer_id = '$customerID'
-				          AND customer_vehicles.customer_vehicle_id = '$custVehicleID'
 				          ")->queryAll();
 				          $status = $saleInvoiceHead[$c]['status'];
 				          if($status == 'Paid'){
@@ -133,6 +134,9 @@ if(isset($_POST['submit'])){
 							<?php echo date('d-m-Y',strtotime($saleInvoiceHead[$c]['date'])); ?>
 						</td>
 						<td class="text-center">
+							<?php echo $saleInvoiceHead[$c]['status']; ?>
+						</td>
+						<td class="text-center">
 							<?php echo $saleInvoiceHead[$c]['net_total']; ?>
 						</td>
 						<td class="text-center">
@@ -142,21 +146,21 @@ if(isset($_POST['submit'])){
 							<?php echo $saleInvoiceHead[$c]['paid_amount']; ?>
 						</td>
 					</tr>
-					<?php $netTotal += $saleInvoiceHead[$c]['net_total'];
-						$paidamt += $saleInvoiceHead[$c]['paid_amount'];
-						$remainAmt += $saleInvoiceHead[$c]['remaining_amount'];
-						}
-					 ?>
+					<?php 
+						$netTotal += $saleInvoiceHead[$c]['net_total'];
+						$paidAmount += $saleInvoiceHead[$c]['paid_amount'];
+						$remainingAmount += $saleInvoiceHead[$c]['remaining_amount'];
+					} ?>
 					 <tr>
-						<td colspan="4" style="text-align: center;background-color: black !important; color: white !important;font-weight: bolder;">Total</td>
+						<td colspan="5" style="text-align: center;background-color: black !important; color: white !important;font-weight: bolder;">Total</td>
 						<td class="text-center" style="background-color: black !important; color: white !important; font-weight: bolder;">
 							<?php echo $netTotal; ?>
 						</td>
 						<td class="text-center" style="background-color: black !important; color: white !important; font-weight: bolder;">
-							<?php echo $remainAmt; ?>
+							<?php echo $remainingAmount; ?>
 						</td>
 						<td class="text-center" style="background-color: black !important; color: white !important; font-weight: bolder;">
-							<?php echo $paidamt; ?>
+							<?php echo $paidAmount; ?>
 						</td>
 					</tr>
 				</tbody>
