@@ -30,7 +30,7 @@ use yii\helpers\Html;
 <body>
 <header class="main-header fixed text-dark">
 
-    <?= Html::a('<span class="logo-mini"><b style="color:#FAB61C; font-family: serif;">TW</b></span><span class="logo-lg">' . "<b style='color:#FAB61C; font-family: serif;'>CAR<span style='color:white;'>WASH</span></b>" . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini"><b style="color:#FAB61C; font-family: serif;">TW</b></span><span class="logo-lg">' . "<b style='color:#FAB61C; font-family: serif;'>TECHNO<span style='color:white;'>WASH</span></b>" . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top">
 
@@ -122,61 +122,12 @@ use yii\helpers\Html;
                         <li class="footer"><a href="#">See All Messages</a></li>
                     </ul>
                 </li>
-
-                <!-- Tasks: style can be found in dropdown.less -->
-                <li class="tasks-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-th"></i>
-                        <!-- <span class="label label-danger">9</span> -->
-                    </a>
-                    <ul class="dropdown-menu" style="width: 340px; height: 400px; background-color: #AA5397;">
-                        <li class="header"><p align="center"><b>Menus</b></p></li>
-                            <!-- inner menu: contains the actual data -->
-                            <ul class="menu">
-                                <li style="list-style: none;">
-                                    <a href="https://www.youtube.com/watch?v=FK24c8ydmPE" target="_blank" class="btn btn-sm">
-                                        <i class="fa fa-cog fa-2x"></i>
-                                           <h5>System<br>Settings</h5>
-                                    </a>
-                                    <a href="index.php?r=site/system-configuration" class="btn btn-sm">
-                                        <i class="fa fa-cogs fa-2x"></i>
-                                           <h5>System<br>Configuration</h5>
-                                    </a>
-
-                                    <a href="index.php?r=site/students" class="btn btn-sm">
-                                        <i class="fa fa-users fa-2x"></i>
-                                           <h5>Student</h5>
-                                    </a>
-                                </li>
-                                <li style="list-style: none;">
-                                    <a href="index.php?r=site/employees" class="btn btn-sm">
-                                        <i class="fa fa-user fa-2x"></i>
-                                           <h5>Employee</h5>
-                                    </a>
-                                    <a href="index.php?r=site/communication" class="btn btn-sm">
-                                        <i class="fa fa-comments fa-2x"></i>
-                                           <h5>Communication</h5>
-                                    </a>
-                                    <a href="index.php?r=site/fee" class="btn btn-sm">
-                                        <i class="fa fa-credit-card fa-2x"></i>
-                                           <h5>Fee</h5>
-                                    </a>
-                                </li>
-                                <!-- end task item -->
-                            </ul>
-                        <!-- <li class="footer">
-                            <a href="#">View all tasks</a>
-                        </li> -->
-                    </ul>
-                </li>
                 <!-- User Account: style can be found in dropdown.less -->
 
                 <!-- Notifications Starts -->
-                <li class="dropdown notifications-menu">
+                <li class="dropdown notifications-menu invisible">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                       
-                        
                     </a>
                     <ul class="dropdown-menu">
                         <li class="header">You have <?php //echo $no_of_leaves; ?> notifications</li>
@@ -205,7 +156,7 @@ use yii\helpers\Html;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?php echo '../backend/web/'.$userPhoto; ?>" class="user-image" alt="User Image"/>
+                        <img src="<?php echo '../frontend/web/'.$userPhoto; ?>" class="user-image" alt="User Image"/>
                         <span class="hidden-xs">
                             <!--  -->
                             <?= Yii::$app->user->identity->username ?>
@@ -214,7 +165,7 @@ use yii\helpers\Html;
                     <ul class="dropdown-menu" style="background-color:#FAB61C;">
                         <!-- User image -->
                         <li class="user-header" style="height: 200px">
-                            <img src="<?php echo '../backend/web/'.$userPhoto; ?>" class="img-circle"
+                            <img src="<?php echo '../frontend/web/'.$userPhoto; ?>" class="img-circle"
                                  alt="User Image"/>
                             <p>
                                 <label for="">Contact Info</label><br>
@@ -225,7 +176,14 @@ use yii\helpers\Html;
                                 <!-- - Web Developer
                                 <small>Member since Nov. 2012</small> -->
                             </p>
-                        </li><hr>
+                            <div class="pull">
+                                <?= Html::a(
+                                    'Sign out',
+                                    ['/site/logout'],
+                                    ['data-method' => 'post', 'class' => 'btn btn-danger btn-flat btn-sm']
+                                ) ?>
+                            </div>
+                        </li>
                         <!-- Menu Body -->
                         <!-- <li class="user-body">
                             <div class="col-xs-12 text-center">
@@ -240,11 +198,11 @@ use yii\helpers\Html;
                             </div>
                         </li> -->
                         <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-left">
+                        <li class="user-foote invisible">
+                            <div class="pull-left invisible">
                                 <a href="./user-profile" class="btn btn-primary btn-flat btn-sm">Profile</a>
                             </div>
-                            <div class="pull-right">
+                            <div class="pull-right invisible">
                                 <?= Html::a(
                                     'Sign out',
                                     ['/site/logout'],

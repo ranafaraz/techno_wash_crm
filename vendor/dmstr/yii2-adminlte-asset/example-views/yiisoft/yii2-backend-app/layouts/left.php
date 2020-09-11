@@ -37,16 +37,11 @@
         <!-- Sidebar user panel -->
         <div class="user-panel" style="margin-bottom:10px;">
             <div class="pull-left image">
-                <img src="<?php echo '../backend/web/'.$userPhoto; ?>" class="img-circle" alt="User Image"/>
+                <img src="<?php echo '../frontend/web/'.$userPhoto; ?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <p id="user-name">
-                    <?php 
-                        $name = Yii::$app->user->identity->username;
-                        if ($name = 'developer') {
-                            echo "Developer";
-                        }
-                    ?>
+                    <?= Yii::$app->user->identity->username ?>
                 </p>
                 <p id="user-name" ><i class="fa fa-circle text-success"></i> Online</p>
             </div>
