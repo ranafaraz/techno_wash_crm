@@ -130,6 +130,8 @@ CrudAsset::register($this);
                 'pjax' => true,
                 'toolbar'=> [
                             ['content'=>
+                                Html::a('<i class="glyphicon glyphicon-search"></i> Search Customer By Contact No', ['./customer'],
+                                ['role'=>'','title'=> 'Search Customer By Contact No.','class'=>'btn btn-info']).
                                 Html::a('<i class="glyphicon glyphicon-plus"></i> Add Customer', ['./customer/create'],
                                 ['role'=>'modal-remote','title'=> 'Create new Customer Vehicles','class'=>'btn btn-success']).
                                 Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
@@ -143,7 +145,7 @@ CrudAsset::register($this);
                 'panel' => [
                             'type' => 'default', 
                             'heading' => '<i class="glyphicon glyphicon-stats"></i> Customer Vehicles Listing', 
-                            'before'=>'<em><b  style="color:red;font-size:14px;font-family:georgia;">* Click On Registration No. To Initiate Sale Invoice | Click on Customer Name to View Customer Profile</b></em>',
+                            'before'=>'<em><b  style="color:red;font-size:14px;font-family:georgia;">* Click On Registration No. To Initiate Sale Invoice <br> * Click on Customer Name to View Customer Profile</b></em>',
                         ],
                 'toggleDataContainer' => ['class' => 'btn-group mr-2'],
                 'columns' => [
