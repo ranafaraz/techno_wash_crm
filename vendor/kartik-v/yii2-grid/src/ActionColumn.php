@@ -250,11 +250,17 @@ class ActionColumn extends YiiActionColumn
      * @throws InvalidConfigException
      */
     protected function initDefaultButtons()
-    {
-        $isBs4 = $this->grid->isBs4();
-        $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), $isBs4 ? 'eye' : 'eye-open');
-        $this->setDefaultButton('update', Yii::t('kvgrid', 'Update'), $isBs4 ? 'pencil-alt' : 'pencil');
-        $this->setDefaultButton('delete', Yii::t('kvgrid', 'Delete'), $isBs4 ? 'trash-alt' : 'trash');
+    {   
+        if(Yii::$app->user->identity->user_type == 'Admin'){
+            $isBs4 = $this->grid->isBs4();
+            $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), $isBs4 ? 'eye' : 'eye-open');
+            $this->setDefaultButton('update', Yii::t('kvgrid', 'Update'), $isBs4 ? 'pencil-alt' : 'pencil');
+            $this->setDefaultButton('delete', Yii::t('kvgrid', 'Delete'), $isBs4 ? 'trash-alt' : 'trash');
+        }
+        else {
+            $isBs4 = $this->grid->isBs4();
+            $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), $isBs4 ? 'eye' : 'eye-open');
+        }
     }
 
     /**
