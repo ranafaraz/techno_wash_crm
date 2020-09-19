@@ -19,7 +19,7 @@ use kartik\select2\Select2;
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'vehicle_type_id')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map(VehicleType::find()->all(),'vehical_type_id','name'),
+                    'data' => ArrayHelper::map(VehicleType::find()->where(['is_deleted' => 0])->all(),'vehical_type_id','name'),
                     'language' => 'en',
                     'options' => ['placeholder' => 'Select','id'=>'stdent'],
                     'showToggleAll' => true,

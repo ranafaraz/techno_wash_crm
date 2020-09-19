@@ -301,7 +301,7 @@ $countManufactureData = count($manufactureData);
 					               				</tr>
 					               				<?php } ?>
 					               				<tr style="text-align: center;background-color:white;font-weight:bolder;">
-					               					<th colspan="2" style="text-align: center;background-color:#3C8DBC;color:white;vertical-align:middle;">Total</th>
+					               					<th colspan="3" style="text-align: center;background-color:#3C8DBC;color:white;vertical-align:middle;">Total</th>
 					               					<td><?php echo $instockSum;?></td>
 					               					<td><?php echo $soldSum; ?></td>
 					               					<td><?php echo $damagedSum; ?></td>

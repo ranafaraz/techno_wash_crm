@@ -42,7 +42,7 @@ use common\models\Branches;
 			              	<a href="#Employee" data-toggle="tab">Employee Profile</a>
 			              </li>
 			              <li >
-			              	<a href="#Employee_payroll" data-toggle="tab">Employee PayRoll</a>
+			              	<a href="#Employee_payroll" class="invisible" data-toggle="tab">Employee PayRoll</a>
 			              </li>
 			            </ul>
 			            <div class="tab-content" style="background-color: #efefef;">
@@ -165,8 +165,8 @@ use common\models\Branches;
 
 					            <div class="tab-content" id="Employee_payroll">
 					            <?php 
-					            $dist_years =Yii::$app->db->createCommand("SELECT DISTINCT(payment_year) from emp_payroll_head WHERE emp_id = '$employeeId'")->queryAll();
-					            $countdistYear = count($dist_years);
+					            //$dist_years =Yii::$app->db->createCommand("SELECT DISTINCT(payment_year) from emp_payroll_head WHERE emp_id = '$employeeId'")->queryAll();
+					            //$countdistYear = count($dist_years);
 					            
 					            ?>
 					             <div class="row">
@@ -174,44 +174,47 @@ use common\models\Branches;
 					             		<table class="table table-bordered ">
 					             			<thead>
 					             				<tr>
-					             					<th style="background-color: #367FA9;color: #fff;">Sr No</th>
+					             					<!-- <th style="background-color: #367FA9;color: #fff;">Sr No</th>
 					             					<th style="background-color: #367FA9;color: #fff;">Year</th>
-					             					<th style="background-color: #367FA9;color: #fff;">Action</th>
+					             					<th style="background-color: #367FA9;color: #fff;">Action</th> -->
 					             				</tr>
 					             			</thead>
 					             			<tbody>
 					             				 <?php			
-					             				 	for ($i=0; $i <$countdistYear ; $i++) { 
-				             				 		$payment_year = $dist_years[$i]['payment_year'];
-				             				 		$payroll_head =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE payment_year = '$payment_year'")->queryAll();
-					            					$countdistMonth = count($payroll_head);
+					             				//  	for ($i=0; $i <$countdistYear ; $i++) { 
+				             				 // 		$payment_year = $dist_years[$i]['payment_year'];
+				             				 // 		$payroll_head =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE payment_year = '$payment_year'")->queryAll();
+					            					// $countdistMonth = count($payroll_head);
 					            						
 					            						?>
 					            						<tr>
-					            							<td> <?php echo $i+1; ?></td>
-					            							<td><?php echo $payment_year; ?></td>
-					            							<td><div class="dropdown">
-															  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 4px 50px;">Month
-															  <span class="caret"></span></button>
-															  <ul class="dropdown-menu">
-															  	<?php for ($j=0; $j <$countdistMonth ; $j++) {
+					            							<td> <?php //echo $i+1; ?></td>
+					            							<td><?php //echo $payment_year; ?></td>
+					            							<td>
+					            								<!-- <div class="dropdown">
+															  		<button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 4px 50px;">Month
+															  			<span class="caret"></span>
+															  		</button>
+															  	<ul class="dropdown-menu"> -->
+															  	<?php 
+															  // 	for ($j=0; $j <$countdistMonth ; $j++) {
 
-															  		$monthNum  = $payroll_head[$j]['payment_month'];
-															  		$headData =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE payment_month = '$monthNum' AND  payment_year = '$payment_year'")->queryAll();
-															  		$headID  = $headData[0]['payroll_head_id'];
-																	$dateObj   = DateTime::createFromFormat('!m', $monthNum);
-																	$monthName = $dateObj->format('F');
+															  // 		$monthNum  = $payroll_head[$j]['payment_month'];
+															  // 		$headData =Yii::$app->db->createCommand("SELECT * from emp_payroll_head WHERE payment_month = '$monthNum' AND  payment_year = '$payment_year'")->queryAll();
+															  // 		$headID  = $headData[0]['payroll_head_id'];
+																	// $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+																	// $monthName = $dateObj->format('F');
 															  		?>
 
-															    <li><a href="./emp-payroll-view?head_id=<?php echo $headID;?>"><?php echo $monthName; ?></a></li>
+															    <li><a href="./emp-payroll-view?head_id=<?php //echo $headID;?>">
+															    	<?php //echo $monthName; ?></a></li>
 
-															  	<?php } ?>
+															  	<?php //} ?>
 															  </ul>
 															</div></td>
 					            							
 					            						</tr>
-					            			<?php }
-					          				 ?>
+					            			<?php //} ?>
 											</tbody>
 					             			</tbody>
 					             		</table>

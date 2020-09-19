@@ -41,7 +41,7 @@ class VehicleTypeSearch extends VehicleType
      */
     public function search($params)
     {
-        $query = VehicleType::find();
+        $query = VehicleType::find()->where(['is_deleted' => 0]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

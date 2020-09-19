@@ -249,7 +249,13 @@ class VehicleTypeController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $id = $this->findModel($id);
+
+        $deleteVehicleType = Yii::$app->db->createCommand()->update('vehicle_type',[
+             'is_deleted' => 1
+            ],
+               ['vehical_type_id' => $id]
+            )->execute();
 
         if($request->isAjax){
             /*
@@ -280,7 +286,8 @@ class VehicleTypeController extends Controller
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
         foreach ( $pks as $pk ) {
             $model = $this->findModel($pk);
-            $model->delete();
+            $model->is_deleted = 1;
+            $model->save();
         }
 
         if($request->isAjax){

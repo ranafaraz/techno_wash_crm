@@ -288,7 +288,7 @@ use yii\helpers\Url;
       <a href="credit-sale-invoices?creditInvoice" style="color: black;">
         <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top: 20px;">
           <div class="info-box bg-">
-            <span class="info-box-icon bg-black"><i class="fa fa-bar-chart"></i></span>
+            <span class="info-box-icon bg-black"><i class="fa fa-sign-in"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Credit</span>
               <?php  
@@ -312,7 +312,7 @@ use yii\helpers\Url;
       <a href="credit-sale-invoices?debitInvoice" style="color: black;">
         <div class="col-md-3 col-sm-6 col-xs-12" style="margin-top: 20px;">
           <div class="info-box bg-">
-            <span class="info-box-icon bg-black"><i class="fa fa-bar-chart"></i></span>
+            <span class="info-box-icon bg-black"><i class="fa fa-sign-out"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Debit</span>
               <?php  
