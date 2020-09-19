@@ -13,6 +13,9 @@ use common\models\Branches;
 
     $empTypeData = EmployeeTypes::find()->where(['emp_type_id' => $empTypeId])->one();
 
+$this->title = "Employee Details";
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -142,21 +145,24 @@ use common\models\Branches;
 					            							<?php echo $EmployeeData->emp_gender; ?>
 					            						</th>
 					            					</tr>
-					            				
 					            					<tr>
 					            						<th class="bg-color" style="padding: 12px;">Permanent Address:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $EmployeeData->emp_permanent_address; ?>
 					            						</th>
 					            					</tr>
-					            					
 					            					<tr>
 					            						<th class="bg-color" style="padding: 12px;">Status:</th>
 					            						<th class="t-cen" style="background-color: white;">
 					            							<?php echo $EmployeeData->emp_status; ?>
 					            						</th>
 					            					</tr>
-					            					
+					            					<tr>
+					            						<th class="bg-color" style="padding: 12px;">Salary:</th>
+					            						<th class="t-cen" style="background-color: white;">
+					            							<?php echo $EmployeeData->monthly_salary; ?>
+					            						</th>
+					            					</tr>
 					            				</thead>
 					            			</table>
 					            		</div>
