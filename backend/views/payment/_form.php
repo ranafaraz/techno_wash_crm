@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use common\models\AccountHead;
+use common\models\Employee;
 use common\models\AccountNature;
 use common\models\AccountPayable;
 use dosamigos\datepicker\DatePicker;
@@ -43,10 +44,9 @@ use dosamigos\datepicker\DatePicker;
                                 $nature_idca=$natureca->id;
                             ?>
                             <?= $form->field($model, 'account_head_id')->widget(Select2::classname(), [
-                                'data' =>ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idca])->andwhere(['!=' , 'account_name' , 'Salaries'])->all(),'id', 'account_name'),
+                                'data' =>ArrayHelper::map(AccountHead::find()->where(['nature_id'=>$nature_idca])->all(),'id', 'account_name'),
                                 'language' => 'en',
-                                'options' => ['placeholder' => 'Select...'],
-
+                                'options' => ['placeholder' => 'Select'],
                                 'pluginOptions' => [
                                     'allowClear' => true
                                 ],
@@ -67,10 +67,21 @@ use dosamigos\datepicker\DatePicker;
                                     ]
                                 ]);
                             ?>
+                            <div id="emp_div" style="display: none;">
+                               <?= $form->field($model, 'emp_id')->widget(Select2::classname(), [
+                                'data' =>ArrayHelper::map(Employee::find()->all(),'emp_id', 'emp_name'),
+                                'language' => 'en',
+                                'options' => ['placeholder' => 'Select'],
+                                'pluginOptions' => [
+                                    'allowClear' => true
+                                    ],
+                                ])->label('Paying To');
+                                ?> 
+                            </div>
                         </div>
                         <div class="col-md-4" style="padding:10px;background-color:#F5F5F5;">
                             <?= $form->field($model, 'debit_amount')->textInput(['value'=>0])->label("Total amount") ?>
-                             <?= $form->field($model, 'credit_amount')->textInput(['value'=>0])->label("Paid amount") ?>
+                            <?= $form->field($model, 'credit_amount')->textInput(['value'=>0])->label("Paid amount") ?>
                         </div>
                     </div>
                     <div class="row">
@@ -162,6 +173,13 @@ var deb_id;
 $('#payment-account_head_id').on('change',function()
 { 
     var id = $(this).val();
+
+    if(id == 14){
+        $("#emp_div").show()
+    } else {
+        $("#emp_div").hide()
+    }
+
     $.get("./account-payable/get-previous",{id:id},function(data)
     {
         if(data == "empty")

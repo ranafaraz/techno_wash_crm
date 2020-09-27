@@ -162,7 +162,7 @@ use yii\helpers\Url;
               <div class="progress">
                 <div class="progress-br" style="width: 100%; color: black !important;"></div>
               </div>
-              <span class="info-box-text">Income</span>
+              <span class="info-box-text">Sales</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -178,7 +178,7 @@ use yii\helpers\Url;
             <div class="info-box-content">
               <span class="info-box-text">Today's</span>
               <?php  
-                $todayExpense = Yii::$app->db->createCommand("SELECT SUM(amount) FROM transactions WHERE CAST(transactions_date as DATE) = '$currentDate' AND account_head_id = 2")->queryAll();
+                $todayExpense = Yii::$app->db->createCommand("SELECT SUM(amount) FROM transactions WHERE CAST(transactions_date as DATE) = '$currentDate' AND account_head_id = 2 OR account_head_id = 14")->queryAll();
                 $todayNetExpense = $todayExpense[0]["SUM(amount)"];
                 if($todayNetExpense == null){
                   $todayNetExpense = 0;

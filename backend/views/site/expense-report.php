@@ -34,11 +34,14 @@ $this->params['breadcrumbs'][] = $this->title;
     	</form>
 	</div><br>
 <?php 
+
+use common\models\AccountHead;
+
 if(isset($_POST['submit'])){
 	$start_date = $_POST['start_date'];
 	$end_date = $_POST['end_date'];
 
-	$todayExpenseDetails = Yii::$app->db->createCommand("SELECT * FROM transactions WHERE transactions_date >= '$start_date' AND transactions_date <= '$end_date' AND account_head_id = 2 ORDER BY transactions_date DESC")->queryAll();
+	$todayExpenseDetails = Yii::$app->db->createCommand("SELECT * FROM transactions WHERE transactions_date >= '$start_date' AND transactions_date <= '$end_date' AND account_head_id = 2 OR account_head_id = 14 ORDER BY transactions_date DESC")->queryAll();
 	$count = count($todayExpenseDetails);
 ?>
 <div class="container-fluid" id="print-report">
@@ -87,10 +90,22 @@ if(isset($_POST['submit'])){
 		               	$netTotal = 0;
 		              	for ($c=0; $c <$count ; $c++) {
 		              	$expenseHeadId = $todayExpenseDetails[$c]['head_id'];
-		              	$expenseHeads = Yii::$app->db->createCommand("
-						  SELECT account_name FROM account_head WHERE id = '$expenseHeadId'
-						")->queryAll();
-						$expenseHeadName = $expenseHeads[0]['account_name'];
+		              	$expenseHead = $todayExpenseDetails[$c]['account_head_id'];
+		              	if ($expenseHead == 14) {
+		              		$expenseHeads = Yii::$app->db->createCommand("
+						  		SELECT * FROM employee WHERE emp_id = $expenseHeadId
+								")->queryAll();
+							$expenseHeadName = "Salary to: ".$expenseHeads[0]['emp_name'];
+							//var_dump($expenseHeads);
+		              	}
+		              	else{
+
+		              		$expenseHeads = Yii::$app->db->createCommand("
+						  		SELECT account_name FROM account_head WHERE id = $expenseHeadId
+								")->queryAll();
+		              		//var_dump($expenseHeads);
+		              		$expenseHeadName = $expenseHeads[0]['account_name'];
+		              	}		              	
 					?>      
 					<tr>
 						<th class="text-center"><?php echo $c+1; ?></th>

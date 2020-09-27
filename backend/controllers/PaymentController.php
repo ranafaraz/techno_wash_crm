@@ -143,7 +143,37 @@ class PaymentController extends Controller
 
                     if($model->prev_remaning == 0 )
                     {
-                        if($model->debit_amount == $model->credit_amount){
+                        // echo $model->emp_id;
+                        // die();
+                        if ($model->emp_id != null) {
+                           $connection->createCommand()->insert('transactions',
+                            [
+                                'branch_id' => Yii::$app->user->identity->branch_id,
+                                'type' => $model->type,
+                                'narration' => $model->narration,
+                                'account_head_id' => 14,
+                                'head_id' => $model->emp_id,
+                                'amount' => $model->credit_amount,
+                                'ref_name' => 'Payments',
+                                'transactions_date' => $model->transactions_date,
+                                'created_by' => \Yii::$app->user->identity->id,
+                            ])->execute(); 
+                        }
+                        else if ($model->credit_amount > 0) {
+                           $connection->createCommand()->insert('transactions',
+                            [
+                                'branch_id' => Yii::$app->user->identity->branch_id,
+                                'type' => $model->type,
+                                'narration' => $model->narration,
+                                'account_head_id' => 2,
+                                'head_id' => $model->account_head_id,
+                                'amount' => $model->credit_amount,
+                                'ref_name' => 'Payments',
+                                'transactions_date' => $model->transactions_date,
+                                'created_by' => \Yii::$app->user->identity->id,
+                            ])->execute(); 
+                        }
+                        else if($model->debit_amount == $model->credit_amount){
                             $connection->createCommand()->insert('transactions',
                             [
                                 'branch_id' => Yii::$app->user->identity->branch_id,

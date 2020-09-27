@@ -41,6 +41,7 @@ class Payment extends \yii\db\ActiveRecord
     public $debit_amount;
     public $credit_amount;
     public $transactions_date;
+    public $emp_id;
     
     public function rules()
     {
@@ -49,7 +50,7 @@ class Payment extends \yii\db\ActiveRecord
             [['branch_id', 'account_head_id', 'head_id'], 'integer'],
             [['type', 'narration'], 'string'],
             [['amount'], 'number'],
-            [['transactions_date', 'payable_narration', 'updateid'], 'safe'],
+            [['transactions_date', 'payable_narration', 'updateid', 'emp_id'], 'safe'],
             [['ref_no', 'ref_name'], 'string', 'max' => 50],
             [['created_by'], 'string', 'max' => 150],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::className(), 'targetAttribute' => ['branch_id' => 'branch_id']],

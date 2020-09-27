@@ -14,8 +14,7 @@ use common\models\AccountNature;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php 
-        echo $form->field($model, 'nature_id')->widget(Select2::classname(), [
+    <?php echo $form->field($model, 'nature_id')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(AccountNature::find()->all(), 'id', 'name'),
             'language' => 'de',
             'options' => ['placeholder' => 'Select a state ...','id' => 'nature'],

@@ -68,14 +68,14 @@
                      // ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer"],
                      // ['label' => 'Sale Invoice', 'icon' => 'file-pdf-o', 'url' => "./customer-vehicles?sort=-customer_id"],
 
-                    ['label' => 'Customer', 'icon' => 'male', 'url' => "./customer-vehicles"],
-                    ['label' => 'Sale Invoice', 'icon' => 'male', 'url' => "./sale-invoice-view"],
-                    ['label' => 'Purchase Invoice', 'icon' => 'male', 'url' => ["./vendor"],],
+                    ['label' => 'Customer', 'icon' => 'users', 'url' => "./customer-vehicles"],
+                    ['label' => 'Sale Invoice', 'icon' => 'money', 'url' => "./sale-invoice-view"],
+                    ['label' => 'Purchase Invoice', 'icon' => 'sign-out', 'url' => ["./vendor"],],
                     //['label' => 'Employees', 'icon' => 'user-plus', 'url' => "./under-construction"],
                      // PayRoll Start
                     [
                         'label' => 'Employee',
-                        'icon' => 'users',
+                        'icon' => 'user-plus',
                         'url' => '#',
                         'items' => [
                             ['label' => 'Add', 'icon' => 'plus', 'url' => ["./employee"],],
@@ -179,10 +179,11 @@
                     
                     // System Settings start...
                     [
-                        'label' => 'Expenses',
+                        'label' => 'Account',
                         'icon' => 'money',
                         'url' => '#',
                         'items' => [
+                            // ['label' => 'Account Nature', 'icon' => 'plus-circle', 'url' => ["./account-nature"],],
                             ['label' => 'Account Head', 'icon' => 'plus-circle', 'url' => ["./account-head"],],
                             ['label' => 'Add Expense', 'icon' => 'money', 'url' => ["./create-payment"],],
                             //['label' => '', 'icon' => 'university', 'url' => [""],],
@@ -196,6 +197,18 @@
                             //     // ],
                             // ],
                             
+                        ],
+                    ],
+                    [
+                        'label' => 'Reports',
+                        'icon' => 'bar-chart',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Todays Customers', 'icon' => 'users', 'url' => "./car-wash-details?customer"],
+                            ['label' => 'Sales Report', 'icon' => 'money', 'url' => ["./income-report"],],
+                            ['label' => 'Expense Report', 'icon' => 'calculator', 'url' => ["./expense-report"],],
+                            ['label' => 'Credit Invoices', 'icon' => 'sign-in', 'url' => ["./credit-sale-invoices?creditInvoice"],], 
+                            ['label' => 'Debit Invoices', 'icon' => 'sign-out', 'url' => ["./credit-sale-invoices?debitInvoice"],],              
                         ],
                     ],
                     // System Settings start...

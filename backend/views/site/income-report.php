@@ -6,7 +6,7 @@
 	//   WHERE CAST(sih.date as DATE) = '$currentDate'
 	// ")->queryAll();
 	// $countcustomer = count($countCustomer);
-$this->title = "Income Report";
+$this->title = "Sales Report";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <!DOCTYPE html>
