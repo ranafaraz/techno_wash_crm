@@ -179,7 +179,7 @@
                     
                     // System Settings start...
                     [
-                        'label' => 'Account',
+                        'label' => 'Accounts',
                         'icon' => 'money',
                         'url' => '#',
                         'items' => [
