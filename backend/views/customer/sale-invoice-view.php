@@ -137,7 +137,7 @@ use common\models\AccountHead;
                             $customerName = Yii::$app->db->createCommand("
                             SELECT customer_name
                             FROM customer 
-                            WHERE customer_id = '$custId'
+                            WHERE customer_id = '$custId' 
                             ")->queryAll();
 
                             $sale_inv_head_id = $creditinvoiceData[$i]['sale_inv_head_id'];
@@ -269,8 +269,8 @@ use common\models\AccountHead;
                               echo Select2::widget([
                               'name' => '',
                               'value' => '',
-                              'data' => ArrayHelper::map(Customer::find()->all(),'customer_id','customer_name'),
-                              'options' => ['placeholder' => 'Select Vehicle','id' =>'customer_name']
+                              'data' => ArrayHelper::map(Customer::find()->where(['is_deleted' => 0])->all(),'customer_id','customer_name'),
+                              'options' => ['placeholder' => 'Select Name','id' =>'customer_name']
                               ]);
                             ?>
                           </div>
@@ -282,8 +282,8 @@ use common\models\AccountHead;
                               echo Select2::widget([
                               'name' => '',
                               'value' => '',
-                              'data' => ArrayHelper::map(Customer::find()->all(),'customer_id','customer_contact_no'),
-                              'options' => ['placeholder' => 'Select Vehicle','id' =>'customer_contact']
+                              'data' => ArrayHelper::map(Customer::find()->where(['is_deleted' => 0])->all(),'customer_id','customer_contact_no'),
+                              'options' => ['placeholder' => 'Select Contact','id' =>'customer_contact']
                               ]);
                             ?>
                           </div>
@@ -296,6 +296,7 @@ use common\models\AccountHead;
                               'name' => '',
                               'value' => '',
                               'data' => ArrayHelper::map(CustomerVehicles::find()
+                                          ->innerJoinWith('customer')->where(['is_deleted' => 0])
                                           ->innerJoinWith('vehicleTypSub')->all(),'customer_vehicle_id','registration_no'),
                               'options' => ['placeholder' => 'Select Vehicle','id' => 'vehicle']
                               ]);

@@ -41,7 +41,7 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find()->orderBy(['customer_id' => SORT_DESC]);
+        $query = Customer::find()->where(['is_deleted' => 0])->orderBy(['customer_id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

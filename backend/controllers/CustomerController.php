@@ -405,7 +405,11 @@ class CustomerController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $id = $this->findModel($id);
+        
+        $deleteVehicleType = Yii::$app->db->createCommand()
+            ->update('customer',['is_deleted' => 1],
+                ['customer_id' => $id])->execute();
 
         if($request->isAjax){
             /*
@@ -419,8 +423,6 @@ class CustomerController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
